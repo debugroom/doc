@@ -3,14 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to document's documentation!
+Java Web 開発メモ
 ====================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
+   convention/screen/index.rst
+   memo/work/index.rst
    test.rst
 
 Indices and tables
