@@ -1,0 +1,125 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+
+require 'rubygems'
+require 'thor'
+require 'thor/group'
+require 'net/ssh'
+require 'yaml'
+require 'json'
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+require 'manifest_helper'
+require 'edubase_cloud'
+
+class Instances < Thor
+  namespace :instances
+
+  desc "instances launch instance_type", "launch instances instance_type=lb, web, db, mail or monitor"
+  method_option :count, :type => :numeric, :desc => "The number of instances"
+  def launch(instance_type)
+    raise "Argument Error" unless instance_type.is_a?(String)
+    raise "Unknown Argument #{instance_type}" unless %W(lb web db mail monitor).member?(instance_type)
+    count = options[:count] || 1
+
+    # load config 
+    config = YAML.load_file("#{File.expand_path('../../config', __FILE__)}/config.yml")
+
+    # launch server
+    edubase = EdubaseCloud.new(config["access_key"], config["secret_key"], config["endpoint_url"])
+    instances = edubase.run_instances(config["images"][instance_type], count, config["group_id"], config["key_name"])
+
+    instance_ids = []
+    instances.each do |instance|
+      instance_ids << instance[:aws_instance_id]
+    end
+    puts instance_ids
+  end
+
+  desc "instances terminate",  "terminate instances"
+  method_option :instanceids, :type=> :array, :required => true, :desc => "terminate instance ids"
+  def terminate
+    # load config
+    config = YAML.load_file("#{File.expand_path('../../config', __FILE__)}/config.yml")
+    edubase = EdubaseCloud.new(config["access_key"], config["secret_key"], config["endpoint_url"])
+
+    # server shutdown
+    edubase.terminate_instances(options[:instanceids])
+    puts "terminate instances #{options[:instanceids]}"
+  end
+
+  desc "instances describe", "describe instances"
+  method_option :instanceids, :type=> :array, :required => true, :desc => "instance ids"
+  method_option :key, :type=> :string, :desc => ""
+  def describe
+
+    # load config
+    config = YAML.load_file("#{File.expand_path('../../config', __FILE__)}/config.yml")
+
+    # get information for instances
+    edubase = EdubaseCloud.new(config["access_key"], config["secret_key"], config["endpoint_url"])
+    instances = edubase.describe_instances(options[:instanceids])
+    
+    if options[:key].nil?
+      puts instances.to_json
+    else
+      instance_values = []
+      case options[:key]
+      when "instance_id"
+        instances.each do |instance|
+          instance_values << instance[:aws_instance_id]
+        end
+      when "ipaddr"
+        instances.each do |instance|
+          instance_values << instance[:private_dns_name]
+        end
+      else
+      end
+      puts instance_values.to_json
+    end
+  end
+
+  desc "instances wait", " wait instances state running"
+  method_option :instanceids, :type=> :array, :required => true, :desc => "wait instances state running"
+  def wait
+    # load config
+    config = YAML.load_file("#{File.expand_path('../../config', __FILE__)}/config.yml")
+
+    # wait until the instance is running
+    edubase = EdubaseCloud.new(config["access_key"], config["secret_key"], config["endpoint_url"])
+    edubase.wait_state_running(options[:instanceids])
+  end
+end
+
+class Ssh < Thor
+  namespace :ssh
+  
+  desc "ssh exec", "command execution to remote server"
+  method_option :user, :type=>:string, :default=>'root', :desc=>"ssh user name"
+  method_option :keypair, :type=>:string, :default=>'/root/.ssh/id_dsa', :desc=>"ssh private key"
+  def exec(host, cmd)
+    raise "execution command dose not exists" if host.nil? || host.empty?
+    raise "execution command dose not exists" if cmd.nil? || cmd.empty?
+    retry_count = 0
+    begin
+      # ssh connection to instances
+      Net::SSH.start(host, options[:user], {:keys => [options[:keypair]]}) do |ssh|
+        # command execution to remote host
+        ssh.exec cmd
+      end
+    rescue =>e
+      sleep 30
+      retry_count += 1
+      puts "retry connection "
+      retry if retry_count < 120
+    end
+  end
+end
+
+class RootCli < Thor
+  register(Instances, Instances.namespace, "instances sub-command", "Operations for instances")
+  register(Ssh, Ssh.namespace, "ssh sub-command", "Operations for ssh")
+end
+
+RootCli.start

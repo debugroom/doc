@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Baseイメージセットアップ手順書 &mdash; クラウド実践演習 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="クラウド実践演習 0 documentation" href="index.html" />
+    <link rel="next" title="Browserイメージセットアップ手順書" href="browser.html" />
+    <link rel="prev" title="クラウド実践演習 イメージ構築手順書" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="browser.html" title="Browserイメージセットアップ手順書"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="クラウド実践演習 イメージ構築手順書"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="base">
+<h1>Baseイメージセットアップ手順書<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>この手順書は、本演習で使用するイメージを作成するための元となるイメージを作成する手順である</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>前提条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>なし</li>
+</ul>
+</div>
+<div class="section" id="update">
+<h2>マシンイメージのupdate<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>今回使用するイメージはubuntu11.10を使用する。
+まず最初に使用するイメージを最新のパッケージにupdateする。</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>update<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get update</span>
+<span class="c"># apt-get upgrade</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>パッケージのインストールと設定<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="git">
+<h2>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>インストール<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install git</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ruby">
+<h2>ruby<a class="headerlink" href="#ruby" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>インストール<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install ruby</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rubygems">
+<h2>rubygems<a class="headerlink" href="#rubygems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>インストール<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install rubygmes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="curl">
+<h2>curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>インストール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install curl</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="stompserver">
+<h2>Stompserver<a class="headerlink" href="#stompserver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>インストール<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install stompserver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>設定<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>    # vi /etc/stompserver.conf
+---
+:daemon: true
+:working_dir: /var/lib/stompserver
+:logdir: /var/log/stompserver
+:pidfile: /var/run/stompserver/pid
+:storage: /var/lib/stompserver/storage
+:etcdir: /etc/stompserver
+:queue: memory
+:auth: false
+:debug: false
+:group: stompserver
+:user: stompserver
+:host: 0.0.0.0
+:port: 61613g</pre>
+</div>
+</div>
+</div>
+<div class="section" id="mcollective">
+<h2>MCollective<a class="headerlink" href="#mcollective" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>インストール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre># mkdir package/mcollective
+# cd package/mcollective
+# wget http://downloads.puppetlabs.com/mcollective/mcollective_1.3.2-1_all.deb
+# wget http://downloads.puppetlabs.com/mcollective/mcollective-common_1.3.2-1_all.deb
+# wget http://downloads.puppetlabs.com/mcollective/mcollective-client_1.3.2-1_all.deb
+
+# dpkg -i mcollective-common_1.3.2-1_all.deb
+# dpkg -i mcollective-client_1.3.2-1_all.deb mcollective_1.3.2-1_all.deb
+
+# update-rc.d mcollective defaults
+
+# cd /usr/share/mcollective/plugins/mcollective/application
+# for i in filemgr nettest package puppetd service; do
+&gt;wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/application/$i.rb
+&gt;done
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/application/etcfacts.rb
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/application/shellcmd.rb
+
+# cd /usr/share/mcollective/plugins/mcollective/agent
+# for i in nettest filemgr puppetd puppetral puppetca; do
+&gt;wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/agent/$i.rb
+&gt;wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/agent/$i.ddl
+&gt;done
+# wget -O package.rb https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/package/agent/puppet-package.rb
+# wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/package/agent/package.ddl
+# wget -O service.rb https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/service/agent/puppet-service.rb
+# wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/service/agent/service.ddl
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/etc_facts.rb
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/etc_facts.ddl
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/shellcmd.rb
+# wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/shellcmd.ddl
+
+# cd /usr/share/mcollective/plugins/mcollective/facts
+# wget https://raw.github.com/puppetlabs/mcollective-plugins/master/facts/facter/facter_facts.rb</pre>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>設定<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre># vi /etc/mcollective/server.cfg
+
+topicprefix = /topic/
+main_collective = mcollective
+collectives = mcollective
+libdir = /usr/share/mcollective/plugins
+logfile = /var/log/mcollective.log
+loglevel = info
+daemonize = 0
+
+# Plugins
+securityprovider = psk
+plugin.psk = unset
+
+connector = stomp
+plugin.stomp.host = deploy.nii.localdomain
+plugin.stomp.port = 6163
+plugin.stomp.user = mcollective
+plugin.stomp.password = marionette
+
+# Facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+
+# Puppet
+plugin.puppetd.puppetd = /usr/sbin/puppetd
+plugin.puppetd.lockfile = /var/lib/puppet/state/puppetdlock
+plugin.puppetd.statefile = /var/lib/puppet/state/state.yaml
+plugin.puppet.pidfile = /var/run/puppet/agent.pid
+plugin.puppet.summary = /var/lib/puppet/state/last_run_summary.yaml</pre>
+</div>
+</div>
+</div>
+<div class="section" id="puppetmaster">
+<h2>Puppetmaster<a class="headerlink" href="#puppetmaster" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>インストール<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install puppetmaster</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="puppet">
+<h2>Puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h3>インストール<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install puppet</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>設定<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vi /etc/default/puppt</span>
+<span class="c"># Defaults for puppet - sourced by /etc/init.d/puppet</span>
+
+<span class="c"># Start puppet on boot?</span>
+<span class="n">START</span><span class="o">=</span><span class="n">no</span>
+
+<span class="c"># Startup options</span>
+<span class="n">DAEMON_OPTS</span><span class="o">=</span><span class="s">&quot;--server deploy.nii.localdomain --logdest=/var/log/puppet/puppet.log -d&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ntp">
+<h2>ntp<a class="headerlink" href="#ntp" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h3>インストール<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install ntp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id17">
+<h3>設定<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre># vi /etc/ntp.conf
+#server 0.ubuntu.pool.ntp.org
+#server 1.ubuntu.pool.ntp.org
+#server 2.ubuntu.pool.ntp.org
+#server 3.ubuntu.pool.ntp.org
+server ntp.nict.jp
+server ntp.jst.mfeed.ad.jp</pre>
+</div>
+<p>手動で時刻をあわせる</p>
+<div class="highlight-python"><pre>$ ntpdate ntp.nict.jp</pre>
+</div>
+</div>
+</div>
+<div class="section" id="ganglia-monitor">
+<h2>ganglia-monitor<a class="headerlink" href="#ganglia-monitor" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h3>インストール<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>ubuntu-11.10のganglia-monitorはapt-get
+installでエラーになるためソースからインストールする</p>
+<div class="highlight-python"><pre># apt-get install dpkg-dev devscripts
+# mkdir -p package/ganglia
+# cd package/ganglia
+# apt-get source ganglia-monitor
+# apt-get build-dep ganglia-monitor
+# cd ganglia-3.1.7
+# vi debian/ganglia-monitor.postinst
+useradd --system ganglia -g ganglia
+# debuild -us -uc
+# cd ../
+# dpkg -i ganglia-monitor_3.1.7-2_amd64.deb libganglia1_3.1.7-2_amd64.deb
+# update-rc.d -f ganglia-monitor remove</pre>
+</div>
+</div>
+</div>
+<div class="section" id="gem">
+<h2>gemのインストールと設定<a class="headerlink" href="#gem" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="stomp">
+<h2>stomp<a class="headerlink" href="#stomp" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id19">
+<h3>インストール<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># gem install stomp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="right-http-connection">
+<h2>right_http_connection<a class="headerlink" href="#right-http-connection" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>インストール<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># gem install right_http_connection</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="json">
+<h2>json<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h3>インストール<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># gem install json</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="net-ssh">
+<h2>net-ssh<a class="headerlink" href="#net-ssh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h3>インストール<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># gem install net-ssh</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="thor">
+<h2>thor<a class="headerlink" href="#thor" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id23">
+<h3>インストール<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># gem install thor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="right-aws">
+<h2>right_aws<a class="headerlink" href="#right-aws" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id24">
+<h3>インストール<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># mkdir -p package/gems</span>
+<span class="c"># cd package/gems</span>
+<span class="c"># wget http://rubyforge.org/frs/download.php/52292/right_aws-1.10.0.gem</span>
+<span class="c"># gem install right_http_connection</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="startup">
+<h2>startupスクリプトの設定<a class="headerlink" href="#startup" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="startup-sh">
+<h2>startup.sh<a class="headerlink" href="#startup-sh" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id25">
+<h3>設定<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p>インスタンス起動時にhostnameを設定するスクリプトを作成する</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># mkdir -p /root/work/setup/</span>
+<span class="c"># cd /root/work/setup/</span>
+<span class="c"># vi startup.sh</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>#!/bin/bash
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+LANG=C
+LC_ALL=C
+
+function get_metadata() {
+       local param=$1
+       for i in {1..10}; do
+           curl -s --retry 3 http://169.254.169.254/latest/meta-data/${param} &amp;&amp; exit 0
+           sleep 3
+       done
+       exit 1
+}
+
+instance_type=$1
+
+case "$instance_type" in
+  "deploy")
+    HN="deploy.nii.localdomain"
+  ;;
+  "lb")
+    HN="lb.nii.localdomain"
+  ;;
+  "web")
+    inst_id=`get_metadata instance-id`
+    HN="web.$inst_id.nii.localdomain"
+  ;;
+  "db")
+    HN="db.nii.localdomain"
+  ;;
+  "monitor")
+    HN="monitor.nii.localdomain"
+  ;;
+  "mail")
+    HN="mail.nii.localdomain"
+  ;;
+  *)
+    echo "unknown instance type"
+    exit 1
+  ;;
+esac
+
+# Set up the host name
+echo "Setting the hostname: $HN"
+if [ -n "$HN" ]; then
+        grep -q "$HN" /etc/hostname
+        if [ $? -ne 0 ]; then
+                hostname $HN
+                echo $HN &gt; /etc/hostname
+        fi
+
+        # Add it to the hosts file if not there yet
+        grep -q "$HN" /etc/hosts
+        if [ $? -ne 0 ]; then
+                echo '127.0.0.1 '$HN &gt;&gt; /etc/hosts
+        fi
+fi
+
+# chmod +x startup.sh</pre>
+</div>
+</div>
+</div>
+<div class="section" id="rc-local">
+<h2>rc.local<a class="headerlink" href="#rc-local" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id26">
+<h3>設定<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vi /etc/rc.local</span>
+<span class="c">#/root/work/setup/startup.sh deploy</span>
+<span class="c">#/root/work/setup/startup.sh lb</span>
+<span class="c">#/root/work/setup/startup.sh web</span>
+<span class="c">#/root/work/setup/startup.sh db</span>
+<span class="c">#/root/work/setup/startup.sh monitor</span>
+<span class="c">#/root/work/setup/startup.sh mail</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id27">
+<h2>キーペアの作成<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ssh-keygen">
+<h2>ssh-keygen<a class="headerlink" href="#ssh-keygen" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id28">
+<h3>設定<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<p>インスタンス間でssh接続ができるようにprivatekeyとpublickeyを作成する</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ssh-keygen -t dsa</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># cd /root/.ssh/</span>
+<span class="c"># cat id\_dsa.pub &gt;&gt; authorized\_keys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id29">
+<h2>サービスの無効化<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id30">
+<h3>設定<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>不必要なサービスを無効化する</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># initctl stop rsyslog</span>
+<span class="c"># cd /etc/init</span>
+<span class="c"># mv rsyslog.conf rsyslog.conf.disable</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Baseイメージセットアップ手順書</a><ul>
+<li><a class="reference internal" href="#id1">はじめに</a></li>
+<li><a class="reference internal" href="#id2">前提条件</a></li>
+<li><a class="reference internal" href="#update">マシンイメージのupdate</a></li>
+<li><a class="reference internal" href="#id3">update</a></li>
+<li><a class="reference internal" href="#id4">パッケージのインストールと設定</a></li>
+<li><a class="reference internal" href="#git">git</a><ul>
+<li><a class="reference internal" href="#id5">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ruby">ruby</a><ul>
+<li><a class="reference internal" href="#id6">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rubygems">rubygems</a><ul>
+<li><a class="reference internal" href="#id7">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#curl">curl</a><ul>
+<li><a class="reference internal" href="#id8">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stompserver">Stompserver</a><ul>
+<li><a class="reference internal" href="#id9">インストール</a></li>
+<li><a class="reference internal" href="#id10">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mcollective">MCollective</a><ul>
+<li><a class="reference internal" href="#id11">インストール</a></li>
+<li><a class="reference internal" href="#id12">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#puppetmaster">Puppetmaster</a><ul>
+<li><a class="reference internal" href="#id13">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#puppet">Puppet</a><ul>
+<li><a class="reference internal" href="#id14">インストール</a></li>
+<li><a class="reference internal" href="#id15">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ntp">ntp</a><ul>
+<li><a class="reference internal" href="#id16">インストール</a></li>
+<li><a class="reference internal" href="#id17">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ganglia-monitor">ganglia-monitor</a><ul>
+<li><a class="reference internal" href="#id18">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gem">gemのインストールと設定</a></li>
+<li><a class="reference internal" href="#stomp">stomp</a><ul>
+<li><a class="reference internal" href="#id19">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#right-http-connection">right_http_connection</a><ul>
+<li><a class="reference internal" href="#id20">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#json">json</a><ul>
+<li><a class="reference internal" href="#id21">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#net-ssh">net-ssh</a><ul>
+<li><a class="reference internal" href="#id22">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#thor">thor</a><ul>
+<li><a class="reference internal" href="#id23">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#right-aws">right_aws</a><ul>
+<li><a class="reference internal" href="#id24">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#startup">startupスクリプトの設定</a></li>
+<li><a class="reference internal" href="#startup-sh">startup.sh</a><ul>
+<li><a class="reference internal" href="#id25">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rc-local">rc.local</a><ul>
+<li><a class="reference internal" href="#id26">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id27">キーペアの作成</a></li>
+<li><a class="reference internal" href="#ssh-keygen">ssh-keygen</a><ul>
+<li><a class="reference internal" href="#id28">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id29">サービスの無効化</a><ul>
+<li><a class="reference internal" href="#id30">設定</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">クラウド実践演習 イメージ構築手順書</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="browser.html"
+                        title="next chapter">Browserイメージセットアップ手順書</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/base.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="browser.html" title="Browserイメージセットアップ手順書"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="クラウド実践演習 イメージ構築手順書"
+             >previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Nii.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

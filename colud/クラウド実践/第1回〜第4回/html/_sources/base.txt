@@ -1,0 +1,459 @@
+Baseイメージセットアップ手順書
+=======================
+
+はじめに
+------------------------------------
+
+::
+
+    この手順書は、本演習で使用するイメージを作成するための元となるイメージを作成する手順である
+
+前提条件
+------------------------------------
+
+-  なし
+
+マシンイメージのupdate
+------------------------------------
+
+    今回使用するイメージはubuntu11.10を使用する。
+    まず最初に使用するイメージを最新のパッケージにupdateする。
+
+update
+------
+
+::
+
+    # apt-get update
+    # apt-get upgrade
+
+パッケージのインストールと設定
+------------------------------------
+
+git
+---
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install git
+
+ruby
+----
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install ruby
+
+rubygems
+--------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install rubygmes
+
+curl
+----
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install curl
+
+Stompserver
+-----------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install stompserver
+
+設定
+~~~~
+
+::
+
+        # vi /etc/stompserver.conf
+    ---
+    :daemon: true
+    :working_dir: /var/lib/stompserver
+    :logdir: /var/log/stompserver
+    :pidfile: /var/run/stompserver/pid
+    :storage: /var/lib/stompserver/storage
+    :etcdir: /etc/stompserver
+    :queue: memory
+    :auth: false
+    :debug: false
+    :group: stompserver
+    :user: stompserver
+    :host: 0.0.0.0
+    :port: 61613g
+
+MCollective
+-----------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # mkdir package/mcollective
+    # cd package/mcollective
+    # wget http://downloads.puppetlabs.com/mcollective/mcollective_1.3.2-1_all.deb
+    # wget http://downloads.puppetlabs.com/mcollective/mcollective-common_1.3.2-1_all.deb
+    # wget http://downloads.puppetlabs.com/mcollective/mcollective-client_1.3.2-1_all.deb
+
+    # dpkg -i mcollective-common_1.3.2-1_all.deb
+    # dpkg -i mcollective-client_1.3.2-1_all.deb mcollective_1.3.2-1_all.deb
+
+    # update-rc.d mcollective defaults
+
+    # cd /usr/share/mcollective/plugins/mcollective/application
+    # for i in filemgr nettest package puppetd service; do
+    >wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/application/$i.rb
+    >done
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/application/etcfacts.rb
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/application/shellcmd.rb
+
+    # cd /usr/share/mcollective/plugins/mcollective/agent
+    # for i in nettest filemgr puppetd puppetral puppetca; do
+    >wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/agent/$i.rb
+    >wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/$i/agent/$i.ddl
+    >done
+    # wget -O package.rb https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/package/agent/puppet-package.rb
+    # wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/package/agent/package.ddl
+    # wget -O service.rb https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/service/agent/puppet-service.rb
+    # wget https://raw.github.com/puppetlabs/mcollective-plugins/master/agent/service/agent/service.ddl
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/etc_facts.rb
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/etcfacts/etc_facts.ddl
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/shellcmd.rb
+    # wget https://raw.github.com/phobos182/mcollective-plugins/master/agent/shellcmd/shellcmd.ddl
+
+    # cd /usr/share/mcollective/plugins/mcollective/facts
+    # wget https://raw.github.com/puppetlabs/mcollective-plugins/master/facts/facter/facter_facts.rb
+
+設定
+~~~~
+
+::
+
+    # vi /etc/mcollective/server.cfg
+
+    topicprefix = /topic/
+    main_collective = mcollective
+    collectives = mcollective
+    libdir = /usr/share/mcollective/plugins
+    logfile = /var/log/mcollective.log
+    loglevel = info
+    daemonize = 0
+
+    # Plugins
+    securityprovider = psk
+    plugin.psk = unset
+
+    connector = stomp
+    plugin.stomp.host = deploy.nii.localdomain
+    plugin.stomp.port = 6163
+    plugin.stomp.user = mcollective
+    plugin.stomp.password = marionette
+
+    # Facts
+    factsource = yaml
+    plugin.yaml = /etc/mcollective/facts.yaml
+
+    # Puppet
+    plugin.puppetd.puppetd = /usr/sbin/puppetd
+    plugin.puppetd.lockfile = /var/lib/puppet/state/puppetdlock
+    plugin.puppetd.statefile = /var/lib/puppet/state/state.yaml
+    plugin.puppet.pidfile = /var/run/puppet/agent.pid
+    plugin.puppet.summary = /var/lib/puppet/state/last_run_summary.yaml
+
+Puppetmaster
+------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install puppetmaster
+
+Puppet
+------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install puppet
+
+設定
+~~~~
+
+::
+
+    # vi /etc/default/puppt
+    # Defaults for puppet - sourced by /etc/init.d/puppet
+
+    # Start puppet on boot?
+    START=no
+
+    # Startup options
+    DAEMON_OPTS="--server deploy.nii.localdomain --logdest=/var/log/puppet/puppet.log -d"
+
+ntp
+---
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install ntp
+
+設定
+~~~~
+
+::
+
+    # vi /etc/ntp.conf
+    #server 0.ubuntu.pool.ntp.org
+    #server 1.ubuntu.pool.ntp.org
+    #server 2.ubuntu.pool.ntp.org
+    #server 3.ubuntu.pool.ntp.org
+    server ntp.nict.jp
+    server ntp.jst.mfeed.ad.jp
+
+手動で時刻をあわせる
+
+::
+
+    $ ntpdate ntp.nict.jp
+
+ganglia-monitor
+---------------
+
+インストール
+~~~~~~~~~~~~
+
+ubuntu-11.10のganglia-monitorはapt-get
+installでエラーになるためソースからインストールする
+
+::
+
+    # apt-get install dpkg-dev devscripts
+    # mkdir -p package/ganglia
+    # cd package/ganglia
+    # apt-get source ganglia-monitor
+    # apt-get build-dep ganglia-monitor
+    # cd ganglia-3.1.7
+    # vi debian/ganglia-monitor.postinst
+    useradd --system ganglia -g ganglia
+    # debuild -us -uc
+    # cd ../
+    # dpkg -i ganglia-monitor_3.1.7-2_amd64.deb libganglia1_3.1.7-2_amd64.deb
+    # update-rc.d -f ganglia-monitor remove
+
+gemのインストールと設定
+------------------------------------
+
+stomp
+----------
+
+インストール
+~~~~
+::
+
+	# gem install stomp
+
+right_http_connection
+----------
+
+インストール
+~~~~
+::
+
+	# gem install right_http_connection
+
+json
+----------
+
+インストール
+~~~~
+::
+
+	# gem install json
+
+net-ssh
+----------
+
+インストール
+~~~~
+::
+
+	# gem install net-ssh
+
+thor
+----------
+
+インストール
+~~~~
+::
+
+	# gem install thor
+
+right_aws
+----------
+
+インストール
+~~~~
+
+::
+
+	# mkdir -p package/gems
+	# cd package/gems
+	# wget http://rubyforge.org/frs/download.php/52292/right_aws-1.10.0.gem
+	# gem install right_http_connection
+
+startupスクリプトの設定
+--------------------------------
+
+startup.sh
+----------
+
+設定
+~~~~
+
+インスタンス起動時にhostnameを設定するスクリプトを作成する 
+
+::
+
+    # mkdir -p /root/work/setup/ 
+    # cd /root/work/setup/
+    # vi startup.sh
+
+::
+
+    #!/bin/bash
+
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin
+    LANG=C
+    LC_ALL=C
+
+    function get_metadata() {
+           local param=$1
+           for i in {1..10}; do
+               curl -s --retry 3 http://169.254.169.254/latest/meta-data/${param} && exit 0
+               sleep 3
+           done
+           exit 1
+    }
+
+    instance_type=$1
+
+    case "$instance_type" in
+      "deploy")
+        HN="deploy.nii.localdomain"
+      ;;
+      "lb")
+        HN="lb.nii.localdomain"
+      ;;
+      "web")
+        inst_id=`get_metadata instance-id`
+        HN="web.$inst_id.nii.localdomain"
+      ;;
+      "db")
+        HN="db.nii.localdomain"
+      ;;
+      "monitor")
+        HN="monitor.nii.localdomain"
+      ;;
+      "mail")
+        HN="mail.nii.localdomain"
+      ;;
+      *)
+        echo "unknown instance type"
+        exit 1
+      ;;
+    esac
+
+    # Set up the host name
+    echo "Setting the hostname: $HN"
+    if [ -n "$HN" ]; then
+            grep -q "$HN" /etc/hostname
+            if [ $? -ne 0 ]; then
+                    hostname $HN
+                    echo $HN > /etc/hostname
+            fi
+
+            # Add it to the hosts file if not there yet
+            grep -q "$HN" /etc/hosts
+            if [ $? -ne 0 ]; then
+                    echo '127.0.0.1 '$HN >> /etc/hosts
+            fi
+    fi
+
+    # chmod +x startup.sh
+
+rc.local
+--------
+
+設定
+~~~~
+
+::
+
+    # vi /etc/rc.local
+    #/root/work/setup/startup.sh deploy
+    #/root/work/setup/startup.sh lb
+    #/root/work/setup/startup.sh web
+    #/root/work/setup/startup.sh db
+    #/root/work/setup/startup.sh monitor
+    #/root/work/setup/startup.sh mail
+
+キーペアの作成
+----------------------------
+
+ssh-keygen
+----------
+
+設定
+~~~~
+
+インスタンス間でssh接続ができるようにprivatekeyとpublickeyを作成する 
+
+::
+    
+    # ssh-keygen -t dsa 
+
+::
+
+    # cd /root/.ssh/ 
+    # cat id\_dsa.pub >> authorized\_keys
+
+サービスの無効化
+----------------
+
+設定
+~~~~
+
+不必要なサービスを無効化する 
+
+::
+
+    # initctl stop rsyslog 
+    # cd /etc/init 
+    # mv rsyslog.conf rsyslog.conf.disable

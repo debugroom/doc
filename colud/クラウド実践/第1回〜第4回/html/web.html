@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WEBイメージセットアップ手順書 &mdash; クラウド実践演習 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="クラウド実践演習 0 documentation" href="index.html" />
+    <link rel="prev" title="Monitorイメージセットアップ手順書" href="monitor.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="monitor.html" title="Monitorイメージセットアップ手順書"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web">
+<h1>WEBイメージセットアップ手順書<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>この手順書は、本演習で使用するWEBイメージを作成する手順である</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>前提条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>パッケージのインストールと設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openjdk-6-jdk">
+<h2>openjdk-6-jdk<a class="headerlink" href="#openjdk-6-jdk" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>インストール<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install openjdk-6-jdk</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tomcat6">
+<h2>tomcat6<a class="headerlink" href="#tomcat6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>インストール<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install tomcat6 tomcat6-admin tomcat6-common tomcat6-docs tomcat6-examples tomcat6-user</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>設定<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>JAVA_HOMEの設定をする</p>
+<div class="highlight-python"><pre># vi /etc/default/tomcat6
+JAVA\_HOME=/usr/lib/jvm/java-1.6.0-openjdk</pre>
+</div>
+<p>server.xmlの設定</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vi /etc/tomcat6/server.xml</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="mysql-client">
+<h2>mysql-client<a class="headerlink" href="#mysql-client" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>インストール<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install mysql-client</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="apache2">
+<h2>apache2<a class="headerlink" href="#apache2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>インストール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install apache2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>設定<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>moduleのロード</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># a2enmod proxy\_ajp # /etc/init.d/apache2 restart</span>
+</pre></div>
+</div>
+<p>Proxyの設定</p>
+<div class="highlight-python"><pre># vi /etc/apache2/conf.d/proxy\_ajp.conf
+ProxyPass/keijiban/ ajp://localhost:8009/keijiban/</pre>
+</div>
+</div>
+</div>
+<div class="section" id="puppet">
+<h2>puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>設定<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>puppet agentのプロセスを起動できるようにする</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vi /etc/default puppet</span>
+<span class="n">START</span><span class="o">=</span><span class="n">yes</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># rm -rf /var/lib/puppt/ssl</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>サービスの無効化<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3>設定<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>不必要なサービスを無効化する</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># /etc/init.d/puppetmaster stop</span>
+<span class="c"># /etc/init.d/stompserver stop</span>
+<span class="c"># /etc/init.d/mcollective stop</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># update-rc.d -f puppetmaster remove</span>
+<span class="c"># update-rc.d -f puppet remove</span>
+<span class="c"># update-rc.d -f mcollective remove</span>
+<span class="c"># update-rc.d -f stompserver remove</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="startup">
+<h2>　startupスクリプトの設定<a class="headerlink" href="#startup" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="rc-local">
+<h2>rc.local<a class="headerlink" href="#rc-local" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>設定<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre># vi /etc/rc.local
+/root/work/setup/startup.sh web</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">WEBイメージセットアップ手順書</a><ul>
+<li><a class="reference internal" href="#id1">はじめに</a></li>
+<li><a class="reference internal" href="#id2">前提条件</a></li>
+<li><a class="reference internal" href="#id3">パッケージのインストールと設定</a></li>
+<li><a class="reference internal" href="#openjdk-6-jdk">openjdk-6-jdk</a><ul>
+<li><a class="reference internal" href="#id4">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tomcat6">tomcat6</a><ul>
+<li><a class="reference internal" href="#id5">インストール</a></li>
+<li><a class="reference internal" href="#id6">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mysql-client">mysql-client</a><ul>
+<li><a class="reference internal" href="#id7">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#apache2">apache2</a><ul>
+<li><a class="reference internal" href="#id8">インストール</a></li>
+<li><a class="reference internal" href="#id9">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#puppet">puppet</a><ul>
+<li><a class="reference internal" href="#id10">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11">サービスの無効化</a><ul>
+<li><a class="reference internal" href="#id12">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#startup">　startupスクリプトの設定</a></li>
+<li><a class="reference internal" href="#rc-local">rc.local</a><ul>
+<li><a class="reference internal" href="#id13">設定</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="monitor.html"
+                        title="previous chapter">Monitorイメージセットアップ手順書</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/web.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="monitor.html" title="Monitorイメージセットアップ手順書"
+             >previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Nii.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

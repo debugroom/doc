@@ -1,0 +1,170 @@
+Monitorイメージセットアップ手順書
+============================
+
+はじめに
+----------------
+
+::
+
+    この手順書は、本演習で使用するMonitorイメージを作成する手順である。
+
+前提条件
+----------------
+
+-  Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること
+
+パッケージのインストールと設定
+------------------------------------------------------------
+
+Nagios
+------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install nagios3
+
+設定
+~~~~
+
+::
+
+    画面に従って、Web画面へログインするためのBASIC認証のパスワードを決定する
+    ユーザー名とパスワードは [nagiosadmin]
+
+webnode plugin
+--------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # cd /usr/lib/nagios/plugins
+    # git clone git.opty.jp:/home/repos/git/repos/nii-deploy.git
+
+rrdtool
+-------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install rrdtool
+
+Ganglia
+-------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install gmetad
+
+ganglia-webfrontend
+-------------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install ganglia-webfrontend
+
+設定 
+~~~~
+
+::
+
+    # cp -p /etc/ganglia-webfrontend/apache.conf /etc/apache2/conf.d/ganglia.conf
+
+libnagios-plugin-perl
+---------------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install libnagios-plugin-perl
+
+python-lxml
+-----------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install python-lxml
+
+librrds-perl
+------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install librrds-perl
+
+puppet
+------
+
+設定
+~~~~
+
+puppet agentのプロセスを起動できるようにする 
+
+::
+
+    # vi /etc/default puppet
+    START=yes
+
+::
+
+    # rm -rf /var/lib/puppt/ssl
+
+サービスの無効化
+----------------
+
+設定
+~~~~
+
+不必要なサービスを無効化する 
+
+::
+
+    # /etc/init.d/puppetmaster stop 
+    # /etc/init.d/stompserver stop 
+    # /etc/init.d/mcollective stop 
+    # /etc/init.d/nagios3 stop 
+    # /etc/init.d/gmetad stop
+
+::
+
+    # update-rc.d -f puppetmaster remove
+    # update-rc.d -f puppet remove
+    # update-rc.d -f mcollective remove
+    # update-rc.d -f stompserver remove
+    # update-rc.d -f nagios3 remove
+    # update-rc.d -f gmetad remove
+
+　startupスクリプトの設定
+-------------------------------------------------
+
+rc.local
+--------
+
+設定
+~~~~
+
+::
+
+    # vi /etc/rc.local
+    /root/work/setup/startup.sh monitor
+

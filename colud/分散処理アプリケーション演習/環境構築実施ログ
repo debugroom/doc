@@ -1,0 +1,277 @@
+P27----------------
+
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# sh 00_ping_check.sh 
+PING 10.3.7.2 (10.3.7.2) 56(84) bytes of data.
+64 bytes from 10.3.7.2: icmp_seq=1 ttl=64 time=0.157 ms
+64 bytes from 10.3.7.2: icmp_seq=2 ttl=64 time=0.157 ms
+64 bytes from 10.3.7.2: icmp_seq=3 ttl=64 time=0.128 ms
+
+--- 10.3.7.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1998ms
+rtt min/avg/max/mdev = 0.128/0.147/0.157/0.016 ms
+
+
+PING 10.3.7.5 (10.3.7.5) 56(84) bytes of data.
+64 bytes from 10.3.7.5: icmp_seq=1 ttl=64 time=0.160 ms
+64 bytes from 10.3.7.5: icmp_seq=2 ttl=64 time=0.134 ms
+64 bytes from 10.3.7.5: icmp_seq=3 ttl=64 time=0.149 ms
+
+--- 10.3.7.5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1999ms
+rtt min/avg/max/mdev = 0.134/0.147/0.160/0.017 ms
+
+
+PING 10.3.7.6 (10.3.7.6) 56(84) bytes of data.
+64 bytes from 10.3.7.6: icmp_seq=1 ttl=64 time=0.161 ms
+64 bytes from 10.3.7.6: icmp_seq=2 ttl=64 time=0.124 ms
+64 bytes from 10.3.7.6: icmp_seq=3 ttl=64 time=0.138 ms
+
+--- 10.3.7.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1998ms
+rtt min/avg/max/mdev = 0.124/0.141/0.161/0.015 ms
+
+
+PING 10.3.7.7 (10.3.7.7) 56(84) bytes of data.
+64 bytes from 10.3.7.7: icmp_seq=1 ttl=64 time=0.173 ms
+64 bytes from 10.3.7.7: icmp_seq=2 ttl=64 time=0.138 ms
+64 bytes from 10.3.7.7: icmp_seq=3 ttl=64 time=0.179 ms
+
+--- 10.3.7.7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1998ms
+rtt min/avg/max/mdev = 0.138/0.163/0.179/0.020 ms
+
+
+PING 10.3.7.4 (10.3.7.4) 56(84) bytes of data.
+64 bytes from 10.3.7.4: icmp_seq=1 ttl=64 time=0.025 ms
+64 bytes from 10.3.7.4: icmp_seq=2 ttl=64 time=0.026 ms
+64 bytes from 10.3.7.4: icmp_seq=3 ttl=64 time=0.012 ms
+
+--- 10.3.7.4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1998ms
+rtt min/avg/max/mdev = 0.012/0.021/0.026/0.006 ms
+
+
+PING 10.3.7.3 (10.3.7.3) 56(84) bytes of data.
+64 bytes from 10.3.7.3: icmp_seq=1 ttl=64 time=0.144 ms
+64 bytes from 10.3.7.3: icmp_seq=2 ttl=64 time=0.113 ms
+64 bytes from 10.3.7.3: icmp_seq=3 ttl=64 time=0.120 ms
+
+--- 10.3.7.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1999ms
+rtt min/avg/max/mdev = 0.113/0.125/0.144/0.018 ms
+
+
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# sh 01_setting_first_hadoop.sh 
+6 servers are connected successfully
+ip adress and hostname are matched successfully
+slaveserver hostnames are re-written successfully
+hosts file is distributed successfully
+some materials are distributed successfully
+hadoop region is made successfully
+[root@hdclient01 shell]# sh -x 02_starting_first_hadoop.sh 
++ ssh hdmaster01 '. /root/shell/material/namenode_format.sh'
+12/12/02 22:31:58 INFO namenode.NameNode: STARTUP_MSG: 
+/************************************************************
+STARTUP_MSG: Starting NameNode
+STARTUP_MSG:   host = hdmaster01/10.3.7.2
+STARTUP_MSG:   args = [-format]
+STARTUP_MSG:   version = 0.20.2-cdh3u3
+STARTUP_MSG:   build = file:///data/1/tmp/topdir/BUILD/hadoop-0.20.2-cdh3u3 -r 217a3767c48ad11d4632e19a22897677268c40c4; compiled by 'root' on Thu Feb 16 10:23:02 PST 2012
+************************************************************/
+12/12/02 22:31:59 INFO util.GSet: VM type       = 64-bit
+12/12/02 22:31:59 INFO util.GSet: 2% max memory = 10.19875 MB
+12/12/02 22:31:59 INFO util.GSet: capacity      = 2^20 = 1048576 entries
+12/12/02 22:31:59 INFO util.GSet: recommended=1048576, actual=1048576
+12/12/02 22:31:59 INFO namenode.FSNamesystem: fsOwner=hdfs (auth:SIMPLE)
+12/12/02 22:32:00 INFO namenode.FSNamesystem: supergroup=supergroup
+12/12/02 22:32:00 INFO namenode.FSNamesystem: isPermissionEnabled=false
+12/12/02 22:32:00 INFO namenode.FSNamesystem: dfs.block.invalidate.limit=1000
+12/12/02 22:32:00 INFO namenode.FSNamesystem: isAccessTokenEnabled=false accessKeyUpdateInterval=0 min(s), accessTokenLifetime=0 min(s)
+2.876: [GC 2.876: [DefNew: 17024K->925K(19136K), 0.0280050 secs] 17024K->5023K(83008K), 0.0285690 secs] [Times: user=0.03 sys=0.00, real=0.02 secs] 
+12/12/02 22:32:00 INFO common.Storage: Image file of size 110 saved in 0 seconds.
+12/12/02 22:32:01 INFO common.Storage: Storage directory /mnt/hadoop/data/dfs/name has been successfully formatted.
+12/12/02 22:32:01 INFO namenode.NameNode: SHUTDOWN_MSG: 
+/************************************************************
+SHUTDOWN_MSG: Shutting down NameNode at hdmaster01/10.3.7.2
+************************************************************/
+Heap
+ def new generation   total 19136K, used 8416K [0x00000000dae00000, 0x00000000dc2c0000, 0x00000000dc2c0000)
+  eden space 17024K,  43% used [0x00000000dae00000, 0x00000000db5509e0, 0x00000000dbea0000)
+  from space 2112K,  43% used [0x00000000dc0b0000, 0x00000000dc197750, 0x00000000dc2c0000)
+  to   space 2112K,   0% used [0x00000000dbea0000, 0x00000000dbea0000, 0x00000000dc0b0000)
+ concurrent mark-sweep generation total 63872K, used 4098K [0x00000000dc2c0000, 0x00000000e0120000, 0x00000000fae00000)
+ concurrent-mark-sweep perm gen total 21248K, used 11368K [0x00000000fae00000, 0x00000000fc2c0000, 0x0000000100000000)
++ hosts='hdmaster01 hdetc01 hdslave01 hdslave02 hdslave03'
++ user=root
++ for host in '${hosts}'
++ test hdmaster01 = hdmaster01
++ ssh root@hdmaster01 'service hadoop-0.20-namenode start'
+Starting Hadoop namenode daemon (hadoop-namenode): starting namenode, logging to /var/log/hadoop-0.20/hadoop-hdsol-namenode-hdmaster01.out
++ for host in '${hosts}'
++ test hdetc01 = hdmaster01
++ test hdetc01 = hdetc01
++ ssh root@hdetc01 'service hadoop-0.20-secondarynamenode start'
+Starting Hadoop secondarynamenode daemon (hadoop-secondarynamenode): starting secondarynamenode, logging to /var/log/hadoop-0.20/hadoop-hdsol-secondarynamenode-hdetc01.out
++ for host in '${hosts}'
++ test hdslave01 = hdmaster01
++ test hdslave01 = hdetc01
++ ssh root@hdslave01 'service hadoop-0.20-datanode start'
+Starting Hadoop datanode daemon (hadoop-datanode): starting datanode, logging to /var/log/hadoop-0.20/hadoop-hdsol-datanode-hdslave01.out
+datanode (pid  1867) を実行中...
++ for host in '${hosts}'
++ test hdslave02 = hdmaster01
++ test hdslave02 = hdetc01
++ ssh root@hdslave02 'service hadoop-0.20-datanode start'
+Starting Hadoop datanode daemon (hadoop-datanode): starting datanode, logging to /var/log/hadoop-0.20/hadoop-hdsol-datanode-hdslave02.out
+datanode (pid  1859) を実行中...
++ for host in '${hosts}'
++ test hdslave03 = hdmaster01
++ test hdslave03 = hdetc01
++ ssh root@hdslave03 'service hadoop-0.20-datanode start'
+Starting Hadoop datanode daemon (hadoop-datanode): starting datanode, logging to /var/log/hadoop-0.20/hadoop-hdsol-datanode-hdslave03.out
+datanode (pid  1859) を実行中...
++ . /root/shell/material/hdfs_region.sh
+++ su hdfs -c ' hadoop dfs -mkdir /mapred/system'
+++ su hdfs -c ' hadoop dfs -chown mapred:hadoop /mapred/system'
+++ su hdfs -c ' hadoop dfs -chmod 700 /mapred/system'
+++ su hdfs -c ' hadoop dfs -ls /mapred'
+Found 1 items
+drwx------   - mapred hadoop          0 2012-12-02 22:32 /mapred/system
+++ su hdfs -c ' hadoop dfs -mkdir /mapred/staging'
+++ su hdfs -c ' hadoop dfs -chown mapred:hadoop /mapred/staging'
+++ su hdfs -c ' hadoop dfs -chmod 777 /mapred/staging'
+++ su hdfs -c ' hadoop dfs -ls /mapred'
+Found 2 items
+drwxrwxrwx   - mapred hadoop          0 2012-12-02 22:32 /mapred/staging
+drwx------   - mapred hadoop          0 2012-12-02 22:32 /mapred/system
+++ su hdfs -c ' hadoop dfs -mkdir /user'
+++ su hdfs -c ' hadoop dfs -chown hdfs:hadoop /user'
+++ su hdfs -c ' hadoop dfs -chmod 777 /user'
+++ su hdfs -c ' hadoop dfs -ls /'
+Found 2 items
+drwxr-xr-x   - hdfs supergroup          0 2012-12-02 22:32 /mapred
+drwxrwxrwx   - hdfs hadoop              0 2012-12-02 22:32 /user
+++ su hdfs -c ' hadoop dfs -mkdir /tmp'
+++ su hdfs -c ' hadoop dfs -chown hdfs:hadoop /tmp'
+++ su hdfs -c ' hadoop dfs -chmod 777 /tmp'
+++ su hdfs -c ' hadoop dfs -ls /'
+Found 3 items
+drwxr-xr-x   - hdfs supergroup          0 2012-12-02 22:32 /mapred
+drwxrwxrwx   - hdfs hadoop              0 2012-12-02 22:32 /tmp
+drwxrwxrwx   - hdfs hadoop              0 2012-12-02 22:32 /user
+++ su hdfs -c ' hadoop dfs -mkdir /hbase'
+++ su hdfs -c ' hadoop dfs -chown hbase:hadoop /hbase'
+++ su hdfs -c ' hadoop dfs -chmod 777 /tmp'
+++ su hdfs -c ' hadoop dfs -ls /'
+Found 4 items
+drwxr-xr-x   - hbase hadoop              0 2012-12-02 22:33 /hbase
+drwxr-xr-x   - hdfs  supergroup          0 2012-12-02 22:32 /mapred
+drwxrwxrwx   - hdfs  hadoop              0 2012-12-02 22:32 /tmp
+drwxrwxrwx   - hdfs  hadoop              0 2012-12-02 22:32 /user
++ hosts='hdmaster01 hdslave01 hdslave02 hdslave03'
++ for host in '${hosts}'
++ test hdmaster01 = hdmaster01
++ ssh root@hdmaster01 'service hadoop-0.20-jobtracker start'
+Starting Hadoop jobtracker daemon (hadoop-jobtracker): starting jobtracker, logging to /var/log/hadoop-0.20/hadoop-hdsol-jobtracker-hdmaster01.out
++ for host in '${hosts}'
++ test hdslave01 = hdmaster01
++ ssh root@hdslave01 'service hadoop-0.20-tasktracker start'
+Starting Hadoop tasktracker daemon (hadoop-tasktracker): starting tasktracker, logging to /var/log/hadoop-0.20/hadoop-hdsol-tasktracker-hdslave01.out
++ for host in '${hosts}'
++ test hdslave02 = hdmaster01
++ ssh root@hdslave02 'service hadoop-0.20-tasktracker start'
+Starting Hadoop tasktracker daemon (hadoop-tasktracker): starting tasktracker, logging to /var/log/hadoop-0.20/hadoop-hdsol-tasktracker-hdslave02.out
++ for host in '${hosts}'
++ test hdslave03 = hdmaster01
++ ssh root@hdslave03 'service hadoop-0.20-tasktracker start'
+Starting Hadoop tasktracker daemon (hadoop-tasktracker): starting tasktracker, logging to /var/log/hadoop-0.20/hadoop-hdsol-tasktracker-hdslave03.out
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# sh -x 03_starting_first_ganglia.sh 
++ . /root/shell/ganglia_operation/ganglia_start.sh
+++ hosts='hdmaster01 hdslave01 hdslave02 hdslave03 hdclient01 hdetc01'
+++ user=root
+++ for host in '${hosts}'
+++ ssh root@hdmaster01 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ for host in '${hosts}'
+++ ssh root@hdslave01 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ for host in '${hosts}'
+++ ssh root@hdslave02 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ for host in '${hosts}'
+++ ssh root@hdslave03 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ for host in '${hosts}'
+++ ssh root@hdclient01 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ for host in '${hosts}'
+++ ssh root@hdetc01 'service gmond start'
+Starting GANGLIA gmond: [  OK  ]
+++ host=hdetc01
+++ ssh root@hdetc01 'service gmetad start'
+Starting GANGLIA gmetad: [  OK  ]
+
+
+------------
+
+P28
+
+[root@hdclient01 shell]# hadoop dfsadmin -report
+Configured Capacity: 42791583744 (39.85 GB)
+Present Capacity: 40108531757 (37.35 GB)
+DFS Remaining: 40108445696 (37.35 GB)
+DFS Used: 86061 (84.04 KB)
+DFS Used%: 0%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+-------------------------------------------------
+Datanodes available: 3 (3 total, 0 dead)
+
+Name: 10.3.7.7:50010
+Decommission Status : Normal
+Configured Capacity: 14263861248 (13.28 GB)
+DFS Used: 28687 (28.01 KB)
+Non DFS Used: 894349297 (852.92 MB)
+DFS Remaining: 13369483264(12.45 GB)
+DFS Used%: 0%
+DFS Remaining%: 93.73%
+Last contact: Sun Dec 02 22:35:17 JST 2012
+
+
+Name: 10.3.7.5:50010
+Decommission Status : Normal
+Configured Capacity: 14263861248 (13.28 GB)
+DFS Used: 28687 (28.01 KB)
+Non DFS Used: 894353393 (852.92 MB)
+DFS Remaining: 13369479168(12.45 GB)
+DFS Used%: 0%
+DFS Remaining%: 93.73%
+Last contact: Sun Dec 02 22:35:14 JST 2012
+
+
+Name: 10.3.7.6:50010
+Decommission Status : Normal
+Configured Capacity: 14263861248 (13.28 GB)
+DFS Used: 28687 (28.01 KB)
+Non DFS Used: 894349297 (852.92 MB)
+DFS Remaining: 13369483264(12.45 GB)
+DFS Used%: 0%
+DFS Remaining%: 93.73%
+Last contact: Sun Dec 02 22:35:14 JST 2012
+
+
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# hadoop job -list-active-trackers | wc -l
+3
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 
+[root@hdclient01 shell]# 

@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Browserイメージセットアップ手順書 &mdash; クラウド実践演習 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="クラウド実践演習 0 documentation" href="index.html" />
+    <link rel="next" title="DBイメージセットアップ手順書" href="db.html" />
+    <link rel="prev" title="Baseイメージセットアップ手順書" href="base.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="db.html" title="DBイメージセットアップ手順書"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="base.html" title="Baseイメージセットアップ手順書"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="browser">
+<h1>Browserイメージセットアップ手順書<a class="headerlink" href="#browser" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>この手順書は、本演習で使用するBrowserイメージを作成する手順である。</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>前提条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>なし # マシンイメージのupdate 今回使用するイメージはcentos6を使用する
+ます最初に使用するイメージを最新のパッケージにupdateしておく</li>
+</ul>
+</div>
+<div class="section" id="update">
+<h2>update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># yum update</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>パッケージのインストールと設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="gnome">
+<h2>gnome<a class="headerlink" href="#gnome" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>インストール<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># yum groupinstall &quot;X Window System&quot; &quot;Desktop&quot; &quot;Japanese support&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="vnc-server">
+<h2>vnc server<a class="headerlink" href="#vnc-server" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>インストール<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># yum install tiger-vncserver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>設定<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>#vncユーザーの作成
+# useradd vnc
+# useradd vnc
+1qaz2wsx
+
+#vncパスワードの設定
+# su -vnc
+vnc$ vncpasswd
+1qaz2wsx
+
+#vncサーバーの設定
+# vi /etc/sysconfig/vncservers
+VNCSERVERS="1:vnc"
+VNCSERVERARGS[1]="-geometry 1260x800"
+
+#vncserverの起動
+# /etc/init.d/vncserver start
+
+#マシンイメージ起動時にvncserverが起動するように設定
+# chkconfig vncserver on
+# chkconfig --list |grep vnc
+vncserver       0:off   1:off   2:on    3:on    4:on    5:on    6:off</pre>
+</div>
+</div>
+</div>
+<div class="section" id="sudo">
+<h2>sudo<a class="headerlink" href="#sudo" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>設定<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre># visudo
+vnc     ALL=(ALL)       NOPASSWD:ALL</pre>
+</div>
+</div>
+</div>
+<div class="section" id="firefox">
+<h2>firefox<a class="headerlink" href="#firefox" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>インストール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># yum install firefox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="hostname">
+<h2>hostnameの設定<a class="headerlink" href="#hostname" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="hosts">
+<h2>hosts<a class="headerlink" href="#hosts" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>設定<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>lb,mailサーバのIPアドレスを記述</p>
+<div class="highlight-python"><pre># vi /etc/hosts
+127.0.0.1 lb.nii.localdomain
+127.0.0.1 mail.nii.localdomain</pre>
+</div>
+</div>
+</div>
+<div class="section" id="bookmark">
+<h2>bookmarkの設定<a class="headerlink" href="#bookmark" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id10">
+<h2>firefox<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>設定<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>firefoxを起動し以下のurlをブックマークする
+http://lb.nii.localdomain/keijiban/top
+http://mail.nii.localdomain/user</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Browserイメージセットアップ手順書</a><ul>
+<li><a class="reference internal" href="#id1">はじめに</a></li>
+<li><a class="reference internal" href="#id2">前提条件</a></li>
+<li><a class="reference internal" href="#update">update</a></li>
+<li><a class="reference internal" href="#id3">パッケージのインストールと設定</a></li>
+<li><a class="reference internal" href="#gnome">gnome</a><ul>
+<li><a class="reference internal" href="#id4">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vnc-server">vnc server</a><ul>
+<li><a class="reference internal" href="#id5">インストール</a></li>
+<li><a class="reference internal" href="#id6">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sudo">sudo</a><ul>
+<li><a class="reference internal" href="#id7">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#firefox">firefox</a><ul>
+<li><a class="reference internal" href="#id8">インストール</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hostname">hostnameの設定</a></li>
+<li><a class="reference internal" href="#hosts">hosts</a><ul>
+<li><a class="reference internal" href="#id9">設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bookmark">bookmarkの設定</a></li>
+<li><a class="reference internal" href="#id10">firefox</a><ul>
+<li><a class="reference internal" href="#id11">設定</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="base.html"
+                        title="previous chapter">Baseイメージセットアップ手順書</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="db.html"
+                        title="next chapter">DBイメージセットアップ手順書</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/browser.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="db.html" title="DBイメージセットアップ手順書"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="base.html" title="Baseイメージセットアップ手順書"
+             >previous</a> |</li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Nii.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

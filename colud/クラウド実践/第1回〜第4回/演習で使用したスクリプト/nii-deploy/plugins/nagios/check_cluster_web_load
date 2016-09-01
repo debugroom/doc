@@ -1,0 +1,22 @@
+#!/bin/bash
+
+NAGIOS_PLUGIN_PATH=/usr/lib/nagios/plugins/nii-deploy/plugins/nagios
+CMD_CHECK_RRD=${NAGIOS_PLUGIN_PATH}/check_rrd.pl
+RRD_LOAD_AVERAGE="load_${1}.rrd"
+RRD_PATH=/var/lib/ganglia/rrds
+RRD_WEB_PATH=${RRD_PATH}/Web
+RRD_WEB_SUMMARY_PATH=${RRD_WEB_PATH}/__SummaryInfo__
+
+if [ ! -f "${RRD_WEB_SUMMARY_PATH}/${RRD_LOAD_AVERAGE}" ]; then
+  echo "Unknown type: $1"
+  exit 1
+fi
+
+TOTAL_CORE=`${CMD_CHECK_RRD} -R ${RRD_WEB_SUMMARY_PATH}/cpu_num.rrd --ds sum --start -45 --end -30 --compute MAX | awk '{print $5}'`
+WARNING_NUM=$2
+CRITICAL_NUM=$3
+
+total_warning_num=`expr ${TOTAL_CORE} \* ${WARNING_NUM}`
+total_critical_num=`expr ${TOTAL_CORE} \* ${CRITICAL_NUM}`
+
+${CMD_CHECK_RRD} -R "${RRD_WEB_SUMMARY_PATH}/${RRD_LOAD_AVERAGE}" --ds sum --start -150 --end -30 --compute AVERAGE -w ${total_warning_num} -c ${total_critical_num}

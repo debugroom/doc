@@ -1,0 +1,231 @@
+###############################################################################
+# LOCALHOST.CFG - SAMPLE OBJECT CONFIG FILE FOR MONITORING THIS MACHINE
+#
+# Last Modified: 05-31-2007
+#
+# NOTE: This config file is intended to serve as an *extremely* simple 
+#       example of how you can create configuration entries to monitor
+#       the local (Linux) machine.
+#
+###############################################################################
+
+
+
+
+###############################################################################
+###############################################################################
+#
+# HOST DEFINITION
+#
+###############################################################################
+###############################################################################
+
+# Define a host for the local machine
+<% unless lb_ipset.empty? -%>
+  <% lb_ipset.each do |ip| -%>
+define host{
+    use         linux-server
+    host_name   loadbalancer
+    host_groups loadbalancers
+    alias       LoadBalancer
+    address     <%= ip.chomp %>
+}
+  <% end -%>
+<% end -%>
+
+###############################################################################
+###############################################################################
+#
+# HOST GROUP DEFINITION
+#
+###############################################################################
+###############################################################################
+
+# Define an optional hostgroup for Linux machines
+
+define hostgroup{
+        hostgroup_name  loadbalancers ; The name of the hostgroup
+        alias           LoadBalancer  ; Long name of the group
+        }
+
+
+
+###############################################################################
+###############################################################################
+#
+# SERVICE DEFINITIONS
+#
+###############################################################################
+###############################################################################
+
+
+# Define a service to "ping" the local machine
+
+define service{
+        use                             lb-service         ; Name of service template to use
+        hostgroup_name                  loadbalancers  
+        service_description             PING
+	check_command			check_ping!100.0,20%!500.0,60%
+        }
+
+
+# Define a service to check the disk space of the root partition
+# on the local machine.  Warning if < 20% free, critical if
+# < 10% free space on partition.
+
+define service{
+        use                             lb-service         ; Name of service template to use
+        hostgroup_name                  loadbalancers  
+        service_description             Root Partition
+	check_command			check_disk!20%!10%!/
+        }
+
+
+
+# Define a service to check the number of currently logged in
+# users on the local machine.  Warning if > 20 users, critical
+# if > 50 users.
+
+#define service{
+#        use                             lb-service         ; Name of service template to use
+#        hostgroup_name                  loadbalancers  
+#        service_description             Current Users
+#	check_command			check_users!20!50
+#        }
+
+
+# Define a service to check the number of currently running procs
+# on the local machine.  Warning if > 250 processes, critical if
+# > 400 users.
+
+define service{
+        use                             lb-service         ; Name of service template to use
+        hostgroup_name                  loadbalancers  
+        service_description             Total Processes
+	check_command			check_procs!250!400!RSZDT
+        }
+
+
+
+# Define a service to check the load on the local machine. 
+
+#define service{
+#        use                             lb-service         ; Name of service template to use
+#        hostgroup_name                  loadbalancers  
+#        service_description             Current Load
+#	check_command		        check_load!5.0!4.0!3.0!10.0!6.0!4.0	
+#        }
+
+
+
+
+# Define a service to check SSH on the local machine.
+# Disable notifications for this service by default, as not all users may have SSH enabled.
+
+define service{
+        use                             lb-service         ; Name of service template to use
+        hostgroup_name                  loadbalancers  
+        service_description             SSH
+	check_command			check_ssh
+	notifications_enabled		1
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Current Load Avarage One
+        check_command                   ganglia-service-perfdata!load_one!1!5
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Current Load Avarage Five
+        check_command                   ganglia-service-perfdata!load_five!1!5
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Current Load Avarage Fifteen
+        check_command                   ganglia-service-perfdata!load_fifteen!1!5
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Free Memory
+        check_command                   ganglia-service-perfdata!mem_free!256000!128000
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Network Bytes Received
+        check_command                   ganglia-service-perfdata!bytes_in!50000000!100000000
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Network Bytes Sent
+        check_command                   ganglia-service-perfdata!bytes_out!50000000!100000000
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Network Packets Received
+        check_command                   ganglia-service-perfdata!pkts_in!10000!100000
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Network Packets Sent
+        check_command                   ganglia-service-perfdata!pkts_out!10000!100000
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Free Disk
+        check_command                   ganglia-service-perfdata!disk_free!3!1
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             CPU User
+        check_command                   ganglia-service-perfdata!cpu_user!70!90
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             CPU System
+        check_command                   ganglia-service-perfdata!cpu_system!70!90
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Web Cluster Load Average One
+        check_command                   check_cluster_web_load!one!1!5
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Web Cluster Load Average Five
+        check_command                   check_cluster_web_load!five!1!5
+        }
+
+define service{
+        use                             lb-service
+        hostgroup_name                  loadbalancers
+        service_description             Web Cluster Load Average Fifteen 
+        check_command                   check_cluster_web_load!fifteen!1!5
+        }
+
+

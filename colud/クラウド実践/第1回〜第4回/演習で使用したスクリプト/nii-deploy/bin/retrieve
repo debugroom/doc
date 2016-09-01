@@ -1,0 +1,111 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+
+require 'rubygems'
+require 'thor'
+require 'thor/group'
+require 'yaml'
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+require 'manifest_helper'
+require 'edubase_cloud'
+
+class Ipaddress < Thor
+  namespace :ip
+
+  desc "ip mco", "retrieve ipaddress from 'mco facts ipaddress'"
+  method_option :delimitor, :type=>:string, :desc=>"delimitor of result"
+  method_option :output, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  method_option :format, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  def mco(*args)
+    delimitor = options[:output] == "file" || options[:format] == "file" ? "\n" : options[:delimitor] || " "
+    input_array = []
+    if args.empty?
+      while line = STDIN.gets
+        input_array += line.split(/\s|"/)
+      end
+    else
+      input_array = args
+    end
+
+    result = []
+    input_array.each do |d|
+      d.strip!
+      if md = /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/.match(d)
+        result << md[1]
+      end
+    end
+    puts result.join(delimitor)
+  end
+
+  desc "ip cloud", "retrieve ipaddress from cloud commands"
+  method_option :delimitor, :type=>:string, :desc=>"delimitor of result"
+  method_option :output, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  method_option :format, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  alias :cloud :mco
+end
+
+class InstanceId < Thor
+  namespace :instance_id
+
+  desc "instance_id mco", "retrieve instance_ids from 'mco facts ipaddress -j -v'"
+  method_option :delimitor, :type=>:string, :desc=>"delimitor of result"
+  method_option :output, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  method_option :format, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  def mco(*args)
+    delimitor = options[:output] == "file" || options[:format] == "file" ? "\n" : options[:delimitor] || " "
+    input_array = []
+    if args.empty?
+      while line = STDIN.gets
+        input_array += line.split(/\s|\./)
+      end
+    else
+      input_array = args.collect do |arg|
+        arg.split /\s|\./
+      end.flatten
+    end
+    result = retrieve(input_array)
+    puts result.join(delimitor)
+  end
+
+  desc "instance_id cloud", "retrieve instance_ids from cloud commands"
+  method_option :delimitor, :type=>:string, :desc=>"delimitor of result"
+  method_option :output, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  method_option :format, :type=>:string, :desc=>"for output format(ex. \"file\": delimitor is '\n'"
+  def cloud(*args)
+    delimitor = options[:output] == "file" || options[:format] == "file" ? "\n" : options[:delimitor] || " "
+    input_array = []
+    if args.empty?
+      while line = STDIN.gets
+        input_array += line.split(/\s|"/)
+      end
+    else
+      input_array = args.collect do |arg|
+        arg.split /\s|"/
+      end.flatten
+    end
+    result = retrieve(input_array)
+    puts result.join(delimitor)
+  end
+
+  desc "instance_id retrieve", "retrieve instance_ids from 'mco facts ipaddress -j -v'"
+  def retrieve(input_array)
+    result = []
+    input_array.each do |d|
+      d.strip!
+      if md = /^i-[A-Z0-9]{8}$/.match(d)
+        result << d
+      end
+    end
+    result
+  end
+
+end
+
+class RootCli < Thor
+  register(Ipaddress, Ipaddress.namespace, "retrieve sub-command", "Operations for instances")
+  register(InstanceId, InstanceId.namespace, "retrieve sub-command", "Operations for instances")
+end
+
+RootCli.start

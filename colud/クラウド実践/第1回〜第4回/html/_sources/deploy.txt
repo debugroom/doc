@@ -1,0 +1,114 @@
+Deployイメージセットアップ手順書
+=======================
+
+はじめに
+----------------
+
+::
+
+    この手順書は、本演習で使用するDeployイメージを作成する手順である。
+
+前提条件
+----------------
+
+-  Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること
+
+パッケージのインストールと設定
+------------------------------------------------------------
+
+Nrpe Server
+-----------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install nagios-nrpe-server
+
+設定
+~~~~
+
+::
+
+    # vi /etc/nagios/nrpe.cfg
+    allowed_hosts=monitor.nii.localdomain
+    dont_blame_nrpe=1
+    debug=1
+    command[check_webnode]=/usr/lib/nagios/plugins/nii-deploy/plugins/nagios/check_webnode $ARG1$ $ARG2$
+
+Nagios-plugins
+--------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install nagios-plugins
+
+webnode plugin
+--------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # cd /usr/lib/nagios/plugins
+    # git clone git.opty.jp:/home/repos/git/repos/nii-deploy.git
+
+puppet
+------
+
+設定
+~~~~
+
+puppet agentのプロセスを起動できるようにする 
+
+::
+
+    # vi /etc/default puppet
+    START=yes
+
+::
+
+    # rm -rf /var/lib/puppt/ssl
+
+puppet templatesとmanifestの配置 
+
+::
+
+    # cd /root/ 
+    # git clone git.opty.jp:/home/repos/git/repos/nii-puppet.git 
+    # cp nii-puppet/manifest/site.pp /etc/puppet/manifest/ 
+    # cp -r nii-puppet/templates/\* /etc/puppet/templates/ 
+    # rm -rf nii-puppet
+
+サービスの無効化
+----------------
+
+設定
+~~~~
+
+不必要なサービスを無効化する # /etc/init.d/mcollective stop
+
+::
+
+    # update-rc.d -f puppet remove
+    # update-rc.d -f mcollective remove
+
+　startupスクリプトの設定
+-------------------------------------------------
+
+rc.local
+--------
+
+設定
+~~~~
+
+::
+
+    # vi /etc/rc.local
+    /root/work/setup/startup.sh deploy
+

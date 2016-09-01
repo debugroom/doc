@@ -1,0 +1,127 @@
+Browserイメージセットアップ手順書
+========================
+
+はじめに
+----------------
+
+::
+
+    この手順書は、本演習で使用するBrowserイメージを作成する手順である。
+
+前提条件
+----------------
+
+-  なし # マシンイメージのupdate 今回使用するイメージはcentos6を使用する
+   ます最初に使用するイメージを最新のパッケージにupdateしておく
+
+update
+------
+
+::
+
+    # yum update
+
+パッケージのインストールと設定
+------------------------------------------------------------
+
+gnome
+-----
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # yum groupinstall "X Window System" "Desktop" "Japanese support"
+
+vnc server
+----------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # yum install tiger-vncserver
+
+設定
+~~~~
+
+::
+
+    #vncユーザーの作成
+    # useradd vnc
+    # useradd vnc
+    1qaz2wsx
+
+    #vncパスワードの設定
+    # su -vnc
+    vnc$ vncpasswd
+    1qaz2wsx
+
+    #vncサーバーの設定
+    # vi /etc/sysconfig/vncservers
+    VNCSERVERS="1:vnc"
+    VNCSERVERARGS[1]="-geometry 1260x800"
+
+    #vncserverの起動
+    # /etc/init.d/vncserver start
+
+    #マシンイメージ起動時にvncserverが起動するように設定
+    # chkconfig vncserver on
+    # chkconfig --list |grep vnc
+    vncserver       0:off   1:off   2:on    3:on    4:on    5:on    6:off
+
+sudo
+----
+
+設定
+~~~~
+
+::
+
+    # visudo
+    vnc     ALL=(ALL)       NOPASSWD:ALL
+
+firefox
+-------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # yum install firefox
+
+hostnameの設定
+----------------------------
+
+hosts
+-----
+
+設定
+~~~~
+
+lb,mailサーバのIPアドレスを記述 
+
+::
+
+    # vi /etc/hosts 
+    127.0.0.1 lb.nii.localdomain 
+    127.0.0.1 mail.nii.localdomain
+
+bookmarkの設定
+----------------------------
+
+firefox
+-------
+
+設定
+~~~~
+
+::
+
+    firefoxを起動し以下のurlをブックマークする
+    http://lb.nii.localdomain/keijiban/top
+    http://mail.nii.localdomain/user
+

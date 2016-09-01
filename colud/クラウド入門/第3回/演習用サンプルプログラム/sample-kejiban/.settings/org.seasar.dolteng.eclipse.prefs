@@ -1,0 +1,9 @@
+#Mon Dec 13 13:51:53 JST 2010
+DaoType=None
+DefaultResourcePath=/sample-kejiban/src/main/resources
+DefaultRootPackage=kejiban
+DefaultSrcPath=/sample-kejiban/src/main/java
+ServletPath=/sample-kejiban
+ViewType=SA-Struts
+WebContentsRoot=src/main/webapp/
+eclipse.preferences.version=1

@@ -1,0 +1,141 @@
+WEBイメージセットアップ手順書
+=====================
+
+はじめに
+----------------
+
+::
+
+    この手順書は、本演習で使用するWEBイメージを作成する手順である
+
+前提条件
+----------------
+
+-  Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること
+
+パッケージのインストールと設定
+------------------------------------------------------------
+
+openjdk-6-jdk
+-------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install openjdk-6-jdk
+
+tomcat6
+-------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install tomcat6 tomcat6-admin tomcat6-common tomcat6-docs tomcat6-examples tomcat6-user
+
+設定
+~~~~
+
+JAVA\_HOMEの設定をする 
+
+::
+
+    # vi /etc/default/tomcat6
+    JAVA\_HOME=/usr/lib/jvm/java-1.6.0-openjdk
+
+server.xmlの設定 
+::
+
+    # vi /etc/tomcat6/server.xml
+
+mysql-client
+------------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install mysql-client
+
+apache2
+-------
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install apache2
+
+設定
+~~~~
+
+moduleのロード 
+
+::
+
+    # a2enmod proxy\_ajp # /etc/init.d/apache2 restart
+
+Proxyの設定 
+
+::
+
+    # vi /etc/apache2/conf.d/proxy\_ajp.conf
+    ProxyPass/keijiban/ ajp://localhost:8009/keijiban/
+
+puppet
+------
+
+設定
+~~~~
+
+puppet agentのプロセスを起動できるようにする 
+
+::
+
+    # vi /etc/default puppet
+    START=yes
+
+::
+
+    # rm -rf /var/lib/puppt/ssl
+
+サービスの無効化
+----------------
+
+設定
+~~~~
+
+不必要なサービスを無効化する 
+
+::
+
+    # /etc/init.d/puppetmaster stop 
+    # /etc/init.d/stompserver stop 
+    # /etc/init.d/mcollective stop
+
+::
+
+    # update-rc.d -f puppetmaster remove
+    # update-rc.d -f puppet remove
+    # update-rc.d -f mcollective remove
+    # update-rc.d -f stompserver remove
+
+　startupスクリプトの設定
+-------------------------------------------------
+
+rc.local
+--------
+
+設定
+~~~~
+
+::
+
+    # vi /etc/rc.local
+    /root/work/setup/startup.sh web
+

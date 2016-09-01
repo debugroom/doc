@@ -1,0 +1,12 @@
+---
+access_key: 
+secret_key: 
+endpoint_url: https://vclc0006.ecloud.nii.ac.jp:8773/services/Eucalyptus
+group_id: 
+key_name: 
+images:
+  lb: emi-5E9B0641
+  web: emi-1D751460
+  db: emi-5FA90658
+  mail: emi-6032065E
+  monitor: emi-1BC51448

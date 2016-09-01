@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+service_state = ARGV[0]
+service_state_type = ARGV[1]
+service_attempt = ARGV[2]
+
+def logger(message)
+  puts "[#{Time.now.to_i}] #{message}"
+end
+
+case service_state
+  when 'OK':
+  when 'WARNING':
+  when 'UNKNOWN':
+  when 'CRITICAL':
+    case service_state_type
+      when 'SOFT':
+      when 'HARD':
+        case service_attempt
+          when '1':
+            exec_webnode = "/root/work/deploy/plugins/nagios/exec_webnode"
+            target = "deploy.nii.localdomain"
+            system("mco shellcmd --cmd=#{exec_webnode} -I #{target}")
+            if $? != 0
+               logger 'Faild add webnode'
+            else
+               logger 'Success add webnode'
+            end
+        end
+    end
+else
+  logger 'Nothing'
+end
+
+logger "Request Service: #{service_state} #{service_state_type}"
+
+exit 0
+

@@ -1,0 +1,140 @@
+DBイメージセットアップ手順書
+====================
+
+はじめに
+----------------
+
+::
+
+    この手順書は、本演習で使用するDBイメージを作成する手順である
+
+前提条件
+----------------
+
+-  Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること
+
+パッケージのインストールと設定
+------------------------------------------------------------
+
+mysql
+-----
+
+インストール
+~~~~~~~~~~~~
+
+::
+
+    # apt-get install mysql-server
+
+設定
+~~~~
+
+caracterの設定をする 
+
+::
+
+    # vi /etc/mysql/my.cnf default-character-set=utf8
+    skip-character-set-client-handshake
+
+::
+
+    bind-address            = 0.0.0.0
+    [mysqldump]
+    default-character-set=utf8
+    [mysql]
+    default-character-set=utf8
+
+掲示板アプリケーションが使用するdatabaseを作成する 
+
+::
+
+    # mysql -u root
+    create database keijiban; GRANT ALL PRIVILEGES ON *.* TO nii IDENTIFIED
+    BY 'nii' WITH GRANT OPTION; use keijiban DROP TABLE ``articles``; CREATE
+    TABLE ``articles`` ( ``id`` int(11) NOT NULL AUTO\_INCREMENT,
+    ``user_id`` int(11) NULL DEFAULT NULL, ``name`` varchar(255) NULL
+    DEFAULT NULL, ``subject`` varchar(255) NULL DEFAULT NULL, ``body`` TEXT
+    NULL DEFAULT NULL, ``created_at`` Timestamp NULL DEFAULT NULL,
+    ``updated_at`` Timestamp NULL DEFAULT NULL, PRIMARY KEY (``id``) )
+    ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+::
+
+    DROP TABLE `comments`;
+    CREATE TABLE `comments` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `article_id` int(11) NOT NULL,
+      `user_id` int(11) NULL DEFAULT NULL,
+      `name` varchar(255) NULL DEFAULT NULL,
+      `subject` varchar(255) NULL DEFAULT NULL,
+      `body` TEXT NULL DEFAULT NULL,
+      `created_at` Timestamp NULL DEFAULT NULL,
+      `updated_at` Timestamp NULL DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    DROP TABLE `users`;
+    CREATE TABLE `users` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) NULL DEFAULT NULL,
+      `email` varchar(255) NOT NULL,
+      `password` varchar(255) NULL DEFAULT NULL,
+      `registered_flag` tinyint(1) NOT NULL DEFAULT 0,
+      `token` varchar(255) NULL DEFAULT NULL,
+      `created_at` Timestamp NULL DEFAULT NULL,
+      `updated_at` Timestamp NULL DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+puppet
+------
+
+設定
+~~~~
+
+puppet agentのプロセスを起動できるようにする 
+
+::
+
+    # vi /etc/default puppet
+    START=yes
+
+::
+
+    # rm -rf /var/lib/puppt/ssl
+
+サービスの無効化
+----------------
+
+設定
+~~~~
+
+不必要なサービスを無効化する 
+
+::
+
+    # /etc/init.d/puppetmaster stop 
+    # /etc/init.d/stompserver stop 
+    # /etc/init.d/mcollective stop
+
+::
+
+    # update-rc.d -f puppetmaster remove
+    # update-rc.d -f puppet remove
+    # update-rc.d -f mcollective remove
+    # update-rc.d -f stompserver remove
+
+　startupスクリプトの設定
+-------------------------------------------------
+
+rc.local
+--------
+
+設定
+~~~~
+
+::
+
+    # vi /etc/rc.local
+    /root/work/setup/startup.sh db
+
