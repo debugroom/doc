@@ -12,9 +12,9 @@ Cassandra - SpringFrameworkアプリケーション
 動作環境
 -----------------------------------------------------
 
-Cassandraのインストール手順は、`Cassandraのインストール <section1-cassandra-install-label>`_ を、キースペース、テーブルの作成は、`データベースの定義 <section3-cassandra-database-definition-label>`_ を参照すること。
+インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を、キースペース、テーブルの作成は、`データベースの定義 <http://debugroom.github.io/doc/database/cassandra/definition.html>`_ を参照すること。
 
-また、アプリケーションの作成は、Spring Bootを利用しているため詳細は、`Spring Boot <http>`_ を参照すること。
+また、アプリケーションの作成は、Spring Bootを利用しているため詳細は、`Spring Boot <http://debugroom.github.io/doc/java/spring/springboot/index.html>`_ を参照すること。
 
 [OS] |br| 
 MacOSX 10.9.5

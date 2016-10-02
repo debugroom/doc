@@ -10,7 +10,7 @@
 動作環境
 -----------------------------------------------------
 
-インストール手順は、`Cassandraのインストール <section1-cassandra-install-label>`_ を、キースペース、テーブルの作成は、`データベースの定義 <section3-cassandra-database-definition-label>`_ を参照すること。
+インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を、キースペース、テーブルの作成は、`データベースの定義 <http://debugroom.github.io/doc/database/cassandra/definition.html>`_ を参照すること。
 
 [OS]
 MacOSX 10.9.5
