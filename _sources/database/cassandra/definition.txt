@@ -5,7 +5,7 @@
 データベースの定義
 =====================================================
 
-インストール手順は、`Cassandraのインストール <section1-cassandra-install-label>`_ を参考のこと。
+インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を参考のこと。
 また、 `Apache Cassandraの公式ページ <http://cassandra.apache.org/doc/latest/cql/ddl.html>`_ も参照すること。動作環境は、インストール環境と同じく以下の通りである。
 
 [バージョン]
