@@ -10,7 +10,7 @@ Cassandraの起動
 動作環境
 -----------------------------------------------------
 
-インストール手順は、`Cassandraのインストール <section1-cassandra-install-label>`_ を参考のこと。
+インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を参考のこと。
 
 [OS]
 MacOSX 10.9.5
