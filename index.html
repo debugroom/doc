@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="#"/>
-        <link rel="next" title="画面に関する実装規約" href="convention/screen/index.html"/> 
+        <link rel="next" title="jBatch" href="java/jBatch/index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,9 +81,10 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="convention/screen/index.html">画面に関する実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java/jBatch/index.html">jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database/cassandra/index.html">Cassandra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memo/work/index.html">作業メモ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">Page Format</a></li>
 </ul>
 
             
@@ -133,23 +134,71 @@
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="convention/screen/index.html">画面に関する実装規約</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="convention/screen/html.html">HTML実装規約</a></li>
-<li class="toctree-l2"><a class="reference internal" href="convention/screen/css.html">CSS実装規約</a></li>
-<li class="toctree-l2"><a class="reference internal" href="convention/screen/javascript.html">JavaScript実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java/jBatch/index.html">jBatch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="java/jBatch/introduction.html">Introdcution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java/jBatch/introduction.html#section1-1-jbatch-environment-label">動作環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/jBatch/introduction.html#section1-2-jbatch-settings-label">事前準備</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="java/jBatch/usage.html">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java/jBatch/usage.html#batchlet">Batchlet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="java/spring/springboot/index.html">Spring Boot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="java/spring/springboot/introduction.html">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java/spring/springboot/introduction.html#id1">動作環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/spring/springboot/introduction.html#id2">事前準備</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="java/spring/springboot/usage.html">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="java/spring/springboot/usage.html#section2-1-springboot-usage-standalone-label">スタンドアロンアプリケーション</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/spring/springboot/usage.html#jpa">JPAを用いたデータベースアクセス</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/spring/springboot/usage.html#web">Webアプリケーション</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database/cassandra/index.html">Cassandra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="database/cassandra/introduction.html">イントロダクション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/introduction.html#cassandra">Cassandraの特徴</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/introduction.html#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="database/cassandra/launch.html">Cassandraの起動</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/launch.html#section2-1-environment-label">動作環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/launch.html#javavm">JavaVMのヒープメモリの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/launch.html#section2-3-launch-cassandra-label">Cassandraの起動</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/launch.html#cqlsh">cqlshの起動</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="database/cassandra/definition.html">データベースの定義</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/definition.html#section3-1-cassandra-database-common-definition-label">共通定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/definition.html#section3-2-cassandra-create-keyspace-and-table-label">キースペース・テーブルの作成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="database/cassandra/manipulate.html">データベースの操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/manipulate.html#section4-1-environment-label">動作環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/manipulate.html#section4-2-cassandra-manipulate-data-label">データの操作</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="database/cassandra/spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/spring-integration.html#section5-1-environment-label">動作環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/spring-integration.html#section5-2-cassandra-settings-label">事前準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="database/cassandra/spring-integration.html#section5-3-cassandra-create-application-label">アプリケーションの作成</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="memo/work/index.html">作業メモ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memo/work/cassandra/install.html">Cassandraのインストール</a></li>
 <li class="toctree-l2"><a class="reference internal" href="memo/work/sphinx/install.html">Sphinxの導入とGitHubページの作成</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="memo/work/sphinx/install.html#sphinx-macos-x">Sphinxのインストール(MacOS X)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="memo/work/sphinx/install.html#sphinx">Sphinxプロジェクトの作成</a></li>
 <li class="toctree-l3"><a class="reference internal" href="memo/work/sphinx/install.html#github-page">GitHub Pageの作成</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">Page Format</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="test.html#content">Content</a></li>
 </ul>
 </li>
 </ul>
@@ -171,7 +220,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="convention/screen/index.html" class="btn btn-neutral float-right" title="画面に関する実装規約" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="java/jBatch/index.html" class="btn btn-neutral float-right" title="jBatch" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

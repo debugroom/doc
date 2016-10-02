@@ -1,0 +1,48 @@
+.. include:: ../../module.txt
+
+.. _section4-cql-label:
+
+CQLコマンド
+=====================================================
+
+.. _section4-1-environment-label:
+
+動作環境
+-----------------------------------------------------
+
+インストール手順は、`Cassandraのインストール <section1-cassandra-install-label>`_ を、キースペース、テーブルの作成は、`データベースの定義 <section3-cassandra-database-definition-label>`_ を参照すること。
+
+[OS]
+MacOSX 10.9.5
+
+[JVM]
+Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)
+
+[バージョン]
+
+* cqlsh 5.0.1
+* Cassandra 3.7
+* CQL spec 3.4.2
+* Native protocol v4
+
+.. _section4-2-manipulate-data-label:
+
+データの操作
+----------------------------------------------------
+
+ここでは、データの検索、挿入、更新、削除を実行するCQLコマンドについて概説する。
+
+.. note:: 外部ファイルに定義したCQLコマンド(xxxxx.cql)を実行したい場合は、ファイルがあるディレクトリ上でcqlshを実行し、"source 'xxxxxx.cql'"を実行する。
+
+.. note:: 使用可能なデータ型は `CREATE TABLE <section3-2-5-cassandra-create-table-label:>`_ を参照のこと。
+
+.. _section4-2-1-manipulate-select-label:
+
+SELECTコマンド
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. _section4-2-2-manipulate-insert-label:
+
+INSERTコマンド
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

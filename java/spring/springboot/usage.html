@@ -1,0 +1,949 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Usage &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../index.html"/>
+        <link rel="up" title="Spring Boot" href="index.html"/>
+        <link rel="next" title="Cassandra" href="../../../database/cassandra/index.html"/>
+        <link rel="prev" title="Introduction" href="introduction.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../jBatch/index.html">jBatch</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spring Boot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section2-1-springboot-usage-standalone-label">スタンドアロンアプリケーション</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jpa">JPAを用いたデータベースアクセス</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#web">Webアプリケーション</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">作業メモ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">document</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Spring Boot</a> &raquo;</li>
+      
+    <li>Usage</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/java/spring/springboot/usage.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="usage">
+<span id="section2-springboot-usage-label"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>実際に作成したサンプルは <a class="reference external" href="https://github.com/debugroom/sample/tree/develop/sample-spring-boot">GitHub</a> を参照のこと。</p>
+<div class="section" id="section2-1-springboot-usage-standalone-label">
+<span id="id1"></span><h2>スタンドアロンアプリケーション<a class="headerlink" href="#section2-1-springboot-usage-standalone-label" title="Permalink to this headline">¶</a></h2>
+<p>もっとも基本的な使用方法はコンフィグレーションクラスとして、</p>
+<ul class="simple">
+<li>org.springframework.context.annotation.Configuration</li>
+<li>org.springframework.boot.autoconfigure.EnableAutoConfiguration</li>
+</ul>
+<p>の２つのアノテーションを付与したクラスを作成する。起動クラスと同一パッケージにあるクラスをスキャンする場合には、更に、org.springframework.context.annotation.ComponentScanアノテーションを付与する。</p>
+<p>実行されるmainメソッドで、コンフィグレーションクラス(以下の例では、自クラスにアノテーションを定義しているので、実行と定義両方の役割を兼ねている)を指定して、org.springframework.boot.autoconfigure.SpringBootApplicationを生成する。
+SpringApplication#run(args)を実行した後、取得したApplicationContextから、org.springframework.context.annotation.Beanアノテーションで定義したJavaBeanクラスや、コンポーネントスキャンで検出したクラスを取得できる。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-simpleapp-java">
+<div class="code-block-caption"><span class="caption-text">1 org.debugroom.sample.spring.boot.config.SimpleApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-simpleapp-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.bean.SampleBean</span><span class="o">;</span>
+
+<span class="nd">@ComponentScan</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAutoConfiguration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span class="o">(</span>
+            <span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">web</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+        <span class="n">SampleBean</span> <span class="n">sampleBean</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">SampleBean</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">sampleBean</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span> <span class="n">SampleBean</span> <span class="nf">sampleBean</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">SampleBean</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここでは、SpringBootApplicationインスタンスの生成に、org.springframework.boot.builder.SpringApplicationBuilderクラスを使用している。SpringBootApplicationクラスのスタティックメソッドからインスタンス生成しても良いが、pom.xmlにspring-boot-starter-webを指定していると、デフォルトでは、Servletコンテナを起動するため、ここでは、setWebEnvironment(false)を指定した上で、SpringBootApplicationを生成してからServletコンテナを起動せずに実行している。</p>
+</div>
+<p>なお、実行したJavaBeanは以下の通りである。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-bean-samplebean-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.bean.SampleBean.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-bean-samplebean-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.bean</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleBean</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">(){</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; #display() called.&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="jpa">
+<span id="section2-2-springboot-usage-database-label"></span><h2>JPAを用いたデータベースアクセス<a class="headerlink" href="#jpa" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.spring.io/spring-boot/docs/1.4.1.RELEASE/reference/htmlsingle/#boot-features-configure-datasource">Spring Bootの公式ドキュメント 29.1.1 Embedded Database Support</a> では、
+JPAをデータベースアクセスを行う場合は、pom.xmlで、スターターにspring-data-jpaのアーティファクトを加える。ここでは、データベースとしてHSQL及びPostgreSQLを使用した例を示す。</p>
+<div class="literal-block-wrapper container" id="pom-xml">
+<div class="code-block-caption"><span class="caption-text">pom.xml</span><a class="headerlink" href="#pom-xml" title="Permalink to this code">¶</a></div>
+<div class="highlight-xml"><div class="highlight"><pre> <span class="nt">&lt;dependency&gt;</span>
+   <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+   <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+ <span class="nt">&lt;/dependency&gt;</span>
+ <span class="nt">&lt;dependency&gt;</span>
+   <span class="nt">&lt;groupId&gt;</span>org.hsqldb<span class="nt">&lt;/groupId&gt;</span>
+   <span class="nt">&lt;artifactId&gt;</span>hsqldb<span class="nt">&lt;/artifactId&gt;</span>
+ <span class="nt">&lt;/dependency&gt;</span>
+ <span class="nt">&lt;dependency&gt;</span>
+   <span class="nt">&lt;groupId&gt;</span>org.postgresql<span class="nt">&lt;/groupId&gt;</span>
+   <span class="nt">&lt;artifactId&gt;</span>postgresql<span class="nt">&lt;/artifactId&gt;</span>
+ <span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>新たに設定用のコンフィグクラスを加える。データベース用のアクセスは開発環境と、商用環境では異なるため、プロファイルによって環境を切り替える形で設定を行う。
+開発環境用としてHSQLを使用する場合、H2、HSQL、Derbyでは、設定がオートで行われるため、URLや接続情報を設定する必要はない。また、これらのデータベースに対して、オートシャットダウンオプションは使えなくなるので注意。コンフィグクラスの定義は以下の通りとなる。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-infra-env-dbconfigdev-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.infra.env.DBConfigDev.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-infra-env-dbconfigdev-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config.infra.env</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Profile</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">&quot;dev&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DBConfigDev</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">dataSource</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="o">(</span><span class="k">new</span> <span class="n">EmbeddedDatabaseBuilder</span><span class="o">())</span>
+                        <span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="n">EmbeddedDatabaseType</span><span class="o">.</span><span class="na">HSQL</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">addScript</span><span class="o">(</span><span class="s">&quot;classpath:ddl/schema.sql&quot;</span><span class="o">)</span>
+                        <span class="o">.</span><span class="na">addScript</span><span class="o">(</span><span class="s">&quot;classpath:ddl/data.sql&quot;</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>EmbeddedDatabaseBuilderを使用して、データベースの初期化スクリプトを実行し、インメモリ上にデータベースを構築する。このデータソース定義が開発環境のみで使用されるように、org.springframework.context.annotation.Profileアノテーションに開発環境を示す任意の文字列を定義しておく(ここでは&#8221;dev&#8221;)。</p>
+<p>また、以下のデータベースには以下のようなテーブルを構築し、データを追加する。</p>
+<div class="literal-block-wrapper container" id="src-main-resources-ddl-schema-sql">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/ddl/schema.sql</span><a class="headerlink" href="#src-main-resources-ddl-schema-sql" title="Permalink to this code">¶</a></div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="cm">/* Drop Tables */</span>
+
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">ADDRESS</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">PHONE</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">EMAIL</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">CREDENTIAL</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">USR</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">COMPANY</span><span class="p">;</span>
+
+<span class="cm">/* Create Tables */</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">ADDRESS</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">ADDRESS_NO</span> <span class="nb">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">POST_CD</span> <span class="nb">char</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">ADDRESS</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">ADDRESS_DETAIL</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">,</span> <span class="n">ADDRESS_NO</span><span class="p">),</span>
+<span class="p">)</span> <span class="p">;</span>
+
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">COMPANY</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">COMPANY_NAME</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">)</span>
+<span class="p">)</span> <span class="p">;</span>
+
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">CREDENTIAL</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">CREDENTIAL_NO</span> <span class="nb">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">CREDENTIAL_TYPE</span> <span class="nb">char</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">CREDENTIAL_KEY</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">KEY_EXPIRED_DATE</span> <span class="k">timestamp</span><span class="p">,</span>
+    <span class="n">ACCESS_TOKEN</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span>
+    <span class="n">TOKEN_EXPIRED_DATE</span> <span class="k">timestamp</span> <span class="k">with</span> <span class="n">time</span> <span class="k">zone</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">,</span> <span class="n">CREDENTIAL_NO</span><span class="p">),</span>
+<span class="p">)</span> <span class="p">;</span>
+
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">EMAIL</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">EMAIL_NO</span> <span class="nb">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">EMAIL</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">,</span> <span class="n">EMAIL_NO</span><span class="p">),</span>
+<span class="p">)</span> <span class="p">;</span>
+
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">PHONE</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">PHONE_NO</span> <span class="nb">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">PHONE_NUMBER</span> <span class="nb">char</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span>
+    <span class="n">RELATED_ADDRESS_NO</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">,</span> <span class="n">PHONE_NO</span><span class="p">),</span>
+<span class="p">)</span> <span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">USR</span>
+<span class="p">(</span>
+    <span class="n">COMPANY_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_ID</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">USER_NAME</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">LOGIN_ID</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">UNIQUE</span><span class="p">,</span>
+    <span class="n">BIRTHDAY</span> <span class="nb">char</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+    <span class="n">AUTHORITY_LEVEL</span> <span class="nb">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">IS_LOGIN</span> <span class="nb">boolean</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">),</span>
+<span class="p">)</span> <span class="p">;</span>
+
+<span class="cm">/* Create Foreign Keys */</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">USR</span>
+    <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">)</span>
+    <span class="k">REFERENCES</span> <span class="n">COMPANY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">)</span>
+    <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">RESTRICT</span>
+    <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">RESTRICT</span>
+<span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">ADDRESS</span>
+    <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">REFERENCES</span> <span class="n">USR</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">RESTRICT</span>
+    <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">RESTRICT</span>
+<span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">PHONE</span>
+    <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">REFERENCES</span> <span class="n">USR</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">RESTRICT</span>
+    <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">RESTRICT</span>
+<span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">EMAIL</span>
+    <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">REFERENCES</span> <span class="n">USR</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">RESTRICT</span>
+    <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">RESTRICT</span>
+<span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">CREDENTIAL</span>
+    <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">REFERENCES</span> <span class="n">USR</span> <span class="p">(</span><span class="n">COMPANY_ID</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">)</span>
+    <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">RESTRICT</span>
+    <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">RESTRICT</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="src-main-resources-ddl-data-sql">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/ddl/data.sql</span><a class="headerlink" href="#src-main-resources-ddl-data-sql" title="Permalink to this code">¶</a></div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">ADDRESS</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">CREDENTIAL</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">PHONE</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">EMAIL</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">USR</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">COMPANY</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;NTT DATA&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">COMPANY</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;NTT DATA.Inc&#39;</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USR</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="s1">&#39;デバッグルーム0&#39;</span><span class="p">,</span> <span class="s1">&#39;org.debugroom&#39;</span><span class="p">,</span> <span class="s1">&#39;20141104 &#39;</span><span class="p">,</span> <span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USR</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="s1">&#39;(・∀・)&#39;</span><span class="p">,</span> <span class="s1">&#39;org.debugroom2&#39;</span><span class="p">,</span> <span class="s1">&#39;20141104 &#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USR</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="s1">&#39;でバッグルーム1&#39;</span><span class="p">,</span> <span class="s1">&#39;org.debugroom3&#39;</span><span class="p">,</span> <span class="s1">&#39;20141104 &#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USR</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="s1">&#39;でバッグルーム2&#39;</span><span class="p">,</span> <span class="s1">&#39;org.debugroom4&#39;</span><span class="p">,</span> <span class="s1">&#39;20141104 &#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMAIL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;test@test.co.jp&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMAIL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;test@test.com&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMAIL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;test@test.co.jp&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMAIL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;test@test.com&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMAIL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;test@test.org&#39;</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">PHONE</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;09012345678&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">PHONE</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;09087654321&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">PHONE</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;09023456789&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">PHONE</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;09098765432&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">PHONE</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;09034567890&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CREDENTIAL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;0000&#39;</span><span class="p">,</span> <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>  <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">,</span>  <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>   <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CREDENTIAL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;0000&#39;</span><span class="p">,</span> <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>  <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">,</span>  <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>   <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CREDENTIAL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;0000&#39;</span><span class="p">,</span> <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>  <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">,</span>  <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>   <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CREDENTIAL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;0000&#39;</span><span class="p">,</span> <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>  <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">,</span>  <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>   <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CREDENTIAL</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;0000&#39;</span><span class="p">,</span> <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>  <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">,</span>  <span class="s1">&#39;1234567890qwertyuioasdfghjklzxcvbnm&#39;</span><span class="p">,</span>   <span class="s1">&#39;2015-01-01 00:00:00.0&#39;</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ADDRESS</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1358671&#39;</span><span class="p">,</span> <span class="s1">&#39;東京都江東区豊洲３－３－９&#39;</span><span class="p">,</span> <span class="s1">&#39;豊洲センタービルアネックス&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ADDRESS</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;1358671&#39;</span><span class="p">,</span> <span class="s1">&#39;東京都江東区豊洲３－３－９&#39;</span><span class="p">,</span> <span class="s1">&#39;豊洲センタービルアネックス&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ADDRESS</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000000&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1358671&#39;</span><span class="p">,</span> <span class="s1">&#39;東京都江東区豊洲３－３－９&#39;</span><span class="p">,</span> <span class="s1">&#39;豊洲センタービルアネックス&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ADDRESS</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000000&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1358671&#39;</span><span class="p">,</span> <span class="s1">&#39;東京都江東区豊洲３－３－９&#39;</span><span class="p">,</span> <span class="s1">&#39;豊洲センタービルアネックス&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ADDRESS</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;0000000001&#39;</span><span class="p">,</span> <span class="s1">&#39;00000001&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;1358671&#39;</span><span class="p">,</span> <span class="s1">&#39;東京都江東区豊洲３－３－９&#39;</span><span class="p">,</span> <span class="s1">&#39;豊洲センタービルアネックス&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>また、データベースアクセスの方法をJPAから変更する場合に備えて、JPAに関する定義を切り出してプロファイル&#8221;jpa&#8221;で作成しておく。この場合の定義は、</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-infra-dbconfigjpa-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.infra.DBConfigJpa.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-infra-dbconfigjpa-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config.infra</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Properties</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Profile</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.JpaTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.JpaVendorAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.PlatformTransactionManager</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">&quot;jpa&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DBConfigJpa</span> <span class="o">{</span>
+
+   <span class="nd">@Autowired</span>
+   <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">;</span>
+
+   <span class="nd">@Bean</span>
+   <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">transactionManager</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">{</span>
+       <span class="k">return</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="nd">@Bean</span>
+   <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">entityManagerFactory</span><span class="o">(){</span>
+
+       <span class="n">JpaVendorAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HibernateJpaVendorAdapter</span><span class="o">();</span>
+
+       <span class="n">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+       <span class="n">properties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&quot;hibernate.show_sql&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">);</span>
+       <span class="n">properties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&quot;hibernate.format_sql&quot;</span><span class="o">,</span> <span class="s">&quot;true&quot;</span><span class="o">);</span>
+
+       <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="n">emfb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span><span class="o">();</span>
+       <span class="n">emfb</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.boot.entity&quot;</span><span class="o">);</span>
+       <span class="n">emfb</span><span class="o">.</span><span class="na">setJpaProperties</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+       <span class="n">emfb</span><span class="o">.</span><span class="na">setJpaVendorAdapter</span><span class="o">(</span><span class="n">adapter</span><span class="o">);</span>
+       <span class="n">emfb</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">);</span>
+
+       <span class="k">return</span> <span class="n">emfb</span><span class="o">;</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LocalContainerEntityManagerFactoryBeanに設定するパッケージはエンティティクラスを指定すること。</p>
+</div>
+<p>以下に上記のテーブルCOMPANYを表現するエンティティクラスCompanyの例を示す。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-entity-company-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.entity.Company.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-entity-company-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.entity</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashSet</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Column</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.FetchType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.OneToMany</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Table</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.fasterxml.jackson.annotation.JsonIgnore</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;company&quot;</span><span class="o">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="s">&quot;public&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Company</span> <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">companyId</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">companyName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Usr</span><span class="o">&gt;</span> <span class="n">usrs</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Usr</span><span class="o">&gt;(</span><span class="mi">0</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="nf">Company</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Company</span><span class="o">(</span><span class="n">String</span> <span class="n">companyId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">companyId</span> <span class="o">=</span> <span class="n">companyId</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Company</span><span class="o">(</span><span class="n">String</span> <span class="n">companyId</span><span class="o">,</span> <span class="n">String</span> <span class="n">companyName</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Usr</span><span class="o">&gt;</span> <span class="n">usrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">companyId</span> <span class="o">=</span> <span class="n">companyId</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">companyName</span> <span class="o">=</span> <span class="n">companyName</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">usrs</span> <span class="o">=</span> <span class="n">usrs</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;company_id&quot;</span><span class="o">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">10</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCompanyId</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">companyId</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCompanyId</span><span class="o">(</span><span class="n">String</span> <span class="n">companyId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">companyId</span> <span class="o">=</span> <span class="n">companyId</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;company_name&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCompanyName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">companyName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCompanyName</span><span class="o">(</span><span class="n">String</span> <span class="n">companyName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">companyName</span> <span class="o">=</span> <span class="n">companyName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@JsonIgnore</span>
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span> <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">&quot;company&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Usr</span><span class="o">&gt;</span> <span class="nf">getUsrs</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">usrs</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUsrs</span><span class="o">(</span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Usr</span><span class="o">&gt;</span> <span class="n">usrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">usrs</span> <span class="o">=</span> <span class="n">usrs</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上記では、当該エンティティをJsonにシリアライズする際、双方向の関連があると、循環参照してしまうため、OneToManyの関連をもつUsrのコレクションにom.fasterxml.jackson.annotation.JsonIgnoreアノテーションを付与している。</p>
+</div>
+<p>生成したエンティティクラスは、META-INF配下のpersistence.xmlに配置しておく。</p>
+<div class="literal-block-wrapper container" id="src-main-resources-meta-inf-persistence-xml">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/META-INF/persistence.xml</span><a class="headerlink" href="#src-main-resources-meta-inf-persistence-xml" title="Permalink to this code">¶</a></div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;persistence</span> <span class="na">version=</span><span class="s">&quot;2.1&quot;</span> <span class="na">xmlns=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/persistence&quot;</span>
+   <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+   <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://xmlns.jcp.org/xml/ns/persistence</span>
+<span class="s">   http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;persistence-unit</span> <span class="na">name=</span><span class="s">&quot;sample-spring-boot&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;provider&gt;</span>org.hibernate.ejb.HibernatePersistence<span class="nt">&lt;/provider&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Address<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.AddressId<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Company<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Credential<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.CredentialId<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Email<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.EmailId<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Phone<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.PhoneId<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.Usr<span class="nt">&lt;/class&gt;</span>
+        <span class="nt">&lt;class&gt;</span>org.debugroom.sample.spring.boot.entity.UsrId<span class="nt">&lt;/class&gt;</span>
+    <span class="nt">&lt;/persistence-unit&gt;</span>
+ <span class="nt">&lt;/persistence&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>また、Spring Dataを使ってデータベースアクセスする際に利用するRepositoryクラスを読み込み、トランザクション管理を有効にするためのEnableTransactionManagementアノテーションを設定する定義クラスを作成しておく。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-infra-simpleappinfra-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.infra.SimpleAppInfra.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-infra-simpleappinfra-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config.infra</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.config.EnableJpaRepositories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.EnableTransactionManagement</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableTransactionManagement</span>
+<span class="nd">@EnableJpaRepositories</span><span class="o">(</span><span class="n">basePackages</span><span class="o">=</span><span class="s">&quot;org.debugroom.sample.spring.boot.repository&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleAppInfra</span> <span class="o">{</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>Repositoryクラスは以下の通り、作成する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-repository-companyrepository-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.repository.CompanyRepository.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-repository-companyrepository-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.repository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.entity.Company</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CompanyRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;{</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Spring Data JPAでは、エンティティクラスを作成しておけば、org.springframework.data.jpa.repository.JpaRepositoryを継承するインターフェースを作成するだけでよい。これはSpring DataがGenericDaoパターンに基づくデータベースアクセスのための実行クラスを提供しているためである。</p>
+</div>
+<p>こうして作成したデータベースアクセスのためのRepositoryクラスは、コンポーネントスキャンされた任意のBeanでDIして使用可能になる。</p>
+<div class="literal-block-wrapper container" id="id2">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.bean.SampleBean.java</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.bean</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.repository.CompanyRepository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleBean</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">CompanyRepository</span> <span class="n">companyRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">(){</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; #display() called.&quot;</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="n">companyRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>アプリケーションを実行する際にデフォルトで有効となるプロファイルを設定ファイルに定義する。</p>
+<div class="literal-block-wrapper container" id="src-main-resources-application-yml">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/application.yml</span><a class="headerlink" href="#src-main-resources-application-yml" title="Permalink to this code">¶</a></div>
+<div class="highlight-jproperties"><div class="highlight"><pre><span class="na">spring</span><span class="o">:</span>
+    <span class="na">profiles</span><span class="o">:</span>
+        <span class="na">active</span><span class="o">:</span> <span class="s">dev,jpa</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="src-main-resources-application-production-yml">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/application-production.yml</span><a class="headerlink" href="#src-main-resources-application-production-yml" title="Permalink to this code">¶</a></div>
+<div class="highlight-jproperties"><div class="highlight"><pre><span class="na">spring</span><span class="o">:</span>
+    <span class="na">profiles</span><span class="o">:</span> <span class="s">production</span>
+    <span class="na">datasource</span><span class="o">:</span>
+    <span class="na">url</span><span class="o">:</span> <span class="s">jdbc:postgresql://localhost:5432/sample-app</span>
+    <span class="na">username</span><span class="o">:</span> <span class="s">app</span>
+    <span class="na">password</span><span class="o">:</span> <span class="s">app</span>
+    <span class="na">driverClassName</span><span class="o">:</span> <span class="s">org.postgresql.Driver</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">src/main/resources配下にapplication.propertiesもしくはapplication.ymlを配置しておくとSpringが自動的にこれらの設定ファイルを読み込む。また追加で、appplication-{profile-name}.propertiesの形式にしておくと、プロファイル名を指定した際に、その定義ファイルが上書きで読み込まれる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここでは、開発環境用のプロファイル&#8221;dev&#8221;の他に、商用環境用のプロファイル&#8221;production&#8221;のための設定ファイルを作成している。商用環境はPostgreSQLを使用するための定義が設定ファイルに記載しており、デフォルトでデータベースの接続定義をしておくだけでSpringが自動的にデータソース定義を作成してくれる。そのため、商用環境用のDBConfigProductionクラスは作成していない。また、逆に開発環境用の設定ファイルapplication-dev.ymlも作成しているが中身は空である。データソース以外に、例えばキャッシュの定義等環境ごとに左右される設定が他にもあれば、それぞれコンフィグレーションクラスや設定ファイルを各々作成するとよい。なお、商用環境では、アプリケーション実行時のVM引数に-Dspring.profiles.active=production,jpaを指定して実行すればよい。引数なしの場合は、application.ymlの定義にある通り、開発環境のプロファイルが有効になる。</p>
+</div>
+<p>最後に、アプリケーションを起動する設定クラスを示す。</p>
+<div class="literal-block-wrapper container" id="id3">
+<div class="code-block-caption"><span class="caption-text">2- org.debugroom.sample.spring.boot.config.SimpleApp.java</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.bean.SampleBean</span><span class="o">;</span>
+
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.boot.config.infra&quot;</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAutoConfiguration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span class="o">(</span>
+                                            <span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">web</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+        <span class="n">SampleBean</span> <span class="n">sampleBean</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">SampleBean</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">sampleBean</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span> <span class="n">SampleBean</span> <span class="nf">sampleBean</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">SampleBean</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">コンポーネントスキャンのパッケージ指定を変更し、アプリケーション起動クラスのパッケージは読み込まないように変更している。同一パッケージ内にアプリケーション起動クラスが複数ある場合等、実行が失敗する場合があるので、コンフィグレーションクラスも責務ごとにパッケージを切った方がよい。</p>
+</div>
+</div>
+<div class="section" id="web">
+<span id="section2-3-springboot-usage-webapp-label"></span><h2>Webアプリケーション<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h2>
+<p>WebアプリケーションをSpringBootで作成する場合には、pom.xmlにspring-boot-maven-pluginを追加し、実行可能なJARファイルとしてパッケージングできるようにしておく。</p>
+<div class="literal-block-wrapper container" id="id4">
+<div class="code-block-caption"><span class="caption-text">pom.xmlへ定義を追加</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>Webアプリケーションのコンフィグレーション、起動クラスは以下の通りである。起動方法は、スタンドアロンアプリケーションと実行方法は変わらずSpringApplicationをrunするだけであるが、Spring MVCの設定を行うためのコンフィグレーションクラスMvcConfigを&#64;Importしている。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-simplewebapp-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.SimpleWebApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-simplewebapp-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.service.SampleService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.service.SampleServiceImpl</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Import</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.config.mvc.MvcConfig</span><span class="o">;</span>
+
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.boot.config.infra&quot;</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@Import</span><span class="o">(</span><span class="n">MvcConfig</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleWebApp</span><span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">SimpleWebApp</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">SampleService</span> <span class="nf">sampleService</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">SampleServiceImpl</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>Spring MVCの設定を以下の通り行う。Spring MVCに必要なクラスをコンポーネントスキャンして、org.springframework.web.servlet.config.annotation.EnableWebMvcアノテーションでSpring MVCの設定を有効化する。以下の例では、ViewResolverの設定と、静的コンテンツのフォルダ定義を追加している。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-mvc-mvcconfig-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.mvc.MvcConfig.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-mvc-mvcconfig-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config.mvc</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.ViewResolver</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.EnableWebMvc</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.view.InternalResourceViewResolver</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.boot.web&quot;</span><span class="o">)</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MvcConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span><span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">ViewResolver</span> <span class="nf">viewResolver</span><span class="o">(){</span>
+        <span class="n">InternalResourceViewResolver</span> <span class="n">viewResolver</span> <span class="o">=</span>
+                                            <span class="k">new</span> <span class="n">InternalResourceViewResolver</span><span class="o">();</span>
+        <span class="n">viewResolver</span><span class="o">.</span><span class="na">setPrefix</span><span class="o">(</span><span class="s">&quot;/WEB-INF/views/&quot;</span><span class="o">);</span>
+        <span class="n">viewResolver</span><span class="o">.</span><span class="na">setSuffix</span><span class="o">(</span><span class="s">&quot;.jsp&quot;</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">viewResolver</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">&quot;/resources/**&quot;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">&quot;classpath:/static/&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>また、Webコンテナ(ServletContext)のコンフィグレーションクラスの作成を行う。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-config-mvc-servletinitializer-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.config.mvc.ServletInitializer.java</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-config-mvc-servletinitializer-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.config.mvc</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.web.support.SpringBootServletInitializer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServletInitializer</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span><span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">ServletInitializer</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>MvcConfigクラスからコンポーネントスキャンしているパッケージにControllerクラスを作成する。以下では、前節で作成したデータベースアクセスクラスを使って、データベースから取得したエンティティをJSON形式で返却するControllerクラスを作成した。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-boot-web-samplecontroller">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.boot.web.SampleController</span><a class="headerlink" href="#org-debugroom-sample-spring-boot-web-samplecontroller" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.boot.web</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.HttpStatus</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMethod</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.entity.Company</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.boot.service.SampleService</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleController</span> <span class="o">{</span>
+
+   <span class="nd">@Autowired</span>
+   <span class="n">SampleService</span> <span class="n">sampleService</span><span class="o">;</span>
+
+   <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;/sample&quot;</span><span class="o">,</span> <span class="n">method</span><span class="o">=</span><span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+   <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;&gt;</span> <span class="nf">sample</span><span class="o">(){</span>
+     <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">).</span><span class="na">body</span><span class="o">(</span>
+                                 <span class="n">sampleService</span><span class="o">.</span><span class="na">getCompanies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を作成した後、Eclipse上から商用環境を想定して、プロファイルを&#8221;production,jpa&#8221;に切り替えて実行する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/springboot-launch-webapp.png"><img alt="../../../_images/springboot-launch-webapp.png" src="../../../_images/springboot-launch-webapp.png" /></a>
+</div>
+<p>サーバが起動したら、<a class="reference external" href="http://localhost:8080">http://localhost:8080</a>/sampleへアクセスすると以下の実行結果が得られる。</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">[{</span><span class="nt">&quot;companyId&quot;</span><span class="p">:</span><span class="s2">&quot;0000000000&quot;</span><span class="p">,</span><span class="nt">&quot;companyName&quot;</span><span class="p">:</span><span class="s2">&quot;NTT DATA&quot;</span><span class="p">},{</span><span class="nt">&quot;companyId&quot;</span><span class="p">:</span><span class="s2">&quot;0000000001&quot;</span><span class="p">,</span><span class="nt">&quot;companyName&quot;</span><span class="p">:</span><span class="s2">&quot;NTT DATA.Inc&quot;</span><span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../../database/cassandra/index.html" class="btn btn-neutral float-right" title="Cassandra" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

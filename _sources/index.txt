@@ -11,9 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   convention/screen/index.rst
+   java/jBatch/index.rst
+   java/spring/springboot/index.rst
+   database/cassandra/index.rst
    memo/work/index.rst
-   test.rst
 
 Indices and tables
 ==================
