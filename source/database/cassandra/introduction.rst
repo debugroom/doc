@@ -2,7 +2,7 @@
 
 .. _section1-cassandra-introduction-label:
 
-イントロダクション
+Introduction
 =====================================================
 
 Cassandraは Amazon Dynamoの分散デザインと、Google Bigtableのデータモデルを併せ持つ非中央集権型で、伸縮自在なスケール、高可用性、耐障害性、設定可能な一貫性を備えたカラム指向型データベースである。

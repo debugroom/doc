@@ -12,10 +12,10 @@
 
 インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を、キースペース、テーブルの作成は、`データベースの定義 <http://debugroom.github.io/doc/database/cassandra/definition.html>`_ を参照すること。
 
-[OS]
+[OS] |br|
 MacOSX 10.9.5
 
-[JVM]
+[JVM] |br|
 Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)
 
 [バージョン]

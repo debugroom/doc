@@ -13,6 +13,7 @@ Contents:
 
    java/jBatch/index.rst
    java/spring/springboot/index.rst
+   java/spring/springdatajpa/index.rst
    database/cassandra/index.rst
    memo/work/index.rst
 

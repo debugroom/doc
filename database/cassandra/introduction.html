@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>イントロダクション &mdash; document 0.1-SNAPSHOTS documentation</title>
+  <title>Introduction &mdash; document 0.1-SNAPSHOTS documentation</title>
   
 
   
@@ -85,8 +85,9 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">イントロダクション</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Introduction</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cassandra">Cassandraの特徴</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section1-1-1-cassandra-feature-label">非中央集権型分散データベース</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section1-1-2-cassandra-feature-label">伸縮自在なスケール</a></li>
@@ -98,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section1-2-1-cassandra-effective-usecase-label">多数のコモディティサーバで構成されるアプリケーション</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section1-2-2-cassandra-effective-usecase-label">大量の書き込み、統計、解析</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">地域分散</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">地域分散</a></li>
 </ul>
 </li>
 </ul>
@@ -142,7 +143,7 @@
       
           <li><a href="index.html">Cassandra</a> &raquo;</li>
       
-    <li>イントロダクション</li>
+    <li>Introduction</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -156,25 +157,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="section1-cassandra-introduction-label">
-<span id="id1"></span><h1>イントロダクション<a class="headerlink" href="#section1-cassandra-introduction-label" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introduction">
+<span id="section1-cassandra-introduction-label"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Cassandraは Amazon Dynamoの分散デザインと、Google Bigtableのデータモデルを併せ持つ非中央集権型で、伸縮自在なスケール、高可用性、耐障害性、設定可能な一貫性を備えたカラム指向型データベースである。</p>
 <div class="section" id="cassandra">
 <span id="section1-1-cassandra-feature-label"></span><h2>Cassandraの特徴<a class="headerlink" href="#cassandra" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section1-1-1-cassandra-feature-label">
-<span id="id2"></span><h3>非中央集権型分散データベース<a class="headerlink" href="#section1-1-1-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3>非中央集権型分散データベース<a class="headerlink" href="#section1-1-1-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
 <p>多くのデータストアでは、マスター/スレーブ構成をとり、信頼できるリソースとしてのマスターをもとにスレーブ上にマスターのコピーを配置することになるが、Cassandraはいかなるノードも他のノードへの管理操作を持たず、全てのノードが同一のものとして扱われ、任意の特定のノードへの更新は同時に別のノードへも行われる。Cassandraはピアツーピアプロトコルを実装しており、ノード間でゴシッププロトコルを用いて、互いの生死を確認しながら分散システムを構築している。基本的にはデータセンターを跨がることを前提に設計されており、クラスタ間のいかなるノードにもデータを書き込める。こうしたアーキテクチャはマスター/スレーブ構成をもつデータストアとは異なり、単一障害点が存在しないことを意味する。</p>
 </div>
 <div class="section" id="section1-1-2-cassandra-feature-label">
-<span id="id3"></span><h3>伸縮自在なスケール<a class="headerlink" href="#section1-1-2-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>伸縮自在なスケール<a class="headerlink" href="#section1-1-2-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
 <p>伸縮自在なスケーラビリティとは、クラスタがシームレスにスケールアウトとシュリンクを行うことが出来るということで、新しく参加するノードは全てのデータコピーを保持してクラスタ内に組み込まれる。新規ノードを追加する際も、Cassandraはクラスタ全体の再設定や、プロセスの再起動、データのリバランス等、これらの問題を回避してサービスを継続可能である。</p>
 </div>
 <div class="section" id="section1-1-3-cassandra-feature-label">
-<span id="id4"></span><h3>高可用性及び耐障害性<a class="headerlink" href="#section1-1-3-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>高可用性及び耐障害性<a class="headerlink" href="#section1-1-3-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraはダウンタイムなしで、クラスタ内の障害のあったノードを交換することが出来、ローカルでのパフォーマンスを向上させたり、データセンタが被災した場合に備え、複数のデータセンタでデータをレプリケートすることを前提に設計されている。</p>
 </div>
 <div class="section" id="section1-1-4-cassandra-feature-label">
-<span id="id5"></span><h3>設定可能な一貫性<a class="headerlink" href="#section1-1-4-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>設定可能な一貫性<a class="headerlink" href="#section1-1-4-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraは結果整合性をもつデータベースとよく呼ばれるが、ただしくは、設定可能な一貫性を持つデータベースである。正確ではない。一貫性はACID属性で言えば、読み手がお互いに矛盾したことなる値を参照することなく、データの状態がある状態へと正しく遷移することであるが、一貫性にはレベルがあり、Cassandraではクライアントが全ての更新においてブロックするレプリカ数をレプリケーションファクタによって制御可能である。</p>
 </div>
 <div class="section" id="row">
@@ -183,18 +184,18 @@
 </div>
 </div>
 <div class="section" id="section1-2-cassandra-effective-usecase-label">
-<span id="id6"></span><h2>Cassandraのメリットが活かせるユースケース<a class="headerlink" href="#section1-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2>Cassandraのメリットが活かせるユースケース<a class="headerlink" href="#section1-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h2>
 <p>前述したCassandraのメリットを最大限生かすユースケースを列挙する。</p>
 <div class="section" id="section1-2-1-cassandra-effective-usecase-label">
-<span id="id7"></span><h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink" href="#section1-2-1-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink" href="#section1-2-1-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
 <p>単一ノードのリレーショナルデータベースで賄える状況でCassandraを導入するのは適切ではない。最低でも複数ノードが必要な状況ではCassandraはよりよい選択肢となりえる。</p>
 </div>
 <div class="section" id="section1-2-2-cassandra-effective-usecase-label">
-<span id="id8"></span><h3>大量の書き込み、統計、解析<a class="headerlink" href="#section1-2-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>大量の書き込み、統計、解析<a class="headerlink" href="#section1-2-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraは特に書き込みのスループットが高速になるよう最適化されている。初期から使用する多くの企業がユーザのアクティビティ更新、ソーシャルネットワーク、リコメンド/レビュー、アプリケーションの統計といったデータの保存に使用している。これらの利用例は大量の書き込みがある上に予測可能な読み込みが少ない点、更新も不均等に発生するためのノードの追加が容易なCassandraがフィットする案件と言える。近年では、IoTの代表格であるM2Mを用いたセンサーをクライアントにもつサーバ側のデータストアの選択肢として候補に挙げられるだろう。</p>
 </div>
-<div class="section" id="id9">
-<span id="id10"></span><h3>地域分散<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<span id="id9"></span><h3>地域分散<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraはデータの地域分散を標準でサポートする。複数のデータセンターに跨がってデータをレプリケートすることを簡単に行える。ユーザの近くでデータを置くことでパフォーマンスの上の利点があるグローバルな環境にデプロイするアプリケーションがフィットする。</p>
 </div>
 </div>

@@ -12,10 +12,10 @@ Cassandraの起動
 
 インストール手順は、`Cassandraのインストール <http://debugroom.github.io/doc/memo/work/cassandra/install.html>`_ を参考のこと。
 
-[OS]
+[OS] |br|
 MacOSX 10.9.5
 
-[JVM]
+[JVM] |br|
 Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)
 
 [バージョン]
