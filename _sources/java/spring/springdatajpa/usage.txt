@@ -1360,9 +1360,9 @@ simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.
        group0_.group_name=?   
 
 
-.. _section2-1-spring-data-jpa-usage-one-to-one-label:
+.. _section2-2-spring-data-jpa-usage-one-to-one-label:
 
-1対1の関連を持つテーブル間でのデータ操作
+1対1の関連テーブルにおけるデータ操作
 ---------------------------------------------------
 
 1対1の関連テーブル(本サンプルでは、ユーザと住所)のデータ操作に関して以下のようなユースケースを考える。
@@ -1370,7 +1370,680 @@ simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.
 * 指定されたユーザの住所を取得する。
 * 特定の郵便番号を持つユーザ一覧を取得する。
 * 特定の郵便番号を持たないユーザ一覧を取得する
+* 指定されたユーザの住所を追加する。
 * 指定されたユーザの住所を更新する。
 * 指定されたユーザの住所を削除する。
 * 指定されたユーザの情報を住所を含めて削除する。
 
+基本的には、:ref:`前章、シンプルなデータアクセス<section2-1-spring-data-jpa-usage-simple-access-label>` で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。
+
+.. _section2-2-1-spring-data-jpa-usage-one-to-one-service-label:
+
+サービスインターフェースの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* 指定されたユーザの住所を取得する。→ getAddress(User user)
+* 特定の郵便番号を持つユーザ一覧を取得する。→ getUsersWith(String zipCd)
+* 特定の郵便番号を持たないユーザ一覧を取得する → getUsersWithout(String zipCd)
+* 指定されたユーザの住所を追加する。 → addAddress(Address address)
+* 指定されたユーザの住所を更新する。 → updateAddress(String userId, Address address)
+* 指定されたユーザの住所を削除する。 → deleteAddress(String userId)
+* 指定されたユーザの情報を住所を含めて削除する。 → deleteUser(String userId)
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleService.java
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.List;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+
+   public interface OneToOneSampleService {
+
+       public Address getAddress(User user);
+  
+       public List<User> getUsersWith(String zipCd);
+  
+       public List<User> getUsersWithout(String zipCd);
+  
+       public User addAddress(Address address);
+
+       public void updateAddress(String userId, Address address);
+  
+       public void deleteAddress(String userId);
+  
+       public void deleteUser(String userId);
+  
+   }
+
+.. _section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label:
+
+コンフィグレーションクラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+データベースの環境の設定は、:ref:`前章 シンプルなデータアクセス時の設定<section2-1-5-spring-data-jpa-usage-simple-access-configuration-label>` を流用し、サービスを実行する設定ファイルクラスを新規作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.config.OneToOneSampleApp.java
+
+   package org.debugroom.sample.spring.jpa.config;
+
+   import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+   import org.springframework.boot.builder.SpringApplicationBuilder;
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.ComponentScan;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.context.ConfigurableApplicationContext;
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleService;
+   import org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl;
+
+   @ComponentScan("org.debugroom.sample.spring.jpa.config.infra")
+   @Configuration
+   @EnableAutoConfiguration
+   public class OneToOneSampleApp {
+
+       public static void main(String[] args){
+           ConfigurableApplicationContext context = new SpringApplicationBuilder(
+                                                         OneToOneSampleApp.class).web(false).run(args);
+    
+           OneToOneSampleService service = context.getBean(OneToOneSampleService.class);
+           String zipCd = "135-8670";
+           service.getUsersWith(zipCd);
+           service.getUsersWithout(zipCd);
+           User user = service.addAddress(
+           Address.builder().zipCd("000-0000").address("Tokyo").build());
+           service.updateAddress(user.getUserId(), 
+           Address.builder().zipCd("100-1000").address("Japan").build());
+           service.getAddress(user);
+           service.deleteAddress(user.getUserId());
+           service.getAddress(user);
+   //      service.deleteUser(user.getUserId());
+           service.deleteUser("00000000");
+       }
+
+       @Bean OneToOneSampleService oneToOneSampleService(){
+           return new OneToOneSampleServiceImpl();
+       }
+
+   }
+
+.. _section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label:
+
+サービス実装クラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+上記で定義したサービスインターフェースを実装した結果を以下に示す
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.List;
+
+   import javax.transaction.Transactional;
+
+   import org.springframework.beans.factory.annotation.Autowired;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.repository.AddressRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.UserRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotZipCd;
+   import org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByZipCd;
+
+   import lombok.extern.slf4j.Slf4j;
+
+   @Slf4j
+   @Transactional
+   public class OneToOneSampleServiceImpl implements OneToOneSampleService{
+
+       @Autowired
+       UserRepository userRepository;
+  
+       @Autowired
+       AddressRepository addressRepository;
+  
+       @Override
+       public Address getAddress(User user) {
+           Address address = addressRepository.findOne(user.getUserId());
+           log.info(this.getClass().getName() + " : address of " + user.getUserId());
+           if(address != null){
+               log.info(this.getClass().getName() + "            - {"
+                         + address.getZipCd() + ", " + address.getAddress() + "}");
+           }else{
+               log.info(this.getClass().getName() + "            - {null, null}");
+           }
+           return address;
+       }
+
+       @Override
+       public List<User> getUsersWith(String zipCd) {
+           List<User> users = userRepository.findAll(FindUsersByZipCd.builder()
+                                                        .zipCd(zipCd).build());
+           log.info(this.getClass().getName() + " : users with zipCd " + zipCd);
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + ", "
+                          + user.getAddress().getZipCd() + ", " 
+                          + user.getAddress().getAddress() + "}");
+           }
+           return users;
+       }
+
+       @Override
+       public List<User> getUsersWithout(String zipCd) {
+           List<User> users = userRepository.findAll(FindUsersByNotZipCd.builder()
+                                                        .zipCd(zipCd).build());
+           log.info(this.getClass().getName() + " : users without zipCd " + zipCd);
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + ", "
+                          + user.getAddress().getZipCd() + ", " 
+                          + user.getAddress().getAddress() + "}");
+           }
+           return users;
+       }
+
+       @Override
+       public User addAddress(Address address) {
+           String sequence = new StringBuilder()
+                                     .append("00000000")
+                                     .append(userRepository.count())
+                                     .toString();
+           String newUserId = sequence.substring(
+                                          sequence.length()-8, sequence.length());
+           address.setUserId(newUserId);
+           User newUser = User.builder()
+                                  .userId(newUserId)
+                                  .userName("NewUser(・∀・)b")
+                                  .loginId("loginId")
+                                  .build();
+           userRepository.save(newUser);
+           newUser.setAddress(address);
+           addressRepository.save(address);
+           userRepository.flush();
+           List<User> users = userRepository.findAll();
+           log.info(this.getClass().getName() + " : users ");
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+               if(user.getUserId().equals(newUser.getUserId())){
+                   Address newAddress = newUser.getAddress();
+                   log.info(this.getClass().getName() + "  Add Address - {"
+                              + newAddress.getUserId() + ", " + newAddress.getAddress() + "}");
+               }
+           }
+           return newUser;
+       }
+
+       @Override
+       public void updateAddress(String userId, Address address) {
+           Address updateAddress = getAddress(User.builder().userId(userId).build()); 
+           updateAddress.setZipCd(address.getZipCd());
+           updateAddress.setAddress(address.getAddress());
+       }
+
+       @Override
+       public void deleteAddress(String userId) {
+           Address address = addressRepository.findOne(userId);
+           addressRepository.delete(address);
+   //      user.setAddress(null);
+   //      userRepository.save(user);
+   //      addressRepository.delete(user.getAddress());
+       }
+
+       @Override
+       public void deleteUser(String userId) {
+           User deleteUser = userRepository.findOne(userId);
+           addressRepository.delete(userId);
+           userRepository.delete(deleteUser);
+           List<User> users = userRepository.findAll();
+           log.info(this.getClass().getName() + " : users ");
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+      }
+
+   }
+
+以降、実装したサービスクラスの実装の詳細をユースケースごとに記述する。
+
+* 指定されたユーザの住所を取得する。
+
+oneToOneSampleService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。
+
+.. sourcecode:: sql
+
+   select
+       address0_.user_id as user_id1_0_0_,
+       address0_.address as address2_0_0_,
+       address0_.last_updated_date as last_upd3_0_0_,
+       address0_.ver as ver4_0_0_,
+       address0_.zip_cd as zip_cd5_0_0_ 
+   from
+       public.address address0_ 
+   where
+       address0_.user_id=?
+
+* 特定の郵便番号を持つユーザ一覧を取得する。
+
+oneToOneSampleService.getUsersWith(String zipCd)に実装しているが、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。
+JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native SQLいずれでも可能だが、ここでは、CriteriaAPIを使用して、データ取得する場合を記述する。Spring Data JPAでCriteria APIを使ってテーブル結合するには、以下の通り、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByZipCd.java
+
+   package org.debugroom.sample.spring.jpa.domain.repository.specification;
+
+   import java.util.ArrayList;
+   import java.util.List;
+
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+   import javax.persistence.criteria.Join;
+
+   import org.springframework.data.jpa.domain.Specification;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.Address_;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.entity.User_;
+
+   import lombok.Data;
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   public class FindUsersByZipCd implements Specification<User>{
+
+       private String zipCd;
+
+       @Override
+       public Predicate toPredicate(Root<User> root, 
+                                      CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+
+           List<Predicate> predicates = new ArrayList<Predicate>();
+    
+           Join<User, Address> joinAddress = root.join(User_.address);
+           predicates.add(criteriaBuilder.equal(joinAddress.get(Address_.zipCd), zipCd));
+    
+           return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+       }
+   }
+
+まず、最終的にデータ取得するエンティティ(ここでは、ユーザの一覧)のRoot<User>クラスを起点として、結合する２つのテーブルに相当するエンティティクラスを型パラメータにもつJoinクラスをjoinメソッドを通じて作成する。join()メソッドの引数には結合する際に使用するキーを `エンティティのメタモデルクラス <http://docs.jboss.org/hibernate/jpamodelgen/1.0/reference/en-US/html_single/#d0e72>`_ で指定する。上記の例では、ユーザテーブルと、アドレステーブルを結合するキーのメタモデルクラスとして、User＿.addressを引数に指定指定している。メタモデルクラスの実装は以下の通りである。
+
+.. sourcecode:: java
+   :caption: `org.debugroom.sample.spring.jpa.domain.entity.User_.java`
+
+   package org.debugroom.sample.spring.jpa.domain.entity;
+
+   import java.sql.Timestamp;
+   import javax.persistence.metamodel.SetAttribute;
+   import javax.persistence.metamodel.SingularAttribute;
+   import javax.persistence.metamodel.StaticMetamodel;
+
+   @StaticMetamodel(User.class)
+   public class User_ {
+       public static volatile SingularAttribute<User, String> userId;
+       public static volatile SingularAttribute<User, Timestamp> lastUpdatedDate;
+       public static volatile SingularAttribute<User, String> loginId;
+       public static volatile SingularAttribute<User, String> userName;
+       public static volatile SingularAttribute<User, Integer> ver;
+       public static volatile SingularAttribute<User, Address> address;
+       public static volatile SetAttribute<User, Affiliation> affiliations;
+       public static volatile SetAttribute<User, Email> emails;
+   }
+
+Joinクラスの中で、指定したzipCdとイコールとなる条件をjava.persistence.criteria.Predicateのリストに追加し、最終的にCriteriaBuilderで一つのPredicateクラスとして返却する。
+
+.. note:: 上記のメタモデルクラスはIDEのオプションで自動生成できる。以下はEclipseで作成したエンティティクラスに対して、自動的にメタモデルを作成するためのオプションの指定する画面である。JPAプロジェクト化してあるプロジェクトの設定画面を開き、JPAメニューの"正規メタモデル"を出力するソースコードを指定する。
+
+   .. figure:: img/eclipse-metamodel-generation-setting.png
+      :scale: 100%
+
+上述して作成したSpecificationクラスを利用するにはレポジトリクラスに、追加で、org.springframework.data.jpa.repository.JpaSpecificationExecutorを継承する必要がある。継承する事で、上記のSpecificationクラスを引数にとるfindAll()メソッドがレポジトリから使用可能になる。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.UserRepository.javaに更にJpaSpecificationを継承
+   
+   package org.debugroom.sample.spring.jpa.domain.repository;
+
+   import org.springframework.data.jpa.repository.JpaRepository;
+   import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+
+   public interface UserRepository extends JpaRepository<User, String>, 
+                                             JpaSpecificationExecutor<User>{
+   }
+
+実際にサービスから、郵便番号をパラメータとして、上記のSpecificationクラスを生成し、レポジトリの引数に渡して実行すれば以下のようなテーブル結合したSQLが発行される。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#getUsersWith(String zipCode)
+   
+   // omit
+
+       @Override
+       public List<User> getUsersWith(String zipCd) {
+           List<User> users = userRepository.findAll(
+                   FindUsersByZipCd.builder().zipCd(zipCd).build());
+
+.. note:: 上記はSpecificationクラスはLombokのBuilderを利用してインスタンス生成している。
+
+.. sourcecode:: sql
+   
+   select
+       user0_.user_id as user_id1_3_,
+       user0_.last_updated_date as last_upd2_3_,
+       user0_.login_id as login_id3_3_,
+       user0_.user_name as user_nam4_3_,
+       user0_.ver as ver5_3_ 
+   from
+       public.usr user0_ 
+   inner join
+       public.address address1_ 
+       on user0_.user_id=address1_.user_id 
+   where
+       address1_.zip_cd=?
+
+
+.. note:: `Spring Dataの公式ドキュメント 5.5 Specification <http://docs.spring.io/spring-data/jpa/docs/1.10.4.RELEASE/reference/html/#specifications>`_ もあわせて参照すること。
+
+* 特定の郵便番号を持たないユーザ一覧を取得する
+
+oneToOneSampleService.getUsersWithout(String zipCd)に実装しているが、基本的には、前述のユースケース「特定の郵便番号を持つユーザ一覧を取得する」と実装する内容はほぼ同じである。唯一の違いは、結合条件を指定するクラスの実装で、副問い合わせ使用して、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。その結果を元にそれに該当しないユーザをNotInを用いてユーザテーブルから抽出するクエリの条件クラスを作成する形である。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotZipCd
+   
+   package org.debugroom.sample.spring.jpa.domain.repository.specification;
+
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+   import javax.persistence.criteria.Subquery;
+   import javax.persistence.criteria.Join;
+   import javax.persistence.criteria.Path;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.Address_;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.entity.User_;
+   import org.springframework.data.jpa.domain.Specification;
+
+   import lombok.Data;
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   public class FindUsersByNotZipCd implements Specification<User>{
+  
+       private String zipCd;
+
+       @Override
+       public Predicate toPredicate(Root<User> root, 
+           CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    
+           Path<Object> path = root.get("userId");
+           Subquery<User> subQuery = criteriaBuilder.createQuery().subquery(User.class);
+           Root<User> subQueryRoot = subQuery.from(User.class);
+           Join<User, Address> subQueryJoinAddress = subQueryRoot.join(User_.address);
+           Predicate subQueryPredicate = criteriaBuilder.equal(
+                                             subQueryJoinAddress.get(Address_.zipCd), zipCd);
+           subQuery.select(subQueryRoot.get("userId"));
+           subQuery.where(subQueryPredicate);
+    
+           return criteriaBuilder.not(criteriaBuilder.in(path).value(subQuery));
+       }
+
+   }
+
+上記の検索条件クラスは、サブクエリとして、起点となるUserテーブルのRootから、AddressテーブルへJoinするクラスを作成し、結合するキーとなるクラスを同じくエンティティメタモデルクラスで指定する(User＿.address)。また、アドレステーブルのzip_cdと指定したzipCdが一致する条件をCriteriaBuilderを通じて作成し、サブクエリの条件に加える。サブクエリでは、郵便番号が一致したユーザのuserIdを抽出する形として、それをメインのクエリのNotInの条件として構成する。結局、こうして組み立てた条件クラスの実行及び、発行されるSQLは以下の通りとなる。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#getUsersWithout(String zipCode)
+
+    //omit
+
+       @Override
+       public List<User> getUsersWithout(String zipCd) {
+           List<User> users = userRepository.findAll(FindUsersByNotZipCd.builder().zipCd(zipCd).build());
+           //omit
+       }
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_,
+       user0_.last_updated_date as last_upd2_3_,
+       user0_.login_id as login_id3_3_,
+       user0_.user_name as user_nam4_3_,
+       user0_.ver as ver5_3_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id not in  (
+           select
+               user1_.user_id 
+           from
+               public.usr user1_ 
+           inner join
+               public.address address2_ 
+                   on user1_.user_id=address2_.user_id 
+           where
+               address2_.zip_cd=?
+       )
+
+
+* 指定されたユーザの住所を追加する。
+
+oneToOneSampleService.addAddress(Address address)に実装しているが、後述するAddressデータの更新や削除、ユーザの削除のためにサービスの中で新規ユーザデータを作成し、住所データを追加する実装を記述した。実際にアドレスを追加する基本的にはやり方としては、エンティティクラスを作成して、レポジトリクラスのsave()メソッドの引数として渡してしまえば完結するが、OneToOneの関連では、同じユーザIDを、Userテーブルと、Addressテーブルで主キーとして利用する以上、先にユーザデータを登録してからアドレスデータを追加する必要がある。通常、JPAにはカスケード属性があり、メインとなるエンティティ(ここではUser)に住所のエンティティクラスをプロパティにセットして、UserRepoisotry#save()メソッドだけ実行すれば十分なはずであるが、先に住所データを作成しにいく挙動をとったため、一気にやろうとすると、異常終了した(コメントアウト)。
+
+.. todo:: OneToOne関連のデータ登録の再検証が必要。Spring Dataを使用せず、純粋なJPAのAPIを用いてOneToOne関連のデータ登録を実行した場合の結果を含めて確認する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#addAddress(Address address)
+
+   
+   // omit
+       @Override
+       public User addAddress(Address address) {
+           String sequence = new StringBuilder()
+                                   .append("00000000")
+                                   .append(userRepository.count())
+                                   .toString();
+           String newUserId = sequence.substring(
+                                   sequence.length()-8, sequence.length());
+           address.setUserId(newUserId);
+           User newUser = User.builder()
+                                .userId(newUserId)
+                                .userName("NewUser(・∀・)b")
+   //                           .address(address)
+                                .loginId("loginId")
+                                .build();
+           userRepository.save(newUser);
+           newUser.setAddress(address);
+           addressRepository.save(address);
+           userRepository.flush();
+           List<User> users = userRepository.findAll();
+           log.info(this.getClass().getName() + " : users ");
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+               if(user.getUserId().equals(newUser.getUserId())){
+                   Address newAddress = newUser.getAddress();
+                   log.info(this.getClass().getName() + "  Add Address - {"
+                              + newAddress.getUserId() + ", " + newAddress.getAddress() + "}");
+               }
+           }
+           return newUser;
+      }
+
+以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   insert 
+       into
+           public.usr
+           (last_updated_date, login_id, user_name, ver, user_id) 
+       values
+            (?, ?, ?, ?, ?)
+   insert 
+       into
+           public.address
+           (address, last_updated_date, ver, zip_cd, user_id) 
+       values
+           (?, ?, ?, ?, ?)
+
+
+* 指定されたユーザの住所を更新する。
+
+oneToOneSampleService.updateAddress(String userId, Address address)に実装している。基本的なデータ更新のやり方としては、更新対象のエンティティクラスを取得して、値を更新するのみで良い。トランザクション境界をまたぐと自動的にupdate文が発行される。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#updateAddress(String userId, Address address)
+   
+   // omit
+       @Override
+       public void updateAddress(String userId, Address address) {
+           Address updateAddress = getAddress(User.builder().userId(userId).build()); 
+           updateAddress.setZipCd(address.getZipCd());
+           updateAddress.setAddress(address.getAddress());
+       }
+
+.. sourcecode:: sql
+
+   update
+       public.address 
+   set
+       address=?,
+       last_updated_date=?,
+       ver=?,
+       zip_cd=? 
+   where
+       user_id=?  
+
+.. note:: パラメータを更新しただけでUPDATE文が発行される理由については、`エンティティのライフサイクル管理 <http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#entity>`_ を十分理解しておく必要がある。
+
+* 指定されたユーザの住所を削除する。
+
+oneToOneSampleService.deleteAddress(String userId)に実装している。基本的なデータ削除のやり方としては、AddressRepository.delete()メソッドでエンティティを指定すればよい。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteAddress(String userId)
+   
+   // omit
+       @Override
+       public void deleteAddress(String userId) {
+           Address address = addressRepository.findOne(userId);
+           addressRepository.delete(address);
+   //    user.setAddress(null);
+   //    userRepository.save(user);
+   //    addressRepository.delete(user.getAddress());
+       }
+
+.. sourcecode:: sql
+
+   delete 
+       from
+           public.address 
+       where
+           user_id=?
+
+.. todo:: Userのaddressプロパティを明示的にnullにすれば、データ削除されるはずではあるが、特に更新はされず。@OneToOneアノテーションに関連する理由か検証は必要。
+
+* 指定されたユーザの情報を住所を含めて削除する。
+
+oneToOneSampleService.deleteUser(String userId)に実装している。基本的なデータ削除のやり方としては、UserRepository.delete()メソッドでエンティティを指定すればよい。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteUser(String userId)
+
+   //omit
+       @Override
+       public void deleteUser(String userId) {
+           User deleteUser = userRepository.findOne(userId);
+           addressRepository.delete(userId);
+           userRepository.delete(deleteUser);
+           List<User> users = userRepository.findAll();
+           log.info(this.getClass().getName() + " : users ");
+           for(User user : users){
+               log.info(this.getClass().getName() + "            - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+       }
+
+ただし、ユーザデータのように住所以外にもEmailやAffiliationなど事前にデータが残っていると削除処理で異常終了する。まとめて削除するにはエンティティの関連アノテーションのカスケード属性を設定しておく必要がある。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.entity.User
+
+   //omit
+
+       @OneToOne(mappedBy="usr", optional=false, fetch= FetchType.LAZY,
+                 cascade= CascadeType.ALL)
+       private Address address;
+
+       @OneToMany(fetch = FetchType.LAZY, mappedBy = "usr", cascade= CascadeType.ALL)
+       private Set<Affiliation> affiliations;
+
+       @OneToMany(mappedBy="usr", cascade= CascadeType.ALL)
+       private Set<Email> emails;
+
+   //omit
+
+発行されるSQLは以下の通りである。
+
+.. sourcecode:: sql
+
+   delete 
+       from
+           public.address 
+       where
+           user_id=?
+
+   delete 
+       from
+           public.affiliation 
+       where
+           group_id=? 
+       and user_id=?
+
+   delete 
+      from
+          public.email 
+      where
+          email_id=? 
+      and user_id=?
+
+   delete 
+      from
+          public.email 
+      where
+          email_id=? 
+      and user_id=?
+
+   delete 
+     from
+          public.usr 
+     where
+          user_id=?
+
+.. todo:: Userのaddressプロパティの@OneToOneアノテーションのcascade属性をALLにしていても、データ削除されるはずではあるが、特に更新はされず。@OneToOneアノテーションに関連する理由か検証は必要。

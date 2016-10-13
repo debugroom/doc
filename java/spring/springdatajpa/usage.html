@@ -96,7 +96,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#section2-1-6-spring-data-jpa-usage-simple-access-result-label">アプリケーション実行の結果</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#section2-1-spring-data-jpa-usage-one-to-one-label">1対1の関連を持つテーブル間でのデータ操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section2-2-spring-data-jpa-usage-one-to-one-label">1対1の関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section2-2-1-spring-data-jpa-usage-one-to-one-service-label">サービスインターフェースの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">サービス実装クラスの作成</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,8 +177,8 @@
 <div class="section" id="section2-1-1-spring-data-jpa-usage-simple-access-entity-label">
 <span id="id2"></span><h3>エンティティクラスの作成<a class="headerlink" href="#section2-1-1-spring-data-jpa-usage-simple-access-entity-label" title="Permalink to this headline">¶</a></h3>
 <p>テーブルを表現するアノテーションを付与したエンティティクラスを作成する。JPA標準のjavax.persistenceパッケージの、代表的なアノテーションの概要は以下の通りである。</p>
-<table border="1" class="docutils" id="id8">
-<caption><span class="caption-text">javax.persistenceアノテーションの概要</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id13">
+<caption><span class="caption-text">javax.persistenceアノテーションの概要</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="20%" />
@@ -1517,17 +1522,690 @@
 </div>
 </div>
 </div>
-<div class="section" id="section2-1-spring-data-jpa-usage-one-to-one-label">
-<span id="id7"></span><h2>1対1の関連を持つテーブル間でのデータ操作<a class="headerlink" href="#section2-1-spring-data-jpa-usage-one-to-one-label" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section2-2-spring-data-jpa-usage-one-to-one-label">
+<span id="id7"></span><h2>1対1の関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-2-spring-data-jpa-usage-one-to-one-label" title="Permalink to this headline">¶</a></h2>
 <p>1対1の関連テーブル(本サンプルでは、ユーザと住所)のデータ操作に関して以下のようなユースケースを考える。</p>
 <ul class="simple">
 <li>指定されたユーザの住所を取得する。</li>
 <li>特定の郵便番号を持つユーザ一覧を取得する。</li>
 <li>特定の郵便番号を持たないユーザ一覧を取得する</li>
+<li>指定されたユーザの住所を追加する。</li>
 <li>指定されたユーザの住所を更新する。</li>
 <li>指定されたユーザの住所を削除する。</li>
 <li>指定されたユーザの情報を住所を含めて削除する。</li>
 </ul>
+<p>基本的には、<a class="reference internal" href="#section2-1-spring-data-jpa-usage-simple-access-label"><span>前章、シンプルなデータアクセス</span></a> で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。</p>
+<div class="section" id="section2-2-1-spring-data-jpa-usage-one-to-one-service-label">
+<span id="id8"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-2-1-spring-data-jpa-usage-one-to-one-service-label" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>指定されたユーザの住所を取得する。→ getAddress(User user)</li>
+<li>特定の郵便番号を持つユーザ一覧を取得する。→ getUsersWith(String zipCd)</li>
+<li>特定の郵便番号を持たないユーザ一覧を取得する → getUsersWithout(String zipCd)</li>
+<li>指定されたユーザの住所を追加する。 → addAddress(Address address)</li>
+<li>指定されたユーザの住所を更新する。 → updateAddress(String userId, Address address)</li>
+<li>指定されたユーザの住所を削除する。 → deleteAddress(String userId)</li>
+<li>指定されたユーザの情報を住所を含めて削除する。 → deleteUser(String userId)</li>
+</ul>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleservice-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleService.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleservice-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OneToOneSampleService</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="n">Address</span> <span class="nf">getAddress</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">addAddress</span><span class="o">(</span><span class="n">Address</span> <span class="n">address</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">,</span> <span class="n">Address</span> <span class="n">address</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">);</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">
+<span id="id9"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label" title="Permalink to this headline">¶</a></h3>
+<p>データベースの環境の設定は、<a class="reference internal" href="#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label"><span>前章 シンプルなデータアクセス時の設定</span></a> を流用し、サービスを実行する設定ファイルクラスを新規作成する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-config-onetoonesampleapp-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.config.OneToOneSampleApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-config-onetoonesampleapp-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl</span><span class="o">;</span>
+
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.jpa.config.infra&quot;</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAutoConfiguration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OneToOneSampleApp</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span class="o">(</span>
+                                                      <span class="n">OneToOneSampleApp</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">web</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+
+        <span class="n">OneToOneSampleService</span> <span class="n">service</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">OneToOneSampleService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">zipCd</span> <span class="o">=</span> <span class="s">&quot;135-8670&quot;</span><span class="o">;</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWith</span><span class="o">(</span><span class="n">zipCd</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWithout</span><span class="o">(</span><span class="n">zipCd</span><span class="o">);</span>
+        <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">addAddress</span><span class="o">(</span>
+        <span class="n">Address</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">zipCd</span><span class="o">(</span><span class="s">&quot;000-0000&quot;</span><span class="o">).</span><span class="na">address</span><span class="o">(</span><span class="s">&quot;Tokyo&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">updateAddress</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">(),</span>
+        <span class="n">Address</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">zipCd</span><span class="o">(</span><span class="s">&quot;100-1000&quot;</span><span class="o">).</span><span class="na">address</span><span class="o">(</span><span class="s">&quot;Japan&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getAddress</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">deleteAddress</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getAddress</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+<span class="c1">//      service.deleteUser(user.getUserId());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">deleteUser</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span> <span class="n">OneToOneSampleService</span> <span class="nf">oneToOneSampleService</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">OneToOneSampleServiceImpl</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">
+<span id="id10"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label" title="Permalink to this headline">¶</a></h3>
+<p>上記で定義したサービスインターフェースを実装した結果を以下に示す</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.transaction.Transactional</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.AddressRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotZipCd</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByZipCd</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OneToOneSampleServiceImpl</span> <span class="kd">implements</span> <span class="n">OneToOneSampleService</span><span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">AddressRepository</span> <span class="n">addressRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Address</span> <span class="nf">getAddress</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="n">addressRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : address of &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">address</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                      <span class="o">+</span> <span class="n">address</span><span class="o">.</span><span class="na">getZipCd</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">address</span><span class="o">.</span><span class="na">getAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {null, null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">address</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">FindUsersByZipCd</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                     <span class="o">.</span><span class="na">zipCd</span><span class="o">(</span><span class="n">zipCd</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users with zipCd &quot;</span> <span class="o">+</span> <span class="n">zipCd</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getZipCd</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">FindUsersByNotZipCd</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                     <span class="o">.</span><span class="na">zipCd</span><span class="o">(</span><span class="n">zipCd</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users without zipCd &quot;</span> <span class="o">+</span> <span class="n">zipCd</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getZipCd</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">addAddress</span><span class="o">(</span><span class="n">Address</span> <span class="n">address</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">sequence</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">()</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">)</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">())</span>
+                                  <span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">newUserId</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span>
+                                       <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">8</span><span class="o">,</span> <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="n">address</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">);</span>
+        <span class="n">User</span> <span class="n">newUser</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                               <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">)</span>
+                               <span class="o">.</span><span class="na">userName</span><span class="o">(</span><span class="s">&quot;NewUser(・∀・)b&quot;</span><span class="o">)</span>
+                               <span class="o">.</span><span class="na">loginId</span><span class="o">(</span><span class="s">&quot;loginId&quot;</span><span class="o">)</span>
+                               <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">newUser</span><span class="o">);</span>
+        <span class="n">newUser</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users &quot;</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">newUser</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())){</span>
+                <span class="n">Address</span> <span class="n">newAddress</span> <span class="o">=</span> <span class="n">newUser</span><span class="o">.</span><span class="na">getAddress</span><span class="o">();</span>
+                <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;  Add Address - {&quot;</span>
+                           <span class="o">+</span> <span class="n">newAddress</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">newAddress</span><span class="o">.</span><span class="na">getAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">newUser</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">,</span> <span class="n">Address</span> <span class="n">address</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Address</span> <span class="n">updateAddress</span> <span class="o">=</span> <span class="n">getAddress</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">userId</span><span class="o">(</span><span class="n">userId</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">updateAddress</span><span class="o">.</span><span class="na">setZipCd</span><span class="o">(</span><span class="n">address</span><span class="o">.</span><span class="na">getZipCd</span><span class="o">());</span>
+        <span class="n">updateAddress</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="n">address</span><span class="o">.</span><span class="na">getAddress</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="n">addressRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+<span class="c1">//      user.setAddress(null);</span>
+<span class="c1">//      userRepository.save(user);</span>
+<span class="c1">//      addressRepository.delete(user.getAddress());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">deleteUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">deleteUser</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users &quot;</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+   <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>以降、実装したサービスクラスの実装の詳細をユースケースごとに記述する。</p>
+<ul class="simple">
+<li>指定されたユーザの住所を取得する。</li>
+</ul>
+<p>oneToOneSampleService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">address</span> <span class="k">as</span> <span class="n">address2_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">zip_cd</span> <span class="k">as</span> <span class="n">zip_cd5_0_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">address</span> <span class="n">address0_</span>
+<span class="k">where</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>特定の郵便番号を持つユーザ一覧を取得する。</li>
+</ul>
+<p>oneToOneSampleService.getUsersWith(String zipCd)に実装しているが、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。
+JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native SQLいずれでも可能だが、ここでは、CriteriaAPIを使用して、データ取得する場合を記述する。Spring Data JPAでCriteria APIを使ってテーブル結合するには、以下の通り、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbyzipcd-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByZipCd.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbyzipcd-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User_</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FindUsersByZipCd</span> <span class="kd">implements</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">zipCd</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span>
+                                   <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;</span> <span class="n">predicates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;();</span>
+
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Address</span><span class="o">&gt;</span> <span class="n">joinAddress</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">address</span><span class="o">);</span>
+        <span class="n">predicates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">joinAddress</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">Address_</span><span class="o">.</span><span class="na">zipCd</span><span class="o">),</span> <span class="n">zipCd</span><span class="o">));</span>
+
+        <span class="k">return</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">predicates</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="n">Predicate</span><span class="o">[]{}));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>まず、最終的にデータ取得するエンティティ(ここでは、ユーザの一覧)のRoot&lt;User&gt;クラスを起点として、結合する２つのテーブルに相当するエンティティクラスを型パラメータにもつJoinクラスをjoinメソッドを通じて作成する。join()メソッドの引数には結合する際に使用するキーを <a class="reference external" href="http://docs.jboss.org/hibernate/jpamodelgen/1.0/reference/en-US/html_single/#d0e72">エンティティのメタモデルクラス</a> で指定する。上記の例では、ユーザテーブルと、アドレステーブルを結合するキーのメタモデルクラスとして、User＿.addressを引数に指定指定している。メタモデルクラスの実装は以下の通りである。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-entity-user-java">
+<div class="code-block-caption"><span class="caption-text"><cite>org.debugroom.sample.spring.jpa.domain.entity.User_.java</cite></span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-entity-user-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.Timestamp</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.SetAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.SingularAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.StaticMetamodel</span><span class="o">;</span>
+
+<span class="nd">@StaticMetamodel</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User_</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">userId</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Timestamp</span><span class="o">&gt;</span> <span class="n">lastUpdatedDate</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">loginId</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">userName</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ver</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Address</span><span class="o">&gt;</span> <span class="n">address</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SetAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SetAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Email</span><span class="o">&gt;</span> <span class="n">emails</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>Joinクラスの中で、指定したzipCdとイコールとなる条件をjava.persistence.criteria.Predicateのリストに追加し、最終的にCriteriaBuilderで一つのPredicateクラスとして返却する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>上記のメタモデルクラスはIDEのオプションで自動生成できる。以下はEclipseで作成したエンティティクラスに対して、自動的にメタモデルを作成するためのオプションの指定する画面である。JPAプロジェクト化してあるプロジェクトの設定画面を開き、JPAメニューの&#8221;正規メタモデル&#8221;を出力するソースコードを指定する。</p>
+<div class="last figure">
+<a class="reference internal image-reference" href="../../../_images/eclipse-metamodel-generation-setting.png"><img alt="../../../_images/eclipse-metamodel-generation-setting.png" src="../../../_images/eclipse-metamodel-generation-setting.png" /></a>
+</div>
+</div>
+<p>上述して作成したSpecificationクラスを利用するにはレポジトリクラスに、追加で、org.springframework.data.jpa.repository.JpaSpecificationExecutorを継承する必要がある。継承する事で、上記のSpecificationクラスを引数にとるfindAll()メソッドがレポジトリから使用可能になる。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-userrepository-javajpaspecification">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.UserRepository.javaに更にJpaSpecificationを継承</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-userrepository-javajpaspecification" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaSpecificationExecutor</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;,</span>
+                                          <span class="n">JpaSpecificationExecutor</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;{</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>実際にサービスから、郵便番号をパラメータとして、上記のSpecificationクラスを生成し、レポジトリの引数に渡して実行すれば以下のようなテーブル結合したSQLが発行される。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-getuserswith-string-zipcode">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#getUsersWith(String zipCode)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-getuserswith-string-zipcode" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// omit</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                <span class="n">FindUsersByZipCd</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">zipCd</span><span class="o">(</span><span class="n">zipCd</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上記はSpecificationクラスはLombokのBuilderを利用してインスタンス生成している。</p>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd2_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">login_id</span> <span class="k">as</span> <span class="n">login_id3_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_name</span> <span class="k">as</span> <span class="n">user_nam4_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_3_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+<span class="k">inner</span> <span class="k">join</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">address</span> <span class="n">address1_</span>
+    <span class="k">on</span> <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=</span><span class="n">address1_</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">where</span>
+    <span class="n">address1_</span><span class="p">.</span><span class="n">zip_cd</span><span class="o">=?</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://docs.spring.io/spring-data/jpa/docs/1.10.4.RELEASE/reference/html/#specifications">Spring Dataの公式ドキュメント 5.5 Specification</a> もあわせて参照すること。</p>
+</div>
+<ul class="simple">
+<li>特定の郵便番号を持たないユーザ一覧を取得する</li>
+</ul>
+<p>oneToOneSampleService.getUsersWithout(String zipCd)に実装しているが、基本的には、前述のユースケース「特定の郵便番号を持つユーザ一覧を取得する」と実装する内容はほぼ同じである。唯一の違いは、結合条件を指定するクラスの実装で、副問い合わせ使用して、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。その結果を元にそれに該当しないユーザをNotInを用いてユーザテーブルから抽出するクエリの条件クラスを作成する形である。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotzipcd">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotZipCd</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotzipcd" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Subquery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Path</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FindUsersByNotZipCd</span> <span class="kd">implements</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">zipCd</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span>
+        <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">Path</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">);</span>
+        <span class="n">Subquery</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQuery</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">createQuery</span><span class="o">().</span><span class="na">subquery</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQueryRoot</span> <span class="o">=</span> <span class="n">subQuery</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Address</span><span class="o">&gt;</span> <span class="n">subQueryJoinAddress</span> <span class="o">=</span> <span class="n">subQueryRoot</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">address</span><span class="o">);</span>
+        <span class="n">Predicate</span> <span class="n">subQueryPredicate</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span>
+                                          <span class="n">subQueryJoinAddress</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">Address_</span><span class="o">.</span><span class="na">zipCd</span><span class="o">),</span> <span class="n">zipCd</span><span class="o">);</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">subQueryRoot</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">));</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">subQueryPredicate</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">not</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">path</span><span class="o">).</span><span class="na">value</span><span class="o">(</span><span class="n">subQuery</span><span class="o">));</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記の検索条件クラスは、サブクエリとして、起点となるUserテーブルのRootから、AddressテーブルへJoinするクラスを作成し、結合するキーとなるクラスを同じくエンティティメタモデルクラスで指定する(User＿.address)。また、アドレステーブルのzip_cdと指定したzipCdが一致する条件をCriteriaBuilderを通じて作成し、サブクエリの条件に加える。サブクエリでは、郵便番号が一致したユーザのuserIdを抽出する形として、それをメインのクエリのNotInの条件として構成する。結局、こうして組み立てた条件クラスの実行及び、発行されるSQLは以下の通りとなる。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-getuserswithout-string-zipcode">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#getUsersWithout(String zipCode)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-getuserswithout-string-zipcode" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre> <span class="c1">//omit</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">String</span> <span class="n">zipCd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">FindUsersByNotZipCd</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">zipCd</span><span class="o">(</span><span class="n">zipCd</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="c1">//omit</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd2_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">login_id</span> <span class="k">as</span> <span class="n">login_id3_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_name</span> <span class="k">as</span> <span class="n">user_nam4_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_3_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+<span class="k">where</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">not</span> <span class="k">in</span>  <span class="p">(</span>
+        <span class="k">select</span>
+            <span class="n">user1_</span><span class="p">.</span><span class="n">user_id</span>
+        <span class="k">from</span>
+            <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user1_</span>
+        <span class="k">inner</span> <span class="k">join</span>
+            <span class="k">public</span><span class="p">.</span><span class="n">address</span> <span class="n">address2_</span>
+                <span class="k">on</span> <span class="n">user1_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=</span><span class="n">address2_</span><span class="p">.</span><span class="n">user_id</span>
+        <span class="k">where</span>
+            <span class="n">address2_</span><span class="p">.</span><span class="n">zip_cd</span><span class="o">=?</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>指定されたユーザの住所を追加する。</li>
+</ul>
+<p>oneToOneSampleService.addAddress(Address address)に実装しているが、後述するAddressデータの更新や削除、ユーザの削除のためにサービスの中で新規ユーザデータを作成し、住所データを追加する実装を記述した。実際にアドレスを追加する基本的にはやり方としては、エンティティクラスを作成して、レポジトリクラスのsave()メソッドの引数として渡してしまえば完結するが、OneToOneの関連では、同じユーザIDを、Userテーブルと、Addressテーブルで主キーとして利用する以上、先にユーザデータを登録してからアドレスデータを追加する必要がある。通常、JPAにはカスケード属性があり、メインとなるエンティティ(ここではUser)に住所のエンティティクラスをプロパティにセットして、UserRepoisotry#save()メソッドだけ実行すれば十分なはずであるが、先に住所データを作成しにいく挙動をとったため、一気にやろうとすると、異常終了した(コメントアウト)。</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">OneToOne関連のデータ登録の再検証が必要。Spring Dataを使用せず、純粋なJPAのAPIを用いてOneToOne関連のデータ登録を実行した場合の結果を含めて確認する。</p>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-addaddress-address-address">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#addAddress(Address address)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-addaddress-address-address" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// omit</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">addAddress</span><span class="o">(</span><span class="n">Address</span> <span class="n">address</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">sequence</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">()</span>
+                                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">())</span>
+                                <span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">newUserId</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span>
+                                <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">8</span><span class="o">,</span> <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="n">address</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">);</span>
+        <span class="n">User</span> <span class="n">newUser</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                             <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">userName</span><span class="o">(</span><span class="s">&quot;NewUser(・∀・)b&quot;</span><span class="o">)</span>
+<span class="c1">//                           .address(address)</span>
+                             <span class="o">.</span><span class="na">loginId</span><span class="o">(</span><span class="s">&quot;loginId&quot;</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">newUser</span><span class="o">);</span>
+        <span class="n">newUser</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users &quot;</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">newUser</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())){</span>
+                <span class="n">Address</span> <span class="n">newAddress</span> <span class="o">=</span> <span class="n">newUser</span><span class="o">.</span><span class="na">getAddress</span><span class="o">();</span>
+                <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;  Add Address - {&quot;</span>
+                           <span class="o">+</span> <span class="n">newAddress</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">newAddress</span><span class="o">.</span><span class="na">getAddress</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">newUser</span><span class="o">;</span>
+   <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>以下のようなSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">insert</span>
+    <span class="k">into</span>
+        <span class="k">public</span><span class="p">.</span><span class="n">usr</span>
+        <span class="p">(</span><span class="n">last_updated_date</span><span class="p">,</span> <span class="n">login_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+    <span class="k">values</span>
+         <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+<span class="k">insert</span>
+    <span class="k">into</span>
+        <span class="k">public</span><span class="p">.</span><span class="n">address</span>
+        <span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">last_updated_date</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">zip_cd</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+    <span class="k">values</span>
+        <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>指定されたユーザの住所を更新する。</li>
+</ul>
+<p>oneToOneSampleService.updateAddress(String userId, Address address)に実装している。基本的なデータ更新のやり方としては、更新対象のエンティティクラスを取得して、値を更新するのみで良い。トランザクション境界をまたぐと自動的にupdate文が発行される。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-updateaddress-string-userid-address-address">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#updateAddress(String userId, Address address)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-updateaddress-string-userid-address-address" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// omit</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">,</span> <span class="n">Address</span> <span class="n">address</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Address</span> <span class="n">updateAddress</span> <span class="o">=</span> <span class="n">getAddress</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">userId</span><span class="o">(</span><span class="n">userId</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">updateAddress</span><span class="o">.</span><span class="na">setZipCd</span><span class="o">(</span><span class="n">address</span><span class="o">.</span><span class="na">getZipCd</span><span class="o">());</span>
+        <span class="n">updateAddress</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="n">address</span><span class="o">.</span><span class="na">getAddress</span><span class="o">());</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">update</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">address</span>
+<span class="k">set</span>
+    <span class="n">address</span><span class="o">=?</span><span class="p">,</span>
+    <span class="n">last_updated_date</span><span class="o">=?</span><span class="p">,</span>
+    <span class="n">ver</span><span class="o">=?</span><span class="p">,</span>
+    <span class="n">zip_cd</span><span class="o">=?</span>
+<span class="k">where</span>
+    <span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">パラメータを更新しただけでUPDATE文が発行される理由については、<a class="reference external" href="http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#entity">エンティティのライフサイクル管理</a> を十分理解しておく必要がある。</p>
+</div>
+<ul class="simple">
+<li>指定されたユーザの住所を削除する。</li>
+</ul>
+<p>oneToOneSampleService.deleteAddress(String userId)に実装している。基本的なデータ削除のやり方としては、AddressRepository.delete()メソッドでエンティティを指定すればよい。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteaddress-string-userid">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteAddress(String userId)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteaddress-string-userid" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// omit</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="n">addressRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+<span class="c1">//    user.setAddress(null);</span>
+<span class="c1">//    userRepository.save(user);</span>
+<span class="c1">//    addressRepository.delete(user.getAddress());</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">delete</span>
+    <span class="k">from</span>
+        <span class="k">public</span><span class="p">.</span><span class="n">address</span>
+    <span class="k">where</span>
+        <span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Userのaddressプロパティを明示的にnullにすれば、データ削除されるはずではあるが、特に更新はされず。&#64;OneToOneアノテーションに関連する理由か検証は必要。</p>
+</div>
+<ul class="simple">
+<li>指定されたユーザの情報を住所を含めて削除する。</li>
+</ul>
+<p>oneToOneSampleService.deleteUser(String userId)に実装している。基本的なデータ削除のやり方としては、UserRepository.delete()メソッドでエンティティを指定すればよい。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteuser-string-userid">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteUser(String userId)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteuser-string-userid" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">//omit</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">deleteUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">deleteUser</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users &quot;</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;            - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>ただし、ユーザデータのように住所以外にもEmailやAffiliationなど事前にデータが残っていると削除処理で異常終了する。まとめて削除するにはエンティティの関連アノテーションのカスケード属性を設定しておく必要がある。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-entity-user">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.entity.User</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-entity-user" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">//omit</span>
+
+    <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;usr&quot;</span><span class="o">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">fetch</span><span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span>
+              <span class="n">cascade</span><span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Address</span> <span class="n">address</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span> <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">&quot;usr&quot;</span><span class="o">,</span> <span class="n">cascade</span><span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;usr&quot;</span><span class="o">,</span> <span class="n">cascade</span><span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Email</span><span class="o">&gt;</span> <span class="n">emails</span><span class="o">;</span>
+
+<span class="c1">//omit</span>
+</pre></div>
+</div>
+</div>
+<p>発行されるSQLは以下の通りである。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">delete</span>
+    <span class="k">from</span>
+        <span class="k">public</span><span class="p">.</span><span class="n">address</span>
+    <span class="k">where</span>
+        <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span>
+    <span class="k">from</span>
+        <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+    <span class="k">where</span>
+        <span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span>
+   <span class="k">from</span>
+       <span class="k">public</span><span class="p">.</span><span class="n">email</span>
+   <span class="k">where</span>
+       <span class="n">email_id</span><span class="o">=?</span>
+   <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span>
+   <span class="k">from</span>
+       <span class="k">public</span><span class="p">.</span><span class="n">email</span>
+   <span class="k">where</span>
+       <span class="n">email_id</span><span class="o">=?</span>
+   <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span>
+  <span class="k">from</span>
+       <span class="k">public</span><span class="p">.</span><span class="n">usr</span>
+  <span class="k">where</span>
+       <span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Userのaddressプロパティの&#64;OneToOneアノテーションのcascade属性をALLにしていても、データ削除されるはずではあるが、特に更新はされず。&#64;OneToOneアノテーションに関連する理由か検証は必要。</p>
+</div>
+</div>
 </div>
 </div>
 
