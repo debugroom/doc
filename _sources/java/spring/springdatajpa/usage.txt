@@ -1477,7 +1477,7 @@ simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.
 サービス実装クラスの作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-上記で定義したサービスインターフェースを実装した結果を以下に示す
+上記で定義したサービスインターフェースを実装した結果を以下に示す。
 
 .. sourcecode:: java
    :caption: org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl
@@ -2047,3 +2047,801 @@ oneToOneSampleService.deleteUser(String userId)に実装している。基本的
           user_id=?
 
 .. todo:: Userのaddressプロパティの@OneToOneアノテーションのcascade属性をALLにしていても、データ削除されるはずではあるが、特に更新はされず。@OneToOneアノテーションに関連する理由か検証は必要。
+
+.. _section2-3-spring-data-jpa-usage-one-to-many-label:
+
+1対多関連テーブルにおけるデータ操作
+---------------------------------------------------
+
+1対多の関連テーブル(本サンプルでは、ユーザとEmail)のデータ操作に関して以下のようなユースケースを考える。
+
+* 指定されたユーザのEmailの一覧を取得する。
+* 特定のメールアドレスを持つユーザを検索する。
+* 指定されたユーザのメールアドレスを追加する。
+* 指定されたユーザをメールアドレスを含めて追加する。
+* 指定されたユーザのメールアドレスを更新する。
+* 指定されたユーザのメールアドレスを1件削除する。
+* 指定されたユーザのメールアドレスを全件削除する。
+* 指定されたユーザの情報をメールアドレスを含めて削除する。
+
+基本的には、:ref:`前章、シンプルなデータアクセス<section2-1-spring-data-jpa-usage-simple-access-label>` で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。
+
+.. _section2-3-1-spring-data-jpa-usage-one-to-many-service-label:
+
+サービスインターフェースの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* 指定されたユーザのEmailの一覧を取得する。 → getEmails(User user)
+* 特定のメールアドレスを持つユーザを検索する。 → getUser(String email)
+* 指定されたユーザのメールアドレスを追加する。 → addEmail(User user, String email)
+* 指定されたユーザをメールアドレスを含めて追加する。 → addUser(User user, String email)
+* 指定されたユーザのメールアドレスを更新する。 → updateEmail(User user, String email)
+* 指定されたユーザのメールアドレスを1件削除する。 → deleteEmail(User user, String email)
+* 指定されたユーザのメールアドレスを全件削除する。 → deleteEmails(User user)
+* 指定されたユーザの情報をメールアドレスを含めて削除する。 → deleteUser(User user)
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleService.java
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.List;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Email;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+
+   public interface OneToManySampleService {
+
+       List<Email> getEmails(User user);
+  
+       User getUser(String email);
+  
+       User addEmail(User user, String email);
+  
+       User addUser(User user, String email);
+  
+       User updateEmail(User user, String email);
+  
+       User deleteEmail(User user, String email);
+  
+       User deleteEmails(User user);
+  
+       void deleteUser(User user);
+
+   }
+
+
+.. _section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label:
+
+コンフィグレーションクラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+データベースの環境の設定は、:ref:`前章 シンプルなデータアクセス時の設定<section2-1-5-spring-data-jpa-usage-simple-access-configuration-label>` を流用し、サービスを実行する設定ファイルクラスを新規作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.config.OneToManySampleApp.java
+
+   package org.debugroom.sample.spring.jpa.config;
+
+   import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+   import org.springframework.boot.builder.SpringApplicationBuilder;
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.ComponentScan;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.context.ConfigurableApplicationContext;
+
+   import java.util.HashSet;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Email;
+   import org.debugroom.sample.spring.jpa.domain.entity.EmailPK;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.service.OneToManySampleService;
+   import org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl;
+
+   @ComponentScan("org.debugroom.sample.spring.jpa.config.infra")
+   @Configuration
+   @EnableAutoConfiguration
+   public class OneToManySampleApp {
+
+       public static void main(String[] args){
+           ConfigurableApplicationContext context = new SpringApplicationBuilder(
+                                                         OneToManySampleApp.class).web(false).run(args);
+
+           OneToManySampleService service = context.getBean(OneToManySampleService.class);
+
+           String email = "test@test.com";
+           User user = service.getUser(email);
+           service.getEmails(user);
+           service.addEmail(user, "(ΦωΦ)@test.com");
+           service.addEmail(user, "(ΦωΦ)@test.co.jp");
+           service.getEmails(user);
+           User addUser = service.addUser(User.builder()
+                                              .userName("(ΦωΦ)")
+                                              .emails(new HashSet<Email>())
+                                              .build(), email);
+           service.getEmails(addUser);
+           service.updateEmail(user, Email.builder()
+                                          .id(EmailPK.builder().userId("00000000").emailId("1").build())
+                                          .email("(・∀・)@test.com")
+                                          .build());
+           service.getEmails(user);
+           service.deleteEmail(user, Email.builder()
+                                          .id(EmailPK.builder().userId("00000000").emailId("1").build())
+                                          .email("(・∀・)@test.com")
+                                          .build());
+           service.getEmails(user);
+           service.deleteEmails(user);
+           service.getEmails(user);
+           service.deleteUser(addUser);
+       }
+  
+       @Bean OneToManySampleService oneToManySampleService(){
+           return new OneToManySampleServiceImpl();
+       }
+   }
+
+.. _section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label:
+
+サービス実装クラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+上記で定義したサービスインターフェースを実装した結果を以下に示す。
+
+.. sourcecode:: java
+
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.Iterator;
+   import java.util.Set;
+
+   import javax.transaction.Transactional;
+
+   import org.springframework.beans.factory.annotation.Autowired;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.Email;
+   import org.debugroom.sample.spring.jpa.domain.entity.EmailPK;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.repository.AddressRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.EmailRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.UserRepository;
+
+   import lombok.extern.slf4j.Slf4j;
+
+   @Slf4j
+   @Transactional
+   public class OneToManySampleServiceImpl implements OneToManySampleService{
+
+       @Autowired
+       EmailRepository emailRepository;
+  
+       @Autowired
+       UserRepository userRepository;
+  
+       @Autowired
+       AddressRepository addressRepository;
+  
+       @Override
+       public Set<Email> getEmails(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           log.info(this.getClass().getName() + " : emails of " + user.getUserId());
+           for(Email email : findUser.getEmails()){
+               log.info(this.getClass().getName() + "           - {"
+                          + email.getId().getEmailId() + ", " + email.getEmail() + "}");
+           }
+           return findUser.getEmails();
+       }
+
+       @Override
+       public User getUser(String email) {
+           Email findEmail = emailRepository.findByEmail(email);
+           return findEmail.getUsr();
+       }
+
+       @Override
+       public User addEmail(User user, String email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           String sequence = new StringBuilder()
+                                    .append("00000000")
+                                    .append(findUser.getEmails().size())
+                                    .toString();
+           String newEmailId = sequence.substring(
+           sequence.length()-8, sequence.length());
+           Email newEmail = Email.builder()
+                                 .id(EmailPK.builder()
+                                            .userId(findUser.getUserId())
+                                            .emailId(newEmailId)
+                                            .build())
+                                 .email(email)
+                                 .build();
+           findUser.addEmail(newEmail);
+           return findUser;
+       }
+
+       @Override
+       public User addUser(User user, String email) {
+           String sequence = new StringBuilder()
+                                     .append("00000000")
+                                     .append(userRepository.count())
+                                     .toString();
+           String newUserId = sequence.substring(
+                                  sequence.length()-8, sequence.length());
+           user.setUserId(newUserId);
+           user.addEmail(Email.builder().id(EmailPK.builder()
+                                                   .userId(newUserId)
+                                                   .emailId("00000000")
+                                                   .build())
+                                        .email(email)
+                                        .build());
+           User addUser = userRepository.save(user);
+           addressRepository.save(Address.builder().userId(newUserId).build());
+           return addUser;
+       }
+
+       @Override
+       public User updateEmail(User user, Email email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           for(Email updateEmail : findUser.getEmails()){
+               if(updateEmail.getId().getEmailId().equals(email.getId().getEmailId())){
+                   updateEmail.setEmail(email.getEmail());
+               }
+           }
+           return findUser;
+       }
+
+       @Override
+       public User deleteEmail(User user, Email email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           for(Iterator<Email> iterator = findUser.getEmails().iterator(); iterator.hasNext();){
+               Email deleteEmail = iterator.next();
+               if(deleteEmail.getId().getEmailId().equals(
+               email.getId().getEmailId())){
+                   iterator.remove();
+               }
+           }
+           return findUser;
+       }
+
+       @Override
+       public User deleteEmails(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           findUser.getEmails().clear();
+           return findUser;
+       }
+
+       @Override
+       public void deleteUser(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           Address address = addressRepository.findOne(user.getUserId());
+           addressRepository.delete(address);
+           userRepository.delete(findUser);
+       }
+   }
+
+
+以降、実装の詳細をユースケースごとに詳述する。
+
+* 指定されたユーザのEmailの一覧を取得する。
+
+oneToManySampleService.getEmails(User user)実行の結果、emailRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。
+
+.. sourcecode:: sql
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+* 特定のメールアドレスを持つユーザを検索する。
+
+`キーワード <http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords>`_ に従って、EmailRepositoryクラスにfindByEmail(String email)メソッドを作成する。Spring Data JPAの機能により、String型のemailをキーにEmailエンティティを取得するクエリの自動組み立てが可能になる。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.EmailRepository.javaへfindByEmail(String email)を追加
+
+   package org.debugroom.sample.spring.jpa.domain.repository;
+
+   import java.util.List;
+   import org.springframework.data.jpa.repository.JpaRepository;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Email;
+   import org.debugroom.sample.spring.jpa.domain.entity.EmailPK;
+
+   public interface EmailRepository extends JpaRepository<Email, EmailPK>{
+  
+       public List<Email> findByIdUserId(String userId);
+
+       public Email findByEmail(String email);
+
+   }
+
+サービスでは、emailをキーにEmailエンティティを取得し、EmailのUserプロパティを戻り値として返せば良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#getUser(String email)
+
+       @Override
+       public User getUser(String email) {
+           Email findEmail = emailRepository.findByEmail(email);
+           return findEmail.getUsr();
+       }
+
+OneToManySampleServiceクラスでは、javax.transaction.Transactionalアノテーションを付与する事で、トランザクション境界を当サービスのメソッドに設定している。上記の呼び出し方だと、デフォルトではフェッチ戦略がLazyに設定されており、トランザクション境界の外でユーザプロパティのアクセスが発生した場合、異常終了してしまうため、Emailエンティティクラスのユーザプロパティに対するフェッチ戦略をEagerに変更しておく。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.entity.Email#User
+
+   
+      @ManyToOne(fetch = FetchType.EAGER)
+      @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+      private User usr;
+
+実行した結果、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+ 
+   select
+       email0_.email_id as email_id1_2_,
+       email0_.user_id as user_id2_2_,
+       email0_.email as email3_2_,
+       email0_.last_updated_date as last_upd4_2_,
+       email0_.ver as ver5_2_ 
+   from
+       public.email email0_ 
+   where
+       email0_.email=?
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+        user0_.user_id as user_id1_3_0_,
+        user0_.last_updated_date as last_upd2_3_0_,
+        user0_.login_id as login_id3_3_0_,
+        user0_.user_name as user_nam4_3_0_,
+        user0_.ver as ver5_3_0_ 
+    from
+        public.usr user0_ 
+    where
+        user0_.user_id=?
+
+.. note:: Spring MVCのControllerクラスからのLazy Fetchについては、`OpenEntityManagerInViewInterceptor <http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#openentitymanagerinviewinterceptor>`_ を使用する。
+
+* 指定されたユーザのメールアドレスを追加する。
+
+oneToManySampleService#addEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、プライマリーキー(emailId)を新しく生成して、Emailエンティティを追加する。単にエンティティを追加するだけで、INSERT文が発行される。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#addEmail(User user, String email)
+
+       @Override
+       public User addEmail(User user, String email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           String sequence = new StringBuilder()
+                                   .append("00000000")
+                                   .append(findUser.getEmails().size())
+                                   .toString();
+           String newEmailId = sequence.substring(
+                               sequence.length()-8, sequence.length());
+           Email newEmail = Email.builder()
+                                 .id(EmailPK.builder()
+                                            .userId(findUser.getUserId())
+                                            .emailId(newEmailId)
+                                            .build())
+                                 .email(email)
+                                 .build();
+           findUser.addEmail(newEmail);
+           return findUser;
+       }
+
+実行した結果、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   insert into
+       public.email
+       (email, last_updated_date, ver, email_id, user_id) 
+   values
+       (?, ?, ?, ?, ?)
+
+* 指定されたユーザをメールアドレスを含めて追加する。
+
+oneToManySampleService#addUser(User user, String email)にて、プライマリーキー(userId)を新しく生成して、Userエンティティ及び、Emailエンティティを追加する。なお、OneToOneのAddressとの関連があるため、Addressエンティティも追加しておく。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#addUser(User user, String email)
+
+       @Override
+       public User addUser(User user, String email) {
+       String sequence = new StringBuilder()
+                                .append("00000000")
+                                .append(userRepository.count())
+                                .toString();
+       String newUserId = sequence.substring(
+                                 sequence.length()-8, sequence.length());
+       user.setUserId(newUserId);
+       user.addEmail(Email.builder().id(EmailPK.builder()
+                                               .userId(newUserId)
+                                               .emailId("00000000")
+                                               .build())
+                                    .email(email)
+                                    .build());
+       User addUser = userRepository.save(user);
+       addressRepository.save(Address.builder().userId(newUserId).build());
+       return addUser;
+   }
+
+.. note:: Addressエンティティは追加しなくても制約上問題はないが、削除処理をかけようとすると異常終了するため、ユーザエンティティ登録時には必ずセットで追加するようにしておく。
+
+上記を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       count(*) as col_0_0_ 
+   from
+       public.usr user0_
+
+   select
+       user0_.user_id as user_id1_3_1_,
+       user0_.last_updated_date as last_upd2_3_1_,
+       user0_.login_id as login_id3_3_1_,
+       user0_.user_name as user_nam4_3_1_,
+       user0_.ver as ver5_3_1_,
+       affiliatio1_.user_id as user_id2_1_3_,
+       affiliatio1_.group_id as group_id1_1_3_,
+       affiliatio1_.group_id as group_id1_1_0_,
+       affiliatio1_.user_id as user_id2_1_0_,
+       affiliatio1_.last_updated_date as last_upd3_1_0_,
+       affiliatio1_.ver as ver4_1_0_ 
+   from
+       public.usr user0_ 
+   left outer join
+       public.affiliation affiliatio1_ 
+           on user0_.user_id=affiliatio1_.user_id 
+   where
+       user0_.user_id=?
+
+   select
+       email0_.email_id as email_id1_2_0_,
+       email0_.user_id as user_id2_2_0_,
+       email0_.email as email3_2_0_,
+       email0_.last_updated_date as last_upd4_2_0_,
+       email0_.ver as ver5_2_0_ 
+   from
+       public.email email0_ 
+   where
+       email0_.email_id=? 
+       and email0_.user_id=?
+
+   select
+       address0_.user_id as user_id1_0_0_,
+       address0_.address as address2_0_0_,
+       address0_.last_updated_date as last_upd3_0_0_,
+       address0_.ver as ver4_0_0_,
+       address0_.zip_cd as zip_cd5_0_0_ 
+   from
+       public.address address0_ 
+   where
+       address0_.user_id=?
+
+   insert into
+       public.usr
+       (last_updated_date, login_id, user_name, ver, user_id) 
+   values
+       (?, ?, ?, ?, ?)
+
+   insert into
+       public.email
+       (email, last_updated_date, ver, email_id, user_id) 
+   values
+       (?, ?, ?, ?, ?)
+
+   insert into
+       public.address
+       (address, last_updated_date, ver, zip_cd, user_id) 
+   values
+       (?, ?, ?, ?, ?)
+
+* 指定されたユーザのメールアドレスを更新する。
+
+oneToManySampleService#updateEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトのemailプロパティ属性を変更する。プロパティを変更するだけで、自動的にUPDATE文が発行される。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#updateEmail(User user, Email email)
+
+       @Override
+       public User updateEmail(User user, Email email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           for(Email updateEmail : findUser.getEmails()){
+               if(updateEmail.getId().getEmailId().equals(email.getId().getEmailId())){
+                   updateEmail.setEmail(email.getEmail());
+               }
+           }
+           return findUser;
+       }
+
+上記を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   update
+       public.email 
+   set
+       email=?,
+       last_updated_date=?,
+       ver=? 
+   where
+       email_id=? 
+       and user_id=?
+
+* 指定されたユーザのメールアドレスを1件削除する。
+
+oneToManySampleService#deleteEmail(User user, Email email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトをemailsリストから除外する。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの@OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#deleteEmail(User user, Email email)
+
+       @Override
+       public User deleteEmail(User user, Email email) {
+           User findUser = userRepository.findOne(user.getUserId());
+           for(Iterator<Email> iterator = findUser.getEmails().iterator(); iterator.hasNext();){
+               Email deleteEmail = iterator.next();
+               if(deleteEmail.getId().getEmailId().equals(email.getId().getEmailId())){
+                   iterator.remove();
+               }
+           }
+           return findUser;
+       }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.entity.User#emails
+
+       @OneToMany(mappedBy="usr", cascade= CascadeType.ALL, orphanRemoval = true)
+       private Set<Email> emails;
+
+上記のdeleteEmail()を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+* 指定されたユーザのメールアドレスを全件削除する。
+
+oneToManySampleService#deleteEmails(User user)にて、指定されたUserのエンティティを取得し、emailsの中身を空にする。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの@OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#deleteEmails(User user)
+
+       @Override
+       public User deleteEmails(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           findUser.getEmails().clear();
+           return findUser;
+       }
+
+上記のdeleteEmailsを実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+.. note:: 子要素全てに対してDELETE文が発生する事から、件数が多い場合は、JPQL等、コレクションからの要素削除以外を検討する。
+
+* 指定されたユーザの情報をメールアドレスを含めて削除する。
+
+oneToManySampleService#deleteUser(User user)にて、指定されたユーザのエンティティを取得し、userRepository#delete(User user)を実行する。なお、UserにはOneToOne関連を持つAddressエンティティが存在するため、先にaddressRepository#delete(Address address)を実行しておく。
+ユーザの関連エンティティには全てcascadeType.ALLが付与されているので、Userエンティティを削除すると、全ての関連データも付随して削除される。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#deleteUser(User user)
+
+       @Override
+       public void deleteUser(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           Address address = addressRepository.findOne(user.getUserId());
+           addressRepository.delete(address);
+           userRepository.delete(findUser);
+       }
+
+上記を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       address0_.user_id as user_id1_0_0_,
+       address0_.address as address2_0_0_,
+       address0_.last_updated_date as last_upd3_0_0_,
+       address0_.ver as ver4_0_0_,
+       address0_.zip_cd as zip_cd5_0_0_ 
+   from
+       public.address address0_ 
+   where
+       address0_.user_id=?
+
+   select
+       affiliatio0_.user_id as user_id2_1_0_,
+       affiliatio0_.group_id as group_id1_1_0_,
+       affiliatio0_.group_id as group_id1_1_1_,
+       affiliatio0_.user_id as user_id2_1_1_,
+       affiliatio0_.last_updated_date as last_upd3_1_1_,
+       affiliatio0_.ver as ver4_1_1_ 
+   from
+       public.affiliation affiliatio0_ 
+   where
+       affiliatio0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   delete from
+       public.address 
+   where
+       user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+   delete from
+       public.usr 
+   where
+       user_id=?
+       
