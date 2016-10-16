@@ -31,11 +31,11 @@ MacOSX 10.9.5
 Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)
 
 [Spring] |br|
-Spring Framework 4.3.2.RELEASE
-Spring Framework Data 1.10.2.RELEASE
-Spring Framework Boot 1.4.0.RELEASE
+Spring Framework 4.3.2.RELEASE |br|
+Spring Framework Data 1.10.2.RELEASE |br|
+Spring Framework Boot 1.4.0.RELEASE| br|
 
-[JPA]
+[JPA]|br|
 JPA2.1
 
 .. _section1-2-springdata-jpa-settings-label:

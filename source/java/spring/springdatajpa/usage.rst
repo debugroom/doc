@@ -1189,7 +1189,10 @@ EmailRepositoryでは、指定したユーザIDを元にそのユーザが持つ
 アプリケーション実行の結果
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* 全てのユーザを検索する。
+.. _section2-1-6-1-spring-data-jpa-usage-simple-access-get-users-label:
+
+全てのユーザを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getUsers()実行の結果、userRepository.findAll()が呼ばれ、以下のようなSQLが発行される。
 
@@ -1248,7 +1251,11 @@ simpleAccessService.getUsers()実行の結果、userRepository.findAll()が呼�
              cascade= CascadeType.ALL)
    private Address address;
 
-* 全ての住所を検索する。
+
+.. _section2-1-6-2-spring-data-jpa-usage-simple-access-get-addresslist-label:
+
+全ての住所を検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getAddressList()実行の結果、addressRepository.findAll()が呼ばれ、以下のようなSQLが発行される。
 
@@ -1263,7 +1270,11 @@ simpleAccessService.getAddressList()実行の結果、addressRepository.findAll(
     from
         public.address address0_
 
-* 全てのメールアドレスを検索する。
+
+.. _section2-1-6-3-spring-data-jpa-usage-simple-access-get-emails-label:
+
+全てのメールアドレスを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getEmails()実行の結果、emailRepository.findAll()が呼ばれ、以下のようなSQLが発行される。
 
@@ -1278,7 +1289,10 @@ simpleAccessService.getEmails()実行の結果、emailRepository.findAll()が呼
    from
        public.email email0_
 
-* 全てのグループを検索する。
+.. _section2-1-6-4-spring-data-jpa-usage-simple-access-get-groups-label:
+
+全てのグループを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getGroups()実行の結果、groupRepository.findAll()が呼ばれ、以下のようなSQLが発行される。
 
@@ -1292,7 +1306,11 @@ simpleAccessService.getGroups()実行の結果、groupRepository.findAll()が呼
    from
        grp group0_
 
-* 特定のユーザを検索する。
+
+.. _section2-1-6-5-spring-data-jpa-usage-simple-access-get-user-label:
+
+特定のユーザを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getUser(String userId)実行の結果、userRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。
 
@@ -1309,7 +1327,10 @@ simpleAccessService.getUser(String userId)実行の結果、userRepository.findO
    where
        user0_.user_id=?
 
-* 特定のユーザのアドレスを検索する。
+.. _section2-1-6-6-spring-data-jpa-usage-simple-access-get-address-label:
+
+特定のユーザのアドレスを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。
 
@@ -1326,7 +1347,10 @@ simpleAccessService.getAddress(User user)実行の結果、addressRepository.fin
    where
        address0_.user_id=?
 
-* 特定のユーザがもつEmailアドレスを検索する。
+.. _section2-1-6-7-spring-data-jpa-usage-simple-access-get-emails-label:
+
+特定のユーザがもつEmailアドレスを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getEmails(User user)実行の結果、emailRepository.findByIdUserId(String userId)が呼ばれ、以下のようなSQLが発行される。
 
@@ -1343,7 +1367,11 @@ simpleAccessService.getEmails(User user)実行の結果、emailRepository.findBy
    where
        email0_.user_id=?
 
-* 指定したグループ名を元にグループを検索する。
+
+.. _section2-1-6-8-spring-data-jpa-usage-simple-access-get-group-label:
+
+指定したグループ名を元にグループを検索する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.findByGroupName(String groupName)が呼ばれ、以下のようなSQLが発行される。
 
@@ -1362,7 +1390,7 @@ simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.
 
 .. _section2-2-spring-data-jpa-usage-one-to-one-label:
 
-1対1の関連テーブルにおけるデータ操作
+1対1関連テーブルにおけるデータ操作
 ---------------------------------------------------
 
 1対1の関連テーブル(本サンプルでは、ユーザと住所)のデータ操作に関して以下のようなユースケースを考える。
@@ -1615,7 +1643,10 @@ simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.
 
 以降、実装したサービスクラスの実装の詳細をユースケースごとに記述する。
 
-* 指定されたユーザの住所を取得する。
+.. _section2-2-3-1-spring-data-jpa-usage-one-to-one-get-address-label:
+
+指定されたユーザの住所を取得する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。
 
@@ -1632,7 +1663,10 @@ oneToOneSampleService.getAddress(User user)実行の結果、addressRepository.f
    where
        address0_.user_id=?
 
-* 特定の郵便番号を持つユーザ一覧を取得する。
+.. _section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label:
+
+特定の郵便番号を持つユーザ一覧を取得する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.getUsersWith(String zipCd)に実装しているが、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。
 JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native SQLいずれでも可能だが、ここでは、CriteriaAPIを使用して、データ取得する場合を記述する。Spring Data JPAでCriteria APIを使ってテーブル結合するには、以下の通り、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。
@@ -1762,7 +1796,11 @@ Joinクラスの中で、指定したzipCdとイコールとなる条件をjava.
 
 .. note:: `Spring Dataの公式ドキュメント 5.5 Specification <http://docs.spring.io/spring-data/jpa/docs/1.10.4.RELEASE/reference/html/#specifications>`_ もあわせて参照すること。
 
-* 特定の郵便番号を持たないユーザ一覧を取得する
+
+.. _section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label:
+
+特定の郵便番号を持たないユーザ一覧を取得する
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.getUsersWithout(String zipCd)に実装しているが、基本的には、前述のユースケース「特定の郵便番号を持つユーザ一覧を取得する」と実装する内容はほぼ同じである。唯一の違いは、結合条件を指定するクラスの実装で、副問い合わせ使用して、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。その結果を元にそれに該当しないユーザをNotInを用いてユーザテーブルから抽出するクエリの条件クラスを作成する形である。
 
@@ -1851,7 +1889,10 @@ oneToOneSampleService.getUsersWithout(String zipCd)に実装しているが、�
        )
 
 
-* 指定されたユーザの住所を追加する。
+.. _section2-2-3-4-spring-data-jpa-usage-one-to-one-add-address-label:
+
+指定されたユーザの住所を追加する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.addAddress(Address address)に実装しているが、後述するAddressデータの更新や削除、ユーザの削除のためにサービスの中で新規ユーザデータを作成し、住所データを追加する実装を記述した。実際にアドレスを追加する基本的にはやり方としては、エンティティクラスを作成して、レポジトリクラスのsave()メソッドの引数として渡してしまえば完結するが、OneToOneの関連では、同じユーザIDを、Userテーブルと、Addressテーブルで主キーとして利用する以上、先にユーザデータを登録してからアドレスデータを追加する必要がある。通常、JPAにはカスケード属性があり、メインとなるエンティティ(ここではUser)に住所のエンティティクラスをプロパティにセットして、UserRepoisotry#save()メソッドだけ実行すれば十分なはずであるが、先に住所データを作成しにいく挙動をとったため、一気にやろうとすると、異常終了した(コメントアウト)。
 
@@ -1912,8 +1953,10 @@ oneToOneSampleService.addAddress(Address address)に実装しているが、後�
        values
            (?, ?, ?, ?, ?)
 
+.. _section2-2-3-5-spring-data-jpa-usage-one-to-one-update-address-label:
 
-* 指定されたユーザの住所を更新する。
+指定されたユーザの住所を更新する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.updateAddress(String userId, Address address)に実装している。基本的なデータ更新のやり方としては、更新対象のエンティティクラスを取得して、値を更新するのみで良い。トランザクション境界をまたぐと自動的にupdate文が発行される。
 
@@ -1942,7 +1985,10 @@ oneToOneSampleService.updateAddress(String userId, Address address)に実装し�
 
 .. note:: パラメータを更新しただけでUPDATE文が発行される理由については、`エンティティのライフサイクル管理 <http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#entity>`_ を十分理解しておく必要がある。
 
-* 指定されたユーザの住所を削除する。
+.. _section2-2-3-6-spring-data-jpa-usage-one-to-one-delete-address-label:
+
+指定されたユーザの住所を削除する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.deleteAddress(String userId)に実装している。基本的なデータ削除のやり方としては、AddressRepository.delete()メソッドでエンティティを指定すればよい。
 
@@ -1969,7 +2015,10 @@ oneToOneSampleService.deleteAddress(String userId)に実装している。基本
 
 .. todo:: Userのaddressプロパティを明示的にnullにすれば、データ削除されるはずではあるが、特に更新はされず。@OneToOneアノテーションに関連する理由か検証は必要。
 
-* 指定されたユーザの情報を住所を含めて削除する。
+.. _section2-2-3-7-spring-data-jpa-usage-one-to-one-delete-user-label:
+
+指定されたユーザの情報を住所を含めて削除する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToOneSampleService.deleteUser(String userId)に実装している。基本的なデータ削除のやり方としては、UserRepository.delete()メソッドでエンティティを指定すればよい。
 
@@ -2189,7 +2238,7 @@ oneToOneSampleService.deleteUser(String userId)に実装している。基本的
 上記で定義したサービスインターフェースを実装した結果を以下に示す。
 
 .. sourcecode:: java
-
+   :caption: org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl.java
 
    package org.debugroom.sample.spring.jpa.domain.service;
 
@@ -2323,7 +2372,10 @@ oneToOneSampleService.deleteUser(String userId)に実装している。基本的
 
 以降、実装の詳細をユースケースごとに詳述する。
 
-* 指定されたユーザのEmailの一覧を取得する。
+.. _section2-3-3-1-spring-data-jpa-usage-one-to-many-get-emails-label:
+
+指定されたユーザのEmailの一覧を取得する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService.getEmails(User user)実行の結果、emailRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。
 
@@ -2342,7 +2394,11 @@ oneToManySampleService.getEmails(User user)実行の結果、emailRepository.fin
    where
        emails0_.user_id=?
 
-* 特定のメールアドレスを持つユーザを検索する。
+
+.. _section2-3-3-2-spring-data-jpa-usage-one-to-many-get-user-label:
+
+特定のメールアドレスを持つユーザを検索する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 `キーワード <http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords>`_ に従って、EmailRepositoryクラスにfindByEmail(String email)メソッドを作成する。Spring Data JPAの機能により、String型のemailをキーにEmailエンティティを取得するクエリの自動組み立てが可能になる。
 
@@ -2425,7 +2481,10 @@ OneToManySampleServiceクラスでは、javax.transaction.Transactionalアノテ
 
 .. note:: Spring MVCのControllerクラスからのLazy Fetchについては、`OpenEntityManagerInViewInterceptor <http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#openentitymanagerinviewinterceptor>`_ を使用する。
 
-* 指定されたユーザのメールアドレスを追加する。
+.. _section2-3-3-3-spring-data-jpa-usage-one-to-many-add-email-label:
+
+指定されたユーザのメールアドレスを追加する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#addEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、プライマリーキー(emailId)を新しく生成して、Emailエンティティを追加する。単にエンティティを追加するだけで、INSERT文が発行される。
 
@@ -2486,7 +2545,11 @@ oneToManySampleService#addEmail(User user, String email)にて、指定された
    values
        (?, ?, ?, ?, ?)
 
-* 指定されたユーザをメールアドレスを含めて追加する。
+
+.. _section2-3-3-4-spring-data-jpa-usage-one-to-many-add-user-label:
+
+指定されたユーザをメールアドレスを含めて追加する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#addUser(User user, String email)にて、プライマリーキー(userId)を新しく生成して、Userエンティティ及び、Emailエンティティを追加する。なお、OneToOneのAddressとの関連があるため、Addressエンティティも追加しておく。
 
@@ -2585,7 +2648,10 @@ oneToManySampleService#addUser(User user, String email)にて、プライマリ�
    values
        (?, ?, ?, ?, ?)
 
-* 指定されたユーザのメールアドレスを更新する。
+.. _section2-3-3-5-spring-data-jpa-usage-one-to-many-update-email-label:
+
+指定されたユーザのメールアドレスを更新する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#updateEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトのemailプロパティ属性を変更する。プロパティを変更するだけで、自動的にUPDATE文が発行される。
 
@@ -2641,7 +2707,10 @@ oneToManySampleService#updateEmail(User user, String email)にて、指定され
        email_id=? 
        and user_id=?
 
-* 指定されたユーザのメールアドレスを1件削除する。
+.. _section2-3-3-6-spring-data-jpa-usage-one-to-many-delete-email-label:
+
+指定されたユーザのメールアドレスを1件削除する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#deleteEmail(User user, Email email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトをemailsリストから除外する。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの@OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。
 
@@ -2700,7 +2769,10 @@ oneToManySampleService#deleteEmail(User user, Email email)にて、指定され�
        email_id=? 
        and user_id=?
 
-* 指定されたユーザのメールアドレスを全件削除する。
+.. _section2-3-3-7-spring-data-jpa-usage-one-to-many-delete-emails-label:
+
+指定されたユーザのメールアドレスを全件削除する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#deleteEmails(User user)にて、指定されたUserのエンティティを取得し、emailsの中身を空にする。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの@OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。
 
@@ -2762,7 +2834,10 @@ oneToManySampleService#deleteEmails(User user)にて、指定されたUserのエ
 
 .. note:: 子要素全てに対してDELETE文が発生する事から、件数が多い場合は、JPQL等、コレクションからの要素削除以外を検討する。
 
-* 指定されたユーザの情報をメールアドレスを含めて削除する。
+.. _section2-3-3-8-spring-data-jpa-usage-one-to-many-delete-user-label:
+
+指定されたユーザの情報をメールアドレスを含めて削除する。
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 oneToManySampleService#deleteUser(User user)にて、指定されたユーザのエンティティを取得し、userRepository#delete(User user)を実行する。なお、UserにはOneToOne関連を持つAddressエンティティが存在するため、先にaddressRepository#delete(Address address)を実行しておく。
 ユーザの関連エンティティには全てcascadeType.ALLが付与されているので、Userエンティティを削除すると、全ての関連データも付随して削除される。
@@ -2844,4 +2919,887 @@ oneToManySampleService#deleteUser(User user)にて、指定されたユーザの
        public.usr 
    where
        user_id=?
-       
+
+.. _section2-4-spring-data-jpa-usage-many-to-many-label:
+
+多対多関連テーブルにおけるデータ操作
+---------------------------------------------------
+
+多対多の関連テーブル(本サンプルでは、ユーザとEmail)のデータ操作に関して以下のようなユースケースを考える。
+
+* 指定したユーザが属するグループの一覧を取得する。
+* 指定したグループに所属する全てのユーザ一覧を取得する。
+* 指定したグループに所属しない全てのユーザ一覧を取得する。
+* 指定したユーザを指定したグループに追加する。
+* 指定したユーザをグループから除外する。
+* 指定したグループを削除し、ユーザが所属するグループの情報を更新する。
+* 指定されたユーザを削除し、グループのユーザ一覧を更新する。
+
+基本的には、:ref:`前章、シンプルなデータアクセス<section2-1-spring-data-jpa-usage-simple-access-label>` で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。
+
+.. _section2-4-1-spring-data-jpa-usage-many-to-many-service-label:
+
+サービスインターフェースの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* 指定したユーザが属するグループの一覧を取得する。 → getGroups(User user)
+* 指定したグループに所属する全てのユーザ一覧を取得する。 → getUsersWith(Group group)
+* 指定したグループに所属しない全てのユーザ一覧を取得する。 → getUsersWithout(Group group)
+* 指定したユーザを指定したグループに追加する。 → addUserTo(Group group, User user)
+* 指定したユーザをグループから除外する。 → deleteUserFrom(Group group, User user)
+* 指定したグループを削除し、ユーザが所属するグループの情報を更新する。 → deleteGroup(Group group)
+* 指定されたユーザを削除し、グループのユーザ一覧を更新する。 → deleteUser(User user)
+
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.Set;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+
+   public interface ManyToManySampleService {
+
+       Set<Group> getGroups(User user);
+  
+       Set<User> getUsersWith(Group group);
+  
+       Set<User> getUsersWithout(Group group);
+  
+       User addUserTo(Group group, User user);
+  
+       User deleteUserFrom(Group group, User user);
+  
+       Group deleteGroup(Group group);
+  
+       User deleteUser(User user);
+  
+   }
+
+.. _section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label:
+
+コンフィグレーションクラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+データベースの環境の設定は、:ref:`前章 シンプルなデータアクセス時の設定<section2-1-5-spring-data-jpa-usage-simple-access-configuration-label>` を流用し、サービスを実行する設定ファイルクラスを新規作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.config.ManyToManySampleApp.java
+
+   package org.debugroom.sample.spring.jpa.config;
+
+   import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+   import org.springframework.boot.builder.SpringApplicationBuilder;
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.ComponentScan;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.context.ConfigurableApplicationContext;
+
+   import java.util.HashSet;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleService;
+   import org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl;
+
+   @ComponentScan("org.debugroom.sample.spring.jpa.config.infra")
+   @Configuration
+   @EnableAutoConfiguration
+   public class ManyToManySampleApp {
+
+       public static void main(String[] args){
+           ConfigurableApplicationContext context = new SpringApplicationBuilder(
+                                            ManyToManySampleApp.class).web(false).run(args);
+    
+           ManyToManySampleService service = context.getBean(ManyToManySampleService.class);
+           User user = User.builder().userId("00000000").build();
+           service.getGroups(user);
+           Group group = Group.builder().groupName("org.debugroom").build();
+           service.getUsersWith(group);
+           service.getUsersWithout(group);
+           User addUser = service.addUserTo(group, 
+                                    User.builder().userName("NewComer(ΦωΦ)").affiliations(
+                                                       new HashSet<Affiliation>()).build());
+           service.getGroups(addUser);
+           service.getUsersWith(group);
+           service.deleteUserFrom(group, addUser);
+           service.getUsersWith(group);
+           service.deleteGroup(group);
+           service.getGroups(addUser);
+           service.deleteUser(User.builder().userId("00000001").build());
+           service.getUsersWith(Group.builder().groupName("nttdata").build());
+
+      }
+  
+      @Bean ManyToManySampleService manyToManySampleService(){
+          return new ManyToManySampleServiceImpl();
+      }
+
+   }
+
+.. _section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label:
+
+サービス実装クラスの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+上記で定義したサービスインターフェースを実装した結果を以下に示す。
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl.java
+
+   package org.debugroom.sample.spring.jpa.domain.service;
+
+   import java.util.Iterator;
+   import java.util.List;
+
+   import javax.transaction.Transactional;
+
+   import org.springframework.beans.factory.annotation.Autowired;
+
+   import lombok.extern.slf4j.Slf4j;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Address;
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation;
+   import org.debugroom.sample.spring.jpa.domain.entity.AffiliationPK;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.repository.GroupRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.AddressRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.UserRepository;
+   import org.debugroom.sample.spring.jpa.domain.repository.specification.FindGroupsByUserId;
+   import org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByGroupName;
+   import org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotGroupName;
+
+   @Slf4j
+   @Transactional
+   public class ManyToManySampleServiceImpl implements ManyToManySampleService{
+
+       @Autowired
+       GroupRepository groupRepository;
+  
+       @Autowired
+       UserRepository userRepository;
+  
+       @Autowired
+       AddressRepository addressRepository;
+  
+       @Override
+       public List<Group> getGroups(User user) {
+           List<Group> groups = groupRepository.findAll(
+                                      FindGroupsByUserId.builder()
+                                                        .userId(user.getUserId())
+                                                        .build());
+           log.info(this.getClass().getName() + " : groups of " + user.getUserId());
+           if(groups.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(Group group : groups){
+               log.info(this.getClass().getName() + "        - {"
+                          + group.getGroupId() + ", " + group.getGroupName() + "}");
+           }
+           return groups;
+       }
+
+       @Override
+       public List<User> getUsersWith(Group group) {
+           List<User> users = userRepository.findAll(
+                                   FindUsersByGroupName.builder()
+                                                       .groupName(group.getGroupName())
+                                                       .build());
+           log.info(this.getClass().getName() + " : users of " + group.getGroupName());
+           if(users.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(User user : users){
+               log.info(this.getClass().getName() + "        - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+           return users;
+       }
+
+       @Override
+       public List<User> getUsersWithout(Group group) {
+           List<User> users = userRepository.findAll(
+                                   FindUsersByNotGroupName.builder()
+                                                          .groupName(group.getGroupName())
+                                                          .build());
+           log.info(this.getClass().getName() + " : no users of " + group.getGroupName());
+           if(users.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(User user : users){
+               log.info(this.getClass().getName() + "        - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+           return users;
+       }
+
+       @Override
+       public User addUserTo(Group group, User user) {
+           String sequence = new StringBuilder()
+                                     .append("00000000")
+                                     .append(userRepository.count())
+                                     .toString();
+           String newUserId = sequence.substring(
+                                           sequence.length()-8, sequence.length());
+           user.setUserId(newUserId);
+           String groupId = groupRepository.findByGroupName(group.getGroupName()).getGroupId();
+           user.addAffiliation(Affiliation.builder()
+                                          .id(AffiliationPK.builder()
+                                                           .userId(newUserId)
+                                                           .groupId(groupId)
+                                                           .build())
+                                          .build());
+           return userRepository.save(user);
+       }
+
+       @Override
+       public User deleteUserFrom(Group group, User user) {
+           Group findGroup = groupRepository.findByGroupName(group.getGroupName());
+           for(Iterator<Affiliation> iterator = findGroup.getAffiliations().iterator(); iterator.hasNext(); ){
+               Affiliation affiliation = iterator.next();
+               if(affiliation.getId().getUserId().equals(user.getUserId())){
+                   iterator.remove();
+               }
+           }
+           return user;
+       }
+
+       @Override
+       public Group deleteGroup(Group group) {
+           Group findGroup = groupRepository.findByGroupName(group.getGroupName());
+           groupRepository.delete(findGroup);
+           return findGroup;
+       }
+
+       @Override
+       public User deleteUser(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           Address address = addressRepository.findOne(user.getUserId());
+           addressRepository.delete(address);
+           userRepository.delete(findUser);
+           return user;
+       }
+   }
+
+以降、実装の詳細をユースケースごとに詳述する。
+
+.. _section2-4-3-1-spring-data-jpa-usage-manny-to-many-get-groups-label:
+
+指定したユーザが属するグループの一覧を取得する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSercice#getGroups()にて、ユーザIDを指定して一致した所属テーブルのキー(userIdとgroupId)とグループテーブルを結合して、一致するグループの一覧を取得する。結合には、 :ref:`1対1関連における、特定の郵便番号を持つユーザ一覧を取得する <section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label>` 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getGroups(User user)
+
+       @Override
+       public List<Group> getGroups(User user) {
+           List<Group> groups = groupRepository.findAll(
+                                      FindGroupsByUserId.builder()
+                                                        .userId(user.getUserId())
+                                                        .build());
+           log.info(this.getClass().getName() + " : groups of " + user.getUserId());
+           if(groups.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(Group group : groups){
+               log.info(this.getClass().getName() + "        - {"
+                          + group.getGroupId() + ", " + group.getGroupName() + "}");
+           }
+           return groups;
+       }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.specification.FindGroupsByUserId.java
+
+   package org.debugroom.sample.spring.jpa.domain.repository.specification;
+
+   import java.util.ArrayList;
+   import java.util.List;
+
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Join;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation;
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation_;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group_;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.entity.User_;
+   import org.springframework.data.jpa.domain.Specification;
+
+   import lombok.Data;
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   public class FindGroupsByUserId implements Specification<Group>{
+
+       private String userId;
+  
+       @Override
+       public Predicate toPredicate(Root<Group> root, 
+                           CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    
+           List<Predicate> predicates = new ArrayList<Predicate>();
+           Join<Group, Affiliation> joinAffiliation = root.join(Group_.affiliations);
+           Join<Affiliation, User> joinUser = joinAffiliation.join(Affiliation_.usr);
+           predicates.add(criteriaBuilder.equal(joinUser.get(User_.userId), userId));
+    
+           return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+
+       }
+   }
+
+上記を実行すると、以下のSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       group0_.group_id as group_id1_4_,
+       group0_.group_name as group_na2_4_,
+       group0_.last_updated_date as last_upd3_4_,
+       group0_.ver as ver4_4_ 
+   from
+       grp group0_ 
+   inner join
+       public.affiliation affiliatio1_ 
+           on group0_.group_id=affiliatio1_.group_id 
+   inner join
+       public.usr user2_ 
+           on affiliatio1_.user_id=user2_.user_id 
+   where
+       user2_.user_id=?
+
+
+.. _section2-4-3-2-spring-data-jpa-usage-manny-to-many-get-users-with-label:
+
+指定したグループに所属する全てのユーザ一覧を取得する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSercice#getUsersWith(Group group)にて、グループ名を指定して一致したグループのデータがもつグループIDと一致する、所属テーブルのキー(userIdとgroupId)を使用して、ユーザテーブルを結合して、一致するユーザの一覧を取得する。結合には、 :ref:`1対1関連における、特定の郵便番号を持つユーザ一覧を取得する <section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label>` 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getUsersWith(Group group)
+
+       @Override
+       public List<User> getUsersWith(Group group) {
+           List<User> users = userRepository.findAll(
+                                           FindUsersByGroupName.builder()
+                                                               .groupName(group.getGroupName())
+                                                               .build());
+           log.info(this.getClass().getName() + " : users of " + group.getGroupName());
+           if(users.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(User user : users){
+               log.info(this.getClass().getName() + "        - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+           return users;
+      }
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.specification.FindUserByGroupName.java
+
+   package org.debugroom.sample.spring.jpa.domain.repository.specification;
+
+   import java.util.ArrayList;
+   import java.util.List;
+
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Join;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation;
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation_;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group_;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.entity.User_;
+   import org.springframework.data.jpa.domain.Specification;
+
+   import lombok.Data;
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   public class FindUsersByGroupName implements Specification<User>{
+  
+       private String groupName;
+
+       @Override
+       public Predicate toPredicate(Root<User> root, 
+                            CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+
+           List<Predicate> predicates = new ArrayList<Predicate>();
+           Join<User, Affiliation> joinAffiliation = root.join(User_.affiliations);
+           Join<Affiliation, Group> joinGroup = joinAffiliation.join(Affiliation_.grp);
+           predicates.add(criteriaBuilder.equal(joinGroup.get(Group_.groupName), groupName));
+
+           return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+       }
+   }
+
+上記を実行すると、以下のSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_,
+       user0_.last_updated_date as last_upd2_3_,
+       user0_.login_id as login_id3_3_,
+       user0_.user_name as user_nam4_3_,
+       user0_.ver as ver5_3_ 
+   from
+       public.usr user0_ 
+   inner join
+       public.affiliation affiliatio1_ 
+           on user0_.user_id=affiliatio1_.user_id 
+   inner join
+       grp group2_ 
+           on affiliatio1_.group_id=group2_.group_id 
+   where
+       group2_.group_name=?
+
+
+.. _section2-4-3-3-spring-data-jpa-usage-manny-to-many-get-users-without-label:
+
+指定したグループに所属しない全てのユーザ一覧を取得する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSercice#getUsersWithout(Group group)にて、前章で、"指定したグループに所属する全てのユーザ一覧を取得する"サブクエリを副問い合わせとして実行した後、その結果に該当しないユーザをNotInを使って取得する。
+
+結合には、 :ref:`1対1関連における、特定の郵便番号を持たないユーザ一覧を取得する <section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label>` 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getUsersWithout(Group group)
+
+       @Override
+       public List<User> getUsersWithout(Group group) {
+           List<User> users = userRepository.findAll(
+                                          FindUsersByNotGroupName.builder()
+                                                                 .groupName(group.getGroupName())
+                                                                 .build());
+           log.info(this.getClass().getName() + " : no users of " + group.getGroupName());
+           if(users.size()==0){
+               log.info(this.getClass().getName() + "        - {null,null}");
+           }
+           for(User user : users){
+               log.info(this.getClass().getName() + "        - {"
+                          + user.getUserId() + ", " + user.getUserName() + "}");
+           }
+           return users;
+      }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotGroupName 
+
+   package org.debugroom.sample.spring.jpa.domain.repository.specification;
+
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Join;
+   import javax.persistence.criteria.Path;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+   import javax.persistence.criteria.Subquery;
+
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation;
+   import org.debugroom.sample.spring.jpa.domain.entity.Affiliation_;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group;
+   import org.debugroom.sample.spring.jpa.domain.entity.Group_;
+   import org.debugroom.sample.spring.jpa.domain.entity.User;
+   import org.debugroom.sample.spring.jpa.domain.entity.User_;
+   import org.springframework.data.jpa.domain.Specification;
+
+   import lombok.Data;
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   public class FindUsersByNotGroupName implements Specification<User>{
+  
+       private String groupName;
+  
+       @Override
+       public Predicate toPredicate(Root<User> root, 
+                             CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    
+           Path<Object> path = root.get("userId");
+           Subquery<User> subQuery = criteriaBuilder.createQuery().subquery(User.class);
+           Root<User> subQueryRoot = subQuery.from(User.class);
+           Join<User, Affiliation> subQueryJoinAffiliation = subQueryRoot.join(User_.affiliations);
+           Join<Affiliation, Group> subQueryJoinGroup = subQueryJoinAffiliation.join(Affiliation_.grp);
+           Predicate subQueryPredicate = criteriaBuilder.equal(
+                                                   subQueryJoinGroup.get(Group_.groupName), groupName);
+           subQuery.select(subQueryRoot.get("userId"));
+           subQuery.where(subQueryPredicate);
+    
+           return criteriaBuilder.not(criteriaBuilder.in(path).value(subQuery));
+       }
+
+   }
+
+上記を実行すると、以下のSQLが実行される。
+
+.. sourcecode:: java
+
+   select
+       user0_.user_id as user_id1_3_,
+       user0_.last_updated_date as last_upd2_3_,
+       user0_.login_id as login_id3_3_,
+       user0_.user_name as user_nam4_3_,
+       user0_.ver as ver5_3_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id not in  (
+           select
+               user1_.user_id 
+           from
+               public.usr user1_ 
+           inner join
+               public.affiliation affiliatio2_ 
+                   on user1_.user_id=affiliatio2_.user_id 
+           inner join
+               grp group3_ 
+                   on affiliatio2_.group_id=group3_.group_id 
+           where
+               group3_.group_name=?
+       )
+
+.. _section2-4-3-4-spring-data-jpa-usage-manny-to-many-add-user-to-label:
+
+指定したユーザを指定したグループに追加する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSerivce#addUserTo(Group group, User user)にて、所属エンティティに指定したグループのキーを設定して、新規ユーザデータを作成し、userRepository#save()メソッドを実行する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#addUserTo(Group group, User user)
+
+       @Override
+       public User addUserTo(Group group, User user) {
+           String sequence = new StringBuilder()
+                                     .append("00000000")
+                                     .append(userRepository.count())
+                                     .toString();
+           String newUserId = sequence.substring(
+                                        sequence.length()-8, sequence.length());
+           user.setUserId(newUserId);
+           String groupId = groupRepository.findByGroupName(group.getGroupName()).getGroupId();
+           user.addAffiliation(Affiliation.builder()
+                                          .id(AffiliationPK.builder()
+                                                           .userId(newUserId)
+                                                           .groupId(groupId)
+                                                           .build())
+                                          .build());
+           return userRepository.save(user);
+
+      }
+
+上記を実行すると、以下のSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       count(*) as col_0_0_ 
+   from
+       public.usr user0_
+
+   select
+       group0_.group_id as group_id1_4_,
+       group0_.group_name as group_na2_4_,
+       group0_.last_updated_date as last_upd3_4_,
+       group0_.ver as ver4_4_ 
+   from
+       grp group0_ 
+   where
+       group0_.group_name=?
+
+   select
+       user0_.user_id as user_id1_3_1_,
+       user0_.last_updated_date as last_upd2_3_1_,
+       user0_.login_id as login_id3_3_1_,
+       user0_.user_name as user_nam4_3_1_,
+       user0_.ver as ver5_3_1_,
+       affiliatio1_.user_id as user_id2_1_3_,
+       affiliatio1_.group_id as group_id1_1_3_,
+       affiliatio1_.group_id as group_id1_1_0_,
+       affiliatio1_.user_id as user_id2_1_0_,
+       affiliatio1_.last_updated_date as last_upd3_1_0_,
+       affiliatio1_.ver as ver4_1_0_ 
+   from
+       public.usr user0_ 
+   left outer join
+       public.affiliation affiliatio1_ 
+           on user0_.user_id=affiliatio1_.user_id 
+   where
+       user0_.user_id=?
+
+   select
+       affiliatio0_.group_id as group_id1_1_0_,
+       affiliatio0_.user_id as user_id2_1_0_,
+       affiliatio0_.last_updated_date as last_upd3_1_0_,
+       affiliatio0_.ver as ver4_1_0_ 
+   from
+       public.affiliation affiliatio0_ 
+   where
+       affiliatio0_.group_id=? 
+       and affiliatio0_.user_id=?
+
+   insert into
+       public.usr
+       (last_updated_date, login_id, user_name, ver, user_id) 
+   values
+       (?, ?, ?, ?, ?)
+
+   insert into
+       public.affiliation
+       (last_updated_date, ver, group_id, user_id) 
+   values
+        (?, ?, ?, ?)
+
+.. _section2-4-3-5-spring-data-jpa-usage-manny-to-many-delete-user-from-label:
+
+指定したユーザをグループから除外する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSerivce#deleteUserFrom(Group group, User user)にて、指定したグループ名に一致するグループを取得し、所属プロパティから指定されたユーザIDと一致するデータをコレクションから除外するだけで良い。除外したデータに対してDELETE文が発行されるようにするため、Groupエンティティにおける、Affiliationプロパティの@OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteUserFrom(Group group, User user)
+
+       @Override
+       public User deleteUserFrom(Group group, User user) {
+           Group findGroup = groupRepository.findByGroupName(group.getGroupName());
+           for(Iterator<Affiliation> iterator = findGroup.getAffiliations().iterator(); 
+               iterator.hasNext(); ){
+               Affiliation affiliation = iterator.next();
+               if(affiliation.getId().getUserId().equals(user.getUserId())){
+                   iterator.remove();
+               }
+           }
+           return user;
+       }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.entity.Group#Set<Affiliation>
+
+       @OneToMany(fetch = FetchType.LAZY, mappedBy = "grp",
+                           cascade=CascadeType.ALL, orphanRemoval=true)
+       private Set<Affiliation> affiliations;
+
+上記を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       group0_.group_id as group_id1_4_,
+       group0_.group_name as group_na2_4_,
+       group0_.last_updated_date as last_upd3_4_,
+       group0_.ver as ver4_4_ 
+   from
+       grp group0_ 
+   where
+       group0_.group_name=?
+
+   select
+       affiliatio0_.group_id as group_id1_1_0_,
+       affiliatio0_.user_id as user_id2_1_0_,
+       affiliatio0_.group_id as group_id1_1_1_,
+       affiliatio0_.user_id as user_id2_1_1_,
+       affiliatio0_.last_updated_date as last_upd3_1_1_,
+       affiliatio0_.ver as ver4_1_1_ 
+   from
+       public.affiliation affiliatio0_ 
+   where
+       affiliatio0_.group_id=?
+
+   delete from
+       public.affiliation 
+   where
+       group_id=? 
+       and user_id=?
+
+.. _section2-4-3-6-spring-data-jpa-usage-manny-to-many-delete-group-label:
+
+指定したグループを削除し、ユーザが所属するグループの情報を更新する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSerivce#deleteGroup(Group group)にて、指定したグループ名に一致するグループを取得し、groupRepository.delete()メソッドを実行する。グループの子要素である所属テーブルのデータに対してもDELETE文が発行されるようにするため、前節と同様、Groupエンティティにおける、Affiliationプロパティの@OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteGroup(Group group)
+
+       @Override
+       public Group deleteGroup(Group group) {
+           Group findGroup = groupRepository.findByGroupName(group.getGroupName());
+           groupRepository.delete(findGroup);
+           return findGroup;
+       }
+
+上記を実行すると、以下のようなSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       group0_.group_id as group_id1_4_,
+       group0_.group_name as group_na2_4_,
+       group0_.last_updated_date as last_upd3_4_,
+       group0_.ver as ver4_4_ 
+   from
+       grp group0_ 
+   where
+       group0_.group_name=?
+
+   select
+       affiliatio0_.group_id as group_id1_1_0_,
+       affiliatio0_.user_id as user_id2_1_0_,
+       affiliatio0_.group_id as group_id1_1_1_,
+       affiliatio0_.user_id as user_id2_1_1_,
+       affiliatio0_.last_updated_date as last_upd3_1_1_,
+       affiliatio0_.ver as ver4_1_1_ 
+   from
+       public.affiliation affiliatio0_ 
+   where
+       affiliatio0_.group_id=?
+
+   delete from
+       public.affiliation 
+   where
+       group_id=? 
+       and user_id=?
+
+   delete from
+       public.affiliation 
+   where
+       group_id=? 
+       and user_id=?
+
+   delete from
+       grp 
+   where
+       group_id=?
+
+.. note:: 所属しているユーザの数だけDELETE文が実行されるため、ユーザ数が多い場合は、JPQLによる一括のデータ削除等を検討する。
+
+
+.. _section2-4-3-7-spring-data-jpa-usage-manny-to-many-delete-user-label:
+
+指定されたユーザを削除し、グループのユーザ一覧を更新する。
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+manyToManySampleSerivce#deleteUser(User user)にて、指定したユーザIDに一致するユーザを取得し、userRepository.delete()メソッドを実行する。ユーザエンティティにはOneToOne関連でAddressエンティティが設定されているため、事前に削除を行う。ユーザの子要素である所属テーブルのデータに対してもDELETE文が発行されるようにするため、前節と同様、Userエンティティにおける、Affiliationプロパティの@OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteUser(User user)
+
+       @Override
+       public User deleteUser(User user) {
+           User findUser = userRepository.findOne(user.getUserId());
+           Address address = addressRepository.findOne(user.getUserId());
+           addressRepository.delete(address);
+           userRepository.delete(findUser);
+           return user;
+       }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.spring.jpa.domain.entity.User#Set<Affiliation>
+
+       @OneToMany(fetch = FetchType.LAZY, mappedBy = "usr", cascade= CascadeType.ALL, orphanRemoval=true)
+       private Set<Affiliation> affiliations;
+
+上記を実行すると、以下のSQLが発行される。
+
+.. sourcecode:: sql
+
+   select
+       user0_.user_id as user_id1_3_0_,
+       user0_.last_updated_date as last_upd2_3_0_,
+       user0_.login_id as login_id3_3_0_,
+       user0_.user_name as user_nam4_3_0_,
+       user0_.ver as ver5_3_0_ 
+   from
+       public.usr user0_ 
+   where
+       user0_.user_id=?
+
+   select
+       address0_.user_id as user_id1_0_0_,
+       address0_.address as address2_0_0_,
+       address0_.last_updated_date as last_upd3_0_0_,
+       address0_.ver as ver4_0_0_,
+       address0_.zip_cd as zip_cd5_0_0_ 
+   from
+       public.address address0_ 
+   where
+       address0_.user_id=?
+
+   select
+       affiliatio0_.user_id as user_id2_1_0_,
+       affiliatio0_.group_id as group_id1_1_0_,
+       affiliatio0_.group_id as group_id1_1_1_,
+       affiliatio0_.user_id as user_id2_1_1_,
+       affiliatio0_.last_updated_date as last_upd3_1_1_,
+       affiliatio0_.ver as ver4_1_1_ 
+   from
+       public.affiliation affiliatio0_ 
+   where
+       affiliatio0_.user_id=?
+
+   select
+       emails0_.user_id as user_id2_2_0_,
+       emails0_.email_id as email_id1_2_0_,
+       emails0_.email_id as email_id1_2_1_,
+       emails0_.user_id as user_id2_2_1_,
+       emails0_.email as email3_2_1_,
+       emails0_.last_updated_date as last_upd4_2_1_,
+       emails0_.ver as ver5_2_1_ 
+   from
+       public.email emails0_ 
+   where
+       emails0_.user_id=?
+
+   delete from
+       public.address 
+   where
+       user_id=?
+
+   delete from
+       public.affiliation 
+   where
+       group_id=? 
+       and user_id=?
+
+   delete from
+       public.email 
+   where
+       email_id=? 
+       and user_id=?
+
+   delete from
+       public.usr 
+   where
+       user_id=?
+

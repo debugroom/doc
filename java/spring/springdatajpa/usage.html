@@ -96,7 +96,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#section2-1-6-spring-data-jpa-usage-simple-access-result-label">アプリケーション実行の結果</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#section2-2-spring-data-jpa-usage-one-to-one-label">1対1の関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section2-2-spring-data-jpa-usage-one-to-one-label">1対1関連テーブルにおけるデータ操作</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section2-2-1-spring-data-jpa-usage-one-to-one-service-label">サービスインターフェースの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">コンフィグレーションクラスの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">サービス実装クラスの作成</a></li>
@@ -106,6 +106,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#section2-3-1-spring-data-jpa-usage-one-to-many-service-label">サービスインターフェースの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label">コンフィグレーションクラスの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label">サービス実装クラスの作成</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#section2-4-spring-data-jpa-usage-many-to-many-label">多対多関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section2-4-1-spring-data-jpa-usage-many-to-many-service-label">サービスインターフェースの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label">サービス実装クラスの作成</a></li>
 </ul>
 </li>
 </ul>
@@ -183,8 +189,8 @@
 <div class="section" id="section2-1-1-spring-data-jpa-usage-simple-access-entity-label">
 <span id="id2"></span><h3>エンティティクラスの作成<a class="headerlink" href="#section2-1-1-spring-data-jpa-usage-simple-access-entity-label" title="Permalink to this headline">¶</a></h3>
 <p>テーブルを表現するアノテーションを付与したエンティティクラスを作成する。JPA標準のjavax.persistenceパッケージの、代表的なアノテーションの概要は以下の通りである。</p>
-<table border="1" class="docutils" id="id18">
-<caption><span class="caption-text">javax.persistenceアノテーションの概要</span><a class="headerlink" href="#id18" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id51">
+<caption><span class="caption-text">javax.persistenceアノテーションの概要</span><a class="headerlink" href="#id51" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="20%" />
@@ -1359,9 +1365,8 @@
 </div>
 <div class="section" id="section2-1-6-spring-data-jpa-usage-simple-access-result-label">
 <span id="id6"></span><h3>アプリケーション実行の結果<a class="headerlink" href="#section2-1-6-spring-data-jpa-usage-simple-access-result-label" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>全てのユーザを検索する。</li>
-</ul>
+<div class="section" id="section2-1-6-1-spring-data-jpa-usage-simple-access-get-users-label">
+<span id="id7"></span><h4>全てのユーザを検索する。<a class="headerlink" href="#section2-1-6-1-spring-data-jpa-usage-simple-access-get-users-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getUsers()実行の結果、userRepository.findAll()が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
      <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_</span><span class="p">,</span>
@@ -1422,9 +1427,9 @@
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li>全ての住所を検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-2-spring-data-jpa-usage-simple-access-get-addresslist-label">
+<span id="id8"></span><h4>全ての住所を検索する。<a class="headerlink" href="#section2-1-6-2-spring-data-jpa-usage-simple-access-get-addresslist-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getAddressList()実行の結果、addressRepository.findAll()が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
      <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_0_</span><span class="p">,</span>
@@ -1436,9 +1441,9 @@
      <span class="k">public</span><span class="p">.</span><span class="n">address</span> <span class="n">address0_</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>全てのメールアドレスを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-3-spring-data-jpa-usage-simple-access-get-emails-label">
+<span id="id9"></span><h4>全てのメールアドレスを検索する。<a class="headerlink" href="#section2-1-6-3-spring-data-jpa-usage-simple-access-get-emails-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getEmails()実行の結果、emailRepository.findAll()が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">email0_</span><span class="p">.</span><span class="n">email_id</span> <span class="k">as</span> <span class="n">email_id1_2_</span><span class="p">,</span>
@@ -1450,9 +1455,9 @@
     <span class="k">public</span><span class="p">.</span><span class="n">email</span> <span class="n">email0_</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>全てのグループを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-4-spring-data-jpa-usage-simple-access-get-groups-label">
+<span id="id10"></span><h4>全てのグループを検索する。<a class="headerlink" href="#section2-1-6-4-spring-data-jpa-usage-simple-access-get-groups-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getGroups()実行の結果、groupRepository.findAll()が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
@@ -1463,9 +1468,9 @@
     <span class="n">grp</span> <span class="n">group0_</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>特定のユーザを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-5-spring-data-jpa-usage-simple-access-get-user-label">
+<span id="id11"></span><h4>特定のユーザを検索する。<a class="headerlink" href="#section2-1-6-5-spring-data-jpa-usage-simple-access-get-user-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getUser(String userId)実行の結果、userRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_0_</span><span class="p">,</span>
@@ -1479,9 +1484,9 @@
     <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>特定のユーザのアドレスを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-6-spring-data-jpa-usage-simple-access-get-address-label">
+<span id="id12"></span><h4>特定のユーザのアドレスを検索する。<a class="headerlink" href="#section2-1-6-6-spring-data-jpa-usage-simple-access-get-address-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_0_0_</span><span class="p">,</span>
@@ -1495,9 +1500,9 @@
     <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>特定のユーザがもつEmailアドレスを検索する。</li>
-</ul>
+</div>
+<div class="section" id="email">
+<span id="section2-1-6-7-spring-data-jpa-usage-simple-access-get-emails-label"></span><h4>特定のユーザがもつEmailアドレスを検索する。<a class="headerlink" href="#email" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getEmails(User user)実行の結果、emailRepository.findByIdUserId(String userId)が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">email0_</span><span class="p">.</span><span class="n">email_id</span> <span class="k">as</span> <span class="n">email_id1_2_</span><span class="p">,</span>
@@ -1511,9 +1516,9 @@
     <span class="n">email0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定したグループ名を元にグループを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-1-6-8-spring-data-jpa-usage-simple-access-get-group-label">
+<span id="id13"></span><h4>指定したグループ名を元にグループを検索する。<a class="headerlink" href="#section2-1-6-8-spring-data-jpa-usage-simple-access-get-group-label" title="Permalink to this headline">¶</a></h4>
 <p>simpleAccessService.getGroup(String groupName)実行の結果、groupRepository.findByGroupName(String groupName)が呼ばれ、以下のようなSQLが発行される。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
@@ -1528,8 +1533,9 @@
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="section2-2-spring-data-jpa-usage-one-to-one-label">
-<span id="id7"></span><h2>1対1の関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-2-spring-data-jpa-usage-one-to-one-label" title="Permalink to this headline">¶</a></h2>
+<span id="id14"></span><h2>1対1関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-2-spring-data-jpa-usage-one-to-one-label" title="Permalink to this headline">¶</a></h2>
 <p>1対1の関連テーブル(本サンプルでは、ユーザと住所)のデータ操作に関して以下のようなユースケースを考える。</p>
 <ul class="simple">
 <li>指定されたユーザの住所を取得する。</li>
@@ -1542,7 +1548,7 @@
 </ul>
 <p>基本的には、<a class="reference internal" href="#section2-1-spring-data-jpa-usage-simple-access-label"><span>前章、シンプルなデータアクセス</span></a> で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。</p>
 <div class="section" id="section2-2-1-spring-data-jpa-usage-one-to-one-service-label">
-<span id="id8"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-2-1-spring-data-jpa-usage-one-to-one-service-label" title="Permalink to this headline">¶</a></h3>
+<span id="id15"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-2-1-spring-data-jpa-usage-one-to-one-service-label" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>指定されたユーザの住所を取得する。→ getAddress(User user)</li>
 <li>特定の郵便番号を持つユーザ一覧を取得する。→ getUsersWith(String zipCd)</li>
@@ -1583,7 +1589,7 @@
 </div>
 </div>
 <div class="section" id="section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">
-<span id="id9"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label" title="Permalink to this headline">¶</a></h3>
+<span id="id16"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label" title="Permalink to this headline">¶</a></h3>
 <p>データベースの環境の設定は、<a class="reference internal" href="#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label"><span>前章 シンプルなデータアクセス時の設定</span></a> を流用し、サービスを実行する設定ファイルクラスを新規作成する。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-config-onetoonesampleapp-java">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.config.OneToOneSampleApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-config-onetoonesampleapp-java" title="Permalink to this code">¶</a></div>
@@ -1634,7 +1640,7 @@
 </div>
 </div>
 <div class="section" id="section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">
-<span id="id10"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label" title="Permalink to this headline">¶</a></h3>
+<span id="id17"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label" title="Permalink to this headline">¶</a></h3>
 <p>上記で定義したサービスインターフェースを実装した結果を以下に示す。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl" title="Permalink to this code">¶</a></div>
@@ -1772,9 +1778,8 @@
 </div>
 </div>
 <p>以降、実装したサービスクラスの実装の詳細をユースケースごとに記述する。</p>
-<ul class="simple">
-<li>指定されたユーザの住所を取得する。</li>
-</ul>
+<div class="section" id="section2-2-3-1-spring-data-jpa-usage-one-to-one-get-address-label">
+<span id="id18"></span><h4>指定されたユーザの住所を取得する。<a class="headerlink" href="#section2-2-3-1-spring-data-jpa-usage-one-to-one-get-address-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.getAddress(User user)実行の結果、addressRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_0_0_</span><span class="p">,</span>
@@ -1788,9 +1793,9 @@
     <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>特定の郵便番号を持つユーザ一覧を取得する。</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label">
+<span id="id19"></span><h4>特定の郵便番号を持つユーザ一覧を取得する。<a class="headerlink" href="#section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.getUsersWith(String zipCd)に実装しているが、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。
 JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native SQLいずれでも可能だが、ここでは、CriteriaAPIを使用して、データ取得する場合を記述する。Spring Data JPAでCriteria APIを使ってテーブル結合するには、以下の通り、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbyzipcd-java">
@@ -1922,9 +1927,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <p class="first admonition-title">Note</p>
 <p class="last"><a class="reference external" href="http://docs.spring.io/spring-data/jpa/docs/1.10.4.RELEASE/reference/html/#specifications">Spring Dataの公式ドキュメント 5.5 Specification</a> もあわせて参照すること。</p>
 </div>
-<ul class="simple">
-<li>特定の郵便番号を持たないユーザ一覧を取得する</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label">
+<span id="id21"></span><h4>特定の郵便番号を持たないユーザ一覧を取得する<a class="headerlink" href="#section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.getUsersWithout(String zipCd)に実装しているが、基本的には、前述のユースケース「特定の郵便番号を持つユーザ一覧を取得する」と実装する内容はほぼ同じである。唯一の違いは、結合条件を指定するクラスの実装で、副問い合わせ使用して、住所テーブルの郵便番号を指定し、指定した郵便番号と一致した住所テーブルのデータのプライマリキーであるユーザIDを使って、ユーザテーブルと結合して、一致するユーザの一覧を取得する。その結果を元にそれに該当しないユーザをNotInを用いてユーザテーブルから抽出するクエリの条件クラスを作成する形である。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotzipcd">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotZipCd</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotzipcd" title="Permalink to this code">¶</a></div>
@@ -2010,9 +2015,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザの住所を追加する。</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-4-spring-data-jpa-usage-one-to-one-add-address-label">
+<span id="id22"></span><h4>指定されたユーザの住所を追加する。<a class="headerlink" href="#section2-2-3-4-spring-data-jpa-usage-one-to-one-add-address-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.addAddress(Address address)に実装しているが、後述するAddressデータの更新や削除、ユーザの削除のためにサービスの中で新規ユーザデータを作成し、住所データを追加する実装を記述した。実際にアドレスを追加する基本的にはやり方としては、エンティティクラスを作成して、レポジトリクラスのsave()メソッドの引数として渡してしまえば完結するが、OneToOneの関連では、同じユーザIDを、Userテーブルと、Addressテーブルで主キーとして利用する以上、先にユーザデータを登録してからアドレスデータを追加する必要がある。通常、JPAにはカスケード属性があり、メインとなるエンティティ(ここではUser)に住所のエンティティクラスをプロパティにセットして、UserRepoisotry#save()メソッドだけ実行すれば十分なはずであるが、先に住所データを作成しにいく挙動をとったため、一気にやろうとすると、異常終了した(コメントアウト)。</p>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
@@ -2071,9 +2076,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
         <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザの住所を更新する。</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-5-spring-data-jpa-usage-one-to-one-update-address-label">
+<span id="id23"></span><h4>指定されたユーザの住所を更新する。<a class="headerlink" href="#section2-2-3-5-spring-data-jpa-usage-one-to-one-update-address-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.updateAddress(String userId, Address address)に実装している。基本的なデータ更新のやり方としては、更新対象のエンティティクラスを取得して、値を更新するのみで良い。トランザクション境界をまたぐと自動的にupdate文が発行される。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-updateaddress-string-userid-address-address">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#updateAddress(String userId, Address address)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-updateaddress-string-userid-address-address" title="Permalink to this code">¶</a></div>
@@ -2102,9 +2107,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <p class="first admonition-title">Note</p>
 <p class="last">パラメータを更新しただけでUPDATE文が発行される理由については、<a class="reference external" href="http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#entity">エンティティのライフサイクル管理</a> を十分理解しておく必要がある。</p>
 </div>
-<ul class="simple">
-<li>指定されたユーザの住所を削除する。</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-6-spring-data-jpa-usage-one-to-one-delete-address-label">
+<span id="id25"></span><h4>指定されたユーザの住所を削除する。<a class="headerlink" href="#section2-2-3-6-spring-data-jpa-usage-one-to-one-delete-address-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.deleteAddress(String userId)に実装している。基本的なデータ削除のやり方としては、AddressRepository.delete()メソッドでエンティティを指定すればよい。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteaddress-string-userid">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteAddress(String userId)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteaddress-string-userid" title="Permalink to this code">¶</a></div>
@@ -2131,9 +2136,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <p class="first admonition-title">Todo</p>
 <p class="last">Userのaddressプロパティを明示的にnullにすれば、データ削除されるはずではあるが、特に更新はされず。&#64;OneToOneアノテーションに関連する理由か検証は必要。</p>
 </div>
-<ul class="simple">
-<li>指定されたユーザの情報を住所を含めて削除する。</li>
-</ul>
+</div>
+<div class="section" id="section2-2-3-7-spring-data-jpa-usage-one-to-one-delete-user-label">
+<span id="id26"></span><h4>指定されたユーザの情報を住所を含めて削除する。<a class="headerlink" href="#section2-2-3-7-spring-data-jpa-usage-one-to-one-delete-user-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToOneSampleService.deleteUser(String userId)に実装している。基本的なデータ削除のやり方としては、UserRepository.delete()メソッドでエンティティを指定すればよい。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteuser-string-userid">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToOneSampleServiceImpl#deleteUser(String userId)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetoonesampleserviceimpl-deleteuser-string-userid" title="Permalink to this code">¶</a></div>
@@ -2213,8 +2218,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="section2-3-spring-data-jpa-usage-one-to-many-label">
-<span id="id13"></span><h2>1対多関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-3-spring-data-jpa-usage-one-to-many-label" title="Permalink to this headline">¶</a></h2>
+<span id="id27"></span><h2>1対多関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-3-spring-data-jpa-usage-one-to-many-label" title="Permalink to this headline">¶</a></h2>
 <p>1対多の関連テーブル(本サンプルでは、ユーザとEmail)のデータ操作に関して以下のようなユースケースを考える。</p>
 <ul class="simple">
 <li>指定されたユーザのEmailの一覧を取得する。</li>
@@ -2228,7 +2234,7 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 </ul>
 <p>基本的には、<a class="reference internal" href="#section2-1-spring-data-jpa-usage-simple-access-label"><span>前章、シンプルなデータアクセス</span></a> で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。</p>
 <div class="section" id="section2-3-1-spring-data-jpa-usage-one-to-many-service-label">
-<span id="id14"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-3-1-spring-data-jpa-usage-one-to-many-service-label" title="Permalink to this headline">¶</a></h3>
+<span id="id28"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-3-1-spring-data-jpa-usage-one-to-many-service-label" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>指定されたユーザのEmailの一覧を取得する。 → getEmails(User user)</li>
 <li>特定のメールアドレスを持つユーザを検索する。 → getUser(String email)</li>
@@ -2272,7 +2278,7 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 </div>
 </div>
 <div class="section" id="section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label">
-<span id="id15"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label" title="Permalink to this headline">¶</a></h3>
+<span id="id29"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label" title="Permalink to this headline">¶</a></h3>
 <p>データベースの環境の設定は、<a class="reference internal" href="#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label"><span>前章 シンプルなデータアクセス時の設定</span></a> を流用し、サービスを実行する設定ファイルクラスを新規作成する。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-config-onetomanysampleapp-java">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.config.OneToManySampleApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-config-onetomanysampleapp-java" title="Permalink to this code">¶</a></div>
@@ -2339,8 +2345,10 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 </div>
 </div>
 <div class="section" id="section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label">
-<span id="id16"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label" title="Permalink to this headline">¶</a></h3>
+<span id="id30"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label" title="Permalink to this headline">¶</a></h3>
 <p>上記で定義したサービスインターフェースを実装した結果を以下に示す。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-java" title="Permalink to this code">¶</a></div>
 <div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
@@ -2471,10 +2479,10 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
 <p>以降、実装の詳細をユースケースごとに詳述する。</p>
-<ul class="simple">
-<li>指定されたユーザのEmailの一覧を取得する。</li>
-</ul>
+<div class="section" id="section2-3-3-1-spring-data-jpa-usage-one-to-many-get-emails-label">
+<span id="id31"></span><h4>指定されたユーザのEmailの一覧を取得する。<a class="headerlink" href="#section2-3-3-1-spring-data-jpa-usage-one-to-many-get-emails-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService.getEmails(User user)実行の結果、emailRepository.findOne(String userId)が呼ばれ、以下のようなSQLが発行される。基本的にシンプルなデータベースアクセスにおけるプライマリキー指定時の呼び出しと同じである。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
     <span class="n">emails0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_2_0_</span><span class="p">,</span>
@@ -2490,9 +2498,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="n">emails0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>特定のメールアドレスを持つユーザを検索する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-2-spring-data-jpa-usage-one-to-many-get-user-label">
+<span id="id32"></span><h4>特定のメールアドレスを持つユーザを検索する。<a class="headerlink" href="#section2-3-3-2-spring-data-jpa-usage-one-to-many-get-user-label" title="Permalink to this headline">¶</a></h4>
 <p><a class="reference external" href="http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords">キーワード</a> に従って、EmailRepositoryクラスにfindByEmail(String email)メソッドを作成する。Spring Data JPAの機能により、String型のemailをキーにEmailエンティティを取得するクエリの自動組み立てが可能になる。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-emailrepository-javafindbyemail-string-email">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.EmailRepository.javaへfindByEmail(String email)を追加</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-emailrepository-javafindbyemail-string-email" title="Permalink to this code">¶</a></div>
@@ -2573,9 +2581,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <p class="first admonition-title">Note</p>
 <p class="last">Spring MVCのControllerクラスからのLazy Fetchについては、<a class="reference external" href="http://terasolunaorg.github.io/guideline/5.2.0.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJpa.html#openentitymanagerinviewinterceptor">OpenEntityManagerInViewInterceptor</a> を使用する。</p>
 </div>
-<ul class="simple">
-<li>指定されたユーザのメールアドレスを追加する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-3-spring-data-jpa-usage-one-to-many-add-email-label">
+<span id="id34"></span><h4>指定されたユーザのメールアドレスを追加する。<a class="headerlink" href="#section2-3-3-3-spring-data-jpa-usage-one-to-many-add-email-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#addEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、プライマリーキー(emailId)を新しく生成して、Emailエンティティを追加する。単にエンティティを追加するだけで、INSERT文が発行される。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-addemail-user-user-string-email">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#addEmail(User user, String email)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-addemail-user-user-string-email" title="Permalink to this code">¶</a></div>
@@ -2633,9 +2641,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザをメールアドレスを含めて追加する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-4-spring-data-jpa-usage-one-to-many-add-user-label">
+<span id="id35"></span><h4>指定されたユーザをメールアドレスを含めて追加する。<a class="headerlink" href="#section2-3-3-4-spring-data-jpa-usage-one-to-many-add-user-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#addUser(User user, String email)にて、プライマリーキー(userId)を新しく生成して、Userエンティティ及び、Emailエンティティを追加する。なお、OneToOneのAddressとの関連があるため、Addressエンティティも追加しておく。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-adduser-user-user-string-email">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#addUser(User user, String email)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-adduser-user-user-string-email" title="Permalink to this code">¶</a></div>
@@ -2733,9 +2741,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザのメールアドレスを更新する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-5-spring-data-jpa-usage-one-to-many-update-email-label">
+<span id="id36"></span><h4>指定されたユーザのメールアドレスを更新する。<a class="headerlink" href="#section2-3-3-5-spring-data-jpa-usage-one-to-many-update-email-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#updateEmail(User user, String email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトのemailプロパティ属性を変更する。プロパティを変更するだけで、自動的にUPDATE文が発行される。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-updateemail-user-user-email-email">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#updateEmail(User user, Email email)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-updateemail-user-user-email-email" title="Permalink to this code">¶</a></div>
@@ -2788,9 +2796,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザのメールアドレスを1件削除する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-6-spring-data-jpa-usage-one-to-many-delete-email-label">
+<span id="id37"></span><h4>指定されたユーザのメールアドレスを1件削除する。<a class="headerlink" href="#section2-3-3-6-spring-data-jpa-usage-one-to-many-delete-email-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#deleteEmail(User user, Email email)にて、指定されたユーザのUserエンティティを取得し、キーが合致する(ここでは、userIdとemailId)Emailオブジェクトをemailsリストから除外する。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの&#64;OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-deleteemail-user-user-email-email">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#deleteEmail(User user, Email email)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-deleteemail-user-user-email-email" title="Permalink to this code">¶</a></div>
@@ -2847,9 +2855,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
     <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li>指定されたユーザのメールアドレスを全件削除する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-7-spring-data-jpa-usage-one-to-many-delete-emails-label">
+<span id="id38"></span><h4>指定されたユーザのメールアドレスを全件削除する。<a class="headerlink" href="#section2-3-3-7-spring-data-jpa-usage-one-to-many-delete-emails-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#deleteEmails(User user)にて、指定されたUserのエンティティを取得し、emailsの中身を空にする。なお、コレクションから対象のオブジェクトを削除する事で、削除のSQLが実行されるためには、Userエンティティの&#64;OneToManyアノテーションのcascade属性と、orphanRemoval属性を変更しておく必要がある事に注意する。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-deleteemails-user-user">
 <div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.OneToManySampleServiceImpl#deleteEmails(User user)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-deleteemails-user-user" title="Permalink to this code">¶</a></div>
@@ -2910,9 +2918,9 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <p class="first admonition-title">Note</p>
 <p class="last">子要素全てに対してDELETE文が発生する事から、件数が多い場合は、JPQL等、コレクションからの要素削除以外を検討する。</p>
 </div>
-<ul class="simple">
-<li>指定されたユーザの情報をメールアドレスを含めて削除する。</li>
-</ul>
+</div>
+<div class="section" id="section2-3-3-8-spring-data-jpa-usage-one-to-many-delete-user-label">
+<span id="id39"></span><h4>指定されたユーザの情報をメールアドレスを含めて削除する。<a class="headerlink" href="#section2-3-3-8-spring-data-jpa-usage-one-to-many-delete-user-label" title="Permalink to this headline">¶</a></h4>
 <p>oneToManySampleService#deleteUser(User user)にて、指定されたユーザのエンティティを取得し、userRepository#delete(User user)を実行する。なお、UserにはOneToOne関連を持つAddressエンティティが存在するため、先にaddressRepository#delete(Address address)を実行しておく。
 ユーザの関連エンティティには全てcascadeType.ALLが付与されているので、Userエンティティを削除すると、全ての関連データも付随して削除される。</p>
 <div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-onetomanysampleserviceimpl-deleteuser-user-user">
@@ -2991,6 +2999,851 @@ JPAと同じく、テーブル結合する場合、Criteria API、JPQL、Native 
 <span class="k">where</span>
     <span class="n">user_id</span><span class="o">=?</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="section2-4-spring-data-jpa-usage-many-to-many-label">
+<span id="id40"></span><h2>多対多関連テーブルにおけるデータ操作<a class="headerlink" href="#section2-4-spring-data-jpa-usage-many-to-many-label" title="Permalink to this headline">¶</a></h2>
+<p>多対多の関連テーブル(本サンプルでは、ユーザとEmail)のデータ操作に関して以下のようなユースケースを考える。</p>
+<ul class="simple">
+<li>指定したユーザが属するグループの一覧を取得する。</li>
+<li>指定したグループに所属する全てのユーザ一覧を取得する。</li>
+<li>指定したグループに所属しない全てのユーザ一覧を取得する。</li>
+<li>指定したユーザを指定したグループに追加する。</li>
+<li>指定したユーザをグループから除外する。</li>
+<li>指定したグループを削除し、ユーザが所属するグループの情報を更新する。</li>
+<li>指定されたユーザを削除し、グループのユーザ一覧を更新する。</li>
+</ul>
+<p>基本的には、<a class="reference internal" href="#section2-1-spring-data-jpa-usage-simple-access-label"><span>前章、シンプルなデータアクセス</span></a> で作成したエンティティクラス、及びレポジトリクラスはそのまま流用する。</p>
+<div class="section" id="section2-4-1-spring-data-jpa-usage-many-to-many-service-label">
+<span id="id41"></span><h3>サービスインターフェースの作成<a class="headerlink" href="#section2-4-1-spring-data-jpa-usage-many-to-many-service-label" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>指定したユーザが属するグループの一覧を取得する。 → getGroups(User user)</li>
+<li>指定したグループに所属する全てのユーザ一覧を取得する。 → getUsersWith(Group group)</li>
+<li>指定したグループに所属しない全てのユーザ一覧を取得する。 → getUsersWithout(Group group)</li>
+<li>指定したユーザを指定したグループに追加する。 → addUserTo(Group group, User user)</li>
+<li>指定したユーザをグループから除外する。 → deleteUserFrom(Group group, User user)</li>
+<li>指定したグループを削除し、ユーザが所属するグループの情報を更新する。 → deleteGroup(Group group)</li>
+<li>指定されたユーザを削除し、グループのユーザ一覧を更新する。 → deleteUser(User user)</li>
+</ul>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ManyToManySampleService</span> <span class="o">{</span>
+
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">getGroups</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">);</span>
+
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">);</span>
+
+    <span class="n">User</span> <span class="nf">addUserTo</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+
+    <span class="n">User</span> <span class="nf">deleteUserFrom</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+
+    <span class="n">Group</span> <span class="nf">deleteGroup</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">);</span>
+
+    <span class="n">User</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">);</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label">
+<span id="id42"></span><h3>コンフィグレーションクラスの作成<a class="headerlink" href="#section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label" title="Permalink to this headline">¶</a></h3>
+<p>データベースの環境の設定は、<a class="reference internal" href="#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label"><span>前章 シンプルなデータアクセス時の設定</span></a> を流用し、サービスを実行する設定ファイルクラスを新規作成する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-config-manytomanysampleapp-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.config.ManyToManySampleApp.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-config-manytomanysampleapp-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashSet</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl</span><span class="o">;</span>
+
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.spring.jpa.config.infra&quot;</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAutoConfiguration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManyToManySampleApp</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span class="o">(</span>
+                                         <span class="n">ManyToManySampleApp</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">web</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+
+        <span class="n">ManyToManySampleService</span> <span class="n">service</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">ManyToManySampleService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">userId</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getGroups</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+        <span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="n">Group</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">groupName</span><span class="o">(</span><span class="s">&quot;org.debugroom&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWith</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWithout</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+        <span class="n">User</span> <span class="n">addUser</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">addUserTo</span><span class="o">(</span><span class="n">group</span><span class="o">,</span>
+                                 <span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">userName</span><span class="o">(</span><span class="s">&quot;NewComer(ΦωΦ)&quot;</span><span class="o">).</span><span class="na">affiliations</span><span class="o">(</span>
+                                                    <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;()).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getGroups</span><span class="o">(</span><span class="n">addUser</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWith</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">deleteUserFrom</span><span class="o">(</span><span class="n">group</span><span class="o">,</span> <span class="n">addUser</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWith</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">deleteGroup</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getGroups</span><span class="o">(</span><span class="n">addUser</span><span class="o">);</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">deleteUser</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">userId</span><span class="o">(</span><span class="s">&quot;00000001&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">getUsersWith</span><span class="o">(</span><span class="n">Group</span><span class="o">.</span><span class="na">builder</span><span class="o">().</span><span class="na">groupName</span><span class="o">(</span><span class="s">&quot;nttdata&quot;</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
+
+   <span class="o">}</span>
+
+   <span class="nd">@Bean</span> <span class="n">ManyToManySampleService</span> <span class="nf">manyToManySampleService</span><span class="o">(){</span>
+       <span class="k">return</span> <span class="k">new</span> <span class="n">ManyToManySampleServiceImpl</span><span class="o">();</span>
+   <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label">
+<span id="id43"></span><h3>サービス実装クラスの作成<a class="headerlink" href="#section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label" title="Permalink to this headline">¶</a></h3>
+<p>上記で定義したサービスインターフェースを実装した結果を以下に示す。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.service</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.transaction.Transactional</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Address</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.AffiliationPK</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.GroupRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.AddressRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification.FindGroupsByUserId</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByGroupName</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotGroupName</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManyToManySampleServiceImpl</span> <span class="kd">implements</span> <span class="n">ManyToManySampleService</span><span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">GroupRepository</span> <span class="n">groupRepository</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">AddressRepository</span> <span class="n">addressRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">getGroups</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                   <span class="n">FindGroupsByUserId</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                     <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())</span>
+                                                     <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : groups of &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">groups</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span> <span class="o">:</span> <span class="n">groups</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">groups</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                <span class="n">FindUsersByGroupName</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                    <span class="o">.</span><span class="na">groupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">())</span>
+                                                    <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users of &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">users</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                <span class="n">FindUsersByNotGroupName</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                       <span class="o">.</span><span class="na">groupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">())</span>
+                                                       <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : no users of &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">users</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">addUserTo</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">sequence</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">()</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">)</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">())</span>
+                                  <span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">newUserId</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span>
+                                        <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">8</span><span class="o">,</span> <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">groupId</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">()).</span><span class="na">getGroupId</span><span class="o">();</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">addAffiliation</span><span class="o">(</span><span class="n">Affiliation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                       <span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="n">AffiliationPK</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                        <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">)</span>
+                                                        <span class="o">.</span><span class="na">groupId</span><span class="o">(</span><span class="n">groupId</span><span class="o">)</span>
+                                                        <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+                                       <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">deleteUserFrom</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Group</span> <span class="n">findGroup</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">findGroup</span><span class="o">.</span><span class="na">getAffiliations</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span> <span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">();</span> <span class="o">){</span>
+            <span class="n">Affiliation</span> <span class="n">affiliation</span> <span class="o">=</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">affiliation</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">getUserId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())){</span>
+                <span class="n">iterator</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Group</span> <span class="nf">deleteGroup</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Group</span> <span class="n">findGroup</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="n">groupRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">findGroup</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">findGroup</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">findUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="n">addressRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">findUser</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>以降、実装の詳細をユースケースごとに詳述する。</p>
+<div class="section" id="section2-4-3-1-spring-data-jpa-usage-manny-to-many-get-groups-label">
+<span id="id44"></span><h4>指定したユーザが属するグループの一覧を取得する。<a class="headerlink" href="#section2-4-3-1-spring-data-jpa-usage-manny-to-many-get-groups-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSercice#getGroups()にて、ユーザIDを指定して一致した所属テーブルのキー(userIdとgroupId)とグループテーブルを結合して、一致するグループの一覧を取得する。結合には、 <a class="reference internal" href="#section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label"><span>1対1関連における、特定の郵便番号を持つユーザ一覧を取得する</span></a> 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getgroups-user-user">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getGroups(User user)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getgroups-user-user" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">getGroups</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                   <span class="n">FindGroupsByUserId</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                     <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())</span>
+                                                     <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : groups of &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">groups</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span> <span class="o">:</span> <span class="n">groups</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">groups</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findgroupsbyuserid-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindGroupsByUserId.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-findgroupsbyuserid-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FindGroupsByUserId</span> <span class="kd">implements</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">userId</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span>
+                        <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;</span> <span class="n">predicates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;();</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">joinAffiliation</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Group_</span><span class="o">.</span><span class="na">affiliations</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">,</span> <span class="n">User</span><span class="o">&gt;</span> <span class="n">joinUser</span> <span class="o">=</span> <span class="n">joinAffiliation</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Affiliation_</span><span class="o">.</span><span class="na">usr</span><span class="o">);</span>
+        <span class="n">predicates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">joinUser</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">userId</span><span class="o">),</span> <span class="n">userId</span><span class="o">));</span>
+
+        <span class="k">return</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">predicates</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="n">Predicate</span><span class="o">[]{}));</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span> <span class="k">as</span> <span class="n">group_na2_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_4_</span>
+<span class="k">from</span>
+    <span class="n">grp</span> <span class="n">group0_</span>
+<span class="k">inner</span> <span class="k">join</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio1_</span>
+        <span class="k">on</span> <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span><span class="o">=</span><span class="n">affiliatio1_</span><span class="p">.</span><span class="n">group_id</span>
+<span class="k">inner</span> <span class="k">join</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user2_</span>
+        <span class="k">on</span> <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=</span><span class="n">user2_</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">where</span>
+    <span class="n">user2_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-3-2-spring-data-jpa-usage-manny-to-many-get-users-with-label">
+<span id="id45"></span><h4>指定したグループに所属する全てのユーザ一覧を取得する。<a class="headerlink" href="#section2-4-3-2-spring-data-jpa-usage-manny-to-many-get-users-with-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSercice#getUsersWith(Group group)にて、グループ名を指定して一致したグループのデータがもつグループIDと一致する、所属テーブルのキー(userIdとgroupId)を使用して、ユーザテーブルを結合して、一致するユーザの一覧を取得する。結合には、 <a class="reference internal" href="#section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label"><span>1対1関連における、特定の郵便番号を持つユーザ一覧を取得する</span></a> 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getuserswith-group-group">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getUsersWith(Group group)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getuserswith-group-group" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWith</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                        <span class="n">FindUsersByGroupName</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                            <span class="o">.</span><span class="na">groupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">())</span>
+                                                            <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users of &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">users</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+   <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-finduserbygroupname-java">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUserByGroupName.java</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-finduserbygroupname-java" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FindUsersByGroupName</span> <span class="kd">implements</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">groupName</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span>
+                         <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;</span> <span class="n">predicates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Predicate</span><span class="o">&gt;();</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">joinAffiliation</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">affiliations</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">,</span> <span class="n">Group</span><span class="o">&gt;</span> <span class="n">joinGroup</span> <span class="o">=</span> <span class="n">joinAffiliation</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Affiliation_</span><span class="o">.</span><span class="na">grp</span><span class="o">);</span>
+        <span class="n">predicates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">joinGroup</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">Group_</span><span class="o">.</span><span class="na">groupName</span><span class="o">),</span> <span class="n">groupName</span><span class="o">));</span>
+
+        <span class="k">return</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">predicates</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="n">Predicate</span><span class="o">[]{}));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd2_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">login_id</span> <span class="k">as</span> <span class="n">login_id3_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_name</span> <span class="k">as</span> <span class="n">user_nam4_3_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_3_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+<span class="k">inner</span> <span class="k">join</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio1_</span>
+        <span class="k">on</span> <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=</span><span class="n">affiliatio1_</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">inner</span> <span class="k">join</span>
+    <span class="n">grp</span> <span class="n">group2_</span>
+        <span class="k">on</span> <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">group_id</span><span class="o">=</span><span class="n">group2_</span><span class="p">.</span><span class="n">group_id</span>
+<span class="k">where</span>
+    <span class="n">group2_</span><span class="p">.</span><span class="n">group_name</span><span class="o">=?</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-3-3-spring-data-jpa-usage-manny-to-many-get-users-without-label">
+<span id="id46"></span><h4>指定したグループに所属しない全てのユーザ一覧を取得する。<a class="headerlink" href="#section2-4-3-3-spring-data-jpa-usage-manny-to-many-get-users-without-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSercice#getUsersWithout(Group group)にて、前章で、&#8221;指定したグループに所属する全てのユーザ一覧を取得する&#8221;サブクエリを副問い合わせとして実行した後、その結果に該当しないユーザをNotInを使って取得する。</p>
+<p>結合には、 <a class="reference internal" href="#section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label"><span>1対1関連における、特定の郵便番号を持たないユーザ一覧を取得する</span></a> 場合と同様に、結合条件に該当するorg.springframework.data.jpa.domain.Specificationクラスを継承した条件クラスを作成し、toPredicate()メソッドをオーバーライドして、結合条件を指定したPredicateクラスを戻り値で返却する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getuserswithout-group-group">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#getUsersWithout(Group group)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-getuserswithout-group-group" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsersWithout</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span>
+                                       <span class="n">FindUsersByNotGroupName</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                              <span class="o">.</span><span class="na">groupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">())</span>
+                                                              <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : no users of &quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">users</span><span class="o">.</span><span class="na">size</span><span class="o">()==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {null,null}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;        - {&quot;</span>
+                       <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">users</span><span class="o">;</span>
+   <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotgroupname">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.repository.specification.FindUsersByNotGroupName</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-repository-specification-findusersbynotgroupname" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.repository.specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Subquery</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Affiliation_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.Group_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.spring.jpa.domain.entity.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FindUsersByNotGroupName</span> <span class="kd">implements</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">groupName</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span>
+                          <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">Path</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">);</span>
+        <span class="n">Subquery</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQuery</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">createQuery</span><span class="o">().</span><span class="na">subquery</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQueryRoot</span> <span class="o">=</span> <span class="n">subQuery</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">subQueryJoinAffiliation</span> <span class="o">=</span> <span class="n">subQueryRoot</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">affiliations</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">,</span> <span class="n">Group</span><span class="o">&gt;</span> <span class="n">subQueryJoinGroup</span> <span class="o">=</span> <span class="n">subQueryJoinAffiliation</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Affiliation_</span><span class="o">.</span><span class="na">grp</span><span class="o">);</span>
+        <span class="n">Predicate</span> <span class="n">subQueryPredicate</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span>
+                                                <span class="n">subQueryJoinGroup</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">Group_</span><span class="o">.</span><span class="na">groupName</span><span class="o">),</span> <span class="n">groupName</span><span class="o">);</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">subQueryRoot</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">));</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">subQueryPredicate</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">not</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">path</span><span class="o">).</span><span class="na">value</span><span class="o">(</span><span class="n">subQuery</span><span class="o">));</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のSQLが実行される。</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">select</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">user_id</span> <span class="n">as</span> <span class="n">user_id1_3_</span><span class="o">,</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">last_updated_date</span> <span class="n">as</span> <span class="n">last_upd2_3_</span><span class="o">,</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">login_id</span> <span class="n">as</span> <span class="n">login_id3_3_</span><span class="o">,</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">user_name</span> <span class="n">as</span> <span class="n">user_nam4_3_</span><span class="o">,</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">ver</span> <span class="n">as</span> <span class="n">ver5_3_</span>
+<span class="n">from</span>
+    <span class="kd">public</span><span class="o">.</span><span class="na">usr</span> <span class="n">user0_</span>
+<span class="n">where</span>
+    <span class="n">user0_</span><span class="o">.</span><span class="na">user_id</span> <span class="n">not</span> <span class="nf">in</span>  <span class="o">(</span>
+        <span class="n">select</span>
+            <span class="n">user1_</span><span class="o">.</span><span class="na">user_id</span>
+        <span class="n">from</span>
+            <span class="kd">public</span><span class="o">.</span><span class="na">usr</span> <span class="n">user1_</span>
+        <span class="n">inner</span> <span class="n">join</span>
+            <span class="kd">public</span><span class="o">.</span><span class="na">affiliation</span> <span class="n">affiliatio2_</span>
+                <span class="n">on</span> <span class="n">user1_</span><span class="o">.</span><span class="na">user_id</span><span class="o">=</span><span class="n">affiliatio2_</span><span class="o">.</span><span class="na">user_id</span>
+        <span class="n">inner</span> <span class="n">join</span>
+            <span class="n">grp</span> <span class="n">group3_</span>
+                <span class="n">on</span> <span class="n">affiliatio2_</span><span class="o">.</span><span class="na">group_id</span><span class="o">=</span><span class="n">group3_</span><span class="o">.</span><span class="na">group_id</span>
+        <span class="n">where</span>
+            <span class="n">group3_</span><span class="o">.</span><span class="na">group_name</span><span class="o">=?</span>
+    <span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-3-4-spring-data-jpa-usage-manny-to-many-add-user-to-label">
+<span id="id47"></span><h4>指定したユーザを指定したグループに追加する。<a class="headerlink" href="#section2-4-3-4-spring-data-jpa-usage-manny-to-many-add-user-to-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSerivce#addUserTo(Group group, User user)にて、所属エンティティに指定したグループのキーを設定して、新規ユーザデータを作成し、userRepository#save()メソッドを実行する。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-adduserto-group-group-user-user">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#addUserTo(Group group, User user)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-adduserto-group-group-user-user" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">addUserTo</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">sequence</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">()</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">)</span>
+                                  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">())</span>
+                                  <span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">newUserId</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span>
+                                     <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">8</span><span class="o">,</span> <span class="n">sequence</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">groupId</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">()).</span><span class="na">getGroupId</span><span class="o">();</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">addAffiliation</span><span class="o">(</span><span class="n">Affiliation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                       <span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="n">AffiliationPK</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                        <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">newUserId</span><span class="o">)</span>
+                                                        <span class="o">.</span><span class="na">groupId</span><span class="o">(</span><span class="n">groupId</span><span class="o">)</span>
+                                                        <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+                                       <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+   <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">col_0_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+
+<span class="k">select</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span> <span class="k">as</span> <span class="n">group_na2_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_4_</span>
+<span class="k">from</span>
+    <span class="n">grp</span> <span class="n">group0_</span>
+<span class="k">where</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_1_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd2_3_1_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">login_id</span> <span class="k">as</span> <span class="n">login_id3_3_1_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_name</span> <span class="k">as</span> <span class="n">user_nam4_3_1_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_3_1_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_3_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_3_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio1_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_1_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+<span class="k">left</span> <span class="k">outer</span> <span class="k">join</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio1_</span>
+        <span class="k">on</span> <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=</span><span class="n">affiliatio1_</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">where</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_1_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio0_</span>
+<span class="k">where</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">insert</span> <span class="k">into</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span>
+    <span class="p">(</span><span class="n">last_updated_date</span><span class="p">,</span> <span class="n">login_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+<span class="k">values</span>
+    <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+
+<span class="k">insert</span> <span class="k">into</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+    <span class="p">(</span><span class="n">last_updated_date</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+<span class="k">values</span>
+     <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-3-5-spring-data-jpa-usage-manny-to-many-delete-user-from-label">
+<span id="id48"></span><h4>指定したユーザをグループから除外する。<a class="headerlink" href="#section2-4-3-5-spring-data-jpa-usage-manny-to-many-delete-user-from-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSerivce#deleteUserFrom(Group group, User user)にて、指定したグループ名に一致するグループを取得し、所属プロパティから指定されたユーザIDと一致するデータをコレクションから除外するだけで良い。除外したデータに対してDELETE文が発行されるようにするため、Groupエンティティにおける、Affiliationプロパティの&#64;OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deleteuserfrom-group-group-user-user">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteUserFrom(Group group, User user)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deleteuserfrom-group-group-user-user" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">deleteUserFrom</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Group</span> <span class="n">findGroup</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">findGroup</span><span class="o">.</span><span class="na">getAffiliations</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+            <span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">();</span> <span class="o">){</span>
+            <span class="n">Affiliation</span> <span class="n">affiliation</span> <span class="o">=</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">affiliation</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">getUserId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())){</span>
+                <span class="n">iterator</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-entity-group-set-affiliation">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.entity.Group#Set&lt;Affiliation&gt;</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-entity-group-set-affiliation" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span> <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">&quot;grp&quot;</span><span class="o">,</span>
+                        <span class="n">cascade</span><span class="o">=</span><span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">,</span> <span class="n">orphanRemoval</span><span class="o">=</span><span class="kc">true</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のようなSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span> <span class="k">as</span> <span class="n">group_na2_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_4_</span>
+<span class="k">from</span>
+    <span class="n">grp</span> <span class="n">group0_</span>
+<span class="k">where</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_1_1_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio0_</span>
+<span class="k">where</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+<span class="k">where</span>
+    <span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section2-4-3-6-spring-data-jpa-usage-manny-to-many-delete-group-label">
+<span id="id49"></span><h4>指定したグループを削除し、ユーザが所属するグループの情報を更新する。<a class="headerlink" href="#section2-4-3-6-spring-data-jpa-usage-manny-to-many-delete-group-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSerivce#deleteGroup(Group group)にて、指定したグループ名に一致するグループを取得し、groupRepository.delete()メソッドを実行する。グループの子要素である所属テーブルのデータに対してもDELETE文が発行されるようにするため、前節と同様、Groupエンティティにおける、Affiliationプロパティの&#64;OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deletegroup-group-group">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteGroup(Group group)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deletegroup-group-group" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Group</span> <span class="nf">deleteGroup</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Group</span> <span class="n">findGroup</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findByGroupName</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupName</span><span class="o">());</span>
+        <span class="n">groupRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">findGroup</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">findGroup</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のようなSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span> <span class="k">as</span> <span class="n">group_na2_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_4_</span><span class="p">,</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_4_</span>
+<span class="k">from</span>
+    <span class="n">grp</span> <span class="n">group0_</span>
+<span class="k">where</span>
+    <span class="n">group0_</span><span class="p">.</span><span class="n">group_name</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_1_1_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio0_</span>
+<span class="k">where</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+<span class="k">where</span>
+    <span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+<span class="k">where</span>
+    <span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="n">grp</span>
+<span class="k">where</span>
+    <span class="n">group_id</span><span class="o">=?</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">所属しているユーザの数だけDELETE文が実行されるため、ユーザ数が多い場合は、JPQLによる一括のデータ削除等を検討する。</p>
+</div>
+</div>
+<div class="section" id="section2-4-3-7-spring-data-jpa-usage-manny-to-many-delete-user-label">
+<span id="id50"></span><h4>指定されたユーザを削除し、グループのユーザ一覧を更新する。<a class="headerlink" href="#section2-4-3-7-spring-data-jpa-usage-manny-to-many-delete-user-label" title="Permalink to this headline">¶</a></h4>
+<p>manyToManySampleSerivce#deleteUser(User user)にて、指定したユーザIDに一致するユーザを取得し、userRepository.delete()メソッドを実行する。ユーザエンティティにはOneToOne関連でAddressエンティティが設定されているため、事前に削除を行う。ユーザの子要素である所属テーブルのデータに対してもDELETE文が発行されるようにするため、前節と同様、Userエンティティにおける、Affiliationプロパティの&#64;OneToManyアノテーションにcascade属性CascadeType.ALLと、orphanRemovalをtrueに設定しておく。</p>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deleteuser-user-user">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.service.ManyToManySampleServiceImpl#deleteUser(User user)</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-service-manytomanysampleserviceimpl-deleteuser-user-user" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">findUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="n">addressRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">addressRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">findUser</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="org-debugroom-sample-spring-jpa-domain-entity-user-set-affiliation">
+<div class="code-block-caption"><span class="caption-text">org.debugroom.sample.spring.jpa.domain.entity.User#Set&lt;Affiliation&gt;</span><a class="headerlink" href="#org-debugroom-sample-spring-jpa-domain-entity-user-set-affiliation" title="Permalink to this code">¶</a></div>
+<div class="highlight-java"><div class="highlight"><pre>    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="n">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span> <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">&quot;usr&quot;</span><span class="o">,</span> <span class="n">cascade</span><span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">,</span> <span class="n">orphanRemoval</span><span class="o">=</span><span class="kc">true</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+</pre></div>
+</div>
+</div>
+<p>上記を実行すると、以下のSQLが発行される。</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">select</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_3_0_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd2_3_0_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">login_id</span> <span class="k">as</span> <span class="n">login_id3_3_0_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_name</span> <span class="k">as</span> <span class="n">user_nam4_3_0_</span><span class="p">,</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_3_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span> <span class="n">user0_</span>
+<span class="k">where</span>
+    <span class="n">user0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id1_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">address</span> <span class="k">as</span> <span class="n">address2_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_0_0_</span><span class="p">,</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">zip_cd</span> <span class="k">as</span> <span class="n">zip_cd5_0_0_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">address</span> <span class="n">address0_</span>
+<span class="k">where</span>
+    <span class="n">address0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_0_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">group_id</span> <span class="k">as</span> <span class="n">group_id1_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd3_1_1_</span><span class="p">,</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver4_1_1_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span> <span class="n">affiliatio0_</span>
+<span class="k">where</span>
+    <span class="n">affiliatio0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">select</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_2_0_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">email_id</span> <span class="k">as</span> <span class="n">email_id1_2_0_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">email_id</span> <span class="k">as</span> <span class="n">email_id1_2_1_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">user_id</span> <span class="k">as</span> <span class="n">user_id2_2_1_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">email</span> <span class="k">as</span> <span class="n">email3_2_1_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">last_updated_date</span> <span class="k">as</span> <span class="n">last_upd4_2_1_</span><span class="p">,</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">ver</span> <span class="k">as</span> <span class="n">ver5_2_1_</span>
+<span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">email</span> <span class="n">emails0_</span>
+<span class="k">where</span>
+    <span class="n">emails0_</span><span class="p">.</span><span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">address</span>
+<span class="k">where</span>
+    <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">affiliation</span>
+<span class="k">where</span>
+    <span class="n">group_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">email</span>
+<span class="k">where</span>
+    <span class="n">email_id</span><span class="o">=?</span>
+    <span class="k">and</span> <span class="n">user_id</span><span class="o">=?</span>
+
+<span class="k">delete</span> <span class="k">from</span>
+    <span class="k">public</span><span class="p">.</span><span class="n">usr</span>
+<span class="k">where</span>
+    <span class="n">user_id</span><span class="o">=?</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
