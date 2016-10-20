@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DataStore Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">作業メモ</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">document</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+    <li>DataStore Category</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/memo/work/aws/article/datastore.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datastore-category">
+<span id="section6-datastore-label"></span><h1>DataStore Category<a class="headerlink" href="#datastore-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="relational-database-service-rds">
+<span id="section6-1-rds-label"></span><h2>Relational Database Service(RDS)<a class="headerlink" href="#relational-database-service-rds" title="Permalink to this headline">¶</a></h2>
+<p>Relational Database Service(RDS)はセットアップや拡張、運用が容易なフルマネージドリレーショナルデータベースサービスである。管理コンソールやAPIによって簡単にデータベースサービスを構築でき、時間単位の従量課金性である。RDSは以下の4つのデータベースエンジンを選択できる。</p>
+<ul class="simple">
+<li>MySQL</li>
+<li>PostgreSQL</li>
+<li>Oracle</li>
+<li>Microsoft SQL Server</li>
+</ul>
+<p>RDSではデータベース運用管理では必須となる自動バックアップ機能及び冗長化構成による自動フェイルオーバをサポートしている。自動バックアップ機能では、DBスナップショットとトランザクションログを保存している。DBスナップショットは1日1回、指定した世代数を、指定した時間帯に取得する。リストアは任意の世代のDBスナップショットを指定して復元を行う。トランザクションログは随時取得されており、任意に指定した状態へのリカバリが可能で、時刻は直近5分から、より古いスナップショットの時点の間で指定する。データベース構築時には「Multi-AZ配置」と呼ばれる、レプリケーションによる冗長化構成を選択できる。この配置をとることで、マスターとなるRDSとは別のアベイラビリティゾーンに、スレーブとなるRDSを配置し、マスターからデータを複製する。マスターに障害が発生すると、自動的にフェイルオーバし、スレーブがマスターに昇格する。Malti-AZ配置されたRDSは単一のエンドポイントを持つため、マスターが変更された場合にも情報システム側で意識することなく、データベースを利用できる。RDSへのアクセス制御はEC2と同様、Security Groupで設定する。データの暗号化機能もサポートされており、暗号化キー管理サービス「Key Management Service(KMS)」に格納されたキーを使って暗号化できる。MySQLとPostgreSQLではDBインスタンスの暗号化が、SQLServerとOracleでは、Transparent Data Encryption方式によるデータ暗号化がそれぞれ可能である。</p>
+</div>
+<div class="section" id="elasticache">
+<span id="section6-2-elasticache-label"></span><h2>ElastiCache<a class="headerlink" href="#elasticache" title="Permalink to this headline">¶</a></h2>
+<p>ElastiCacheはデータベースの応答をキャッシュに保存し高速化する。ElastiCacheでは「memcached」と「Redis」という2種類のインメモリキャッシュエンジンをサポートしている。memcachedの場合、複数ノード間のキャッシュレプリケーションなどの冗長化機能がないため、可用性はアプリケーション側で確保する必要がある。</p>
+</div>
+<div class="section" id="dynamodb">
+<span id="section6-3-dynamodb-label"></span><h2>DynamoDB<a class="headerlink" href="#dynamodb" title="Permalink to this headline">¶</a></h2>
+<p>DynamoDBはAmazonが設計・開発していたNoSQLデータベース「Amazon Dynamo」をベースにサービス化したデータストアである。NoSQLではトランザクションによるデータ一貫性を保証する代わりに、結果整合性を担保することでクラスタ内の全ノードでの読み書きを可能にしている。つまり、データ更新直後は古いデータを取得する可能性があるが、結果的に全て最新の状態で更新される。DynamoDBもその他のAWSサービスと同様、従量課金性で基準は指定したリクエストスループットと保存されたデータ量により決定される。DynamoDBの設定では、テーブルごとに目標とする書き込みと読み込みのリクエストスループットを指定する。DynamoDBは指定されたリクエストスループットに基づいて、自動的に必要なコンピュータリソースを確保する。保存されたデータ量によって課金されるが、データ容量は自動的に増加される。</p>
+</div>
+<div class="section" id="redshift">
+<span id="section6-4-redshift-label"></span><h2>Redshift<a class="headerlink" href="#redshift" title="Permalink to this headline">¶</a></h2>
+<p>Redshiftは大量データを使った集計や分析に特化したデータウェハウス・サービスである。同様に従量課金性であるが、主な特徴は、</p>
+<ul class="simple">
+<li>高速性</li>
+<li>拡張性</li>
+<li>互換性</li>
+</ul>
+<p>RedshiftはSQLクエリを高速化するために、列指向データベースを採用している。一般的なリレーショナルデータベースが行指向型でレコードを取得するクエリに向いているのに対し、列指向データベースでは、カラム単位でのデータを高速に集計できる。他のAWSサービスと同様、スケーラブルな特性を持ち、パフォーマンスやデータ保存ストレージが不足してもすぐにノード数や性能タイプを変更でき、MPP（Massively Parallel Processing:大規模並列計算）機構を持ち、全ノードが並列に処理するため、ノード数を増やせば処理性能も向上する。また、Redshift用にカスタマイズされたJDBCやODBCのドライバーが用意され、既存のSQLをそのまま流用でき、PostgreSQL用のドライバーを流用することが可能である。なお、既存のETL(Extract/Transform/Load)ツールやTableauといったBIツールを利用することもできる。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

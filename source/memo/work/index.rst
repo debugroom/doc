@@ -1,4 +1,4 @@
-作業メモ
+work guideline
 ====================================
 
 Contents:
@@ -6,6 +6,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   aws/index.rst
    cassandra/install.rst
    sphinx/install.rst
    

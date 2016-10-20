@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Storage Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/>
+        <link rel="up" title="Amazon web service guideline" href="../index.html"/>
+        <link rel="next" title="Cassandraのインストール" href="../../cassandra/install.html"/>
+        <link rel="prev" title="Computing Category" href="computing.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">作業メモ</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Amazon web service guideline</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="introduction.html">はじめに</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Amazon Web Services　Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network.html">Network Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="computing.html">Computing Category</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Storage Category</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-storage-service-s3">Simple Storage Service(S3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glacier">Glacier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#storage-gateway">Storage Gateway</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic-file-system">Elastic File System</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">document</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">作業メモ</a> &raquo;</li>
+      
+          <li><a href="../index.html">Amazon web service guideline</a> &raquo;</li>
+      
+    <li>Storage Category</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/memo/work/aws/article/storage.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="storage-category">
+<span id="section5-storage-label"></span><h1>Storage Category<a class="headerlink" href="#storage-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simple-storage-service-s3">
+<span id="section5-1-s3-label"></span><h2>Simple Storage Service(S3)<a class="headerlink" href="#simple-storage-service-s3" title="Permalink to this headline">¶</a></h2>
+<p>S3はWebベースのデータストレージサービスであり、ユーザはどこからもデータの保存や取出しができ、使用量に応じた従量課金性である。保存できるファイル数に限界はないが1ファイルあたり最大5TBに制限される。加えて、</p>
+<ul class="simple">
+<li>信頼性</li>
+<li>セキュリティ</li>
+<li>Webサーバ</li>
+</ul>
+<p>としての動作が主な特徴として挙げられる。データセンター内の複数のデバイスに必ず3箇所以上に複製されることにより、きわめて高い信頼性を確保するとともにバージョン管理によるユーザの誤操作からの復元が可能である。データは「バケット」と呼ばれる保存場所にアップロードする。全ての通信はSSLによって暗号化され、バケットごとにポリシーを設定でき、アクセスを詳細に制御できる。アップロードデータの自動暗号化機能もあり、情報漏えい時に参照はできない。また、S3はWebサーバとしても動作するため、アップロードされたデータをそのままコンテンツとして保存できる。ただしスクリプト言語やデータベースの導入はできないため、動的なコンテンツは利用できないがHTMLや画像ファイルで構成される静的なコンテンツならば、信頼性が高いWebサイトをそのまま構築することが可能である。</p>
+</div>
+<div class="section" id="glacier">
+<span id="section5-2-glacier-label"></span><h2>Glacier<a class="headerlink" href="#glacier" title="Permalink to this headline">¶</a></h2>
+<p>Glacierはアクセス頻度は少ないが、必要なときに確実にアクセスしたいデータを低価格で長期保存することに向いたデータストレージサービスである。システムのバックアップや一定期間保存しなければならないデータの保存に向いている。オンプレミスで言えば、DAT(Digital Audio Tape)やLTO(Linear Tape Open)などの外部媒体に相当する。GlacierもS3同様、高い堅牢性をもち、保存できるデータ容量に上限はない。通信は全てSSLによって暗号化され、自動暗号化機能もあるが、料金はS3の1/3程度である。ただし、S3のようにリアルタイムなデータアクセスはできず、データの取り出しに3～5時間かかる。主な用途としてはS3のバックアップでアップロードから指定した期間が経過したデータをGlacierに自動的に移動させる機能を持っている。</p>
+</div>
+<div class="section" id="storage-gateway">
+<span id="section5-3-storage-gateway-label"></span><h2>Storage Gateway<a class="headerlink" href="#storage-gateway" title="Permalink to this headline">¶</a></h2>
+<p>Storage Gatewayはオンプレミス環境やEC2からS3やGlacierを直接使用するためのサービスである。当初はオンプレミス環境と連携するサービスとしてリリースされ、オンプレミス環境のバックアップサーバとして利用されてきたが、EC2から利用可能になったことでAWSの大容量オンラインストレージ環境として利用されている。前述の通り、S3はWebベースのデータストレージサービスであるが、SSLによって暗号化されたWeb通信のみファイルのアップロード・ダウンロードができる。そのため、直接サーバから接続できないが、安価で堅牢性が高いS3をサーバから直接操作できれば、より簡単にデータの共有やバックアップが可能になる。これを実現するのがStorage Gatewayである。
+オンプレミス環境にStorage Gatewayを導入する場合、利用している仮想サーバのハイパーバイザにあわせた仮想サーバイメージをダウンロードしてインストールすれば利用できる。AWS上では「EC2 Storage Gateway」というAMI(Amazon Machine Image)が提供されるので、そのAMIをEC2上から起動する。Storage Gatewayは主に以下の3種類のタイプがある。</p>
+<ul class="simple">
+<li>ゲートウェイ保管型ボリューム</li>
+<li>ゲートウェイキャッシュ型ボリューム</li>
+<li>ゲートウェイVTL(Virtual Tape Library:仮想テープライブラリ)</li>
+</ul>
+<p>ゲートウェイ保管型ボリュームは、オンプレミス環境のバックアップをAWSに移すために利用するタイプである。データをオンプレミス環境のローカルストレージに保存し、そのローカルストレージのスナップショットをS3に保管する。スナップショットはAmazon EBS形式で作成されるので、そのままAWS上のEBSボリュームとしてリストアしたり、Storage Gatewayを経由してオンプレミスのローカルストレージにリストアできる。主な利用方法は災害復旧対策としてのオンプレミス環境のデータバックアップである。</p>
+<p>ゲートウェイキャッシュ型ボリュームは、S3をサーバから直接利用する際に、Storage Gatewayでキャッシュを持つことでS3をオンラインストレージとして使用するための利用タイプである。データ自体はS3に保管するが、頻繁にアクセスするデータをStorage Gatewayにキャッシュすることで、高速なデータアクセスを実現する。オンプレミスのサーバもしくはEC2からiSCSIプロトコルによって、Storage Gatewayをファイルシステムとして接続する。S3を仮想的なデータボリュームストレージとして扱うので、データボリュームストレージごとにAmazon EBS形式のスナップショットとして取得し、バックアップをとることができる。主な用途としては大容量のファイルサーバである。仮想データボリュームストレージは最大32TBまで指定でき、1つのStorage Gatewayで最大20個、最大合計150TBのストレージ容量を持てる。</p>
+<p>ゲートウェイVTLは物理テープライブラリの代替として、Storage Gatewayを仮想テープライブラリ装置として利用するタイプである。一般的なバックアップソフトウェアから物理テープにデータを書き込むようにS3にデータをバックアップできる。ゲートウェイVTLの大きなメリットは、物理テープで発生するコストの削減である。仮想テープが作成されるS3及びGlacierは冗長化構成によって信頼性を確保し、またAWSのデータセンター上に保管されるため災害対策の目的として有効である。</p>
+<p>ただし、いずれのサービスもオンプレミスとの大量のデータ通信が発生する可能性があるため、必要に応じて「AWS Direct Connect」との併用を検討したほうがよい。</p>
+</div>
+<div class="section" id="elastic-file-system">
+<span id="section5-4-efs-label"></span><h2>Elastic File System<a class="headerlink" href="#elastic-file-system" title="Permalink to this headline">¶</a></h2>
+<p>Elastic File Systemは共有ファイルストレージサービスである。複数のEC2インスタンスから、ファイル共有プロトコル「NFSv4」を介して同時にアクセスできる。ファイルの追加や削除に伴い容量を自動的に拡張または縮小する。ペタバイト規模まで拡張できるよう設計されており、S3やGlacierと同様、複数のデータセンター間でデータをレプリケーションすることで可用性を確保する。主な用途としては、データやコンテンツの共有等が挙げられる。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../cassandra/install.html" class="btn btn-neutral float-right" title="Cassandraのインストール" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="computing.html" class="btn btn-neutral" title="Computing Category" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
