@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/> 
+    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
+        <link rel="up" title="Cassandra" href="index.html"/>
+        <link rel="next" title="作業メモ" href="../../memo/work/index.html"/>
+        <link rel="prev" title="Cassandra - SpringFrameworkアプリケーション" href="spring-integration.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -79,11 +82,29 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">データモデリング</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section6-x-cassandra-discussion-label">検証のポイント</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section6-x-cassandra-use-case-label">ユースケース</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section6-x-differenece-relational-data-modeling-label">データベース、モデリングにおける相違点</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rdbmscassandra">RDBMSとCassandra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section6-x-x-differenece-rdb-consistency-problem-label">データ整合性に問題が生じるケース</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section6-x-x-differenece-design-method-label">設計手順</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">作業メモ</a></li>
 </ul>
 
@@ -115,6 +136,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
+          <li><a href="index.html">Cassandra</a> &raquo;</li>
+      
     <li>データモデリング</li>
       <li class="wy-breadcrumbs-aside">
         
@@ -131,13 +154,363 @@
             
   <div class="section" id="section6-cassndra-data-modeling-label">
 <span id="id1"></span><h1>データモデリング<a class="headerlink" href="#section6-cassndra-data-modeling-label" title="Permalink to this headline">¶</a></h1>
-<p>..note:: この内容は検証中であり、結果によっては記載内容を変更する場合がある。</p>
-<span class="target" id="section6-1-environment-label"></span></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この内容は検証中であり、検証の結果によっては記載内容を変更する可能性がある事に注意。</p>
+</div>
+<div class="section" id="section6-x-cassandra-discussion-label">
+<span id="id2"></span><h2>検証のポイント<a class="headerlink" href="#section6-x-cassandra-discussion-label" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Cassandraのテーブル構造  <br/>
+→リレーショナルデータベースとは違い、データ中心の設計アプローチをとるべきではない(と言われている)。データストアの特性が違うので、Cassandraで出来る事・出来ない事を整理して、適切な永続化のテーブル構造を考える。</li>
+<li>アプリケーションのデータモデリングの差異 <br/>
+→ エンティティオブジェクトはどのような構造をとるべきか</li>
+<li>Spring Data Cassandraのマッピング機能とデータアクセスのお作法 <br/>
+→ どのような機能を持っていて、どういう実装方法が望ましいか</li>
+<li>データモデリング設計の進め方</li>
+</ul>
+</div>
+<div class="section" id="section6-x-cassandra-use-case-label">
+<span id="id3"></span><h2>ユースケース<a class="headerlink" href="#section6-x-cassandra-use-case-label" title="Permalink to this headline">¶</a></h2>
+<p>リレーショナルデータベースの場合のモデリングと対比するために、<a class="reference external" href="http://debugroom.github.io/doc/java/spring/springdatajpa/index.html">Spring Data JPAにおけるサンプルのユースケース</a> を考える。</p>
+<table border="1" class="docutils" id="id9">
+<caption><span class="caption-text">ユースケース</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ユースケース</th>
+<th class="head">リレーショナルモデルにおける <br/> エンティティ関連</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>全てのユーザを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-odd"><td>全ての住所を検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-even"><td>全てのメールアドレスを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-odd"><td>全てのグループを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-even"><td>特定のユーザを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-odd"><td>特定のユーザのアドレスを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-even"><td>特定のユーザがもつEmailアドレスを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-odd"><td>指定したグループ名を元にグループを検索する</td>
+<td>なし</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザの住所を取得する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-odd"><td>特定の郵便番号を持つユーザ一覧を取得する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-even"><td>特定の郵便番号を持たないユーザ一覧を取得する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザの住所を追加する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザの住所を更新する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザの住所を削除する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザの情報を住所を含めて削除する</td>
+<td>ユーザ : 住所 = 1 : 1</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザのEmailの一覧を取得する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-even"><td>特定のメールアドレスを持つユーザを検索する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザのメールアドレスを追加する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザをメールアドレスを含めて追加する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザのメールアドレスを更新する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザのメールアドレスを1件削除する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザのメールアドレスを全件削除する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-even"><td>指定されたユーザの情報をメールアドレスを含めて削除する</td>
+<td>ユーザ : メール = 1 : N</td>
+</tr>
+<tr class="row-odd"><td>指定したユーザが属するグループの一覧を取得する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-even"><td>指定したグループに所属する全てのユーザ一覧を取得する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-odd"><td>指定したグループに所属しない全てのユーザ一覧を取得する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-even"><td>指定したユーザを指定したグループに追加する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-odd"><td>指定したユーザをグループから除外する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-even"><td>指定したグループを削除し、 <br/> ユーザが所属するグループの情報を更新する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+<tr class="row-odd"><td>指定されたユーザを削除し、グループのユーザ一覧を更新する</td>
+<td>ユーザ : グループ = N : N</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="section6-x-differenece-relational-data-modeling-label">
+<span id="id4"></span><h2>データベース、モデリングにおける相違点<a class="headerlink" href="#section6-x-differenece-relational-data-modeling-label" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rdbmscassandra">
+<span id="section6-x-x-differenece-between-rdb-and-cassandra-label"></span><h3>RDBMSとCassandra<a class="headerlink" href="#rdbmscassandra" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils" id="id10">
+<caption><span class="caption-text">データベース間の相違</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="23%" />
+<col width="38%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head stub">相違点</th>
+<th class="head">RDBMS</th>
+<th class="head">Cassandra</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><th class="stub">一貫性</th>
+<td>強一貫性</td>
+<td>設定可能な一貫性※1</td>
+</tr>
+<tr class="row-odd"><th class="stub">トランザクション</th>
+<td>ACIDトランザクション</td>
+<td>軽量トランザクション</td>
+</tr>
+<tr class="row-even"><th class="stub">クエリ</th>
+<td>SQL</td>
+<td>CQL※2</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id11">
+<caption><span class="caption-text">設定可能な書き込み一貫性*1</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">一貫性レベル</th>
+<th class="head">特徴</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALL</td>
+<td>クラスター内のすべてのレプリカ・ノードのコミット・ログとmemtableに <br/> 書き込まれる</td>
+</tr>
+<tr class="row-odd"><td>EACH_QUORUM</td>
+<td>書き込みが、各データ・センターのレプリカ・ノードのクォーラム（過半数）の <br/> コミット・ログとmemtableに書き込まれる</td>
+</tr>
+<tr class="row-even"><td>QUORUM</td>
+<td>書き込みが、すべてのデータ・センターのレプリカ・ノードのクォーラム <br/> （過半数）のコミット・ログとmemtableに書き込まれる</td>
+</tr>
+<tr class="row-odd"><td>LOCAL_QUORUM</td>
+<td>書き込みが、コーディネーター・ノードと同じデータ・センターにある <br/> レプリカ・ノードのクォーラム（過半数）のコミット・ログとmemtableに <br/> 書き込まれる</td>
+</tr>
+<tr class="row-even"><td>ONE</td>
+<td>書き込みが、少なくとも1つのレプリカ・ノードのコミット・ログとmemtableに <br/> 書き込まれる</td>
+</tr>
+<tr class="row-odd"><td>TWO</td>
+<td>書き込みが、少なくとも2つのレプリカ・ノードのコミット・ログとmemtableに <br/> 書き込まれる</td>
+</tr>
+<tr class="row-even"><td>THREE</td>
+<td>書き込みが、少なくとも3つのレプリカ・ノードのコミット・ログとmemtableに <br/> 書き込まれる</td>
+</tr>
+<tr class="row-odd"><td>LOCAL_ONE</td>
+<td>ローカル・データ・センターの少なくとも1つのレプリカ・ノードに <br/> 書き込みを送信し、 確認応答がある</td>
+</tr>
+<tr class="row-even"><td>ANY</td>
+<td>書き込みが、少なくとも1つのノードに書き込まれる。パーティション・キーの <br/> すべての レプリカ・ノードがダウンしていても、 <br/> ヒンテッド・ハンドオフが書き込まれれば、書き込みを成功と見なす。</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id12">
+<caption><span class="caption-text">設定可能な読み込み一貫性*1</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">一貫性レベル</th>
+<th class="head">特徴</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ALL</td>
+<td>すべてのレプリカが応答した後に、レコードを返す。1つでもレプリカが <br/> 応答しないと、読み取り操作は失敗する。</td>
+</tr>
+<tr class="row-odd"><td>EACH_QUORUM</td>
+<td>読み取りが、各データ・センターのレプリカ・ノードのクォーラム <br/> （過半数）で読み取られる。</td>
+</tr>
+<tr class="row-even"><td>QUORUM</td>
+<td>すべてのデータ・センターのクォーラム（過半数）のレプリカが応答したら、 <br/> レコードを返す。</td>
+</tr>
+<tr class="row-odd"><td>LOCAL_QUORUM</td>
+<td>コーディネーター・ノードが報告された際に現在のデータ・センター内のクォーラム <br/> （過半数）の|br|レプリカが応答したら、レコードを返す。</td>
+</tr>
+<tr class="row-even"><td>ONE</td>
+<td>スニッチによって定まる最も近いレプリカから応答を返します。デフォルトでは、 <br/> 他のレプリカとの|br|整合性を維持するために、読み取りリペアが <br/> バックグラウンドで実行される。</td>
+</tr>
+<tr class="row-odd"><td>TWO</td>
+<td>最も近い2つのレプリカから最新のデータを返す。</td>
+</tr>
+<tr class="row-even"><td>THREE</td>
+<td>最も近い3つのレプリカから最新のデータを返す。</td>
+</tr>
+<tr class="row-odd"><td>LOCAL_ONE</td>
+<td>ローカル・データ・センターの最も近いレプリカからの応答を返す</td>
+</tr>
+<tr class="row-even"><td>SERIAL</td>
+<td>新しい追加や更新を提示することなく、現在の（そしてコミットされていない <br/> 可能性がある）データの状態を読み取ることができる。SERIALの読み取りにおいて <br/> 進行中のコミットされていないトランザクションが見つかった場合は、 <br/> 読み取りの一環としてそのトランザクションがコミットされる。</td>
+</tr>
+<tr class="row-odd"><td>LOCAL_SERIAL</td>
+<td>SERIALと同じだが、データ・センターに限定される。</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id13">
+<caption><span class="caption-text">SQLと比較した場合のCQLの特徴*2</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">特徴</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>結合や外部キー、副問合せのサポートがない  <br/> → 必要に応じてテーブルを非正規化、マテリアライズドビューを使用する。</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>GROUP BY等集約関数が標準で存在しない。Cassandra3以降、ユーザ定義関数はサポート。 <br/> → アプリの中でロジックとして実装する</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>WHERE句でプライマリキー以外を使用するにはインデックスが必要 <br/> → セカンダリインデックスを作成したり、マテリアライズドビューを使用する。</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>データ型でCollectionをサポート。1:n関連に相当する有限のデータはCollectionを利用する。 <br/>
+センサーデータのような無限にデータが増えていく場合は、複合プライマリーキーを使用する。 <br/> → 必要に応じて、テーブルを非正規化する。</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>更新の条件指定はプライマリキーのみに限定される <br/> アプリの中でロジックとして実装する。</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>&#8220;OR&#8221;、&#8221;NOT&#8221;といった論理演算子はなく、ANDのみに限定される <br/> → アプリの中でロジックとして実装する</td>
+</tr>
+<tr class="row-even"><td>7</td>
+<td>日付型の演算時可能な表現が異なる <br/> → アプリの中でロジックとして実装する。</td>
+</tr>
+<tr class="row-odd"><td>8</td>
+<td>重複したキーのインサートはアップデートとして扱われる</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="section6-x-x-differenece-rdb-consistency-problem-label">
+<span id="id5"></span><h3>データ整合性に問題が生じるケース<a class="headerlink" href="#section6-x-x-differenece-rdb-consistency-problem-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section6-x-x-differenece-rdb-consistency-problem-replication-label">
+<span id="id6"></span><h4>レプリケーション間のデータ不整合<a class="headerlink" href="#section6-x-x-differenece-rdb-consistency-problem-replication-label" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="section6-x-x-differenece-rdb-consistency-problem-denormalization-label">
+<span id="id7"></span><h4>非正規化によるデータ分散による不整合<a class="headerlink" href="#section6-x-x-differenece-rdb-consistency-problem-denormalization-label" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="section6-x-x-differenece-design-method-label">
+<span id="id8"></span><h3>設計手順<a class="headerlink" href="#section6-x-x-differenece-design-method-label" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>リレーショナルモデルの設計手順</li>
+</ul>
+<ol class="arabic simple">
+<li>概念データモデル・論理設計<ol class="arabic">
+<li>エンティティの抽出</li>
+<li>エンティティモデル定義</li>
+<li>正規化</li>
+<li>ER図の作成</li>
+</ol>
+</li>
+<li>ユースケース記述・処理設計<ol class="arabic">
+<li>サービスインターフェース設計</li>
+<li>ドメインインターフェース設計</li>
+<li>コンポーネント処理設計(クエリ設計)</li>
+</ol>
+</li>
+<li>物理設計<ol class="arabic">
+<li>テーブル定義</li>
+<li>インデックス定義</li>
+<li>ハードウェアサイジング</li>
+<li>ストレージ冗長化構成</li>
+<li>物理配置設計</li>
+</ol>
+</li>
+</ol>
+<ul class="simple">
+<li>Cassandraでの設計手順</li>
+</ul>
+<ol class="arabic simple">
+<li>概念データモデル・論理設計<ol class="arabic">
+<li>エンティティの抽出</li>
+<li>エンティティモデル定義</li>
+</ol>
+</li>
+<li>ユースケース記述・処理設計<ol class="arabic">
+<li>サービスインターフェース設計</li>
+<li>ドメインインターフェース設計</li>
+<li>コンポーネント処理設計(クエリ設計)</li>
+</ol>
+</li>
+<li>物理設計<ol class="arabic">
+<li>テーブル定義</li>
+<li>インデックス定義</li>
+<li>物理配置設計</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
 
 
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="作業メモ" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="spring-integration.html" class="btn btn-neutral" title="Cassandra - SpringFrameworkアプリケーション" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -32,7 +32,7 @@
   
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
         <link rel="up" title="Cassandra" href="index.html"/>
-        <link rel="next" title="作業メモ" href="../../memo/work/index.html"/>
+        <link rel="next" title="データモデリング" href="datamodeling.html"/>
         <link rel="prev" title="データベースの操作" href="manipulate.html"/> 
 
   
@@ -85,8 +85,9 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">イントロダクション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
 <li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
@@ -94,12 +95,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#section5-1-environment-label">動作環境</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#section5-2-cassandra-settings-label">事前準備</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pom-xml">pom.xml設定</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section5-3-setting-cassandra-label">キースペース、テーブル、データ設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section5-2-2-setting-cassandra-label">キースペース、テーブル、データ設定</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#section5-3-cassandra-create-application-label">アプリケーションの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spring-data-cassandra">Spring Data Cassandraのサポート</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">作業メモ</a></li>
@@ -257,8 +260,8 @@ Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Ser
 <p class="last">公式の <a class="reference external" href="https://github.com/spring-projects/spring-data-examples">Spring Data Examples</a>  もあわせて適宜参考にすること。</p>
 </div>
 </div>
-<div class="section" id="section5-3-setting-cassandra-label">
-<span id="id4"></span><h3>キースペース、テーブル、データ設定<a class="headerlink" href="#section5-3-setting-cassandra-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section5-2-2-setting-cassandra-label">
+<span id="id4"></span><h3>キースペース、テーブル、データ設定<a class="headerlink" href="#section5-2-2-setting-cassandra-label" title="Permalink to this headline">¶</a></h3>
 <p>アクセスするCassandraの環境を事前に構築しておく。ここでは、テーブル構築とデータ設定は別ファイルchema.sql、data.sqlに切り出しておき、Cassandraに接続後、キースペースを作成して、データ設定を行う。</p>
 <div class="literal-block-wrapper container" id="schema-cql">
 <div class="code-block-caption"><span class="caption-text">schema.cql</span><a class="headerlink" href="#schema-cql" title="Permalink to this code">¶</a></div>
@@ -454,6 +457,20 @@ calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</sp
 <p class="last">Spring Data CassandraのEntity、Repository、Configurationクラスのオプションを整理。</p>
 </div>
 </div>
+<div class="section" id="spring-data-cassandra">
+<span id="section5-4-spring-cassandra-support-label"></span><h2>Spring Data Cassandraのサポート<a class="headerlink" href="#spring-data-cassandra" title="Permalink to this headline">¶</a></h2>
+<p>Spring Data Cassandraのサポート内容を様利すると以下の通りである。</p>
+<ul class="simple">
+<li>Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート</li>
+<li>共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL TableとPOJOのマッピング</li>
+<li>Springの統合的な例外ヒエラルキーへの例外の変換</li>
+<li>SpringのCoversionServiceと統合したリッチなオブジェクトマッピング</li>
+<li>アノテーションをベースとしたメタデータのマッピングと他のメタデータフォーマットをサポートするための拡張</li>
+<li>永続化とライフサイクルイベントへのマッピング</li>
+<li>Javaベースのクエリ、クライテリア、更新DSL</li>
+<li>カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装</li>
+</ul>
+</div>
 </div>
 
 
@@ -463,7 +480,7 @@ calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</sp
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="作業メモ" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datamodeling.html" class="btn btn-neutral float-right" title="データモデリング" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="manipulate.html" class="btn btn-neutral" title="データベースの操作" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

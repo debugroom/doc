@@ -114,7 +114,7 @@ pom.xml設定
 
 .. note:: 公式の `Spring Data Examples <https://github.com/spring-projects/spring-data-examples>`_  もあわせて適宜参考にすること。
 
-.. _section5-3-setting-cassandra-label:
+.. _section5-2-2-setting-cassandra-label:
 
 キースペース、テーブル、データ設定
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -323,3 +323,20 @@ Serviceインターフェース及び、実装クラスを作成する。
    }
 
 .. todo:: Spring Data CassandraのEntity、Repository、Configurationクラスのオプションを整理。
+
+.. _section5-4-spring-cassandra-support-label:
+
+Spring Data Cassandraのサポート
+----------------------------------------------------
+
+Spring Data Cassandraのサポート内容を様利すると以下の通りである。
+
+* Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート
+* 共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL TableとPOJOのマッピング
+* Springの統合的な例外ヒエラルキーへの例外の変換
+* SpringのCoversionServiceと統合したリッチなオブジェクトマッピング
+* アノテーションをベースとしたメタデータのマッピングと他のメタデータフォーマットをサポートするための拡張
+* 永続化とライフサイクルイベントへのマッピング
+* Javaベースのクエリ、クライテリア、更新DSL
+* カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装
+

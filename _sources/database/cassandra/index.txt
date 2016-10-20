@@ -11,4 +11,5 @@ Contents:
    definition.rst
    manipulate.rst
    spring-integration.rst
+   datamodeling.rst
 
