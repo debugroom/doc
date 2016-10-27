@@ -169,6 +169,8 @@ EC2インスタンスの設定
 .. figure:: img/management-console-ec2-create-instance-7.png
    :scale: 100%
 
+.. note:: 後述するSSH接続のために、セキュリティグループのインバウンドルールにSSH（送信元：0.0.0.0/0）が設定しておくこと。
+
 ■設定したインスタンスオプションの内容を確認し、"作成"ボタンを押下する。
      
 .. figure:: img/management-console-ec2-create-instance-8.png
@@ -189,3 +191,29 @@ EC2インスタンスの設定
 .. figure:: img/management-console-ec2-create-instance-11.png
    :scale: 100%
      
+
+.. _section3-1-2-X-ec2-ssh-connect-instance-label:
+
+EC2インスタンスへのSSH接続
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■ターミナルを開き、キーペアとなるpemファイルを~/.ssh以下に配置し、アクセス権限をUserReadOnlyに変更する。
+
+.. sourcecode:: bash
+
+   chmod 400 ~/.ssh/*
+
+.. note:: 秘密鍵ファイルに744など不必要に権限を与えるとエラーとなるため注意。
+
+■SSH接続を行う。
+
+.. sourcecode:: bash
+
+   ssh -i /Users/username/.ssh/キー名.pem ec2-user@ec2-XX-XXX-XXX-XX.compute-1.amazonaws.com
+
+
+.. note:: 
+   
+   * DNSはインスタンス情報の「パブリックDNS」を参照
+   * Amazon Linuxインスタンスにおけるユーザ名はデフォルトでec2-user
+   * 鍵の指定を絶対パスですること。相対パスや「~/.ssh/」などで指定するとErrorになる

@@ -313,6 +313,10 @@
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-ec2-create-instance-7.png"><img alt="../../../../_images/management-console-ec2-create-instance-7.png" src="../../../../_images/management-console-ec2-create-instance-7.png" /></a>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">後述するSSH接続のために、セキュリティグループのインバウンドルールにSSH（送信元：0.0.0.0/0）が設定しておくこと。</p>
+</div>
 <p>■設定したインスタンスオプションの内容を確認し、&#8221;作成&#8221;ボタンを押下する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-ec2-create-instance-8.png"><img alt="../../../../_images/management-console-ec2-create-instance-8.png" src="../../../../_images/management-console-ec2-create-instance-8.png" /></a>
@@ -328,6 +332,29 @@
 <p>◇インスタンスが実行中になると、以下の通り、起動中のインスタンスの情報が一覧化できる。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-ec2-create-instance-11.png"><img alt="../../../../_images/management-console-ec2-create-instance-11.png" src="../../../../_images/management-console-ec2-create-instance-11.png" /></a>
+</div>
+</div>
+<div class="section" id="ec2ssh">
+<span id="section3-1-2-x-ec2-ssh-connect-instance-label"></span><h3>EC2インスタンスへのSSH接続<a class="headerlink" href="#ec2ssh" title="Permalink to this headline">¶</a></h3>
+<p>■ターミナルを開き、キーペアとなるpemファイルを~/.ssh以下に配置し、アクセス権限をUserReadOnlyに変更する。</p>
+<div class="highlight-bash"><div class="highlight"><pre>chmod <span class="m">400</span> ~/.ssh/*
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">秘密鍵ファイルに744など不必要に権限を与えるとエラーとなるため注意。</p>
+</div>
+<p>■SSH接続を行う。</p>
+<div class="highlight-bash"><div class="highlight"><pre>ssh -i /Users/username/.ssh/キー名.pem ec2-user@ec2-XX-XXX-XXX-XX.compute-1.amazonaws.com
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>DNSはインスタンス情報の「パブリックDNS」を参照</li>
+<li>Amazon Linuxインスタンスにおけるユーザ名はデフォルトでec2-user</li>
+<li>鍵の指定を絶対パスですること。相対パスや「~/.ssh/」などで指定するとErrorになる</li>
+</ul>
 </div>
 </div>
 </div>
