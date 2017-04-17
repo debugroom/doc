@@ -44,14 +44,14 @@
      - なし
    * - 特定のユーザを検索する
      - なし
+   * - ログインIDをキーに特定のユーザを検索する
+     - なし
    * - 特定のユーザのアドレスを検索する
-     - なし
-   * - 特定のユーザがもつEmailアドレスを検索する
-     - なし
+     - ユーザ : 住所 = 1 : 1 
+   * - 指定されたユーザのEmailの一覧を取得する
+     - ユーザ : メール = 1 : N 
    * - 指定したグループ名を元にグループを検索する
      - なし
-   * - 指定されたユーザの住所を取得する
-     - ユーザ : 住所 = 1 : 1 
    * - 特定の郵便番号を持つユーザ一覧を取得する
      - ユーザ : 住所 = 1 : 1 
    * - 特定の郵便番号を持たないユーザ一覧を取得する
@@ -62,10 +62,6 @@
      - ユーザ : 住所 = 1 : 1 
    * - 指定されたユーザの住所を削除する
      - ユーザ : 住所 = 1 : 1 
-   * - 指定されたユーザの情報を住所を含めて削除する
-     - ユーザ : 住所 = 1 : 1 
-   * - 指定されたユーザのEmailの一覧を取得する
-     - ユーザ : メール = 1 : N 
    * - 特定のメールアドレスを持つユーザを検索する
      - ユーザ : メール = 1 : N 
    * - 指定されたユーザのメールアドレスを追加する
@@ -77,8 +73,6 @@
    * - 指定されたユーザのメールアドレスを1件削除する
      - ユーザ : メール = 1 : N 
    * - 指定されたユーザのメールアドレスを全件削除する
-     - ユーザ : メール = 1 : N 
-   * - 指定されたユーザの情報をメールアドレスを含めて削除する
      - ユーザ : メール = 1 : N 
    * - 指定したユーザが属するグループの一覧を取得する
      - ユーザ : グループ = N : N 
@@ -97,7 +91,7 @@
 
 .. _section6-X-differenece-relational-data-modeling-label:
 
-データベース、モデリングにおける相違点
+データベースやクエリにおける相違点
 -----------------------------------------------------
 
 .. _section6-X-X-differenece-between-rdb-and-cassandra-label:
@@ -201,26 +195,2154 @@ RDBMSとCassandra
    * - 8
      - 重複したキーのインサートはアップデートとして扱われる
 
+.. _section6-X-X-usecase-implementation-using-spring-data-cassandra-label:
+
+Spring Data Cassandraを使用したユースケースの実装
+--------------------------------------------------------------------
+
+
+データのモデリングによって、実装のパターンは異なる。まず最初にデータモデルの非正規化を中心としたパターンについて実装方法を考察する。
+
+本サンプルでは、以下の構成をパターン1として実装例を記述する。
+
+.. figure:: img/data-modeling-pattern1.png
+   :scale: 100%
+
+.. _section6-X-X-X-usecase-implementation-using-spring-data-cassandra-simple-patten1-label:
+
+パターン1(非正規化モデル)を中心としたデータモデル
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`Spring Data JPAの例 <http://debugroom.github.io/doc/java/spring/springdatajpa/index.html>`_ との比較のために類似のユースケースを勘案して、解説する。
+
+.. _section6-X-X-X-usecase-implementation-patten1-entity-label:
+
+エンティティクラスの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+テーブルを表現するアノーテションを付与したエンティティクラスを作成する。
+アノテーションはorg.springframework.data.cassandra.mappingパッケージにあるが、
+代表的なアノテーションの概要は以下の通りである。
+
+
+.. list-table:: org.springframework.data.cassandra.mappingアノテーションの概要
+   :header-rows: 1
+   :widths: 30,20,50
+
+   * - アノテーション
+     - 設定
+     - 概要
+   * - @Table
+     - クラス
+     - エンティティクラスとマッピングする物理テーブル名を指定する。
+   * - @PrimaryKeyClass
+     - クラス
+     - 複合主キーで使用されるカラムを表現するクラス
+   * - @Id
+     - フィールド 
+     - IDとして表現するフィールドに付与する。
+   * - @PrimaryKey
+     - フィールド 
+     - @Idと機能は同じで、カラム名を指定可能である。
+   * - @PrimaryKeyColumn
+     - フィールド
+     - パーティションカラム、クラスタカラムを指定できるプライマリキーカラム
+   * - @Column
+     - フィールド
+     - フィールドとデータベースのカラム名のマッピングを定義する。
+   * - @Transient
+     - フィールド
+     - 永続化しないエンティティクラス、マップドスーパークラス、|br| または組み込みクラスのフィールドであることを示す。
+   * - @CassandraType
+     - フィールド
+     - Cassandraのデータ型を指定する際に利用する。
+   * - @UserDefinedType
+     - クラス
+     - ユーザ定義型に付与する際に利用する。
+
+
+以降、上記のアノテーションを付与したサンプルを幾つか記載する。
+
+ユーザエンティティを表現するUserクラスにテーブル名を指定した@Tableアノテーションを設定する。各フィールドには各カラム名を指定した@Columnアノテーションを付与する。
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.User
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+   import java.util.List;
+
+   import org.springframework.data.annotation.Transient;
+   import org.springframework.data.cassandra.mapping.CassandraType;
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.Table;
+
+   import com.datastax.driver.core.DataType.Name;
+   import com.datastax.driver.core.UDTValue;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Data
+   @Builder
+   @Table("users")
+   public class User{
+
+	   public User(){
+	   }
+	   @PrimaryKey("user_id")
+	   private Long userId;
+	   @Column("user_name")
+	   private String userName;
+	   @Column("is_enabled")
+	   private boolean isEnabled;
+	   @Column("is_locked")
+	   private boolean isLocked;
+	   @Column("is_admin")
+	   private boolean isAdmin;
+	   @Column("ver")
+	   private int ver;
+	   @Column("last_updated_date")
+	   private Date lastUpdatedDate;	
+	   @CassandraType(type = Name.UDT, userTypeName="addressofuser")
+	   private UDTValue address;
+	   @Transient
+	   List<Credential> credentials;
+	   @Transient
+	   List<Email> emails;
+	   @Column("groups")
+	   List<GroupOfUser> groups;
+
+   }
+
+
+.. note:: @AllArgsConstructorや@Builder、@Dataアノテーションはコードを簡略化して記述するためのLombokアノテーションである。
+
+.. note:: Spring Data Cassandraでは、ユーザ定義型を使用する場合、直接ユーザ定義型のクラスをプロパティとして定義する方法と、UDTValueクラスを使用する２通りの定義の仕方があるが、UDTValueを使用する場合、AP起動前に事前にCREATE TYPE文で、ユーザ定義型を定義しておく必要がある。直接クラスをプロパティに指定した場合は、設定ファイルにおいて、SchemaActionでCREATE、RECREATE等指定しておくと、AP起動時に、自動でCREATE TYPE文が発行される。
+
+同様に、各テーブルと対応するクラスを各々作成する。なお、テーブルの構成や非正規化のポイントについてはユースケースごとの説明のセクションで後述するが、以下は、ユーザ定義型を使用したAddressOfUserクラスでの例である。クラスに@UserDefinedTypeを付与する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.AddressOfUser
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+
+   import org.springframework.data.cassandra.mapping.CassandraType;
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.UserDefinedType;
+
+   import com.datastax.driver.core.DataType.Name;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @UserDefinedType
+   public class AddressOfUser {
+
+	   @Column("zip_cd")
+	   private String zipCd;
+	   @Column("address")
+	   private String address;
+	   @Column("ver")
+	   private int ver;
+	   @Column("last_updated_date")
+	   private Date lastUpdatedDate;	
+
+   }
+
+.. _section6-X-X-X-usecase-implementation-patten1-repository-label:
+
+Repositoryクラスの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+作成したエンティティクラスのRepositoryクラスを作成する。`Spring Data JPA同様 <http://debugroom.github.io/doc/java/spring/springdatajpa/usage.html#section2-1-2-spring-data-jpa-usage-simple-access-repository-label>`_ 、org.springframework.data.repository.CrudRepositoryを継承したインターフェースを作成し、型パラメータに作成したエンティティクラスとキーとなるデータ型を指定することで、基本的なCRUD操作を実行するメソッドをもつDAOが作成できる。以下は、Userエンティティクラスに対するRepositoryクラスの例である。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.UserRepository
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import java.util.List;
+
+   import org.springframework.data.repository.CrudRepository;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+
+   public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
+   }
+
+
+.. note:: `Spring Data JPA同様、命名規約に従って、メソッド名を定義すること <http://debugroom.github.io/doc/java/spring/springdatajpa/usage.html#section2-1-2-spring-data-jpa-usage-simple-access-repository-label>`_ により自動でCQLが生成される。
+
+.. note:: Spring Data JPA同様、カスタムメソッドを作成することも可能である(「特定の郵便番号を持たないユーザ一覧を取得する」にて後述)。
+
+.. note:: "NOT IN"や"GROUP BY"などCQLではサポートされない構文を含めたメソッドを定義できるが、実行すると当然エラーとなる。
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-service-label:
+
+Serviceクラスの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+ユースケースに応じて、インターフェースを作成する。なお、Spring Data JPAの例で内容が重複しているユースケースは除外した。
+
+* 全てのユーザを検索する。 → getUsers()
+* 全ての住所を検索する。 → getAddresses()
+* 全てのメールアドレスを検索する。 → getEmails()
+* 全てのグループを検索する。 → getGroups()
+* 特定のユーザを検索する。 → getUser(Long userId)
+* 特定のユーザのアドレスを検索する。 → getAddress(Long userId)
+* 特定のユーザがもつEmailアドレスを検索する。 → getEmails(Long userId)	
+* 指定したグループ名を元にグループを検索する。 → getGroups(String groupName)
+* 特定の郵便番号を持つユーザ一覧を取得する。 → getUsers(String zipCd)
+* 特定の郵便番号を持たないユーザ一覧を取得する → getNotUsers(String zipCd)
+* 指定されたユーザの住所を追加する。 → addAddress(Long userId, String zipCd, String address)
+* 指定されたユーザの住所を更新する。 → updateAddress(Long userId, String zipCd, String address)
+* 指定されたユーザの住所を削除する。 → deleteAddress(Long userId)
+* 特定のメールアドレスを持つユーザを検索する。 → getUserByEmail(String email)
+* 指定されたユーザのメールアドレスを追加する。 → addEmail(Long userId, String email)
+* 指定されたユーザをメールアドレスを含めて追加する。 → addUserWithEmail(Long userId, String userName, String email)
+* 指定されたユーザのメールアドレスを更新する。 → updateEmail(Long userId, String email, String newEmail)
+* 指定されたユーザのメールアドレスを1件削除する。 → deleteEmail(Long userId, String email)
+* 指定されたユーザのメールアドレスを全件削除する。 → deleteEmails(Long userId)
+* 指定したユーザが属するグループの一覧を取得する。→ getGroups(Long userId)
+* 指定したグループに所属する全てのユーザ一覧を取得する。 → getUsersByGroupId(Long groupId)
+* 指定したグループに所属しない全てのユーザ一覧を取得する。 → getNotUsersByGroupId(Long groupId)
+* 指定したユーザを指定したグループに追加する。 → addUserToGroup(Long userId, Long groupId)
+* 指定したユーザをグループから除外する。 → deleteUserFromGroup(Long userId, Long groupId)
+* 指定したグループを削除し、ユーザが所属するグループの情報を更新する。 → deleteGroup(Long groupId)
+* 指定されたユーザを削除し、グループのユーザ一覧を更新する。 → deleteUser(Long userId)
+
+以下の通りのServiceインターフェースを作成し、各パターンに応じたService実装クラスを作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.domain.service.SampleService
+
+   package org.debugroom.sample.cassandra.domain.service;
+
+   import java.util.List;
+
+   public interface SampleService<U, A, E, G> {
+
+       public List<U> getUsers();
+	
+       public List<A> getAddresses();
+	
+       public List<E> getEmails();
+	
+       public List<G> getGroups();
+	
+       public U getUser(Long userId);
+	
+       public U getUser(String loginId);
+
+       public A getAddress(Long userId);
+
+       public List<E> getEmails(Long userId);
+	
+       public List<G> getGroups(String groupName);
+
+       public List<U> getUsers(String zipCd);
+	
+       public List<U> getNotUsers(String zipCd);
+	
+       public U addAddress(Long userId, String zipCd, String address);
+
+       public U updateAddress(Long userId, String zipCd, String address);
+	
+       public U deleteAddress(Long userId);
+
+       public U getUserByEmail(String email);
+	
+       public U addEmail(Long userId, String email);
+	
+       public U addUserWithEmail(Long userId, String userName, String email);
+	
+       public U updateEmail(Long userId, String email, String newEmail);
+	
+       public U deleteEmail(Long userId, String email);
+	
+       public U deleteEmails(Long userId);
+	
+       public List<G> getGroups(Long userId);
+	
+       public List<U> getUsersByGroupId(Long groupId);
+	
+       public List<U> getNotUsersByGroupId(Long groupId);
+	
+       public G addUserToGroup(Long userId, Long groupId);
+	
+       public G deleteUserFromGroup(Long userId, Long groupId);
+	
+       public G deleteGroup(Long groupId);
+	
+       public U deleteUser(Long userId);
+
+   }
+
+以降、各々のユースケースにおいて、サービスの実装を含め、詳述する。
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-users-label:
+
+全てのユーザを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Service実装クラスでは、CrudRepositoryインターフェースを継承したインターフェースのメソッドを呼び出せばよい。
+Userテーブルのすべてのデータを検索する場合は、UserRepository.findAll()を使用する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUsers()
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+
+   // omit import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+	
+       // omit 
+
+      @Override
+      public List<User> getUsers() {
+		return (List<User>)userRepository.findAll();
+      }
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-addresses-label:
+
+全ての住所を検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+住所の全てのデータを一括検索する場合にはAddressエンティティクラスを作成し、テーブルを構成する必要がある。
+Service実装クラスでは、CrudRepositoryインターフェースを継承したインターフェースのメソッドを呼び出せばよい。
+Addressテーブルのすべてのデータを検索する場合は、AddressRepository.findAll()を使用する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.Address
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.Table;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("address")
+   public class Address {
+
+       // constructor needs for avoiding repository instantiation error
+       public Address(){
+       }
+
+       @PrimaryKey("addresspk")
+       private AddressPK addresspk;
+       @Column("address")
+       private String address;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;	
+
+   }
+
+.. note:: エンティティクラスは引数なしのコンストラクタが必要なことに注意。それがないと、AP起動時にレポジトリクラスをインスタンス化する際にエラーが発生する。 
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.AddressRepository
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.Address;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.AddressPK;
+   import org.springframework.data.repository.CrudRepository;
+
+   public interface AddressRepository extends CrudRepository<Address, AddressPK>{
+   }
+
+.. note:: 通常、１つのユーザが1つの住所を保持できるようにする(リレーショナルデータモデルでいうところの1対1の関係の)場合、ユニークなIDか、ユーザIDをキーにして実現するが、ここではAddressPKというクラスを作成して主キーにしている。理由はセクション「特定の郵便番号をもつユーザを検索する」にて後述する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getAddresses()
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+
+   // omit import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public List<Address> getAddresses() {
+           return (List<Address>)addressRepository.findAll();
+	   }
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-emails-label:
+
+全てのメールアドレスを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+全てのデータを一括検索する場合にはEmailエンティティクラスを作成し、テーブルを構成する必要がある。
+Service実装クラスでは、CrudRepositoryインターフェースを継承したインターフェースのメソッドを呼び出せばよい。
+Emailテーブルのすべてのデータを検索する場合は、EmailRepository.findAll()を使用する。
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.Email
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.Table;
+
+   import java.util.Date;
+
+   import org.springframework.data.cassandra.mapping.Column;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("email")
+   public class Email {
+
+       public Email(){
+       }
+
+       @PrimaryKey("email")
+       private String email;
+       @Column("user_id")
+       private Long userId;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;
+
+   }
+
+.. note:: 通常、１つのユーザが複数のメールアドレスを保持できるようにする(リレーショナルデータモデルでいうところの1対多の関係の)場合、ユニークなIDか、ユーザIDと番号などの複合主キーにして実現するが、ここではユニークな値となるメールアドレスそのものを主キーにしている。理由はセクション「特定のユーザがもつEmailアドレスを検索する」にて後述する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.EmailRepository
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import org.springframework.data.repository.CrudRepository;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.Email;
+
+   public interface EmailRepository extends CrudRepository<Email, String>{
+   }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getEmails()
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+
+   // omit import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public List<Email> getEmails() {
+           return (List<Email>) emailRepository.findAll();
+       }
+
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-groups-label:
+
+
+全てのグループを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+全てのデータを一括検索する場合にはGroupエンティティクラスを作成し、テーブルを構成する必要がある。
+Service実装クラスでは、CrudRepositoryインターフェースを継承したインターフェースのメソッドを呼び出せばよい。
+Groupテーブルのすべてのデータを検索する場合は、GroupRepository.findAll()を使用する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.Group
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+   import java.util.List;
+
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.Table;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("group")
+   public class Group {
+
+       public Group(){
+       }
+
+       @PrimaryKey("group_id")
+       private Long groupId;
+       @Column("group_name")
+       private String groupName;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;	
+
+    }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.GroupRepository
+
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.Group;
+   import org.springframework.data.repository.CrudRepository;
+
+   public interface GroupRepository extends CrudRepository<Group, Long>{
+   }
+
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getGroups()
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+
+   // omit import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public List<Group> getGroups() {
+           return (List<Group>) groupRepository.findAll();
+       }
+
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-user-label:
+
+特定のユーザを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+ユーザデータをプライマリーキーuserIdを使用して検索する場合には、Service実装クラスでは、CrudRepositoryインターフェースを継承したインターフェースのメソッドを呼び出せばよい。UserRepository.findOne(Long userId)を使用する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUser(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+
+   // omit import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+	
+       // omit 
+
+       @Override
+       public User getUser(Long userId) {
+           return userRepository.findOne(userId);
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-address-label:
+
+特定のユーザのアドレスを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+特定のユーザIDをキーに住所を検索する場合、いくつか方法がある。他にどのような住所検索のクエリが必要かによって、適切な実装方法は異なる。まず、ここでは、エンティティUserにユーザ定義型AddressOfUserを定義して、ユーザテーブルから非正規化した住所データを取得する例を記載する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement
+
+   @AllArgsConstructor
+   @Data
+   @Builder
+   @Table("users")
+   public class User{
+
+	   public User(){
+	   }
+	   @PrimaryKey("user_id")
+	   private Long userId;
+
+	   // omit
+
+	   @CassandraType(type = Name.UDT, userTypeName="addressofuser")
+	   private UDTValue address;     // ユーザ定義型AddressOfUserを使用してデータを非正規化する。
+
+   }
+
+当然Addressテーブルにも同じ住所のデータはあるが、このように非正規化している理由は、後述するユースケース「特定の郵便番号を持つユーザ一覧を取得する」でも示すように、郵便番号をAddressテーブルの検索条件のキーに持たせる必要があり、Addressエンティティではプライマリキーとして、郵便番号とユーザIDを複合主キーとしたAddressPKを作成しているため、Addressテーブルは、userId単体ではデフォルトそのままでは検索キーとして使用できないためである。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.Addressが使用できない理由
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("address")
+   public class Address {
+
+       public Address(){
+       }
+
+       @PrimaryKey("addresspk")
+       private AddressPK addresspk; //Addressテーブルの検索にはaddressPKのzipCdが必要。
+       @Column("address")
+       private String address;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;	
+
+   }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.AddressPK
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.io.Serializable;
+
+   import org.springframework.cassandra.core.PrimaryKeyType;
+   import org.springframework.data.cassandra.mapping.PrimaryKeyClass;
+   import org.springframework.data.cassandra.mapping.PrimaryKeyColumn;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @PrimaryKeyClass
+   public class AddressPK implements Serializable{
+
+       public AddressPK(){}
+       private static final long serialVersionUID = -828112214783052932L;
+
+       @PrimaryKeyColumn(name = "zip_cd", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+       private String zipCd; // zipCdはパーティションキーで指定しているので必須
+       @PrimaryKeyColumn(name = "user_id", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+       private Long userId; // userIdはクラスタカラムとして指定しているので必須ではない
+	
+   }
+
+.. note:: AddressPKクラスにおいて、クラスタカラムとして定義しているuserIdを単体の検索キーとして利用するには、セカンダリインデックスを作成すれば可能であるが、`DataStax社の提供するCassandraのドキュメント <https://docs.datastax.com/ja/cql-jajp/3.3/cql/cql_using/useWhenIndex.html>`_ ではカーディナリティの高い(バラエティが多い)データで、セカンダリインデックスを作るのは推奨していない。カーディナリティの高いデータに対してはマテリアライズドビューの作成を推奨しているが、いずれにせよパーティションキーである郵便番号が必要になる。
+
+Serviceの実装クラスでは、Userテーブルから非正規化した住所データをcom.datastax.driver.core.UDTValueの形式で取得している。
+これをAddressクラスにデータを移した返却している。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getAddress(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+	
+       // omit 
+
+       @Override
+       public Address getAddress(Long userId) {
+           UDTValue udtValue = userRepository.findOne(userId).getAddress();
+           if(udtValue == null){
+               return null;
+           }
+           return Address.builder()
+                         .addresspk(AddressPK.builder()
+                                             .userId(userId)
+                                             .zipCd(udtValue.getString("zip_cd"))
+                                             .build())
+                         .address(udtValue.getString("address"))
+                         .ver(udtValue.getInt("ver"))
+                         .lastUpdatedDate(udtValue.getTimestamp("last_updated_date"))
+                         .build();
+       }
+
+.. warning:: com.datastax.driver.core.UDTValueは今回サンプルとして使用方法を記述しているが、特定のベンダのパッケージにServiceクラスが依存してしまうのであまり使用しない方が良い。Spring Data Cassandraでは、ユーザ定義型はUDTValueクラスを使用せずとも直接@UserDefinedTypeアノテーションが付与されたクラスを変数宣言すると使用可能なのでそちらの利用を推奨。
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-email-label:
+
+特定のユーザがもつEmailアドレスを検索する	
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Emailテーブルでは、Emailがプライマリキーであるため、CQLのwhere句の条件にuserIdは指定できない。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement.
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("email")
+   public class Email {
+
+       public Email(){
+       }
+
+       @PrimaryKey("email")
+       private String email; // <---通常ではプライマリキーしかwhere句に指定できない
+       @Column("user_id")
+       private Long userId;  // <---セカンダリインデックスを指定等すれば、検索キーとしては利用可能。
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;
+
+   }
+
+特定のユーザがもつEmailアドレスを検索する場合、こちらも「特定のユーザのアドレスを検索する」と同様、ユーザテーブルに非正規化されたEmailデータを持たせるのが簡易ではあるが、こちらのユースケースでは、逆に非正規化せず、プライマリーキー以外の項目をwhere条件で指定して検索する方法で実装する。基本的には、セカンダリインデックスを作成するか、EmailRepositoryクラスにCQLを定義し、オプションでallow filteringオプションを指定するか、マテリアライズドビューを作成すれば可能である。ここでは、EmailRepositoryインターフェースにfindByUserIdメソッドを定義し、allow filteringオプションを付与した例を有効化している。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import java.util.List;
+   import org.springframework.data.cassandra.repository.Query;
+   import org.springframework.data.repository.CrudRepository;
+
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.Email;
+
+   public interface EmailRepository extends CrudRepository<Email, String>{
+	
+       // Use secondary index or materialized view depending on data cardinality.
+       // (Not recommend) 1. Create secondary index
+       // "create index on sample.email (user_id);"
+	   // @Query("select * from email where user_id = ?0")
+       // (Not recommend) 2. Add allow filtering option to cql.
+	   @Query("select * from email where user_id = ?0 allow filtering")
+       // (Recommend) 3. Use materialized view 
+	   // "create materialized view email_by_user_id as select email, user_id, ver, last_updated_date from email where user_id is not null and email is not null primary key(user_id, email);"
+       //@Query("select * from email_by_user_id where user_id = ?0")
+       public List<Email> findByUserId(Long userId);
+
+   }
+
+.. warning:: userIdはユニークな値なので、本来一番推奨される方法はマテリアライズドビューを使用する方法である。	
+
+Service実装クラスからは、定義したメソッドEmailRepository.findByUserId()を実行すれば良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getEmails(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       	@Override
+        public List<Email> getEmails(Long userId) {
+            return emailRepository.findByUserId(userId);
+        }
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-group-by-groupname-label:
+
+指定したグループ名を元にグループを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Groupテーブルでは、groupIdがプライマリキーであるため、CQLのwhere句の条件にgroupNameは指定できない。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement.
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("group")
+   public class Group {
+
+       public Group(){
+       }
+
+       @PrimaryKey("group_id")
+       private Long groupId;   // <-- where句に条件指定ができる
+       @Column("group_name")
+       private String groupName; // <-- where句に条件指定ができない
+       // omit
+
+    }
+
+ こちらも、「特定のユーザがもつEmailアドレスを検索する	」と同様、GroupRepositoryインターフェースにfindByGroupNameメソッドを定義し、allow filteringオプションを付与した例を有効化している。
+
+ .. sourcecode:: java
+
+    package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+    import java.util.List;
+
+    import org.debugroom.sample.cassandra.pattern1.domain.entity.Group;
+    import org.springframework.data.cassandra.repository.Query;
+    import org.springframework.data.repository.CrudRepository;
+
+    public interface GroupRepository extends CrudRepository<Group, Long>{
+
+	    // Use query adding allow filtering option or secondary index or materialized view.
+	    @Query("select * from group where group_name = ?0 allow filtering")
+	    public List<Group> findByGroupName(String groupName);
+	
+    }
+
+.. todo:: 検索キーとなる項目のカーディナリティに応じて、適切な方法を選択するために、目安となるベンチマークを測定する。
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-users-by-zipcd-label:
+
+特定の郵便番号を持つユーザ一覧を取得する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+リレーショナルモデルでは1対1関連として扱いたいUserとAddressエンティティの関係であるが、特定の項目をキーにした検索が必要なユースケースでは、その項目をプライマリキーにしておくことで高速な検索が見込める。ここでは、郵便番号と、ユーザIDをプライマリキーをAddressPKクラスとして定義した例で実装する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement.
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("address")
+   public class Address {
+
+       @PrimaryKey("addresspk")
+       private AddressPK addresspk; //<-プライマリキークラスを作成。
+
+      // omit.
+
+   }
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.io.Serializable;
+
+   import org.springframework.cassandra.core.PrimaryKeyType;
+   import org.springframework.data.cassandra.mapping.PrimaryKeyClass;
+   import org.springframework.data.cassandra.mapping.PrimaryKeyColumn;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @PrimaryKeyClass
+   public class AddressPK implements Serializable{
+
+       public AddressPK(){}
+       private static final long serialVersionUID = -828112214783052932L;
+
+       @PrimaryKeyColumn(name = "zip_cd", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+       private String zipCd; // パーティションキーとして定義
+       @PrimaryKeyColumn(name = "user_id", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+       private Long userId;  // クラスタカラムキーとして定義
+	
+   }
+
+.. warning:: パーティションキーはどのノードにデータを配置するかを決定する重要なキーである。
+   パーティションキーの指定なしに検索を行うと、どのノードにデータが配置されているかをトレースせねばならず、
+   ノードが増えるごとに線形的に検索速度は低下する。
+
+   .. figure:: img/partitionkey.png
+      :scale: 100%
+
+   クラスタカラムキーはパーティションに格納されたデータのキーとなる項目である。
+
+
+Serviceクラスの実装では、まずパーティションキーであるzipCdを指定して、対象のAddressオブジェクトのリストを取得したのち、AddressオブジェクトのuserIdのリストを作って、IN句を使ってユーザデータを検索する。zipCdをキーにアドレスリストを取得するためにAddressRepositoryにfindByAddresspkZipCdメソッドを定義する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.Address;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.AddressPK;
+   import org.springframework.data.repository.CrudRepository;
+
+   public interface AddressRepository extends CrudRepository<Address, AddressPK>{
+
+      public List<Address> findByAddresspkZipCd(String zipCd);
+
+   }
+
+.. note:: メソッドの命名規約により、Spring Data Cassandraが、findByAddresspxZipCdでAddressPKクラスのzipCdをキーにCQLを組み立てる。なお、ネストされたクラスはキャメルケースによりプロパティ名を推定するが、英大文字小文字の区別を明確化するために@PraimaryKeyで変数名を明確に定義しておくこと。
+
+また、UserRepositoryインターフェースにIN句を使用したCQLを実行するよう、findByUserIdIn(List<Long> userIds)メソッドを作成する。
+
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import java.util.List;
+
+   import org.springframework.data.repository.CrudRepository;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+
+   public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
+
+       public List<User> findByUserIdIn(List<Long> userIds);
+	
+   }
+
+Service実装クラスでは、
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUsers(String zipCd)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public List<User> getUsers(String zipCd) {
+           List<Address> addresses = addressRepository.findByAddresspkZipCd(zipCd);
+           List<Long> userIds = new ArrayList<Long>();
+           for(Address address : addresses){
+               userIds.add(address.getAddresspk().getUserId());
+           }
+           return userRepository.findByUserIdIn(userIds);
+       }
+
+.. todo:: IN句の実行速度が不明のため、マルチノードでデータを分散した場合の実行速度を計測して評価すること。
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-not-users-by-zipcd-label:
+
+特定の郵便番号を持たないユーザ一覧を取得する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+特定の郵便番号を持たないユーザの一覧だと、「特定の郵便番号を持つユーザ一覧を取得する」場合の論理否定であるが、CQLではNOT IN句をサポートしていない。そのため、別の方法で全体のユーザから特定の郵便番号をもつユーザを除外することで、持たないユーザ一覧を作成する。
+1件ずつ対象のユーザをループでチェックするとデータが大きくなった場合、指数関数的に増加するため、Map型でユーザの一覧を取得し、特定の郵便番号を持つユーザのリストから除外する方法で実装する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getNotUsers(String zipCd)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public List<User> getNotUsers(String zipCd) {
+
+           /* Not_In statement is no-supported for cassandra.
+           List<Address> addresses = addressRepository.findByAddresspkZipCd(zipCd);
+           List<Long> userIds = new ArrayList<Long>();
+           for(Address address : addresses){
+               userIds.add(address.getAddresspk().getUserId());
+           }
+           return userRepository.findByUserIdNotIn(userIds);
+           */
+
+           List<Address> addresses = addressRepository.findByAddresspkZipCd(zipCd);
+           Map<Long, User> usersMap = userRepository.findAllForMap();
+           for(Address address : addresses){
+               usersMap.remove(address.getAddresspk().getUserId());
+           }
+           return new ArrayList<User>(usersMap.values());
+       }
+
+検索結果をMap型で返却するメソッドはSpring Dataでは標準ではサポートされていないため、カスタムレポジトリクラスを作成し、Map型で返却するよう拡張する。なお、データのマッピングはorg.springframework.cassandra.core.ResultSetExtractorを利用する。まず、Repositoryを拡張するためのカスタムインターフェースを作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.UserRespositoryCustom
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import java.util.Map;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+
+   public interface UserRepositoryCustom {
+
+       public Map<Long, User> findAllForMap();
+	
+   }
+
+カスタムインターフェースをUserRepositoryクラスに継承させる。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository;
+
+   import java.util.List;
+
+   import org.springframework.data.repository.CrudRepository;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+
+   public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
+
+       public List<User> findByUserIdIn(List<Long> userIds);
+	
+       public List<User> findByUserIdNotIn(List<Long> userIds);
+
+   }
+
+カスタムインターフェースの実装クラスを作成する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.impl.UserRepositoryImpl
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository.impl;
+
+   import java.util.Map;
+
+   import org.springframework.beans.factory.annotation.Autowired;
+   import org.springframework.beans.factory.annotation.Qualifier;
+   import org.springframework.data.cassandra.core.CassandraOperations;
+   import org.springframework.data.repository.NoRepositoryBean;
+
+   import com.datastax.driver.core.querybuilder.QueryBuilder;
+   import com.datastax.driver.core.querybuilder.Select;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+   import org.debugroom.sample.cassandra.pattern1.domain.repository.UserRepositoryCustom;
+
+   @NoRepositoryBean
+   public class UserRepositoryImpl implements UserRepositoryCustom{
+
+       @Autowired
+       @Qualifier("cassandraTemplate")
+       CassandraOperations cassandraOperations;
+	
+       @Override
+       public Map<Long, User> findAllForMap() {
+       Select select = QueryBuilder.select().from("users");
+           return cassandraOperations.query(select, new UserMapExtractor());
+       }
+
+.. warning:: Repositoryインターフェースと同一のパッケージに配置していると、メソッド名命名規約のチェックが発生して、(ここではForMapという変数がない等でエラーが発生してしまう。)自由なメソッド名を設定できなくなるため、レポジトリ実装クラスは@NoRepositoryBeanアノテーションを付与し、別パッケージに配置すること。
+
+また、ResultSetとエンティティクラスのカラムマッピングの拡張で、ResultSetExtractorを継承したクラスを以下の通り実装する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.repository.impl.UserMapExtractor
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository.impl;
+
+   import java.util.Map;
+   import java.util.List;
+   import java.util.ArrayList;
+   import java.util.HashMap;
+
+   import org.springframework.cassandra.core.ResultSetExtractor;
+   import org.springframework.dao.DataAccessException;
+
+   import com.datastax.driver.core.ResultSet;
+   import com.datastax.driver.core.Row;
+   import com.datastax.driver.core.UDTValue;
+   import com.datastax.driver.core.exceptions.DriverException;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.GroupOfUser;
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+
+   public class UserMapExtractor implements ResultSetExtractor<Map<Long, User>> {
+
+       @Override
+       public Map<Long, User> extractData(ResultSet resultSet) 
+                                   throws DriverException, DataAccessException {
+
+           Map<Long, User> userMap = new HashMap<Long, User>();
+		
+           while(resultSet.iterator().hasNext()){
+               Row row = resultSet.one();
+               List<GroupOfUser> groupOfUsers = new ArrayList<GroupOfUser>();
+               User user = User.builder()
+                               .userId(row.getLong("user_id"))
+                               .userName(row.getString("user_name"))
+                               .isEnabled(row.getBool("is_enabled"))
+                               .isLocked(row.getBool("is_locked"))
+                               .isAdmin(row.getBool("is_admin"))
+                               .address(row.getUDTValue("address"))
+   //                          .groups(row.getList("groups", GroupOfUser.class))
+                               .groups(groupOfUsers)
+                               .ver(row.getInt("ver"))
+                               .lastUpdatedDate(row.getTimestamp("last_updated_date"))
+                               .build();
+               @SuppressWarnings("unchecked")
+               List<UDTValue> groups = (List<UDTValue>) row.getObject("groups");
+               for(UDTValue udtValue : groups){
+                   GroupOfUser groupOfUser =  new GroupOfUser();
+                   groupOfUser.setGroupId(udtValue.getLong("group_id"));
+                   groupOfUser.setGroupName(udtValue.getString("group_name"));
+                   groupOfUser.setVer(udtValue.getInt("ver"));
+                   groupOfUser.setLastUpdatedDate(udtValue.getTimestamp("last_updated_date"));
+                   groupOfUsers.add(groupOfUser);
+               }
+               userMap.put(row.getLong("user_id"), user);
+           }
+       return userMap;
+       }
+   }
+
+.. note:: ユーザ定義型のListオブジェクトのマッピングがRow.getList()メソッドではうまく動作しなかったため、row.getObject()にてリスト型データを取得し、マッピングし直している。
+
+.. _section6-X-X-X-usecase-implementation-patten1-add-address-label:
+
+指定されたユーザの住所を追加する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+指定されたユーザの住所データを追加する場合は、Repositoryクラスのsaveメソッドを利用すれば良いが、本サンプルでは郵便番号検索や、住所全件検索のために住所データをAddressテーブルと、UserテーブルのAddressOfUserプロパティに非正規化している。そのため、Service実装クラスでは、２回データの追加を行うことになる。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addAddress(Long userId, String zipCd, String address)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public User addAddress(Long userId, String zipCd, String address) {
+           // Add data to Address Table
+           Address saveAddress = Address.builder()
+                                        .addresspk(AddressPK.builder()
+                                                            .userId(userId)
+                                                            .zipCd(zipCd)
+                                                            .build())
+                                        .address(address)
+                                        .ver(0)
+                                        .lastUpdatedDate(new Date())
+                                        .build();
+           addressRepository.save(saveAddress);
+           // Add data to Address of User 
+           User user = userRepository.findOne(userId);
+           return userRepository.addAddress(user, zipCd, address);
+       }
+
+また、AddressOfUserはユーザ定義型としてUDTValueを使用しているので、カスタムレポジトリに追加で実装を行う。
+UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsからKeyspaceMetadataを取得し、UserTypeを使って生成する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.repository.impl;
+
+   import java.util.Date;
+   import java.util.Map;
+
+   import org.springframework.beans.factory.annotation.Autowired;
+   import org.springframework.beans.factory.annotation.Qualifier;
+   import org.springframework.data.cassandra.core.CassandraAdminOperations;
+   import org.springframework.data.cassandra.core.CassandraOperations;
+   import org.springframework.data.repository.NoRepositoryBean;
+
+   import com.datastax.driver.core.KeyspaceMetadata;
+   import com.datastax.driver.core.UDTValue;
+   import com.datastax.driver.core.UserType;
+   import com.datastax.driver.core.querybuilder.QueryBuilder;
+   import com.datastax.driver.core.querybuilder.Select;
+
+   import org.debugroom.sample.cassandra.pattern1.domain.entity.User;
+   import org.debugroom.sample.cassandra.pattern1.domain.repository.UserRepositoryCustom;
+
+   @NoRepositoryBean
+   public class UserRepositoryImpl implements UserRepositoryCustom{
+
+       @Autowired
+       @Qualifier("cassandraTemplate")
+       CassandraOperations cassandraOperations;
+	
+       @Autowired
+       @Qualifier("cassandraAdminOperations")
+       CassandraAdminOperations cassandraAdminOperations;
+	
+       @Override
+       public Map<Long, User> findAllForMap() {
+          Select select = QueryBuilder.select().from("users");
+          return cassandraOperations.query(select, new UserMapExtractor());
+       }
+
+       @Override
+       public User addAddress(User user, String zipCd, String address) {
+           // For instantiating udtvalue object, need to use cassandraadminoperations.
+           KeyspaceMetadata keyspaceMetadata = cassandraAdminOperations.getKeyspaceMetadata();
+           UserType userTypeAddress = keyspaceMetadata.getUserType("addressofuser");
+
+           UDTValue udtValue = userTypeAddress.newValue();
+           udtValue.setString("zip_cd", zipCd);
+           udtValue.setString("address", address);
+           udtValue.setInt("ver", 0);
+           udtValue.setTimestamp("last_updated_date", new Date());
+           user.setAddress(udtValue);
+		
+           cassandraOperations.insert(user);
+
+           return user;
+
+       }
+
+   }
+
+なお、 org.springframework.data.cassandra.core.CassandraAdminOperationsが使用可能なよう、Bean定義を行なっておくこと。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.confing.infra.CommonCassandraConfig
+
+   package org.debugroom.sample.cassandra.config.infra;
+
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.data.cassandra.config.SchemaAction;
+   import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
+   import org.springframework.data.cassandra.convert.CassandraConverter;
+   import org.springframework.data.cassandra.core.CassandraAdminOperations;
+   import org.springframework.data.cassandra.core.CassandraAdminTemplate;
+   import org.springframework.data.cassandra.core.CassandraTemplate;
+
+   import com.datastax.driver.core.Session;
+
+   @Configuration
+   public abstract class CommonCassandraConfig extends AbstractCassandraConfiguration{
+
+       @Override
+       public SchemaAction getSchemaAction() {
+           return SchemaAction.CREATE_IF_NOT_EXISTS;
+       }
+
+       @Bean
+       public CassandraTemplate cassandraTemplate(Session session){
+           return new CassandraTemplate(session);
+       }
+
+       @Bean
+       public CassandraAdminOperations cassandraAdminOperations() throws ClassNotFoundException{
+           return new CassandraAdminTemplate(session().getObject(), cassandraConverter());
+       }
+
+   }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-update-address-label:
+
+指定されたユーザの住所を更新する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+指定されたユーザの住所データを更新する場合、Cassandraでは既にキーがあるデータの追加は更新として扱われるため、Repositoryクラスのsaveメソッドを利用すれば良い。ただし、本サンプルでは郵便番号検索や、住所全件検索のために住所データをAddressテーブルと、UserテーブルのAddressOfUserプロパティに非正規化している。そのため、Service実装クラスでは、２回データの追加を行うことになる。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#updateAddress(Long userId, String zipCd, String address)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   import com.datastax.driver.core.UDTValue
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public User updateAddress(Long userId, String zipCd, String address) {
+           Address updateAddress = addressRepository.findOne(
+                                       AddressPK.builder().userId(userId).zipCd(zipCd).build());
+           updateAddress.setAddress(address);
+           updateAddress.setVer(updateAddress.getVer()+1);
+           updateAddress.setLastUpdatedDate(new Date());
+           addressRepository.save(updateAddress);
+
+           User user = userRepository.findOne(userId);
+           UDTValue udtValue = user.getAddress();
+           udtValue.setString("address", address);
+           udtValue.setInt("ver", udtValue.getInt("ver")+1);
+           udtValue.setTimestamp("last_updated_date", new Date());
+           return userRepository.save(user);
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-address-label:
+
+指定されたユーザの住所を削除する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+指定されたユーザの住所データを削除する場合、Repositoryクラスのdeleteメソッドを利用すれば良い。ただし、本サンプルでは郵便番号検索や、住所全件検索のために住所データをAddressテーブルと、UserテーブルのAddressOfUserプロパティに非正規化している。そのため、Service実装クラスでは、Addressテーブルについては、delete()メソッドで削除を行い、UserオブジェクトではNULLを設定する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteAddress(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       // omit 
+
+       @Override
+       public User deleteAddress(Long userId) {
+           List<Address> addresses = addressRepository.findByAddresspkUserId(userId);
+           for(Address address : addresses){
+               addressRepository.delete(address);
+           }
+           User user = userRepository.findOne(userId);
+           user.setAddress(null);
+           return userRepository.save(user);
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-user-by-email-label:
+
+特定のメールアドレスを持つユーザを検索する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+特定のEmailからユーザを検索する場合、Email Tableはemailをプライマリキーとしたテーブル構造となっているので、対象のEmailを取得したのち、userIdをキーにしてUserテーブルからデータを取得する。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUserByEmail(String email)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User getUserByEmail(String email) {
+           return userRepository.findOne(
+               emailRepository.findOne(email).getUserId());
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-add-email-label:
+
+指定されたユーザのメールアドレスを追加する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Emailを追加する場合は、EmailRepository.save()メソッドを使用すればよい。なお、UserクラスのList<Email>は@Transientを付与しているので、特に永続化はされない。あくまでView層に返す際にデータを設定しているだけである。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addEmail(Long userId, String email)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User addEmail(Long userId, String email) {
+           Email addEmail = Email.builder()
+                                 .email(email)
+                                 .userId(userId)
+                                 .ver(0)
+                                 .lastUpdatedDate(new Date())
+                                 .build();
+           emailRepository.save(addEmail);
+
+           List<Email> emails = emailRepository.findByUserId(userId);
+           emails.add(addEmail);
+           User user = userRepository.findOne(userId);
+           user.setEmails(emails);
+           return user;
+       }
+
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-add-user-with-email-label:
+
+指定されたユーザをメールアドレスを含めて追加する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+ユーザデータと一緒にEmailを追加する場合も、それぞれUserRepository.save()、EmailRepository.save()メソッドを使って各々データを保存すれば良い。なお、UserクラスのList<Email>は@Transientを付与しているので、特に永続化はされない。あくまでView層に返す際にデータを設定しているだけである。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addUserWithEmail(Long userId, String userName, String email)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User addUserWithEmail(Long userId, String userName, String email) {
+           Email addEmail = Email.builder()
+                                 .email(email)
+                                 .userId(userId)
+                                 .ver(0)
+                                 .lastUpdatedDate(new Date())
+                                 .build();
+           emailRepository.save(addEmail);
+           List<Email> emails = new ArrayList<Email>();
+           emails.add(addEmail);
+           User addUser = User.builder()
+                              .userId(userId)
+                              .userName(userName)
+                              .isEnabled(true)
+                              .isLocked(false)
+                              .isAdmin(false)
+                              .emails(emails)
+                              .ver(0)
+                              .lastUpdatedDate(new Date())
+                              .build();
+           return userRepository.save(addUser);
+       }
+
+.. _section6-X-X-X-usecase-implementation-patten1-update-email-label:
+
+指定されたユーザのメールアドレスを更新する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Emailを更新する場合、Emailはプライマリキーであるため、そのまま更新をかけようとすると、新たなキーとしてデータが追加されてしまうため、一度データを削除して、追加を行う形でデータ更新を行う必要がある。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#updateEmail(Long userId, String email, String newEmail)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User updateEmail(Long userId, String email, String newEmail) {
+
+           /* Primary key updating equals new saving row.
+           Email updateEmail = emailRepository.findOne(email);
+           updateEmail.setEmail(newEmail);
+           emailRepository.save(updateEmail);
+           */
+
+           Email deleteEmail = emailRepository.findOne(email);
+           emailRepository.delete(deleteEmail);
+           emailRepository.save(Email.builder()
+                                     .email(newEmail)
+	                                 .userId(userId)
+                                     .ver(0)
+                                     .lastUpdatedDate(new Date())
+                                     .build());
+           User user = userRepository.findOne(userId);
+           user.setEmails(emailRepository.findByUserId(userId));
+           return user;
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-email-label:
+
+指定されたユーザのメールアドレスを1件削除する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Emailを削除する場合、単純に指定されたEmailオブジェクトを取得し、EmailRepository.delete()メソッドを実行すれば良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteEmail(Long userId, String email)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User deleteEmail(Long userId, String email) {
+           Email deleteEmail = emailRepository.findOne(email);
+           emailRepository.delete(deleteEmail);
+           User user = userRepository.findOne(userId);
+           user.setEmails(emailRepository.findByUserId(userId));
+           return user;
+       }
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-emails-label:
+
+指定されたユーザのメールアドレスを全件削除する
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Emailを全て削除する場合、ユーザIDをキーにEmailオブジェクトのリストを取得し、各データをEmailRepository.delete()メソッドを実行して各々削除すれば良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteEmails(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       EmailRepository emailRepository;
+	
+       // omit 
+
+       @Override
+       public User deleteEmails(Long userId) {
+           List<Email> emails = emailRepository.findByUserId(userId);
+           for(Email email : emails){
+               emailRepository.delete(email);
+           }
+           return userRepository.findOne(userId);
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-group-by-userid-label:
+
+指定したユーザが属するグループの一覧を取得する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+指定したユーザが所属するグループを検索する場合、リレーショナルモデルでは通常多対多の関連を持ち、関連実体となるテーブル(例えば所属など)を結合して、データを取得する方法が一般的であるが、Cassandraでは結合はサポートされていない。ここでは、全件検索したGroupテーブルとは別にUserテーブルにGroupのListデータを持たせて非正規化を行う。理由は、次セクション「指定したグループに所属する全てのユーザ一覧を取得する」で説明するが、逆にGroupにもUserのデータを持たせる必要があるため、相互参照(循環参照)とならないよう、Userエンティティにユーザ定義型クラスGroupOfUserクラスを作成する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement.
+
+   @AllArgsConstructor
+   @Data
+   @Builder
+   @Table("users")
+   public class User{
+
+	   public User(){
+	   }
+	   @PrimaryKey("user_id")
+	   private Long userId;
+
+	   // omit
+
+	   @Column("groups")
+	   List<GroupOfUser> groups;
+
+   }
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.entity.GroupOfUser
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+   import java.util.List;
+
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.UserDefinedType;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @UserDefinedType
+   public class GroupOfUser{
+       public GroupOfUser(){}
+       @PrimaryKey("group_id")
+       private Long groupId;
+       @Column("group_name")
+       private String groupName;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;	
+   }
+
+データの取得は単純にUserRepositoryからUserデータを取得し、Groupを返すだけで良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getGroups(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public List<Group> getGroups(Long userId) {
+           List<GroupOfUser> groupsOfUser =  getGroupsOfUser(userId);
+           return Lists.transform(groupsOfUser, new Function<GroupOfUser, Group>() {
+               @Override
+               public Group apply(GroupOfUser groupOfUser){
+                   return mapper.map(groupOfUser, Group.class); 
+               }
+           });
+       }
+	
+       public List<GroupOfUser> getGroupsOfUser(Long userId){
+           return userRepository.findOne(userId).getGroups();
+       }
+
+.. note:: ここではList<Group>を返却するためにList<GroupOfUser>を、GuavaのListsクラスを使って変換している。
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-users-by-groupid-label:
+
+指定したグループに所属する全てのユーザ一覧を取得する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+前セクション「指定したユーザが属するグループの一覧を取得する」と同様、こちらは逆パターンであり、GroupエンティティにもUserデータのListを保持し、非正規化する。同様にUserクラスもGroupのデータを保持する必要があるため、相互にUser -> Group、Group -> Userの参照をもつと相互参照(循環参照)になってしまうため、ここでもGroup内にUserと同じプロパティをもつUserOfGroupをユーザ定義型クラスとして作成する。
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   // omit import statement
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @Table("group")
+   public class Group {
+
+       public Group(){
+       }
+
+       @PrimaryKey("group_id")
+       private Long groupId;
+
+       // omit
+
+       @Column("users")
+       private List<UserOfGroup> users;
+
+   }
+
+
+.. sourcecode:: java
+
+   package org.debugroom.sample.cassandra.pattern1.domain.entity;
+
+   import java.util.Date;
+
+   import java.util.List;
+
+   import org.springframework.data.cassandra.mapping.Column;
+   import org.springframework.data.cassandra.mapping.PrimaryKey;
+   import org.springframework.data.cassandra.mapping.UserDefinedType;
+
+   import lombok.AllArgsConstructor;
+   import lombok.Builder;
+   import lombok.Data;
+
+   @AllArgsConstructor
+   @Builder
+   @Data
+   @UserDefinedType
+   public class UserOfGroup{
+       public UserOfGroup(){}
+       @PrimaryKey("user_id")
+       private Long userId;
+       @Column("user_name")
+       private String userName;
+       @Column("is_enabled")
+       private boolean isEnabled;
+       @Column("is_locked")
+       private boolean isLocked;
+       @Column("is_admin")
+       private boolean isAdmin;
+       @Column("ver")
+       private int ver;
+       @Column("last_updated_date")
+       private Date lastUpdatedDate;	
+   }
+
+Service実装クラスからはGroupRepositoryを介してデータを取得し、返却するだけで良い。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUsersByGroupId(Long groupId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public List<User> getUsersByGroupId(Long groupId) {
+           List<UserOfGroup> usersOfGroup = getUsersOfGroup(groupId);
+           return Lists.transform(usersOfGroup, new Function<UserOfGroup, User>(){
+               @Override
+               public User apply(UserOfGroup userOfGroup){
+                   return mapper.map(userOfGroup, User.class);
+               }
+           });
+       }
+
+       public List<UserOfGroup> getUsersOfGroup(Long groupId){
+           return groupRepository.findOne(groupId).getUsers();
+       }
+
+.. note:: ここではList<User>を返却するためにList<UserOfGroup>を、GuavaのListsクラスを使って変換している。
+
+.. _section6-X-X-X-usecase-implementation-patten1-get-not-users-by-groupid-label:
+
+指定したグループに所属しない全てのユーザ一覧を取得する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+ユースケース「特定の郵便番号を持たないユーザ一覧を取得する」と同じく、特定のグループに所属するユーザを全体のユーザから除外したリストを返却すれば良い。Service実装クラスは、
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getNotUsersByGroupId(Long groupId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public List<User> getNotUsersByGroupId(Long groupId) {
+           List<UserOfGroup> usersOfGroup = groupRepository.findOne(groupId).getUsers();
+           Map<Long, User> userMap = userRepository.findAllForMap();
+           for(UserOfGroup userOfGroup : usersOfGroup){
+               userMap.remove(userOfGroup.getUserId());
+           }
+		   return new ArrayList<User>(userMap.values());
+	    }
+        
+.. note:: UserRepository.findAllForMap()はユースケース「特定の郵便番号を持たないユーザ一覧を取得する」で作成したカスタムUserRepositoryクラスのメソッドである。
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-add-user-to-group-label:
+
+指定したユーザを指定したグループに追加する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+前セクション「指定したユーザが属するグループの一覧を取得する」、「指定したグループに所属する全てのユーザ一覧を取得する」のユースケースにおいて、User及びGroupエンティティにそれぞれ非正規化されたデータが定義されている。そのため、各テーブルに相互に整合性が取れた形でデータを保存する必要がある。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addUserToGroup(Long userId, Long groupId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public Group addUserToGroup(Long userId, Long groupId) {
+           User user = userRepository.findOne(userId);
+           Group group = groupRepository.findOne(groupId);
+           group.getUsers().add(UserOfGroup.builder()
+                                           .userId(userId)
+                                           .userName(user.getUserName())
+                                           .isEnabled(user.isEnabled())
+                                           .isLocked(user.isLocked())
+                                           .isAdmin(user.isAdmin())
+                                           .ver(0)
+                                           .lastUpdatedDate(new Date())
+                                           .build());
+           user.getGroups().add(GroupOfUser.builder()
+                                           .groupId(groupId)
+                                           .groupName(group.getGroupName())
+                                           .ver(0)
+                                           .lastUpdatedDate(new Date())
+                                           .build());
+           userRepository.save(user);
+           return groupRepository.save(group);
+       }
+        
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-user-from-group-label:
+
+指定したユーザをグループから除外する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+前セクション「指定したユーザを指定したグループに追加する」と同様、非正規化されたデータに対し、双方データ更新を行う必要がある。
+Listデータからremove()すると実装が複雑化するので、除外しないデータだけで新たなListを作成し、更新する実装とする。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteUserFromGroup(Long userId, Long groupId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public Group deleteUserFromGroup(Long userId, Long groupId) {
+           User user = userRepository.findOne(userId);
+           List<GroupOfUser> groupsOfUser = new ArrayList<GroupOfUser>();
+           for(GroupOfUser groupOfUser : user.getGroups()){
+               if(groupId != groupOfUser.getGroupId()){
+                   groupsOfUser.add(groupOfUser);
+               }
+           }
+           user.setGroups(groupsOfUser);
+           Group group = groupRepository.findOne(groupId);
+           List<UserOfGroup> usersOfGroup = new ArrayList<UserOfGroup>();
+           for(UserOfGroup userOfGroup : group.getUsers()){
+               if(userId != userOfGroup.getUserId()){
+                   usersOfGroup.add(userOfGroup);
+               }
+		   }
+           group.setUsers(usersOfGroup);
+           userRepository.save(user);
+           return groupRepository.save(group);
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-group-label:
+
+指定したグループを削除し、ユーザが所属するグループの情報を更新する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+前セクション「指定したユーザを指定したグループに追加する」と同様、非正規化されたデータに対し、双方データ更新を行う必要がある。
+Listデータからremove()すると実装が複雑化するので、除外しないデータだけで新たなListを作成し、更新する実装とする。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteGroup(Long groupId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+       @Override
+       public Group deleteGroup(Long groupId) {
+           Group deleteGroup = groupRepository.findOne(groupId);
+           for(UserOfGroup userOfGroup : deleteGroup.getUsers()){
+               User user = userRepository.findOne(userOfGroup.getUserId());
+               List<GroupOfUser> groupsOfUser = new ArrayList<GroupOfUser>();
+               for(GroupOfUser groupOfUser : user.getGroups()){
+                   if(groupOfUser.getGroupId() != groupId){
+                       groupsOfUser.add(groupOfUser);
+                   }
+               }
+               user.setGroups(groupsOfUser);
+               userRepository.save(user);
+           }
+		   groupRepository.delete(deleteGroup);
+		   return deleteGroup;
+       }
+
+
+.. _section6-X-X-X-usecase-implementation-patten1-delete-user-label:
+
+指定されたユーザを削除し、グループのユーザ一覧を更新する
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+ユーザデータを削除するにあたり、これまで非正規化したテーブルなど含めて全てデータ更新する必要がある。
+
+.. sourcecode:: java
+   :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteUser(Long userId)
+
+   package org.debugroom.sample.cassandra.pattern1.domain.service;
+   
+   // omit other import statement.
+
+   @Slf4j
+   @Service("sampleService")
+   public class SampleServiceImpl implements SampleService<User, Address, Email, Group>{
+
+       @Autowired
+       UserRepository userRepository;
+
+       @Autowired
+       AddressRepository addressRepository;
+	
+       @Autowired
+       EmailRepository emailRepository;
+	
+       @Autowired
+       GroupRepository groupRepository;
+	
+       // omit 
+
+      
+       @Override
+       public User deleteUser(Long userId) {
+           User deleteUser = userRepository.findOne(userId);
+           for(GroupOfUser groupOfUser : deleteUser.getGroups()){
+               Group group = groupRepository.findOne(groupOfUser.getGroupId());
+               List<UserOfGroup> usersOfGroup = new ArrayList<UserOfGroup>();
+               for(UserOfGroup userOfGroup : group.getUsers()){
+                   if(userId != userOfGroup.getUserId()){
+                       usersOfGroup.add(userOfGroup);
+                   }
+               }
+               group.setUsers(usersOfGroup);
+               groupRepository.save(group);
+           }
+           for(Address address : addressRepository.findByAddresspkUserId(userId)){
+               addressRepository.delete(address);
+           }
+           for(Email email : emailRepository.findByUserId(userId)){
+               emailRepository.delete(email);
+           }
+           for(Credential credential : credentialRepository.findByUserId(userId)){
+               credentialRepository.delete(credential);
+           }
+           userRepository.delete(deleteUser);
+           return deleteUser;
+       }
+
+.. todo:: ノード数を増やした状態で検証し、性能問題が起きないか検証を行う。
 
 .. _section6-X-X-differenece-rdb-consistency-problem-label:
 
 データ整合性に問題が生じるケース
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------------------------------------
+
+.. _section6-X-X-differenece-rdb-consistency-problem-denormalization-label:
+
+
+非正規化によるデータ分散による不整合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _section6-X-X-differenece-rdb-consistency-problem-replication-label:
 
 レプリケーション間のデータ不整合
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _section6-X-X-differenece-rdb-consistency-problem-denormalization-label:
-
-非正規化によるデータ分散による不整合
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. _section6-X-X-differenece-design-method-label:
 
 設計手順
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------------
 
 * リレーショナルモデルの設計手順
 

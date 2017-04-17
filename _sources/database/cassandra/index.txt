@@ -4,7 +4,7 @@ Cassandra
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    introduction.rst
    launch.rst
