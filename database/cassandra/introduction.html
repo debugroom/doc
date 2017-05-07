@@ -99,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section1-2-1-cassandra-effective-usecase-label">多数のコモディティサーバで構成されるアプリケーション</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section1-2-2-cassandra-effective-usecase-label">大量の書き込み、統計、解析</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id8">地域分散</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">地域分散</a></li>
 </ul>
 </li>
 </ul>
@@ -108,9 +108,10 @@
 <li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">作業メモ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
 </ul>
 
             
@@ -180,22 +181,23 @@
 </div>
 <div class="section" id="row">
 <span id="section1-1-5-cassandra-feature-label"></span><h3>Row指向型データベース<a class="headerlink" href="#row" title="Permalink to this headline">¶</a></h3>
-<p>Cassandraはキーバリュー型のデータ(カラム)を一連にまとめたRowのまとまりであるカラムファミリ及び、それらをノード単位でまとめるキースペースををもつ多次元ハッシュテーブルのデータ構造を持つ。どのRowも１つかそれ以上のカラムを持ちながら、他のRowと全く同じカラムを持つ必要がないスキーマフリーな構造である。</p>
+<p>Cassandraのデータ構造はバージョンによって異なる。
+Cassandraはキーバリュー型のデータ(カラム)を一連にまとめたRowのまとまりであるカラムファミリ及び、それらをノード単位でまとめるキースペースををもつ多次元ハッシュテーブルのデータ構造を持つ。v0.7より前では、どのRowも１つかそれ以上のカラムを持ちながら、他のRowと全く同じカラムを持つ必要がないスキーマフリーな構造をとっていたが、v0.7以降オプションでスキーマ定義が可能となり、v1.1以降は、<a class="reference external" href="http://www.datastax.com/dev/blog/schema-in-cassandra-1-1">スキーマ定義が必須</a> となった。</p>
 </div>
 </div>
 <div class="section" id="section1-2-cassandra-effective-usecase-label">
-<span id="id5"></span><h2>Cassandraのメリットが活かせるユースケース<a class="headerlink" href="#section1-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>Cassandraのメリットが活かせるユースケース<a class="headerlink" href="#section1-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h2>
 <p>前述したCassandraのメリットを最大限生かすユースケースを列挙する。</p>
 <div class="section" id="section1-2-1-cassandra-effective-usecase-label">
-<span id="id6"></span><h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink" href="#section1-2-1-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink" href="#section1-2-1-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
 <p>単一ノードのリレーショナルデータベースで賄える状況でCassandraを導入するのは適切ではない。最低でも複数ノードが必要な状況ではCassandraはよりよい選択肢となりえる。</p>
 </div>
 <div class="section" id="section1-2-2-cassandra-effective-usecase-label">
-<span id="id7"></span><h3>大量の書き込み、統計、解析<a class="headerlink" href="#section1-2-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>大量の書き込み、統計、解析<a class="headerlink" href="#section1-2-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraは特に書き込みのスループットが高速になるよう最適化されている。初期から使用する多くの企業がユーザのアクティビティ更新、ソーシャルネットワーク、リコメンド/レビュー、アプリケーションの統計といったデータの保存に使用している。これらの利用例は大量の書き込みがある上に予測可能な読み込みが少ない点、更新も不均等に発生するためのノードの追加が容易なCassandraがフィットする案件と言える。近年では、IoTの代表格であるM2Mを用いたセンサーをクライアントにもつサーバ側のデータストアの選択肢として候補に挙げられるだろう。</p>
 </div>
-<div class="section" id="id8">
-<span id="id9"></span><h3>地域分散<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<span id="id10"></span><h3>地域分散<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Cassandraはデータの地域分散を標準でサポートする。複数のデータセンターに跨がってデータをレプリケートすることを簡単に行える。ユーザの近くでデータを置くことでパフォーマンスの上の利点があるグローバルな環境にデプロイするアプリケーションがフィットする。</p>
 </div>
 </div>

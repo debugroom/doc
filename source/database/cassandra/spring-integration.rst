@@ -329,7 +329,7 @@ Serviceインターフェース及び、実装クラスを作成する。
 Spring Data Cassandraのサポート
 ----------------------------------------------------
 
-Spring Data Cassandraのサポート内容を様利すると以下の通りである。
+Spring Data Cassandraのサポート内容を公式ページから直訳すると以下の通りである。
 
 * Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート
 * 共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL TableとPOJOのマッピング
@@ -340,3 +340,13 @@ Spring Data Cassandraのサポート内容を様利すると以下の通りで�
 * Javaベースのクエリ、クライテリア、更新DSL
 * カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装
 
+より意訳的に、Spring Data Cassandraが提供するメリットの内容としては、以下の通りである。
+
+* Cassandraへのデータアクセスするためのボイラープレートコードの隠蔽。
+* Spring Frameworkとの統合、依存性の注入によるCassandaTemplateクラスの提供。
+* エンティティクラスアノテーションによるオブジェクトマッピング機能
+* 設定クラスによるAP起動時のCassandraテーブル構築オプションの提供
+* CrudRepositoryの継承インターフェースによる基本的なデータアクセスコード実装量の軽減
+* メソッド命名規約によるCQL自動組み立てによるコード実装量の軽減
+* Spring Data のRepositoryCustomやResultsetExecutorによる拡張性の保持
+* SrpngのDataアクセス例外を提供することによる、サービスロジックの抽象化による差分の隠蔽。

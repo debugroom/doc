@@ -156,7 +156,7 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="introduction.html#section1-2-1-cassandra-effective-usecase-label">多数のコモディティサーバで構成されるアプリケーション</a></li>
 <li class="toctree-l3"><a class="reference internal" href="introduction.html#section1-2-2-cassandra-effective-usecase-label">大量の書き込み、統計、解析</a></li>
-<li class="toctree-l3"><a class="reference internal" href="introduction.html#id8">地域分散</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#id9">地域分散</a></li>
 </ul>
 </li>
 </ul>
@@ -214,10 +214,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datamodeling.html#spring-data-cassandra">Spring Data Cassandraを使用したユースケースの実装</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-using-spring-data-cassandra-simple-patten1-label">パターン1(非正規化モデル)を中心としたデータモデル</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-entity-label">エンティティクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-entity-label">エンティティクラスの作成</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#repository">Repositoryクラスの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#service">Serviceクラスの作成</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-using-spring-data-cassandra-simple-patten1-label">パターン1(非正規化モデル)を中心としたデータモデル</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-get-users-label">全てのユーザを検索する</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-get-addresses-label">全ての住所を検索する</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-get-emails-label">全てのメールアドレスを検索する</a></li>
@@ -246,6 +248,35 @@
 <li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten1-delete-user-label">指定されたユーザを削除し、グループのユーザ一覧を更新する</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-using-spring-data-cassandra-patten2-label">パターン2(リレーショナルモデル)を中心としたデータモデル</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-users-label">全てのユーザを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-addresses-label">全ての住所を検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-emails-label">全てのメールアドレスを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-groups-label">全てのグループを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-user-label">特定のユーザを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-address-label">特定のユーザのアドレスを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-email-label">特定のユーザがもつEmailアドレスを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-group-by-groupname-label">指定したグループ名を元にグループを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-users-by-zipcd-label">特定の郵便番号を持つユーザ一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-not-users-by-zipcd-label">特定の郵便番号を持たないユーザ一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-add-address-label">指定されたユーザの住所を追加する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-update-address-label">指定されたユーザの住所を更新する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-address-label">指定されたユーザの住所を削除する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-user-by-email-label">特定のメールアドレスを持つユーザを検索する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-add-email-label">指定されたユーザのメールアドレスを追加する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-add-user-with-email-label">指定されたユーザをメールアドレスを含めて追加する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-update-email-label">指定されたユーザのメールアドレスを更新する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-email-label">指定されたユーザのメールアドレスを1件削除する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-emails-label">指定されたユーザのメールアドレスを全件削除する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-group-by-userid-label">指定したユーザが属するグループの一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-users-by-groupid-label">指定したグループに所属する全てのユーザ一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-get-not-users-by-groupid-label">指定したグループに所属しない全てのユーザ一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-add-user-to-group-label">指定したユーザを指定したグループに追加する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-user-from-group-label">指定したユーザをグループから除外する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-group-label">指定したグループを削除し、ユーザが所属するグループの情報を更新する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datamodeling.html#section6-x-x-x-usecase-implementation-patten2-delete-user-label">指定されたユーザを削除し、グループのユーザ一覧を更新する</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datamodeling.html#section6-x-x-differenece-rdb-consistency-problem-label">データ整合性に問題が生じるケース</a><ul>
@@ -253,6 +284,7 @@
 <li class="toctree-l3"><a class="reference internal" href="datamodeling.html#section6-x-x-differenece-rdb-consistency-problem-replication-label">レプリケーション間のデータ不整合</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="datamodeling.html#cassandra">Cassandraにおけるデータモデリングのポイント</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datamodeling.html#section6-x-x-differenece-design-method-label">設計手順</a></li>
 </ul>
 </li>

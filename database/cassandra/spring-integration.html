@@ -105,7 +105,7 @@
 <li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">作業メモ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
 </ul>
 
             
@@ -459,7 +459,7 @@ calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</sp
 </div>
 <div class="section" id="spring-data-cassandra">
 <span id="section5-4-spring-cassandra-support-label"></span><h2>Spring Data Cassandraのサポート<a class="headerlink" href="#spring-data-cassandra" title="Permalink to this headline">¶</a></h2>
-<p>Spring Data Cassandraのサポート内容を様利すると以下の通りである。</p>
+<p>Spring Data Cassandraのサポート内容を公式ページから直訳すると以下の通りである。</p>
 <ul class="simple">
 <li>Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート</li>
 <li>共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL TableとPOJOのマッピング</li>
@@ -469,6 +469,17 @@ calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</sp
 <li>永続化とライフサイクルイベントへのマッピング</li>
 <li>Javaベースのクエリ、クライテリア、更新DSL</li>
 <li>カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装</li>
+</ul>
+<p>より意訳的に、Spring Data Cassandraが提供するメリットの内容としては、以下の通りである。</p>
+<ul class="simple">
+<li>Cassandraへのデータアクセスするためのボイラープレートコードの隠蔽。</li>
+<li>Spring Frameworkとの統合、依存性の注入によるCassandaTemplateクラスの提供。</li>
+<li>エンティティクラスアノテーションによるオブジェクトマッピング機能</li>
+<li>設定クラスによるAP起動時のCassandraテーブル構築オプションの提供</li>
+<li>CrudRepositoryの継承インターフェースによる基本的なデータアクセスコード実装量の軽減</li>
+<li>メソッド命名規約によるCQL自動組み立てによるコード実装量の軽減</li>
+<li>Spring Data のRepositoryCustomやResultsetExecutorによる拡張性の保持</li>
+<li>SrpngのDataアクセス例外を提供することによる、サービスロジックの抽象化による差分の隠蔽。</li>
 </ul>
 </div>
 </div>
