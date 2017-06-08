@@ -920,8 +920,8 @@ PosgreSQLのインストール後は、自作したシェルスクリプトの�
 
 	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_role.sql;pg_ctl stop -m fast"
 	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_db.sql;pg_ctl stop -m fast"
-	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_table.sql -d sample_app;pg_ctl stop -m fast"
-	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/grant_role.sql -d sample_app;pg_ctl stop -m fast"
+	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_table.sql -d sample-app;pg_ctl stop -m fast"
+	su - postgres -c "pg_ctl start -w;psql -f /var/local/postgresql/scripts/grant_role.sql -d sample-app;pg_ctl stop -m fast"
 
 .. note:: コンテナ起動前にpsqlを実行する場合は、pg_ctlを起動してから実行しなければ以下のようなエラーになる。
    psql: could not connect to server: No such file or directory
@@ -936,7 +936,7 @@ PosgreSQLのインストール後は、自作したシェルスクリプトの�
 .. sourcecode:: sql
    :caption: ~/build_postgres/scripts/create_db.sql
 
-    create database sample_app encoding 'utf8';
+    create database "sample-app" encoding 'utf8';
 
 .. sourcecode:: sql
    :caption: ~/build_postgres/scripts/create_table.sql

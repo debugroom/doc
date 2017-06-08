@@ -949,8 +949,8 @@ CMD <span class="o">[</span><span class="s2">&quot;/usr/sbin/init&quot;</span><s
 
      su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_role.sql;pg_ctl stop -m fast&quot;</span>
      su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_db.sql;pg_ctl stop -m fast&quot;</span>
-     su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_table.sql -d sample_app;pg_ctl stop -m fast&quot;</span>
-     su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/grant_role.sql -d sample_app;pg_ctl stop -m fast&quot;</span>
+     su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/create_table.sql -d sample-app;pg_ctl stop -m fast&quot;</span>
+     su - postgres -c <span class="s2">&quot;pg_ctl start -w;psql -f /var/local/postgresql/scripts/grant_role.sql -d sample-app;pg_ctl stop -m fast&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -969,7 +969,7 @@ connections on Unix domain socket &#8220;/var/run/postgresql/.s.PGSQL.5432&#8221
 </div>
 <div class="literal-block-wrapper container" id="build-postgres-scripts-create-db-sql">
 <div class="code-block-caption"><span class="caption-text">~/build_postgres/scripts/create_db.sql</span><a class="headerlink" href="#build-postgres-scripts-create-db-sql" title="Permalink to this code">¶</a></div>
-<div class="highlight-sql"><div class="highlight"><pre> <span class="k">create</span> <span class="k">database</span> <span class="n">sample_app</span> <span class="k">encoding</span> <span class="s1">&#39;utf8&#39;</span><span class="p">;</span>
+<div class="highlight-sql"><div class="highlight"><pre> <span class="k">create</span> <span class="k">database</span> <span class="ss">&quot;sample-app&quot;</span> <span class="k">encoding</span> <span class="s1">&#39;utf8&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
