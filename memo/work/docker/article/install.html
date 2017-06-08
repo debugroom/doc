@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dockerのインストール &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/>
+        <link rel="up" title="Docker" href="../index.html"/>
+        <link rel="next" title="Usage" href="usage.html"/>
+        <link rel="prev" title="Overview" href="overview.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springboot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">work guideline</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../aws/index.html">Amazon web service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Docker</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Dockerのインストール</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">document</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">work guideline</a> &raquo;</li>
+      
+          <li><a href="../index.html">Docker</a> &raquo;</li>
+      
+    <li>Dockerのインストール</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/memo/work/docker/article/install.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="docker">
+<span id="section2-docker-install-label"></span><h1>Dockerのインストール<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h1>
+<p>AWSにおけるDockerの導入は <a class="reference external" href="http://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/docker-basics.html">公式サイト</a> も参照のこと。</p>
+<ol class="arabic simple">
+<li>EC2のCentOS7上で、パッケージとパッケージキャッシュを更新する。</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo yum update -y
+Loaded plugins: fastestmirror
+base                                                     <span class="p">|</span> 3.6 kB     00:00
+extras                                                   <span class="p">|</span> 3.4 kB     00:00
+http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/updates/x86_64/repodata/repomd.xml: <span class="o">[</span>Errno 12<span class="o">]</span> Timeout on http://ftp.jaist.ac.jp/pub/Linux/CentOS/7.3.1611/updates/x86_64/repodata/repomd.xml: <span class="o">(</span>28, <span class="s1">&#39;Operation too slow. Less than 1000 bytes/sec transferred the last 30 seconds&#39;</span><span class="o">)</span>
+Trying other mirror.
+updates                                                  <span class="p">|</span> 3.4 kB     00:00
+<span class="o">(</span>1/4<span class="o">)</span>: extras/7/x86_64/primary_db                          <span class="p">|</span> <span class="m">151</span> kB   00:00
+<span class="o">(</span>2/4<span class="o">)</span>: base/7/x86_64/group_gz                              <span class="p">|</span> <span class="m">155</span> kB   00:00
+<span class="o">(</span>3/4<span class="o">)</span>: base/7/x86_64/primary_db                            <span class="p">|</span> 5.6 MB   00:00
+<span class="o">(</span>4/4<span class="o">)</span>: updates/7/x86_64/primary_db                         <span class="p">|</span> 4.8 MB   00:14
+Determining fastest mirrors
+ * base: ftp.iij.ad.jp
+ * extras: ftp.iij.ad.jp
+ * updates: ftp.iij.ad.jp
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package libtirpc.x86_64 0:0.2.4-0.8.el7 will be updated
+---&gt; Package libtirpc.x86_64 0:0.2.4-0.8.el7_3 will be an update
+---&gt; Package rpcbind.x86_64 0:0.2.0-38.el7 will be updated
+---&gt; Package rpcbind.x86_64 0:0.2.0-38.el7_3 will be an update
+--&gt; Finished Dependency Resolution
+
+Dependencies <span class="nv">Resolved</span>
+
+<span class="o">================================================================================</span>
+ Package          Arch           Version                  Repository       <span class="nv">Size</span>
+<span class="o">================================================================================</span>
+Updating:
+ libtirpc         x86_64         0.2.4-0.8.el7_3          updates          <span class="m">88</span> k
+ rpcbind          x86_64         0.2.0-38.el7_3           updates          <span class="m">59</span> k
+
+Transaction <span class="nv">Summary</span>
+<span class="o">================================================================================</span>
+Upgrade  <span class="m">2</span> Packages
+
+Total download size: <span class="m">147</span> k
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+warning: /var/cache/yum/x86_64/7/updates/packages/libtirpc-0.2.4-0.8.el7_3.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+Public key <span class="k">for</span> libtirpc-0.2.4-0.8.el7_3.x86_64.rpm is not installed
+<span class="o">(</span>1/2<span class="o">)</span>: libtirpc-0.2.4-0.8.el7_3.x86_64.rpm                 <span class="p">|</span>  <span class="m">88</span> kB   00:00
+<span class="o">(</span>2/2<span class="o">)</span>: rpcbind-0.2.0-38.el7_3.x86_64.rpm                   <span class="p">|</span>  <span class="m">59</span> kB   00:00
+--------------------------------------------------------------------------------
+Total                                              <span class="m">921</span> kB/s <span class="p">|</span> <span class="m">147</span> kB  00:00
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+Importing GPG key 0xF4A80EB5:
+ Userid     : <span class="s2">&quot;CentOS-7 Key (CentOS 7 Official Signing Key) &lt;security@centos.org&gt;&quot;</span>
+ Fingerprint: <span class="m">6341</span> ab27 53d7 8a78 a7c2 7bb1 24c6 a8a7 f4a8 0eb5
+ Package    : centos-release-7-3.1611.el7.centos.x86_64 <span class="o">(</span>installed<span class="o">)</span>
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+Running transaction check
+Running transaction <span class="nb">test</span>
+Transaction <span class="nb">test </span>succeeded
+Running transaction
+  Updating   : libtirpc-0.2.4-0.8.el7_3.x86_64                              1/4
+  Updating   : rpcbind-0.2.0-38.el7_3.x86_64                                2/4
+  Cleanup    : rpcbind-0.2.0-38.el7.x86_64                                  3/4
+  Cleanup    : libtirpc-0.2.4-0.8.el7.x86_64                                4/4
+  Verifying  : libtirpc-0.2.4-0.8.el7_3.x86_64                              1/4
+  Verifying  : rpcbind-0.2.0-38.el7_3.x86_64                                2/4
+  Verifying  : rpcbind-0.2.0-38.el7.x86_64                                  3/4
+  Verifying  : libtirpc-0.2.4-0.8.el7.x86_64                                4/4
+
+Updated:
+  libtirpc.x86_64 0:0.2.4-0.8.el7_3       rpcbind.x86_64 0:0.2.0-38.el7_3
+
+Complete!
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Dockerをインストール。</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo yum install -y docker
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: ftp.iij.ad.jp
+ * extras: ftp.iij.ad.jp
+ * updates: ftp.iij.ad.jp
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package docker.x86_64 2:1.12.6-16.el7.centos will be installed
+--&gt; Processing Dependency: docker-common <span class="o">=</span> 2:1.12.6-16.el7.centos <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: docker-client <span class="o">=</span> 2:1.12.6-16.el7.centos <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: oci-systemd-hook &gt;<span class="o">=</span> 1:0.1.4-9 <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: oci-register-machine &gt;<span class="o">=</span> 1:0-3.10 <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: lvm2 &gt;<span class="o">=</span> 2.02.112 <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: container-selinux &gt;<span class="o">=</span> 2:2.10-2 <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: skopeo-containers <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Processing Dependency: libseccomp.so.2<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 2:docker-1.12.6-16.el7.centos.x86_64
+--&gt; Running transaction check
+---&gt; Package container-selinux.noarch 2:2.10-2.el7 will be installed
+---&gt; Package docker-client.x86_64 2:1.12.6-16.el7.centos will be installed
+---&gt; Package docker-common.x86_64 2:1.12.6-16.el7.centos will be installed
+---&gt; Package libseccomp.x86_64 0:2.3.1-2.el7 will be installed
+---&gt; Package lvm2.x86_64 7:2.02.166-1.el7_3.4 will be installed
+--&gt; Processing Dependency: lvm2-libs <span class="o">=</span> 7:2.02.166-1.el7_3.4 <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+--&gt; Processing Dependency: device-mapper-persistent-data &gt;<span class="o">=</span> 0.6.3-1 <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+--&gt; Processing Dependency: liblvm2app.so.2.2<span class="o">(</span>Base<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+--&gt; Processing Dependency: libdevmapper-event.so.1.02<span class="o">(</span>Base<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+--&gt; Processing Dependency: liblvm2app.so.2.2<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+--&gt; Processing Dependency: libdevmapper-event.so.1.02<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 7:lvm2-2.02.166-1.el7_3.4.x86_64
+---&gt; Package oci-register-machine.x86_64 1:0-3.11.gitdd0daef.el7 will be installed
+---&gt; Package oci-systemd-hook.x86_64 1:0.1.7-2.git2788078.el7 will be installed
+--&gt; Processing Dependency: libyajl.so.2<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:oci-systemd-hook-0.1.7-2.git2788078.el7.x86_64
+---&gt; Package skopeo-containers.x86_64 1:0.1.18-1.el7 will be installed
+--&gt; Running transaction check
+---&gt; Package device-mapper-event-libs.x86_64 7:1.02.135-1.el7_3.4 will be installed
+---&gt; Package device-mapper-persistent-data.x86_64 0:0.6.3-1.el7 will be installed
+--&gt; Processing Dependency: libaio.so.1<span class="o">(</span>LIBAIO_0.4<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: device-mapper-persistent-data-0.6.3-1.el7.x86_64
+--&gt; Processing Dependency: libaio.so.1<span class="o">(</span>LIBAIO_0.1<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: device-mapper-persistent-data-0.6.3-1.el7.x86_64
+--&gt; Processing Dependency: libaio.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: device-mapper-persistent-data-0.6.3-1.el7.x86_64
+---&gt; Package lvm2-libs.x86_64 7:2.02.166-1.el7_3.4 will be installed
+--&gt; Processing Dependency: device-mapper-event <span class="o">=</span> 7:1.02.135-1.el7_3.4 <span class="k">for</span> package: 7:lvm2-libs-2.02.166-1.el7_3.4.x86_64
+---&gt; Package yajl.x86_64 0:2.0.4-4.el7 will be installed
+--&gt; Running transaction check
+---&gt; Package device-mapper-event.x86_64 7:1.02.135-1.el7_3.4 will be installed
+---&gt; Package libaio.x86_64 0:0.3.109-13.el7 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies <span class="nv">Resolved</span>
+
+<span class="o">================================================================================</span>
+ Package                       Arch   Version                     Repository
+                                                                           <span class="nv">Size</span>
+<span class="o">================================================================================</span>
+Installing:
+ docker                        x86_64 2:1.12.6-16.el7.centos      extras   <span class="m">14</span> M
+Installing <span class="k">for</span> dependencies:
+ container-selinux             noarch 2:2.10-2.el7                extras   <span class="m">28</span> k
+ device-mapper-event           x86_64 7:1.02.135-1.el7_3.4        updates <span class="m">178</span> k
+ device-mapper-event-libs      x86_64 7:1.02.135-1.el7_3.4        updates <span class="m">177</span> k
+ device-mapper-persistent-data x86_64 0.6.3-1.el7                 base    <span class="m">368</span> k
+ docker-client                 x86_64 2:1.12.6-16.el7.centos      extras  3.2 M
+ docker-common                 x86_64 2:1.12.6-16.el7.centos      extras   <span class="m">72</span> k
+ libaio                        x86_64 0.3.109-13.el7              base     <span class="m">24</span> k
+ libseccomp                    x86_64 2.3.1-2.el7                 base     <span class="m">56</span> k
+ lvm2                          x86_64 7:2.02.166-1.el7_3.4        updates 1.1 M
+ lvm2-libs                     x86_64 7:2.02.166-1.el7_3.4        updates <span class="m">986</span> k
+ oci-register-machine          x86_64 1:0-3.11.gitdd0daef.el7     extras  1.0 M
+ oci-systemd-hook              x86_64 1:0.1.7-2.git2788078.el7    extras   <span class="m">30</span> k
+ skopeo-containers             x86_64 1:0.1.18-1.el7              extras  7.6 k
+ yajl                          x86_64 2.0.4-4.el7                 base     <span class="m">39</span> k
+
+Transaction <span class="nv">Summary</span>
+<span class="o">================================================================================</span>
+Install  <span class="m">1</span> Package <span class="o">(</span>+14 Dependent packages<span class="o">)</span>
+
+Total download size: <span class="m">21</span> M
+Installed size: <span class="m">71</span> M
+Downloading packages:
+<span class="o">(</span>1/15<span class="o">)</span>: container-selinux-2.10-2.el7.noarch.rpm            <span class="p">|</span>  <span class="m">28</span> kB   00:00
+<span class="o">(</span>2/15<span class="o">)</span>: device-mapper-event-1.02.135-1.el7_3.4.x86_64.rpm  <span class="p">|</span> <span class="m">178</span> kB   00:00
+<span class="o">(</span>3/15<span class="o">)</span>: docker-client-1.12.6-16.el7.centos.x86_64.rpm      <span class="p">|</span> 3.2 MB   00:00
+<span class="o">(</span>4/15<span class="o">)</span>: libaio-0.3.109-13.el7.x86_64.rpm                   <span class="p">|</span>  <span class="m">24</span> kB   00:00
+<span class="o">(</span>5/15<span class="o">)</span>: libseccomp-2.3.1-2.el7.x86_64.rpm                  <span class="p">|</span>  <span class="m">56</span> kB   00:00
+<span class="o">(</span>6/15<span class="o">)</span>: lvm2-2.02.166-1.el7_3.4.x86_64.rpm                 <span class="p">|</span> 1.1 MB   00:00
+<span class="o">(</span>7/15<span class="o">)</span>: device-mapper-event-libs-1.02.135-1.el7_3.4.x86_64 <span class="p">|</span> <span class="m">177</span> kB   00:00
+<span class="o">(</span>8/15<span class="o">)</span>: device-mapper-persistent-data-0.6.3-1.el7.x86_64.r <span class="p">|</span> <span class="m">368</span> kB   00:00
+<span class="o">(</span>9/15<span class="o">)</span>: lvm2-libs-2.02.166-1.el7_3.4.x86_64.rpm            <span class="p">|</span> <span class="m">986</span> kB   00:00
+<span class="o">(</span>10/15<span class="o">)</span>: oci-systemd-hook-0.1.7-2.git2788078.el7.x86_64.rp <span class="p">|</span>  <span class="m">30</span> kB   00:00
+<span class="o">(</span>11/15<span class="o">)</span>: docker-common-1.12.6-16.el7.centos.x86_64.rpm     <span class="p">|</span>  <span class="m">72</span> kB   00:00
+<span class="o">(</span>12/15<span class="o">)</span>: skopeo-containers-0.1.18-1.el7.x86_64.rpm         <span class="p">|</span> 7.6 kB   00:00
+<span class="o">(</span>13/15<span class="o">)</span>: oci-register-machine-0-3.11.gitdd0daef.el7.x86_64 <span class="p">|</span> 1.0 MB   00:00
+<span class="o">(</span>14/15<span class="o">)</span>: yajl-2.0.4-4.el7.x86_64.rpm                       <span class="p">|</span>  <span class="m">39</span> kB   00:00
+<span class="o">(</span>15/15<span class="o">)</span>: docker-1.12.6-16.el7.centos.x86_64.rpm            <span class="p">|</span>  <span class="m">14</span> MB   00:02
+--------------------------------------------------------------------------------
+Total                                              8.1 MB/s <span class="p">|</span>  <span class="m">21</span> MB  00:02
+Running transaction check
+Running transaction <span class="nb">test</span>
+Transaction <span class="nb">test </span>succeeded
+Running transaction
+  Installing : 7:device-mapper-event-libs-1.02.135-1.el7_3.4.x86_64        1/15
+  Installing : 2:docker-common-1.12.6-16.el7.centos.x86_64                 2/15
+  Installing : 2:docker-client-1.12.6-16.el7.centos.x86_64                 3/15
+  Installing : 7:device-mapper-event-1.02.135-1.el7_3.4.x86_64             4/15
+  Installing : 7:lvm2-libs-2.02.166-1.el7_3.4.x86_64                       5/15
+  Installing : libaio-0.3.109-13.el7.x86_64                                6/15
+  Installing : device-mapper-persistent-data-0.6.3-1.el7.x86_64            7/15
+  Installing : 7:lvm2-2.02.166-1.el7_3.4.x86_64                            8/15
+Created symlink from /etc/systemd/system/sysinit.target.wants/lvm2-lvmpolld.socket to /usr/lib/systemd/system/lvm2-lvmpolld.socket.
+  Installing : yajl-2.0.4-4.el7.x86_64                                     9/15
+  Installing : 1:oci-systemd-hook-0.1.7-2.git2788078.el7.x86_64           10/15
+  Installing : 1:oci-register-machine-0-3.11.gitdd0daef.el7.x86_64        11/15
+  Installing : 2:container-selinux-2.10-2.el7.noarch                      12/15
+  Installing : libseccomp-2.3.1-2.el7.x86_64                              13/15
+  Installing : 1:skopeo-containers-0.1.18-1.el7.x86_64                    14/15
+  Installing : 2:docker-1.12.6-16.el7.centos.x86_64                       15/15
+  Verifying  : 7:lvm2-libs-2.02.166-1.el7_3.4.x86_64                       1/15
+  Verifying  : 1:skopeo-containers-0.1.18-1.el7.x86_64                     2/15
+  Verifying  : libseccomp-2.3.1-2.el7.x86_64                               3/15
+  Verifying  : 7:device-mapper-event-1.02.135-1.el7_3.4.x86_64             4/15
+  Verifying  : 2:docker-1.12.6-16.el7.centos.x86_64                        5/15
+  Verifying  : 1:oci-systemd-hook-0.1.7-2.git2788078.el7.x86_64            6/15
+  Verifying  : device-mapper-persistent-data-0.6.3-1.el7.x86_64            7/15
+  Verifying  : 2:container-selinux-2.10-2.el7.noarch                       8/15
+  Verifying  : 7:device-mapper-event-libs-1.02.135-1.el7_3.4.x86_64        9/15
+  Verifying  : 7:lvm2-2.02.166-1.el7_3.4.x86_64                           10/15
+  Verifying  : 1:oci-register-machine-0-3.11.gitdd0daef.el7.x86_64        11/15
+  Verifying  : 2:docker-common-1.12.6-16.el7.centos.x86_64                12/15
+  Verifying  : yajl-2.0.4-4.el7.x86_64                                    13/15
+  Verifying  : 2:docker-client-1.12.6-16.el7.centos.x86_64                14/15
+  Verifying  : libaio-0.3.109-13.el7.x86_64                               15/15
+
+Installed:
+  docker.x86_64 2:1.12.6-16.el7.centos
+
+Dependency Installed:
+  container-selinux.noarch 2:2.10-2.el7
+  device-mapper-event.x86_64 7:1.02.135-1.el7_3.4
+  device-mapper-event-libs.x86_64 7:1.02.135-1.el7_3.4
+  device-mapper-persistent-data.x86_64 0:0.6.3-1.el7
+  docker-client.x86_64 2:1.12.6-16.el7.centos
+  docker-common.x86_64 2:1.12.6-16.el7.centos
+  libaio.x86_64 0:0.3.109-13.el7
+  libseccomp.x86_64 0:2.3.1-2.el7
+  lvm2.x86_64 7:2.02.166-1.el7_3.4
+  lvm2-libs.x86_64 7:2.02.166-1.el7_3.4
+  oci-register-machine.x86_64 1:0-3.11.gitdd0daef.el7
+  oci-systemd-hook.x86_64 1:0.1.7-2.git2788078.el7
+  skopeo-containers.x86_64 1:0.1.18-1.el7
+  yajl.x86_64 0:2.0.4-4.el7
+
+Complete!
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Dockerサービスを起動する。</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-172-31-31-80 ~<span class="o">]</span><span class="nv">$ </span>sudo systemctl <span class="nb">enable </span>docker.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+
+<span class="o">[</span>centos@ip-172-31-31-80 ~<span class="o">]</span><span class="nv">$ </span>sudo systemctl start docker.service
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>dockerコマンドを利用する際は <a class="reference external" href="https://docs.docker.com/installation/ubuntulinux/#create-a-docker-group">sudoが必要。</a>
+sudoなしでdockerコマンドを実行するには、dockerグループを作成し、実行ユーザを追加すれば良い。</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo groupadd docker
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo gpasswd -a <span class="nv">$USER</span> docker
+Adding user centos to group docker
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo systemctl restart docker
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span><span class="nb">exit</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>RHEL7では、デフォルトではパッケージが用意されていないため、ExtraChanelの登録が必要な模様。</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span class="o">[</span>ec2-user@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo yum -y install docker
+Loaded plugins: amazon-id, rhui-lb, search-disabled-repos
+rhui-REGION-client-config-server-7                       <span class="p">|</span> 2.9 kB     00:00
+rhui-REGION-rhel-server-releases                         <span class="p">|</span> 3.5 kB     00:00
+rhui-REGION-rhel-server-rh-common                        <span class="p">|</span> 3.8 kB     00:00
+<span class="o">(</span>1/7<span class="o">)</span>: rhui-REGION-client-config-server-7/x86_64/primary_d <span class="p">|</span> 5.5 kB   00:00
+<span class="o">(</span>2/7<span class="o">)</span>: rhui-REGION-rhel-server-releases/7Server/x86_64/gro <span class="p">|</span> <span class="m">701</span> kB   00:00
+<span class="o">(</span>3/7<span class="o">)</span>: rhui-REGION-rhel-server-rh-common/7Server/x86_64/gr <span class="p">|</span>  <span class="m">104</span> B   00:00
+<span class="o">(</span>4/7<span class="o">)</span>: rhui-REGION-rhel-server-rh-common/7Server/x86_64/pr <span class="p">|</span> <span class="m">118</span> kB   00:00
+<span class="o">(</span>5/7<span class="o">)</span>: rhui-REGION-rhel-server-rh-common/7Server/x86_64/up <span class="p">|</span>  <span class="m">33</span> kB   00:00
+<span class="o">(</span>6/7<span class="o">)</span>: rhui-REGION-rhel-server-releases/7Server/x86_64/upd <span class="p">|</span> 1.9 MB   00:00
+<span class="o">(</span>7/7<span class="o">)</span>: rhui-REGION-rhel-server-releases/7Server/x86_64/pri <span class="p">|</span>  <span class="m">35</span> MB   00:02
+No package docker available.
+Error: Nothing to <span class="k">do</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
