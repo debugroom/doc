@@ -837,6 +837,461 @@ a54c0b51062298797283194edd7ad7753fd92c507a0735488ae750f95b488316
 </pre></div>
 </div>
 </div>
+<div class="section" id="cassandra">
+<span id="section3-2-4-docker-web-server-label"></span><h3>Cassandraクラスタサーバの構築<a class="headerlink" href="#cassandra" title="Permalink to this headline">¶</a></h3>
+<p>DockerコンテナでCassandraクラスタの構築を行う。centos7で新たにコンテナイメージを作成する。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># CentOS7のコンテナを起動</span>
+    <span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>docker run -d --privileged --name cassandra-server1 centos:latest /sbin/init
+    5a8bd32a59adf502b61599214fee16075fe10fe9a2bab564e4be437f1f1e7039
+    <span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>docker <span class="nb">exec</span> -ti cassandra-server1 /bin/bash
+    <span class="c"># Java8とiprouteのインストール</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># yum install -y java-1.8.0-openjdk java-1.8.0.openjdk-devel iproute</span>
+    Loaded plugins: fastestmirror, ovl
+    base                                                                            <span class="p">|</span> 3.6 kB  00:00:00
+    extras                                                                          <span class="p">|</span> 3.4 kB  00:00:00
+    updates                                                                         <span class="p">|</span> 3.4 kB  00:00:00
+    <span class="o">(</span>1/4<span class="o">)</span>: extras/7/x86_64/primary_db                                               <span class="p">|</span> <span class="m">167</span> kB  00:00:00
+    <span class="o">(</span>2/4<span class="o">)</span>: base/7/x86_64/group_gz                                                   <span class="p">|</span> <span class="m">155</span> kB  00:00:00
+    <span class="o">(</span>3/4<span class="o">)</span>: updates/7/x86_64/primary_db                                              <span class="p">|</span> 5.6 MB  00:00:00
+    <span class="o">(</span>4/4<span class="o">)</span>: base/7/x86_64/primary_db                                                 <span class="p">|</span> 5.6 MB  00:00:02
+    Determining fastest mirrors
+     * base: ftp.iij.ad.jp
+     * extras: ftp.iij.ad.jp
+     * updates: ftp.iij.ad.jp
+    No package java-1.8.0.openjdk-devel available.
+    Resolving Dependencies
+    --&gt; Running transaction check
+    ---&gt; Package iproute.x86_64 0:3.10.0-74.el7 will be installed
+    --&gt; Processing Dependency: libmnl.so.0<span class="o">(</span>LIBMNL_1.0<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: iproute-3.10.0-74.el7.x86_64
+    --&gt; Processing Dependency: libxtables.so.10<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: iproute-3.10.0-74.el7.x86_64
+    --&gt; Processing Dependency: libmnl.so.0<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: iproute-3.10.0-74.el7.x86_64
+    ---&gt; Package java-1.8.0-openjdk.x86_64 1:1.8.0.131-3.b12.el7_3 will be installed
+    --&gt; Processing Dependency: java-1.8.0-openjdk-headless <span class="o">=</span> 1:1.8.0.131-3.b12.el7_3 <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: xorg-x11-fonts-Type1 <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libpng15.so.15<span class="o">(</span>PNG15_0<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjvm.so<span class="o">(</span>SUNWprivate_1.1<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjpeg.so.62<span class="o">(</span>LIBJPEG_6.2<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjli.so<span class="o">(</span>SUNWprivate_1.1<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjava.so<span class="o">(</span>SUNWprivate_1.1<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libasound.so.2<span class="o">(</span>ALSA_0.9.0rc4<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libasound.so.2<span class="o">(</span>ALSA_0.9<span class="o">)(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: fontconfig<span class="o">(</span>x86-64<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libpng15.so.15<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjvm.so<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjpeg.so.62<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjli.so<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libjava.so<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libgif.so.4<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libawt.so<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libasound.so.2<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libXtst.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libXrender.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libXi.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libXext.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libXcomposite.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: libX11.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Running transaction check
+    ---&gt; Package alsa-lib.x86_64 0:1.1.1-1.el7 will be installed
+    ---&gt; Package fontconfig.x86_64 0:2.10.95-10.el7 will be installed
+    --&gt; Processing Dependency: freetype <span class="k">for</span> package: fontconfig-2.10.95-10.el7.x86_64
+    --&gt; Processing Dependency: fontpackages-filesystem <span class="k">for</span> package: fontconfig-2.10.95-10.el7.x86_64
+    --&gt; Processing Dependency: libfreetype.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: fontconfig-2.10.95-10.el7.x86_64
+    ---&gt; Package giflib.x86_64 0:4.1.6-9.el7 will be installed
+    --&gt; Processing Dependency: libSM.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: giflib-4.1.6-9.el7.x86_64
+    --&gt; Processing Dependency: libICE.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: giflib-4.1.6-9.el7.x86_64
+    ---&gt; Package iptables.x86_64 0:1.4.21-17.el7 will be installed
+    --&gt; Processing Dependency: libnfnetlink.so.0<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: iptables-1.4.21-17.el7.x86_64
+    --&gt; Processing Dependency: libnetfilter_conntrack.so.3<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: iptables-1.4.21-17.el7.x86_64
+    ---&gt; Package java-1.8.0-openjdk-headless.x86_64 1:1.8.0.131-3.b12.el7_3 will be installed
+    --&gt; Processing Dependency: tzdata-java &gt;<span class="o">=</span> 2015d <span class="k">for</span> package: 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: copy-jdk-configs &gt;<span class="o">=</span> 1.1-3 <span class="k">for</span> package: 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: lksctp-tools<span class="o">(</span>x86-64<span class="o">)</span> <span class="k">for</span> package: 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64
+    --&gt; Processing Dependency: jpackage-utils <span class="k">for</span> package: 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64
+    ---&gt; Package libX11.x86_64 0:1.6.3-3.el7 will be installed
+    --&gt; Processing Dependency: libX11-common &gt;<span class="o">=</span> 1.6.3-3.el7 <span class="k">for</span> package: libX11-1.6.3-3.el7.x86_64
+    --&gt; Processing Dependency: libxcb.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: libX11-1.6.3-3.el7.x86_64
+    ---&gt; Package libXcomposite.x86_64 0:0.4.4-4.1.el7 will be installed
+    ---&gt; Package libXext.x86_64 0:1.3.3-3.el7 will be installed
+    ---&gt; Package libXi.x86_64 0:1.7.4-2.el7 will be installed
+    ---&gt; Package libXrender.x86_64 0:0.9.8-2.1.el7 will be installed
+    ---&gt; Package libXtst.x86_64 0:1.2.2-2.1.el7 will be installed
+    ---&gt; Package libjpeg-turbo.x86_64 0:1.2.90-5.el7 will be installed
+    ---&gt; Package libmnl.x86_64 0:1.0.3-7.el7 will be installed
+    ---&gt; Package libpng.x86_64 2:1.5.13-7.el7_2 will be installed
+    ---&gt; Package xorg-x11-fonts-Type1.noarch 0:7.5-9.el7 will be installed
+    --&gt; Processing Dependency: ttmkfdir <span class="k">for</span> package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+    --&gt; Processing Dependency: ttmkfdir <span class="k">for</span> package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+    --&gt; Processing Dependency: mkfontdir <span class="k">for</span> package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+    --&gt; Processing Dependency: mkfontdir <span class="k">for</span> package: xorg-x11-fonts-Type1-7.5-9.el7.noarch
+    --&gt; Running transaction check
+    ---&gt; Package copy-jdk-configs.noarch 0:1.2-1.el7 will be installed
+    ---&gt; Package fontpackages-filesystem.noarch 0:1.44-8.el7 will be installed
+    ---&gt; Package freetype.x86_64 0:2.4.11-12.el7 will be installed
+    ---&gt; Package javapackages-tools.noarch 0:3.4.1-11.el7 will be installed
+    --&gt; Processing Dependency: python-javapackages <span class="o">=</span> 3.4.1-11.el7 <span class="k">for</span> package: javapackages-tools-3.4.1-11.el7.noarch
+    --&gt; Processing Dependency: libxslt <span class="k">for</span> package: javapackages-tools-3.4.1-11.el7.noarch
+    ---&gt; Package libICE.x86_64 0:1.0.9-2.el7 will be installed
+    ---&gt; Package libSM.x86_64 0:1.2.2-2.el7 will be installed
+    ---&gt; Package libX11-common.noarch 0:1.6.3-3.el7 will be installed
+    ---&gt; Package libnetfilter_conntrack.x86_64 0:1.0.6-1.el7_3 will be installed
+    ---&gt; Package libnfnetlink.x86_64 0:1.0.1-4.el7 will be installed
+    ---&gt; Package libxcb.x86_64 0:1.11-4.el7 will be installed
+    --&gt; Processing Dependency: libXau.so.6<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: libxcb-1.11-4.el7.x86_64
+    ---&gt; Package lksctp-tools.x86_64 0:1.0.17-2.el7 will be installed
+    ---&gt; Package ttmkfdir.x86_64 0:3.0.9-42.el7 will be installed
+    ---&gt; Package tzdata-java.noarch 0:2017b-1.el7 will be installed
+    ---&gt; Package xorg-x11-font-utils.x86_64 1:7.5-20.el7 will be installed
+    --&gt; Processing Dependency: libfontenc.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:xorg-x11-font-utils-7.5-20.el7.x86_64
+    --&gt; Processing Dependency: libXfont.so.1<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for</span> package: 1:xorg-x11-font-utils-7.5-20.el7.x86_64
+    --&gt; Running transaction check
+    ---&gt; Package libXau.x86_64 0:1.0.8-2.1.el7 will be installed
+    ---&gt; Package libXfont.x86_64 0:1.5.1-2.el7 will be installed
+    ---&gt; Package libfontenc.x86_64 0:1.1.2-3.el7 will be installed
+    ---&gt; Package libxslt.x86_64 0:1.1.28-5.el7 will be installed
+    ---&gt; Package python-javapackages.noarch 0:3.4.1-11.el7 will be installed
+    --&gt; Processing Dependency: python-lxml <span class="k">for</span> package: python-javapackages-3.4.1-11.el7.noarch
+    --&gt; Running transaction check
+    ---&gt; Package python-lxml.x86_64 0:3.2.1-4.el7 will be installed
+    --&gt; Finished Dependency Resolution
+
+    Dependencies <span class="nv">Resolved</span>
+
+    <span class="o">=======================================================================================================</span>
+     Package                            Arch          Version                         Repository      <span class="nv">Size</span>
+    <span class="o">=======================================================================================================</span>
+    Installing:
+     iproute                            x86_64        3.10.0-74.el7                   base           <span class="m">618</span> k
+     java-1.8.0-openjdk                 x86_64        1:1.8.0.131-3.b12.el7_3         updates        <span class="m">233</span> k
+    Installing <span class="k">for</span> dependencies:
+     alsa-lib                           x86_64        1.1.1-1.el7                     base           <span class="m">415</span> k
+     copy-jdk-configs                   noarch        1.2-1.el7                       base            <span class="m">14</span> k
+     fontconfig                         x86_64        2.10.95-10.el7                  base           <span class="m">229</span> k
+     fontpackages-filesystem            noarch        1.44-8.el7                      base           9.9 k
+     freetype                           x86_64        2.4.11-12.el7                   base           <span class="m">391</span> k
+     giflib                             x86_64        4.1.6-9.el7                     base            <span class="m">40</span> k
+     iptables                           x86_64        1.4.21-17.el7                   base           <span class="m">426</span> k
+     java-1.8.0-openjdk-headless        x86_64        1:1.8.0.131-3.b12.el7_3         updates         <span class="m">31</span> M
+     javapackages-tools                 noarch        3.4.1-11.el7                    base            <span class="m">73</span> k
+     libICE                             x86_64        1.0.9-2.el7                     base            <span class="m">65</span> k
+     libSM                              x86_64        1.2.2-2.el7                     base            <span class="m">39</span> k
+     libX11                             x86_64        1.6.3-3.el7                     base           <span class="m">606</span> k
+     libX11-common                      noarch        1.6.3-3.el7                     base           <span class="m">162</span> k
+     libXau                             x86_64        1.0.8-2.1.el7                   base            <span class="m">29</span> k
+     libXcomposite                      x86_64        0.4.4-4.1.el7                   base            <span class="m">22</span> k
+     libXext                            x86_64        1.3.3-3.el7                     base            <span class="m">39</span> k
+     libXfont                           x86_64        1.5.1-2.el7                     base           <span class="m">150</span> k
+     libXi                              x86_64        1.7.4-2.el7                     base            <span class="m">40</span> k
+     libXrender                         x86_64        0.9.8-2.1.el7                   base            <span class="m">25</span> k
+     libXtst                            x86_64        1.2.2-2.1.el7                   base            <span class="m">20</span> k
+     libfontenc                         x86_64        1.1.2-3.el7                     base            <span class="m">30</span> k
+     libjpeg-turbo                      x86_64        1.2.90-5.el7                    base           <span class="m">134</span> k
+     libmnl                             x86_64        1.0.3-7.el7                     base            <span class="m">23</span> k
+     libnetfilter_conntrack             x86_64        1.0.6-1.el7_3                   updates         <span class="m">55</span> k
+     libnfnetlink                       x86_64        1.0.1-4.el7                     base            <span class="m">26</span> k
+     libpng                             x86_64        2:1.5.13-7.el7_2                base           <span class="m">213</span> k
+     libxcb                             x86_64        1.11-4.el7                      base           <span class="m">189</span> k
+     libxslt                            x86_64        1.1.28-5.el7                    base           <span class="m">242</span> k
+     lksctp-tools                       x86_64        1.0.17-2.el7                    base            <span class="m">88</span> k
+     python-javapackages                noarch        3.4.1-11.el7                    base            <span class="m">31</span> k
+     python-lxml                        x86_64        3.2.1-4.el7                     base           <span class="m">758</span> k
+     ttmkfdir                           x86_64        3.0.9-42.el7                    base            <span class="m">48</span> k
+     tzdata-java                        noarch        2017b-1.el7                     updates        <span class="m">183</span> k
+     xorg-x11-font-utils                x86_64        1:7.5-20.el7                    base            <span class="m">87</span> k
+     xorg-x11-fonts-Type1               noarch        7.5-9.el7                       base           <span class="m">521</span> k
+
+    Transaction <span class="nv">Summary</span>
+    <span class="o">=======================================================================================================</span>
+    Install  <span class="m">2</span> Packages <span class="o">(</span>+35 Dependent packages<span class="o">)</span>
+
+    Total download size: <span class="m">37</span> M
+    Installed size: <span class="m">119</span> M
+    Downloading packages:
+    warning: /var/cache/yum/x86_64/7/base/packages/copy-jdk-configs-1.2-1.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+    Public key <span class="k">for</span> copy-jdk-configs-1.2-1.el7.noarch.rpm is not installed
+    <span class="o">(</span>1/37<span class="o">)</span>: copy-jdk-configs-1.2-1.el7.noarch.rpm                                   <span class="p">|</span>  <span class="m">14</span> kB  00:00:00
+    <span class="o">(</span>2/37<span class="o">)</span>: alsa-lib-1.1.1-1.el7.x86_64.rpm                                         <span class="p">|</span> <span class="m">415</span> kB  00:00:00
+    <span class="o">(</span>3/37<span class="o">)</span>: fontpackages-filesystem-1.44-8.el7.noarch.rpm                           <span class="p">|</span> 9.9 kB  00:00:00
+    <span class="o">(</span>4/37<span class="o">)</span>: fontconfig-2.10.95-10.el7.x86_64.rpm                                    <span class="p">|</span> <span class="m">229</span> kB  00:00:00
+    <span class="o">(</span>5/37<span class="o">)</span>: giflib-4.1.6-9.el7.x86_64.rpm                                           <span class="p">|</span>  <span class="m">40</span> kB  00:00:00
+    <span class="o">(</span>6/37<span class="o">)</span>: iproute-3.10.0-74.el7.x86_64.rpm                                        <span class="p">|</span> <span class="m">618</span> kB  00:00:00
+    <span class="o">(</span>7/37<span class="o">)</span>: iptables-1.4.21-17.el7.x86_64.rpm                                       <span class="p">|</span> <span class="m">426</span> kB  00:00:00
+    <span class="o">(</span>8/37<span class="o">)</span>: javapackages-tools-3.4.1-11.el7.noarch.rpm                              <span class="p">|</span>  <span class="m">73</span> kB  00:00:00
+    <span class="o">(</span>9/37<span class="o">)</span>: libICE-1.0.9-2.el7.x86_64.rpm                                           <span class="p">|</span>  <span class="m">65</span> kB  00:00:00
+    <span class="o">(</span>10/37<span class="o">)</span>: libSM-1.2.2-2.el7.x86_64.rpm                                           <span class="p">|</span>  <span class="m">39</span> kB  00:00:00
+    Public key <span class="k">for</span> java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64.rpm is not installed
+    <span class="o">(</span>11/37<span class="o">)</span>: java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64.rpm                    <span class="p">|</span> <span class="m">233</span> kB  00:00:00
+    <span class="o">(</span>12/37<span class="o">)</span>: libX11-1.6.3-3.el7.x86_64.rpm                                          <span class="p">|</span> <span class="m">606</span> kB  00:00:00
+    <span class="o">(</span>13/37<span class="o">)</span>: freetype-2.4.11-12.el7.x86_64.rpm                                      <span class="p">|</span> <span class="m">391</span> kB  00:00:00
+    <span class="o">(</span>14/37<span class="o">)</span>: libX11-common-1.6.3-3.el7.noarch.rpm                                   <span class="p">|</span> <span class="m">162</span> kB  00:00:00
+    <span class="o">(</span>15/37<span class="o">)</span>: libXau-1.0.8-2.1.el7.x86_64.rpm                                        <span class="p">|</span>  <span class="m">29</span> kB  00:00:00
+    <span class="o">(</span>16/37<span class="o">)</span>: libXcomposite-0.4.4-4.1.el7.x86_64.rpm                                 <span class="p">|</span>  <span class="m">22</span> kB  00:00:00
+    <span class="o">(</span>17/37<span class="o">)</span>: libXext-1.3.3-3.el7.x86_64.rpm                                         <span class="p">|</span>  <span class="m">39</span> kB  00:00:00
+    <span class="o">(</span>18/37<span class="o">)</span>: libXfont-1.5.1-2.el7.x86_64.rpm                                        <span class="p">|</span> <span class="m">150</span> kB  00:00:00
+    <span class="o">(</span>19/37<span class="o">)</span>: libXi-1.7.4-2.el7.x86_64.rpm                                           <span class="p">|</span>  <span class="m">40</span> kB  00:00:00
+    <span class="o">(</span>20/37<span class="o">)</span>: libXrender-0.9.8-2.1.el7.x86_64.rpm                                    <span class="p">|</span>  <span class="m">25</span> kB  00:00:00
+    <span class="o">(</span>21/37<span class="o">)</span>: libXtst-1.2.2-2.1.el7.x86_64.rpm                                       <span class="p">|</span>  <span class="m">20</span> kB  00:00:00
+    <span class="o">(</span>22/37<span class="o">)</span>: libfontenc-1.1.2-3.el7.x86_64.rpm                                      <span class="p">|</span>  <span class="m">30</span> kB  00:00:00
+    <span class="o">(</span>23/37<span class="o">)</span>: libjpeg-turbo-1.2.90-5.el7.x86_64.rpm                                  <span class="p">|</span> <span class="m">134</span> kB  00:00:00
+    <span class="o">(</span>24/37<span class="o">)</span>: libmnl-1.0.3-7.el7.x86_64.rpm                                          <span class="p">|</span>  <span class="m">23</span> kB  00:00:00
+    <span class="o">(</span>25/37<span class="o">)</span>: libnfnetlink-1.0.1-4.el7.x86_64.rpm                                    <span class="p">|</span>  <span class="m">26</span> kB  00:00:00
+    <span class="o">(</span>26/37<span class="o">)</span>: libpng-1.5.13-7.el7_2.x86_64.rpm                                       <span class="p">|</span> <span class="m">213</span> kB  00:00:00
+    <span class="o">(</span>27/37<span class="o">)</span>: libxcb-1.11-4.el7.x86_64.rpm                                           <span class="p">|</span> <span class="m">189</span> kB  00:00:00
+    <span class="o">(</span>28/37<span class="o">)</span>: libxslt-1.1.28-5.el7.x86_64.rpm                                        <span class="p">|</span> <span class="m">242</span> kB  00:00:00
+    <span class="o">(</span>29/37<span class="o">)</span>: lksctp-tools-1.0.17-2.el7.x86_64.rpm                                   <span class="p">|</span>  <span class="m">88</span> kB  00:00:00
+    <span class="o">(</span>30/37<span class="o">)</span>: python-javapackages-3.4.1-11.el7.noarch.rpm                            <span class="p">|</span>  <span class="m">31</span> kB  00:00:00
+    <span class="o">(</span>31/37<span class="o">)</span>: ttmkfdir-3.0.9-42.el7.x86_64.rpm                                       <span class="p">|</span>  <span class="m">48</span> kB  00:00:00
+    <span class="o">(</span>32/37<span class="o">)</span>: python-lxml-3.2.1-4.el7.x86_64.rpm                                     <span class="p">|</span> <span class="m">758</span> kB  00:00:00
+    <span class="o">(</span>33/37<span class="o">)</span>: java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64.rpm           <span class="p">|</span>  <span class="m">31</span> MB  00:00:00
+    <span class="o">(</span>34/37<span class="o">)</span>: libnetfilter_conntrack-1.0.6-1.el7_3.x86_64.rpm                        <span class="p">|</span>  <span class="m">55</span> kB  00:00:00
+    <span class="o">(</span>35/37<span class="o">)</span>: tzdata-java-2017b-1.el7.noarch.rpm                                     <span class="p">|</span> <span class="m">183</span> kB  00:00:00
+    <span class="o">(</span>36/37<span class="o">)</span>: xorg-x11-font-utils-7.5-20.el7.x86_64.rpm                              <span class="p">|</span>  <span class="m">87</span> kB  00:00:00
+    <span class="o">(</span>37/37<span class="o">)</span>: xorg-x11-fonts-Type1-7.5-9.el7.noarch.rpm                              <span class="p">|</span> <span class="m">521</span> kB  00:00:00
+    -------------------------------------------------------------------------------------------------------
+    Total                                                                   <span class="m">25</span> MB/s <span class="p">|</span>  <span class="m">37</span> MB  00:00:01
+    Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    Importing GPG key 0xF4A80EB5:
+     Userid     : <span class="s2">&quot;CentOS-7 Key (CentOS 7 Official Signing Key) &lt;security@centos.org&gt;&quot;</span>
+     Fingerprint: <span class="m">6341</span> ab27 53d7 8a78 a7c2 7bb1 24c6 a8a7 f4a8 0eb5
+     Package    : centos-release-7-3.1611.el7.centos.x86_64 <span class="o">(</span>@CentOS<span class="o">)</span>
+     From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    Running transaction check
+    Running transaction <span class="nb">test</span>
+<span class="nb">    </span>Transaction <span class="nb">test </span>succeeded
+    Running transaction
+      Installing : freetype-2.4.11-12.el7.x86_64                                                      1/37
+      Installing : libnfnetlink-1.0.1-4.el7.x86_64                                                    2/37
+      Installing : libICE-1.0.9-2.el7.x86_64                                                          3/37
+      Installing : libxslt-1.1.28-5.el7.x86_64                                                        4/37
+      Installing : libmnl-1.0.3-7.el7.x86_64                                                          5/37
+      Installing : libfontenc-1.1.2-3.el7.x86_64                                                      6/37
+      Installing : libjpeg-turbo-1.2.90-5.el7.x86_64                                                  7/37
+      Installing : libXfont-1.5.1-2.el7.x86_64                                                        8/37
+      Installing : 1:xorg-x11-font-utils-7.5-20.el7.x86_64                                            9/37
+      Installing : libnetfilter_conntrack-1.0.6-1.el7_3.x86_64                                       10/37
+      Installing : iptables-1.4.21-17.el7.x86_64                                                     11/37
+      Installing : python-lxml-3.2.1-4.el7.x86_64                                                    12/37
+      Installing : python-javapackages-3.4.1-11.el7.noarch                                           13/37
+      Installing : javapackages-tools-3.4.1-11.el7.noarch                                            14/37
+      Installing : libSM-1.2.2-2.el7.x86_64                                                          15/37
+      Installing : ttmkfdir-3.0.9-42.el7.x86_64                                                      16/37
+      Installing : libX11-common-1.6.3-3.el7.noarch                                                  17/37
+      Installing : alsa-lib-1.1.1-1.el7.x86_64                                                       18/37
+      Installing : libXau-1.0.8-2.1.el7.x86_64                                                       19/37
+      Installing : libxcb-1.11-4.el7.x86_64                                                          20/37
+      Installing : libX11-1.6.3-3.el7.x86_64                                                         21/37
+      Installing : libXext-1.3.3-3.el7.x86_64                                                        22/37
+      Installing : libXi-1.7.4-2.el7.x86_64                                                          23/37
+      Installing : libXtst-1.2.2-2.1.el7.x86_64                                                      24/37
+      Installing : giflib-4.1.6-9.el7.x86_64                                                         25/37
+      Installing : libXcomposite-0.4.4-4.1.el7.x86_64                                                26/37
+      Installing : libXrender-0.9.8-2.1.el7.x86_64                                                   27/37
+      Installing : tzdata-java-2017b-1.el7.noarch                                                    28/37
+      Installing : copy-jdk-configs-1.2-1.el7.noarch                                                 29/37
+      Installing : lksctp-tools-1.0.17-2.el7.x86_64                                                  30/37
+      Installing : 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64                        31/37
+      Installing : fontpackages-filesystem-1.44-8.el7.noarch                                         32/37
+      Installing : fontconfig-2.10.95-10.el7.x86_64                                                  33/37
+      Installing : xorg-x11-fonts-Type1-7.5-9.el7.noarch                                             34/37
+      Installing : 2:libpng-1.5.13-7.el7_2.x86_64                                                    35/37
+      Installing : 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64                                 36/37
+      Installing : iproute-3.10.0-74.el7.x86_64                                                      37/37
+      Verifying  : libXext-1.3.3-3.el7.x86_64                                                         1/37
+      Verifying  : giflib-4.1.6-9.el7.x86_64                                                          2/37
+      Verifying  : libjpeg-turbo-1.2.90-5.el7.x86_64                                                  3/37
+      Verifying  : libfontenc-1.1.2-3.el7.x86_64                                                      4/37
+      Verifying  : libXtst-1.2.2-2.1.el7.x86_64                                                       5/37
+      Verifying  : python-lxml-3.2.1-4.el7.x86_64                                                     6/37
+      Verifying  : libnetfilter_conntrack-1.0.6-1.el7_3.x86_64                                        7/37
+      Verifying  : libxcb-1.11-4.el7.x86_64                                                           8/37
+      Verifying  : 2:libpng-1.5.13-7.el7_2.x86_64                                                     9/37
+      Verifying  : fontpackages-filesystem-1.44-8.el7.noarch                                         10/37
+      Verifying  : ttmkfdir-3.0.9-42.el7.x86_64                                                      11/37
+      Verifying  : 1:java-1.8.0-openjdk-headless-1.8.0.131-3.b12.el7_3.x86_64                        12/37
+      Verifying  : libmnl-1.0.3-7.el7.x86_64                                                         13/37
+      Verifying  : python-javapackages-3.4.1-11.el7.noarch                                           14/37
+      Verifying  : libXcomposite-0.4.4-4.1.el7.x86_64                                                15/37
+      Verifying  : iptables-1.4.21-17.el7.x86_64                                                     16/37
+      Verifying  : libXrender-0.9.8-2.1.el7.x86_64                                                   17/37
+      Verifying  : lksctp-tools-1.0.17-2.el7.x86_64                                                  18/37
+      Verifying  : copy-jdk-configs-1.2-1.el7.noarch                                                 19/37
+      Verifying  : xorg-x11-fonts-Type1-7.5-9.el7.noarch                                             20/37
+      Verifying  : libxslt-1.1.28-5.el7.x86_64                                                       21/37
+      Verifying  : freetype-2.4.11-12.el7.x86_64                                                     22/37
+      Verifying  : tzdata-java-2017b-1.el7.noarch                                                    23/37
+      Verifying  : libICE-1.0.9-2.el7.x86_64                                                         24/37
+      Verifying  : libXfont-1.5.1-2.el7.x86_64                                                       25/37
+      Verifying  : javapackages-tools-3.4.1-11.el7.noarch                                            26/37
+      Verifying  : 1:java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64                                 27/37
+      Verifying  : libnfnetlink-1.0.1-4.el7.x86_64                                                   28/37
+      Verifying  : libXi-1.7.4-2.el7.x86_64                                                          29/37
+      Verifying  : libXau-1.0.8-2.1.el7.x86_64                                                       30/37
+      Verifying  : libSM-1.2.2-2.el7.x86_64                                                          31/37
+      Verifying  : alsa-lib-1.1.1-1.el7.x86_64                                                       32/37
+      Verifying  : libX11-1.6.3-3.el7.x86_64                                                         33/37
+      Verifying  : libX11-common-1.6.3-3.el7.noarch                                                  34/37
+      Verifying  : iproute-3.10.0-74.el7.x86_64                                                      35/37
+      Verifying  : fontconfig-2.10.95-10.el7.x86_64                                                  36/37
+      Verifying  : 1:xorg-x11-font-utils-7.5-20.el7.x86_64                                           37/37
+
+    Installed:
+      iproute.x86_64 0:3.10.0-74.el7           java-1.8.0-openjdk.x86_64 1:1.8.0.131-3.b12.el7_3
+
+    Dependency Installed:
+      alsa-lib.x86_64 0:1.1.1-1.el7             copy-jdk-configs.noarch 0:1.2-1.el7
+      fontconfig.x86_64 0:2.10.95-10.el7        fontpackages-filesystem.noarch 0:1.44-8.el7
+      freetype.x86_64 0:2.4.11-12.el7           giflib.x86_64 0:4.1.6-9.el7
+      iptables.x86_64 0:1.4.21-17.el7           java-1.8.0-openjdk-headless.x86_64 1:1.8.0.131-3.b12.el7_3
+      javapackages-tools.noarch 0:3.4.1-11.el7  libICE.x86_64 0:1.0.9-2.el7
+      libSM.x86_64 0:1.2.2-2.el7                libX11.x86_64 0:1.6.3-3.el7
+      libX11-common.noarch 0:1.6.3-3.el7        libXau.x86_64 0:1.0.8-2.1.el7
+      libXcomposite.x86_64 0:0.4.4-4.1.el7      libXext.x86_64 0:1.3.3-3.el7
+      libXfont.x86_64 0:1.5.1-2.el7             libXi.x86_64 0:1.7.4-2.el7
+      libXrender.x86_64 0:0.9.8-2.1.el7         libXtst.x86_64 0:1.2.2-2.1.el7
+      libfontenc.x86_64 0:1.1.2-3.el7           libjpeg-turbo.x86_64 0:1.2.90-5.el7
+      libmnl.x86_64 0:1.0.3-7.el7               libnetfilter_conntrack.x86_64 0:1.0.6-1.el7_3
+      libnfnetlink.x86_64 0:1.0.1-4.el7         libpng.x86_64 2:1.5.13-7.el7_2
+      libxcb.x86_64 0:1.11-4.el7                libxslt.x86_64 0:1.1.28-5.el7
+      lksctp-tools.x86_64 0:1.0.17-2.el7        python-javapackages.noarch 0:3.4.1-11.el7
+      python-lxml.x86_64 0:3.2.1-4.el7          ttmkfdir.x86_64 0:3.0.9-42.el7
+      tzdata-java.noarch 0:2017b-1.el7          xorg-x11-font-utils.x86_64 1:7.5-20.el7
+      xorg-x11-fonts-Type1.noarch 0:7.5-9.el7
+
+    Complete!
+    <span class="c"># 環境変数を設定</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># export JAVA_HOME=&quot;/etc/alternatives/java_sdk&quot;</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># exit</span>
+    <span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>docker <span class="nb">exec</span> -ti cassandra-server1 /bin/bash
+    <span class="c"># datastax.repoを作成する。</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># vi /etc/yum.repos.d/datastax.repo</span>
+
+    <span class="o">[</span>datastax<span class="o">]</span>
+    <span class="nv">name</span> <span class="o">=</span> DataStax Repo <span class="k">for</span> Apache Cassandra
+    <span class="nv">baseurl</span> <span class="o">=</span> http://rpm.datastax.com/community
+    <span class="nv">enabled</span> <span class="o">=</span> 1
+    <span class="nv">gpgcheck</span> <span class="o">=</span> 0
+
+    <span class="c"># Cassandraのインストール</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># yum -y install dsc30 cassandra30-tools</span>
+    Loaded plugins: fastestmirror, ovl
+    datastax                                                                        <span class="p">|</span> 2.5 kB  00:00:00
+    datastax/primary_db                                                             <span class="p">|</span> <span class="m">117</span> kB  00:00:00
+    Loading mirror speeds from cached hostfile
+     * base: ftp.iij.ad.jp
+     * extras: ftp.iij.ad.jp
+     * updates: ftp.iij.ad.jp
+    Resolving Dependencies
+    --&gt; Running transaction check
+    ---&gt; Package cassandra30-tools.noarch 0:3.0.9-1 will be installed
+    --&gt; Processing Dependency: <span class="nv">cassandra30</span> <span class="o">=</span> 3.0.9-1 <span class="k">for</span> package: cassandra30-tools-3.0.9-1.noarch
+    ---&gt; Package dsc30.noarch 0:3.0.9-1 will be installed
+    --&gt; Running transaction check
+    ---&gt; Package cassandra30.noarch 0:3.0.9-1 will be installed
+    --&gt; Finished Dependency Resolution
+
+    Dependencies <span class="nv">Resolved</span>
+
+    <span class="o">=======================================================================================================</span>
+     Package                        Arch                Version                Repository             <span class="nv">Size</span>
+    <span class="o">=======================================================================================================</span>
+    Installing:
+     cassandra30-tools              noarch              3.0.9-1                datastax              5.1 k
+     dsc30                          noarch              3.0.9-1                datastax              1.9 k
+    Installing <span class="k">for</span> dependencies:
+     cassandra30                    noarch              3.0.9-1                datastax               <span class="m">24</span> M
+
+    Transaction <span class="nv">Summary</span>
+    <span class="o">=======================================================================================================</span>
+    Install  <span class="m">2</span> Packages <span class="o">(</span>+1 Dependent package<span class="o">)</span>
+
+    Total download size: <span class="m">24</span> M
+    Installed size: <span class="m">31</span> M
+    Downloading packages:
+    <span class="o">(</span>1/3<span class="o">)</span>: cassandra30-tools-3.0.9-1.noarch.rpm                                     <span class="p">|</span> 5.1 kB  00:00:00
+    <span class="o">(</span>2/3<span class="o">)</span>: dsc30-3.0.9-1.noarch.rpm                                                 <span class="p">|</span> 1.9 kB  00:00:00
+    <span class="o">(</span>3/3<span class="o">)</span>: cassandra30-3.0.9-1.noarch.rpm                                           <span class="p">|</span>  <span class="m">24</span> MB  00:00:02
+    -------------------------------------------------------------------------------------------------------
+    Total                                                                  9.1 MB/s <span class="p">|</span>  <span class="m">24</span> MB  00:00:02
+    Running transaction check
+    Running transaction <span class="nb">test</span>
+<span class="nb">    </span>Transaction <span class="nb">test </span>succeeded
+    Running transaction
+      Installing : cassandra30-3.0.9-1.noarch                                                          1/3
+      Installing : cassandra30-tools-3.0.9-1.noarch                                                    2/3
+      Installing : dsc30-3.0.9-1.noarch                                                                3/3
+      Verifying  : cassandra30-tools-3.0.9-1.noarch                                                    1/3
+      Verifying  : cassandra30-3.0.9-1.noarch                                                          2/3
+      Verifying  : dsc30-3.0.9-1.noarch                                                                3/3
+
+    Installed:
+      cassandra30-tools.noarch 0:3.0.9-1                       dsc30.noarch 0:3.0.9-1
+
+    Dependency Installed:
+      cassandra30.noarch 0:3.0.9-1
+
+    Complete!
+
+    <span class="c"># Cassandra起動時のメモリオプションを設定。ここでは512M-1Gにする。</span>
+
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># sed -i s/\#-Xms4G/-Xms512M/g /etc/cassandra/conf/jvm.options</span>
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># sed -i s/\#-Xmx4G/-Xmx1G/g /etc/cassandra/conf/jvm.options</span>
+
+    <span class="c"># cassandra.yamlのクラスタ設定を行う。</span>
+
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># sed -i s/endpoint_snitch\:\ SimpleSnitch/endpoint_snitch\:\ GossipingPropertyFileSnitch/g /etc/cassandra/conf/cassandra.yaml</span>
+
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># vi /etc/cassandra/conf/cassandra.yaml</span>
+
+    - seeds: <span class="s2">&quot;XXX.XXX.XXX.XXX&quot;</span>
+    - listen_address: <span class="s2">&quot;XXX.XXX.XXX.XXX&quot;</span>
+    - rpc_address: <span class="s2">&quot;XXX.XXX.XXX.XXX&quot;</span>
+    - auto_bootstrap: <span class="nb">false</span>
+
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># systemctl enable cassandra</span>
+    cassandra.service is not a native service, redirecting to /sbin/chkconfig.
+    Executing /sbin/chkconfig cassandra on
+    <span class="o">[</span>root@5a8bd32a59ad /<span class="o">]</span><span class="c"># systemctl start cassandra</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>seedsサーバとするIPアドレス、クラスタのIPアドレス、seedサーバならば、auto_bootstrapをfalseに設定すること。例えば、172.17.0.2(シードサーバ)、172.17.0.3(クラスタノード#1)、172.17.0.4(クラスタノード#2)の３台で構成するのであれば、設定は以下の通りとなる。</p>
+<dl class="docutils">
+<dt>[Seedサーバ]</dt>
+<dd><ul class="first last simple">
+<li>seeds: &#8220;172.17.0.2&#8221;</li>
+<li>listen_address: &#8220;172.17.0.2&#8221;</li>
+<li>rpc_address: &#8220;172.17.0.2&#8221;</li>
+<li>auto_bootstrap: false</li>
+</ul>
+</dd>
+<dt>[クラスタ#1]</dt>
+<dd><ul class="first last simple">
+<li>seeds: &#8220;172.17.0.2&#8221;</li>
+<li>listen_address: &#8220;172.17.0.3&#8221;</li>
+<li>rpc_address: &#8220;172.17.0.3&#8221;</li>
+</ul>
+</dd>
+<dt>[クラスタ#2]</dt>
+<dd><ul class="first simple">
+<li>seeds: &#8220;172.17.0.2&#8221;</li>
+<li>listen_address: &#8220;172.17.0.4&#8221;</li>
+<li>rpc_address: &#8220;172.17.0.4&#8221;</li>
+</ul>
+<p class="last">[<a class="reference external" href="mailto:root&#37;&#52;&#48;5a8bd32a59ad">root<span>&#64;</span>5a8bd32a59ad</a> /]# nodetool status</p>
+</dd>
+</dl>
+<div class="last highlight-bash"><div class="highlight"><pre>Datacenter: dc1
+
+<span class="nv">Status</span><span class="o">=</span>Up/Down
+<span class="p">|</span>/ <span class="nv">State</span><span class="o">=</span>Normal/Leaving/Joining/Moving
+--  Address     Load       Tokens       Owns <span class="o">(</span>effective<span class="o">)</span>  Host ID                               Rack
+UN  172.17.0.3  102.58 KB  <span class="m">256</span>          48.6%             fc52ff8f-be44-4cc4-8241-9a158b3ff0d9  rack1
+UN  172.17.0.2  108.22 KB  <span class="m">256</span>          50.4%             31480ecf-a9e0-49e7-a6a2-e8904cb6af28  rack1
+UN  172.17.0.4  83.96 KB   <span class="m">256</span>          52.4%             ea14aede-00b6-4aff-bb48-9d1a3106c507  rack1
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="docker-hub">
 <span id="section3-3-docker-hub-label"></span><h2>Docker Hubの利用<a class="headerlink" href="#docker-hub" title="Permalink to this headline">¶</a></h2>
@@ -906,8 +1361,8 @@ CMD <span class="o">[</span><span class="s2">&quot;/usr/sbin/init&quot;</span><s
 </pre></div>
 </div>
 </div>
-<div class="section" id="db">
-<span id="section3-5-3-docker-file-db-server-label"></span><h3>DBサーバの構築<a class="headerlink" href="#db" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="postgresql-db">
+<span id="section3-5-3-docker-file-postgresql-db-server-label"></span><h3>PostgreSQL DBサーバの構築<a class="headerlink" href="#postgresql-db" title="Permalink to this headline">¶</a></h3>
 <p>同様に、DBサーバとして、PostgreSQLをインストールし、データベース・テーブル環境の構築をDockerファイルに記述して行う。構築には <a class="reference external" href="http://ossfan.net/setup/docker-05.html">リンク先のサイト</a> を参考にした。</p>
 <div class="literal-block-wrapper container" id="build-postgres-dockerfile">
 <div class="code-block-caption"><span class="caption-text">~/build_postgres/Dockerfile</span><a class="headerlink" href="#build-postgres-dockerfile" title="Permalink to this code">¶</a></div>
@@ -1115,9 +1570,9 @@ connections on Unix domain socket &#8220;/var/run/postgresql/.s.PGSQL.5432&#8221
 </div>
 </div>
 </div>
-<div class="section" id="ap">
-<span id="section3-5-4-docker-file-ap-server-using-springboot-label"></span><h3>APサーバの構築<a class="headerlink" href="#ap" title="Permalink to this headline">¶</a></h3>
-<p>前節で構築したDBサーバに接続するアプリケーションをDockerfileを使って、構築する。アプリケーションサーバはTomcatを使用するが、Spring Bootで組み込みTomcatの形式でAPサーバを構築する。なお、Spring Bootの基本的な使い方については、<a class="reference external" href="http://debugroom.github.io/doc/java/spring/springboot/index.html">Spring Bootのサンプル</a> を参照すること。</p>
+<div class="section" id="postgresqlap">
+<span id="section3-5-4-docker-file-ap-server-using-springboot-label"></span><h3>PostgreSQLに接続するAPサーバの構築<a class="headerlink" href="#postgresqlap" title="Permalink to this headline">¶</a></h3>
+<p>前節 <a class="reference internal" href="#section3-5-3-docker-file-postgresql-db-server-label"><span>PostgreSQL DBサーバの構築</span></a> に接続するアプリケーションをDockerfileを使って、構築する。アプリケーションサーバはTomcatを使用するが、Spring Bootで組み込みTomcatの形式でAPサーバを構築する。なお、Spring Bootの基本的な使い方については、<a class="reference external" href="http://debugroom.github.io/doc/java/spring/springboot/index.html">Spring Bootのサンプル</a> を参照すること。</p>
 <p>まず、構築するアプリケーションは、以下の通り、Embedded Tomcatを使用した構成とするために、pom.xmlを以下の通り、作成する。</p>
 <div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
@@ -1345,32 +1800,29 @@ connections on Unix domain socket &#8220;/var/run/postgresql/.s.PGSQL.5432&#8221
 <p class="last">DBサーバへの接続IPアドレスとポートは、linkオプションを使って、Dockerコンテナから環境変数&lt;エイリアス名&gt;_PORT_&lt;ポート番号&gt;_TCP_ADDRおよび、&lt;エイリアス名&gt;_PORT_&lt;ポート番号&gt;_TCP_PORTから参照可能である。エイリアス名はAPサーバのコンテナ起動時に、ポートはDBサーバのコンテナ起動時に指定するが、ここでは、エイリアス名をDBSERVER、ポートを5432とすることを前提に、DBSERVER_PORT_5432_TCP_ADDRおよび、DBSERVER_PORT_5432_TCP_PORTが環境変数として設定されるものとして定義しておく。なお、接続のデータベースユーザ名と、パスワードはDockerfileで環境変数を別途定義する。</p>
 </div>
 <p>こうして作成したSpring BootアプリケーションをDockerコンテナ上でMavenでビルドを行い、LaunchするためのDockerfileを作成する。ベースはCentOS7でOpenJDK1.8をインストールした後、Mavenをインストールし、アプリケーションをビルドしてポート8080でサーバ起動する。</p>
-<div class="literal-block-wrapper container" id="id5">
-<div class="code-block-caption"><span class="caption-text">~/build_postgres/Dockerfile</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
-<div class="highlight-bash"><div class="highlight"><pre>     <span class="c"># Dockerfile for Spring boot app using embedded tomcat server</span>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Dockerfile for Spring boot app using embedded tomcat server</span>
 
-     FROM docker.io/centos:latest
-     MAINTAINER debugroom
+FROM docker.io/centos:latest
+MAINTAINER debugroom
 
-     RUN yum install -y <span class="se">\</span>
-            java-1.8.0-openjdk <span class="se">\</span>
-            java-1.8.0-openjdk-devel <span class="se">\</span>
-            wget tar
+RUN yum install -y <span class="se">\</span>
+       java-1.8.0-openjdk <span class="se">\</span>
+       java-1.8.0-openjdk-devel <span class="se">\</span>
+       wget tar
 
-     RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-     RUN sed -i s/<span class="se">\$</span>releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-     RUN yum install -y apache-maven
-     ENV JAVA_HOME /etc/alternatives/jre
-     ADD spring-boot-app /var/local/springbootapp
-     RUN mvn install -f /var/local/springbootapp/pom.xml
-     ENV <span class="nv">DBSERVER_APP_USERNAME</span><span class="o">=</span>app
-     ENV <span class="nv">DBSERVER_APP_PASSWORD</span><span class="o">=</span>app
+RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+RUN sed -i s/<span class="se">\$</span>releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+RUN yum install -y apache-maven
+ENV JAVA_HOME /etc/alternatives/jre
+ADD spring-boot-app /var/local/springbootapp
+RUN mvn install -f /var/local/springbootapp/pom.xml
+ENV <span class="nv">DBSERVER_APP_USERNAME</span><span class="o">=</span>app
+ENV <span class="nv">DBSERVER_APP_PASSWORD</span><span class="o">=</span>app
 
-     EXPOSE 8080
+EXPOSE 8080
 
-     CMD java -jar -Dspring.profiles.active<span class="o">=</span>production,jpa /var/local/springbootapp/target/spring-boot-app-1.0-SNAPSHOT.jar
+CMD java -jar -Dspring.profiles.active<span class="o">=</span>production,jpa /var/local/springbootapp/target/spring-boot-app-1.0-SNAPSHOT.jar
 </pre></div>
-</div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -1388,14 +1840,189 @@ connections on Unix domain socket &#8220;/var/run/postgresql/.s.PGSQL.5432&#8221
 <div class="highlight-bash"><div class="highlight"><pre>docker run -itd --name apserver -p 8000:8080 --link dbserver1:dbserver debugroom/test:tomcat-springboot
 </pre></div>
 </div>
+<div class="highlight-bash"><div class="highlight"><pre>docker <span class="nb">exec</span> -it apserver /bin/bash
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">LINKオプションからIPアドレスとポートが参照可能なのは、２つのコンテナが同一のホスト上で実行されている場合である。異なるサーバの場合、コンテナ起動時に-eオプションを使って、直接IPアドレスとポートを指定する方法もあるが、Docker Ver1.9以降はマルチホストでIPアドレスとポートを共有する機能が追加されている。</p>
 </div>
-<p>起動後、しばらく時間が経過してから。curlコマンドを実行し動作確認する。</p>
+<p>起動後、しばらく時間が経過してから(APサーバが起動するまで少々時間がかかる)、curlコマンドを実行し動作確認する。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>curl http://localhost:8000/api/v1/users
 <span class="o">[{</span><span class="s2">&quot;id&quot;</span>:<span class="o">{</span><span class="s2">&quot;companyId&quot;</span>:<span class="s2">&quot;0000000000&quot;</span>,<span class="s2">&quot;userId&quot;</span>:<span class="s2">&quot;00000000&quot;</span><span class="o">}</span>,<span class="s2">&quot;authorityLevel&quot;</span>:0,<span class="s2">&quot;birthday&quot;</span>:<span class="s2">&quot;20170101&quot;</span>,<span class="s2">&quot;isLogin&quot;</span>:false,<span class="s2">&quot;loginId&quot;</span>:<span class="s2">&quot;test.com&quot;</span>,<span class="s2">&quot;userName&quot;</span>:<span class="s2">&quot;test&quot;</span>,<span class="s2">&quot;addresses&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;credentials&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;emails&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;phones&quot;</span>:<span class="o">[]}][</span>centos@ip-172-31-31-80 ~<span class="o">]</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="cassandradbap">
+<span id="section3-5-5-docker-file-ap-server-for-cassandra-label"></span><h3>CassandraクラスタDBサーバに接続するAPサーバの構築<a class="headerlink" href="#cassandradbap" title="Permalink to this headline">¶</a></h3>
+<p>前節 <a class="reference internal" href="#section3-2-4-docker-web-server-label"><span>Cassandraクラスタサーバの構築</span></a> に接続するアプリケーションをDockerfileを使って、構築する。アプリケーションサーバはTomcatを使用するが、Spring Bootで組み込みTomcatの形式でAPサーバを構築する。なお、Spring Bootの基本的な使い方については、<a class="reference external" href="http://debugroom.github.io/doc/java/spring/springboot/index.html">Spring Bootのサンプル</a> を参照すること。また、Cassandraへ接続するアプリケーションは <a class="reference external" href="http://debugroom.github.io/doc/database/cassandra/datamodeling.html">Cassandraのデータモデル検証</a> で構築したものを前提にCassandraクラスタへ接続するための設定を行う。実際の実装は <a class="reference external" href="https://github.com/debugroom/sample/tree/develop/sample-spring-cassandra">GitHubページ</a> を参照すること。</p>
+<p>まず、Spring Data Cassandraを使って、クラスタ化したCassadraへアクセスするための設定クラスを作成する。CassandraClusterFactoryBeanのContactPointsプロパティに環境変数からクラスタ接続するDBサーバのIPとポートを取得できるよう、cluster()メソッドを実装する。</p>
+<blockquote>
+<div><div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.config.env</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Profile</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.core.env.Environment</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.config.CassandraClusterFactoryBean</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.config.infra.CommonCassandraConfig</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">&quot;cluster&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommonClusterConfig</span> <span class="kd">extends</span> <span class="n">CommonCassandraConfig</span><span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">Environment</span> <span class="n">env</span><span class="o">;</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">protected</span> <span class="n">String</span> <span class="nf">getKeyspaceName</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="s">&quot;sample&quot;</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">CassandraClusterFactoryBean</span> <span class="nf">cluster</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">CassandraClusterFactoryBean</span> <span class="n">cluster</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CassandraClusterFactoryBean</span><span class="o">();</span>
+        <span class="n">cluster</span><span class="o">.</span><span class="na">setContactPoints</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;cassandra.contactpoints&quot;</span><span class="o">));</span>
+        <span class="n">cluster</span><span class="o">.</span><span class="na">setPort</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;cassandra.port&quot;</span><span class="o">)));</span>
+        <span class="k">return</span> <span class="n">cluster</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="literal-block-wrapper container" id="src-main-resources-application-cluster-yml">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/application-cluster.yml</span><a class="headerlink" href="#src-main-resources-application-cluster-yml" title="Permalink to this code">¶</a></div>
+<div class="highlight-xml"><div class="highlight"><pre>cassandra:
+  contactpoints: ${dbserver.port.9042.tcp.addr}
+  port: ${dbserver.port.9042.tcp.port}
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">このアプリケーションでは、プロファイルclusterを指定した場合、当該設定クラスが有効になるように、&#64;Profileアノテーションを指定している。設定ファイルapplication-cluster.ymlも同様、プロファイルをclusterに指定した場合、有効になる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DBサーバへの接続IPアドレスとポートは、Dockerのlinkオプションを使って、Dockerコンテナから環境変数&lt;エイリアス名&gt;_PORT_&lt;ポート番号&gt;_TCP_ADDRおよび、&lt;エイリアス名&gt;_PORT_&lt;ポート番号&gt;_TCP_PORTから参照可能である。エイリアス名はAPサーバのコンテナ起動時に、ポートはDBサーバのコンテナ起動時に指定するが、ここでは、エイリアス名をDBSERVER、ポートを9042とすることを前提に、DBSERVER_PORT_9042_TCP_ADDRおよび、DBSERVER_PORT_9042_TCP_PORTが環境変数として設定されるものとして定義しておく。</p>
+</div>
+<p>SpringBootでAPサーバを起動した時のログ(catalina.outに相当)確認のために、設定ファイルにログ出力の設定を追加しておく。</p>
+<div class="literal-block-wrapper container" id="src-main-resources-application-yml">
+<div class="code-block-caption"><span class="caption-text">src/main/resources/application.yml</span><a class="headerlink" href="#src-main-resources-application-yml" title="Permalink to this code">¶</a></div>
+<div class="highlight-xml"><div class="highlight"><pre>spring:
+  profiles:
+    active: pattern2, cluster
+logging:
+  file: logs/app.log
+    level:
+      org.springframework.web: INFO
+</pre></div>
+</div>
+</div>
+<p>こうして作成したアプリケーションをDockerコンテナ上でMavenでビルドを行い、LaunchするためのDockerfileを作成する。ベースはCentOS7でOpenJDK1.8をインストールした後、Mavenをインストールし、アプリケーションをビルドしてポート8080でサーバ起動する。</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span class="c"># Dockerfile for Spring Data Cassandra app using embedded tomcat server</span>
+<span class="c"># Run parent directory because this app needs sample-spring-boot-parent for maven build.</span>
+<span class="c"># ex) docker build -t &lt;your image&gt; ~/sample/ -f ~/sample/sample-spring-cassandra/Dockerfile</span>
+
+FROM docker.io/centos:latest
+MAINTAINER debugroom
+
+RUN yum install -y <span class="se">\</span>
+       java-1.8.0-openjdk <span class="se">\</span>
+       java-1.8.0-openjdk-devel <span class="se">\</span>
+       wget
+
+RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+RUN sed -i s/<span class="se">\$</span>releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+RUN yum install -y apache-maven
+ENV JAVA_HOME /etc/alternatives/jre
+ADD sample-spring-cassandra /var/local/sample-spring-cassandra
+ADD sample-spring-boot-parent /var/local/sample-spring-boot-parent
+RUN mvn install -f /var/local/sample-spring-cassandra/pom.xml
+
+EXPOSE 8080
+
+CMD java -jar -Dspring.profiles.active<span class="o">=</span>pattern1,cluster /var/local/sample-spring-cassandra/target/sample-spring-cassandra-1.0-SNAPSHOT.jar
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>当該アプリケーションのMavenプロジェクトは別のparentプロジェクトが必要なため、Dockerファイルで別プロジェクトも追加できるよう、Dockerfileを配置した親ディレクトリを起点にDockerファイルを実行する。Dockerfileでは実行したディレクトリの親ディレクトリより上の相対パスは参照できないため、起点を親ディレクトリにしてfオプションを使って、Docker buildを実行する。</p>
+<div class="last highlight-bash"><div class="highlight"><pre>     <span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX sample<span class="o">]</span><span class="nv">$ </span>docker build -t debugroom/test:spring-data-cassandra-app ~/sample/ -f ~/sample/sample-spring-cassandra/Dockerfile
+     Sending build context to Docker daemon 3.997 MB
+     Step <span class="m">1</span> : FROM docker.io/centos:latest
+      ---&gt; 3bee3060bfc8
+     Step <span class="m">2</span> : MAINTAINER debugroom
+      ---&gt; Using cache
+      ---&gt; 643ea12aaad5
+     Step <span class="m">3</span> : RUN yum install -y        java-1.8.0-openjdk        java-1.8.0-openjdk-devel        wget
+      ---&gt; Using cache
+      ---&gt; 2724d01e7577
+     Step <span class="m">4</span> : RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+      ---&gt; Using cache
+      ---&gt; 4546d3011aa4
+     Step <span class="m">5</span> : RUN sed -i s/<span class="se">\$</span>releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+      ---&gt; Using cache
+      ---&gt; f32f19a4f1cb
+     Step <span class="m">6</span> : RUN yum install -y apache-maven
+      ---&gt; Using cache
+      ---&gt; 275915d7ecae
+     Step <span class="m">7</span> : ENV JAVA_HOME /etc/alternatives/jre
+      ---&gt; Using cache
+      ---&gt; 56863cbc1f04
+     Step <span class="m">8</span> : ADD sample-spring-cassandra /var/local/sample-spring-cassandra
+      ---&gt; a316f1da2fd1
+     Removing intermediate container 53967e151175
+     Step <span class="m">9</span> : ADD sample-spring-boot-parent /var/local/sample-spring-boot-parent
+      ---&gt; 15471086ce61
+     Removing intermediate container 252e325030e1
+     Step <span class="m">10</span> : RUN mvn install -f /var/local/sample-spring-cassandra/pom.xml
+      ---&gt; Running in 83e4824e10d6
+     <span class="o">[</span>INFO<span class="o">]</span> Scanning <span class="k">for</span> projects...
+
+<span class="c"># omit...</span>
+
+     <span class="o">[</span>INFO<span class="o">]</span> Installing /var/local/sample-spring-cassandra/target/sample-spring-cassandra-1.0-SNAPSHOT.jar to /root/.m2/repository/org/debugroom/sample-spring-cassandra/1.0-SNAPSHOT/sample-spring-cassandra-1.0-SNAPSHOT.jar
+     <span class="o">[</span>INFO<span class="o">]</span> Installing /var/local/sample-spring-cassandra/pom.xml to /root/.m2/repository/org/debugroom/sample-spring-cassandra/1.0-SNAPSHOT/sample-spring-cassandra-1.0-SNAPSHOT.pom
+     <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+     <span class="o">[</span>INFO<span class="o">]</span> BUILD SUCCESS
+     <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+     <span class="o">[</span>INFO<span class="o">]</span> Total <span class="nb">time</span>: 02:37 min
+     <span class="o">[</span>INFO<span class="o">]</span> Finished at: 2017-06-14T22:28:41+00:00
+     <span class="o">[</span>INFO<span class="o">]</span> Final Memory: 39M/561M
+     <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+      ---&gt; 2f7a7d3ef8f5
+     Removing intermediate container 83e4824e10d6
+     Step <span class="m">11</span> : EXPOSE 8080
+      ---&gt; Running in 3671414783e2
+      ---&gt; 153a150357aa
+     Removing intermediate container 3671414783e2
+     Step <span class="m">12</span> : CMD java -jar -Dspring.profiles.active<span class="o">=</span>pattern1,cluster /var/local/sample-spring-cassandra/target/sample-spring-cassandra-1.0-SNAPSHOT.jar
+      ---&gt; Running in 23e7bf873912
+      ---&gt; 956b57d2cb23
+     Removing intermediate container 23e7bf873912
+     Successfully built 956b57d2cb23
+</pre></div>
+</div>
+</div>
+<p><a class="reference internal" href="#section3-2-4-docker-web-server-label"><span>Cassandraクラスタサーバの構築</span></a> で構築したCassandraクラスタのIPアドレスとポートが環境変数として、設定された状態となるようLINKオプションを指定して、Dockerコンテナを起動する。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX sample<span class="o">]</span><span class="nv">$ </span>docker run -itd --name apserver1 -p 8080:8080 --link cassandra-server1:dbserver debugroom/test:spring-data-cassandra-app
+abedde75c6a1f5497bc16e9ff1b9962d61b012c3e4c9f942a160bb40f8f33030
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX sample<span class="o">]</span><span class="nv">$ </span>docker <span class="nb">exec</span> -ti apserver1 /bin/bash
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LINKオプションからIPアドレスとポートが参照可能なのは、２つのコンテナが同一のホスト上で実行されている場合である。異なるサーバの場合、コンテナ起動時に-eオプションを使って、直接IPアドレスとポートを指定する方法もあるが、Docker Ver1.9以降はマルチホストでIPアドレスとポートを共有する機能が追加されている。</p>
+</div>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">マルチホストでIPアドレスとポートを共有する方法を検証する。</p>
 </div>
 </div>
 </div>
