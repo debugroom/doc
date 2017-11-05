@@ -95,6 +95,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#direct-connect">Direct Connect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#elastic-load-balancing-elb">Elastic Load Balancing(ELB)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#route53">Route53</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-cloudfront">Amazon CloudFront</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="computing.html">Computing Category</a></li>
@@ -102,6 +103,7 @@
 <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
 </ul>
@@ -158,6 +160,8 @@
 <span id="section3-network-label"></span><h1>Network Category<a class="headerlink" href="#network-category" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="virtual-private-network-vpc">
 <span id="section3-1-vpc-label"></span><h2>Virtual Private Network(VPC)<a class="headerlink" href="#virtual-private-network-vpc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="section3-1-1-vpc-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
 <p>Aamazon VPCはAWS上に占有可能なプライベートネットワークを構築するためのサービスである。AWSパブリッククラウド上に利用者独自の仮想プライベートネットワークを構築し、仮想サーバの「EC2」やデータベース「RDS」といったAWSのリソースを配置する。Amazon VPCはVPNを通じてオンプレミスとの接続も可能である。
 外部通信する際は、ネットワークゲートウェイをVPCに設置するが、</p>
 <ul class="simple">
@@ -166,12 +170,36 @@
 <li>VPCピア接続</li>
 </ul>
 <p>の3種類がある。</p>
-<p>インターネットゲートウェイは文字通りインターネットとの通信であるが、通信元のAWSリソースがパブリックIPアドレスを持っている必要がある。パブリックアドレスは動的に割り当てられるものと、固定的に割り当てられるものがある。後者を「Elastic IPアドレス」と呼ぶ。インターネットゲートウェイは定義としては1つの機器のように扱われるが、内部的に冗長化されており、通信が増加した際には自動的にスケーリングされる。またシステムの保守作業で最新のミドルウェアやセキュリティパッチを入手する際もインターネットゲートウェイの設置が必須になるので、閉塞したネットワークの際は考慮が必要である。</p>
+<p>インターネットゲートウェイは文字通りインターネットとの通信であるが、通信元のAWSリソースがパブリックIPアドレスを持っている必要がある。パブリックアドレスは動的に割り当てられるものと、固定的に割り当てられるものがある。後者を「Elastic IP Address」と呼ぶ。インターネットゲートウェイは定義としては1つの機器のように扱われるが、内部的に冗長化されており、通信が増加した際には自動的にスケーリングされる。またシステムの保守作業で最新のミドルウェアやセキュリティパッチを入手する際もインターネットゲートウェイの設置が必須になるので、閉塞したネットワークの際は考慮が必要である。</p>
 <p>仮想プライベートゲートウェイはVPCとオンプレミス環境をVPN接続するためのネットワークゲートウェイである。オンプレミス環境では、VPN通信が行えるルーターと、接続を許可するIPアドレスの設定のために、固定的なパブリックIPアドレスが必要になる。インターネットゲートウェイ同様、冗長化構成をとる。</p>
 <p>VPCピア接続はそれぞれ独立した仮想プライベートネットワークである2つのVPCを接続し、プライベートアドレスで相互に通信する。こちらもインターネットゲートウェイ、仮想プライベートゲートウェイと同様、冗長化構成をとる。自分が所有しているVPCだけではなく、同じリージョンの別アカウントのVPCとも接続ができる。ただし、接続できるのはVPCの範囲内に限られ、接続先のVPCとVPN接続されているネットワークには接続できない。VPC接続の主な用途としては、複数システムでのデータ共有や監視システムの統合があげられる。</p>
 <p>AmazonVPCは「セキュリティグループ」と「ネットワークACL」の2つのフィルタリング機構によって不要な通信をブロックし、セキュリティを強化できる。</p>
 <p>セキュリティグループは、EC2やRDSなどのAWSリソースに関連付けることで、ファイアウォールとして動作する。受信と送信の両方をリソースレベルで制御でき、リソースをグループ化し、共通のセキュリティグループを関連付けることもできる。一般的なファイアウォール同様、ステートフルに動作し、発生した通信に対する応答通信は自動的に許可される。</p>
 <p>ネットワークACLはIPサブネットに関連付けられ、受信と送信の両方をIPサブネットレベルで制御する。関連付けられたIPサブネット全てに適用されるのでセキュリティグループより広範囲な制御設定が可能であるが、セキュリティグループとは異なりステートレスに動作するため、応答通信にも許可の設定が必要となることに注意が必要である。</p>
+</div>
+<div class="section" id="elastic-ip-address">
+<span id="section3-1-2-elastic-ip-address-label"></span><h3>Elastic IP Address<a class="headerlink" href="#elastic-ip-address" title="Permalink to this headline">¶</a></h3>
+<p>前節「 <a class="reference internal" href="#section3-1-1-vpc-overview-label"><span>Overview</span></a> 」でも述べた通り、IPアドレスは動的に割り当てられるものと固定で割り当てられるElastic IP Addressがあり、EC2インスタンスではデフォルトで動的なIPアドレスが割り当てられるが、稼働中のEC2インスタンス１つにつき、１つのElastic IP Addressを割り当てることができる。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Elastic IP Addressは最大５つまで確保でき、別途申請することでそれ以上のIPアドレスを確保することができる。ただし、EC2インスタンスやネットワークインターフェースと１つも紐づけていないIPは課金対象となるので注意すること。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Elastic IPアドレスの設定</p>
+<p>Elastic IP Addressを割り当てるにはコンソール画面のElastic IPメニューから、「新しいIPアドレスの割り当て」を選択すると、新しく固定IPアドレスが獲得できる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-elastic-ip-address-1.png"><img alt="../../../../_images/management-console-elastic-ip-address-1.png" src="../../../../_images/management-console-elastic-ip-address-1.png" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-elastic-ip-address-2.png"><img alt="../../../../_images/management-console-elastic-ip-address-2.png" src="../../../../_images/management-console-elastic-ip-address-2.png" /></a>
+</div>
+<p>獲得した固定IPアドレスを稼働中のEC2インスタンスに割り当てる場合は、「アクション」ボタンからアドレスの関連付けを選択し、割り当てるEC2インスタンスIDを指定する。</p>
+<div class="last figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-elastic-ip-address-3.png"><img alt="../../../../_images/management-console-elastic-ip-address-3.png" src="../../../../_images/management-console-elastic-ip-address-3.png" /></a>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="direct-connect">
 <span id="section3-2-direct-connect-label"></span><h2>Direct Connect<a class="headerlink" href="#direct-connect" title="Permalink to this headline">¶</a></h2>
@@ -189,6 +217,109 @@
 </div>
 <div class="section" id="route53">
 <span id="section3-4-route53-label"></span><h2>Route53<a class="headerlink" href="#route53" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-4-1-route53-overview-label">
+<span id="id1"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。また、他のAWS同様、REST APIによるサポートがあり、ドメインやホストの追加・削除、設定内容の変更がプログラムからも実行可能である。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Route53では、AWSマネジメントコンソール及びAPIからドメインの購入・登録ができる。既に登録済みのドメインを登録しても、レジストラ(ドメインの登録業者)から購入してRoute53へ登録しても良いが、Route53経由で登録した場合、ドメインの詳細情報をAWSマネジメントコンソールから一括で確認できる。</p>
+</div>
+</div>
+<div class="section" id="section3-4-2-route53-registration-label">
+<span id="id2"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
+<p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-1.png"><img alt="../../../../_images/management-console-route53-registration-1.png" src="../../../../_images/management-console-route53-registration-1.png" /></a>
+</div>
+<p>登録したいドメインが利用可能かチェックを行う。カートに追加すると、どのくらいの期間ドメインを利用するか選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-2.png"><img alt="../../../../_images/management-console-route53-registration-2.png" src="../../../../_images/management-console-route53-registration-2.png" /></a>
+</div>
+<p>ドメインの管理者の連絡先情報を入力する。入力したメールアドレス宛に認証のためのメールが届くため、メール記載のリンクを押下して認証を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-3.png"><img alt="../../../../_images/management-console-route53-registration-3.png" src="../../../../_images/management-console-route53-registration-3.png" /></a>
+</div>
+<p>登録依頼が完了すると、下記の画面が表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-4.png"><img alt="../../../../_images/management-console-route53-registration-4.png" src="../../../../_images/management-console-route53-registration-4.png" /></a>
+</div>
+<p>Route53ダッシュボードに移動すると、申請したドメインの登録情報に関するステータスが表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-5.png"><img alt="../../../../_images/management-console-route53-registration-5.png" src="../../../../_images/management-console-route53-registration-5.png" /></a>
+</div>
+<p>登録が完了(完了画面では最大3日程度と書かれているが、今回は1時間程度で完了した)すると、管理者宛のメールアドレスに登録完了のメールが送付され、ダッシュボードの表示が切り替わる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-6.png"><img alt="../../../../_images/management-console-route53-registration-6.png" src="../../../../_images/management-console-route53-registration-6.png" /></a>
+</div>
+</div>
+<div class="section" id="elastic-ip">
+<span id="section3-4-3-route53-domain-setting-label"></span><h3>登録したドメインとElastic IPアドレスの紐付け設定<a class="headerlink" href="#elastic-ip" title="Permalink to this headline">¶</a></h3>
+<p>前節「 <a class="reference internal" href="#section3-4-2-route53-registration-label"><span>ドメインの登録</span></a> 」に続き、登録したドメインを「 <a class="reference internal" href="#section3-1-2-elastic-ip-address-label"><span>Elastic IP Address</span></a> 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-6.png"><img alt="../../../../_images/management-console-route53-registration-6.png" src="../../../../_images/management-console-route53-registration-6.png" /></a>
+</div>
+<p>対象のドメインにチェックを入れ、「Go to Record Sets」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-setting-domain-1.png"><img alt="../../../../_images/management-console-route53-setting-domain-1.png" src="../../../../_images/management-console-route53-setting-domain-1.png" /></a>
+</div>
+<p>以下の要領で、Create Record SetにドメインとIPアドレスを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-route53-setting-domain-2.png"><img alt="../../../../_images/management-console-route53-setting-domain-2.png" src="../../../../_images/management-console-route53-setting-domain-2.png" /></a>
+</div>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="23%" />
+<col width="54%" />
+<col width="23%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>設定値</td>
+<td>説明</td>
+<td>IPv4設定値サンプル</td>
+</tr>
+<tr class="row-even"><td>Name</td>
+<td>ドメイン名の接頭辞となるホスト名を指定</td>
+<td>www</td>
+</tr>
+<tr class="row-odd"><td>Type</td>
+<td>レコードタイプを指定する。 <br /> Aレコード：ドメインとIPアドレスを指定 <br /> AAAAレコード：ドメインとIPv6アドレスを設定 <br /> PTRレコード：ドメインとIPアドレスの逆引き設定 <br /> MXレコード：メールサーバの設定 <br /> NSレコード：DNSレコードを設定</td>
+<td>A IPv4アドレス</td>
+</tr>
+<tr class="row-even"><td>Alias</td>
+<td>他のレコードの設定を参照する場合Yes</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>TTL</td>
+<td>キャッシュの有効期間を設定</td>
+<td>300</td>
+</tr>
+<tr class="row-even"><td>Value</td>
+<td>Aレコードの場合IPアドレス</td>
+<td>XXX.XXX.XXX.XXX</td>
+</tr>
+<tr class="row-odd"><td>Routing Policy</td>
+<td>複数のIPアドレスを同一のホスト名で指定する場合、 <br /> 優先対象を指定</td>
+<td>Simple</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">既に登録されている２つのレコードのうち、「NSレコード」はゾーンを担当するDNSサーバー群（Route53サービスで「Name Servers」として表示されているものと同じ）を、 「SOAレコード」はゾーンを設定する管理者やキャッシュのデフォルト有効期限などを設定するものである。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TTLの設定はキャッシュの更新時間であるため、間隔が長ければ長いほど、パフォーマンスは良くなるが、変更時の反映時間が長くなることがトレードオフとなる。</p>
+</div>
+<p>Createボタンを押下すると、設定が反映される。しばらく時間が経過したのち、指定したドメイン名でサーバにアクセス可能か確認を行う。</p>
+<div class="highlight-bash"><div class="highlight"><pre>ssh -i /Users/username/.ssh/キー名.pem ec2-user@設定したドメイン名
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="amazon-cloudfront">
+<span id="section3-5-amazon-cloudfront-label"></span><h2>Amazon CloudFront<a class="headerlink" href="#amazon-cloudfront" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
