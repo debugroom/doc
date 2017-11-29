@@ -101,6 +101,8 @@
 <li class="toctree-l3"><a class="reference internal" href="computing.html">Computing Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="storage.html">Storage Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operation.html">AWSでの運用オペレーション</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
@@ -207,6 +209,8 @@
 </div>
 <div class="section" id="elastic-load-balancing-elb">
 <span id="section3-3-elastic-load-balancing-label"></span><h2>Elastic Load Balancing(ELB)<a class="headerlink" href="#elastic-load-balancing-elb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-3-1-elb-overview-label">
+<span id="id1"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Elastic Load BalancingはAWS内で利用できる仮想ロードバランサーで以下の様な特徴を持つ。</p>
 <ul class="simple">
 <li>ELB自体のスケーリング</li>
@@ -215,10 +219,122 @@
 </ul>
 <p>ELBはアプリケーショントラフィックの増減にあわせて自動的にスケーリングを行う。定義上ELBは1つの機器のように扱われるが、内部的には複数のリソースで構成されており、負荷に合わせて自動的にELBを構成する。負荷が増えるとELBリソースを追加してスケールアウトしたり、ELBリソースの性能を向上させてスケールアップするが、逆に負荷が減少するとELBのリソースを削除したり、スケールダウンを行う。ELBは従量課金性で、使用時間と処理データ量の組み合わせで料金が決定する。そのためスケールの状況によって変化しない。また、ファームウェアの更新はAWSにより行われるため、容易に運用管理を行える。その他、ELBはSSLターミネーションとアクセスログ取得機能を持つ。SSLターミネーションは通信の暗号化処理を行い、サーバ側のパフォーマンス向上に寄与する。アクセスログはロードバランサーで一括して収集を行うことでEC2インスタンスに分散してログ収集を行わずにすむ。</p>
 </div>
+<div class="section" id="classic-load-barancing-application-load-barancingnetwork-load-barancing">
+<span id="section3-3-2-clb-and-alb-label"></span><h3>Classic Load Barancing と Application Load Barancing、Network Load Barancing<a class="headerlink" href="#classic-load-barancing-application-load-barancingnetwork-load-barancing" title="Permalink to this headline">¶</a></h3>
+<p>ELBでは、ロードバランシングサービスの１つとして「Application Load Balancer（ALB）」が提供されている。
+代表的な機能としては、パケットの内容に応じたコンテントベースのルーティングで、レイヤー7（L7）スイッチが備える機能を持つ。
+従来のロードバランシングサービスELBは「Classic Load Balancer（CLB）」という名称に変更された。
+ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロードバランシングサービスの総称として表現される。</p>
+<p>ALBでは、その他にも、以下の特徴をもつ。</p>
+<ul class="simple">
+<li>パスベースルーティング</li>
+<li>コンテナ化されたアプリケーションのサポート</li>
+<li>HTTP/2サポート</li>
+<li>WebSocketサポート</li>
+<li>StickySessionの強化</li>
+<li>ヘルスチェックの強化</li>
+<li>インスタンスのヘルスチェックは従来通りHTTP/HTTPSでping</li>
+<li>レスポンスコードの指定（200〜299複数）</li>
+<li>CloudWatchのメトリクス強化（ターゲットグループ単位とか）</li>
+</ul>
+<p>ALB、ELBはリバースプロキシ型の負荷分散サービスを提供する一方、もっとも最新のNLBはL4 NATロードバランサである。特徴としては、</p>
+<ul class="simple">
+<li>固定IPアドレス</li>
+<li>Pre-warming申請不要</li>
+<li>ゾーナリティ</li>
+<li>Source Address Preservation</li>
+<li>フェイルオーバーに対応</li>
+</ul>
+<p>などがある。各ロードバランシングサービスの比較は <a class="reference external" href="https://aws.amazon.com/jp/elasticloadbalancing/details/#compare">Elastic Load Balancing 製品の詳細</a> に詳細がまとめられている。</p>
+</div>
+<div class="section" id="alb">
+<span id="section3-3-3-alb-setting-label"></span><h3>ALBの設定<a class="headerlink" href="#alb" title="Permalink to this headline">¶</a></h3>
+<p>ここでは、ロードバランシングサービス利用の一例として、ALBの設定を行う。</p>
+<ol class="arabic simple">
+<li>EC2コンソールメニューから、ロードバランサを選択し、「ロードバランサの作成」をクリックする。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-1.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-1.png" src="../../../../_images/management-console-application-load-balancing-setting-1.png" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>「アプリケーションロードバランサ」を選択する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-2.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-2.png" src="../../../../_images/management-console-application-load-balancing-setting-2.png" /></a>
+</div>
+<ol class="arabic simple" start="3">
+<li>ロードバランサの以下の設定項目を入力する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-3.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-3.png" src="../../../../_images/management-console-application-load-balancing-setting-3.png" /></a>
+</div>
+<ul class="simple">
+<li>名前：ALBの名称</li>
+<li>スキーム：ロードバランサーのタイプを選択する。外部からのアクセスかAPサーバ等の内部ネットワークからのアクセスか。</li>
+<li>リスナー：プロトコルを指定する。http or HTTPS</li>
+<li>アベイラビリティゾーン：ALBを配置するアベイラビティゾーンを選択。２箇所以上が必須。</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li>証明書・セキュリティポリシーの設定。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-4.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-4.png" src="../../../../_images/management-console-application-load-balancing-setting-4.png" /></a>
+</div>
+<ul class="simple">
+<li>証明書タイプ：設定する証明書のタイプを指定する。 <a class="reference internal" href="security.html#section7-2-2-acm-request-certication-label"><span>証明書のリクエスト</span></a> にて作成した証明書を使用</li>
+<li>証明書の名前：証明書をプルダウンから選択</li>
+<li>セキュリティポリシー： <a class="reference external" href="http://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/create-https-listener.html">フロントエンド接続に使用するセキュリティポリシー</a> を選択</li>
+</ul>
+<ol class="arabic simple" start="5">
+<li>セキュリティグループの設定</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-5.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-5.png" src="../../../../_images/management-console-application-load-balancing-setting-5.png" /></a>
+</div>
+<ol class="arabic simple" start="6">
+<li>ルーティングの設定</li>
+</ol>
+<p>ロードバランサーからディスパッチするサーバのインスタンスグループを指定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-6.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-6.png" src="../../../../_images/management-console-application-load-balancing-setting-6.png" /></a>
+</div>
+<ul class="simple">
+<li>名前：任意のターゲットグループ名(xxx-app-alb等)</li>
+<li>プロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)</li>
+<li>ヘルスチェックプロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)</li>
+<li>ヘルスチェックパス：ヘルスチェックを行うURLでドメイン名以下のパス</li>
+<li>ヘルスチェックの詳細設定：任意</li>
+</ul>
+<ol class="arabic simple" start="7">
+<li>ターゲットの登録</li>
+</ol>
+<p>インスタンスグループに登録するターゲットを指定。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-7.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-7.png" src="../../../../_images/management-console-application-load-balancing-setting-7.png" /></a>
+</div>
+<p>確認ボタンを押下し、ALBを作成する。</p>
+<ol class="arabic simple" start="8">
+<li>スティッキーセッションの設定</li>
+</ol>
+<p>セッションがサーバ固有のものを使用しているアプリケーションやWebSocketアプリケーションなど、
+スティッキーセッションを維持する必要があるものは、ターゲットグループからスティッキーセッションの設定を行う。</p>
+<p>EC2コンソールから、メニュー「ターゲットグループ」を選び、「属性」オプションを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-8.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-8.png" src="../../../../_images/management-console-application-load-balancing-setting-8.png" /></a>
+</div>
+<p>「ロードバランサーによって生成されたCookieの維持を有効化」にチェックを入れ、維持期間を設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-9.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-9.png" src="../../../../_images/management-console-application-load-balancing-setting-9.png" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-application-load-balancing-setting-5.png"><img alt="../../../../_images/management-console-application-load-balancing-setting-5.png" src="../../../../_images/management-console-application-load-balancing-setting-5.png" /></a>
+</div>
+</div>
+</div>
 <div class="section" id="route53">
 <span id="section3-4-route53-label"></span><h2>Route53<a class="headerlink" href="#route53" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section3-4-1-route53-overview-label">
-<span id="id1"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。また、他のAWS同様、REST APIによるサポートがあり、ドメインやホストの追加・削除、設定内容の変更がプログラムからも実行可能である。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -226,7 +342,7 @@
 </div>
 </div>
 <div class="section" id="section3-4-2-route53-registration-label">
-<span id="id2"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-route53-registration-1.png"><img alt="../../../../_images/management-console-route53-registration-1.png" src="../../../../_images/management-console-route53-registration-1.png" /></a>
@@ -266,8 +382,8 @@
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-route53-setting-domain-2.png"><img alt="../../../../_images/management-console-route53-setting-domain-2.png" src="../../../../_images/management-console-route53-setting-domain-2.png" /></a>
 </div>
-<table border="1" class="docutils" id="id3">
-<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id5">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="23%" />
 <col width="54%" />

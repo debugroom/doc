@@ -16,3 +16,5 @@ Contents:
    article/computing.rst
    article/storage.rst
    article/datastore.rst
+   article/security.rst
+   article/operation.rst

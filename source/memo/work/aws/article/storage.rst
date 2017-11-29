@@ -10,6 +10,11 @@ Storage Category
 Simple Storage Service(S3)
 ------------------------------------------------------
 
+.. _section5-1-1-s3-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 S3はWebベースのデータストレージサービスであり、ユーザはどこからもデータの保存や取出しができ、使用量に応じた従量課金性である。保存できるファイル数に限界はないが1ファイルあたり最大5TBに制限される。加えて、
 
 * 信頼性
@@ -18,6 +23,66 @@ S3はWebベースのデータストレージサービスであり、ユーザは
 
 としての動作が主な特徴として挙げられる。データセンター内の複数のデバイスに必ず3箇所以上に複製されることにより、きわめて高い信頼性を確保するとともにバージョン管理によるユーザの誤操作からの復元が可能である。データは「バケット」と呼ばれる保存場所にアップロードする。全ての通信はSSLによって暗号化され、バケットごとにポリシーを設定でき、アクセスを詳細に制御できる。アップロードデータの自動暗号化機能もあり、情報漏えい時に参照はできない。また、S3はWebサーバとしても動作するため、アップロードされたデータをそのままコンテンツとして保存できる。ただしスクリプト言語やデータベースの導入はできないため、動的なコンテンツは利用できないがHTMLや画像ファイルで構成される静的なコンテンツならば、信頼性が高いWebサイトをそのまま構築することが可能である。
 
+.. _section5-1-2-s3-create-bucket-label:
+
+バケットの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Amazon S3にデータを保存するには、最初にルートフォルダに相当する「バケット」を作成する必要がある。バケットを作成すると次のURLでアクセスできるようになる。
+
+* http://バケット名.s3.amazonaws.com/
+
+■S3コンソールでバケットの作成を選択する。
+
+.. figure:: img/management-console-s3-portal-1.png
+   :scale: 100%
+
+■バケットを作成するリージョンとバケット名を入力し、次へを押下する。
+
+.. figure:: img/management-console-s3-create-bucket-1.png
+   :scale: 100%
+
+■プロパティやアクセス権限はそのままの設定で次へを押下していき、バケットを作成する。
+
+.. figure:: img/management-console-s3-create-bucket-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-s3-create-bucket-3.png
+   :scale: 100%
+
+.. figure:: img/management-console-s3-create-bucket-4.png
+   :scale: 100%
+
+なお、バケットの作成は無料で行えるが、バケット内にオブジェクトを保存・転送した場合に費用が発生する。料金は `こちら <https://aws.amazon.com/jp/s3/pricing/>`_ を参照のこと。
+
+.. _section5-1-2-s3-create-folder-and-object-label:
+
+フォルダの作成・オブジェクトのアップロード
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■S3コンソールでバケットを選択し、フォルダの作成ボタンを押下し、フォルダ名を入力してフォルダを作成する。
+
+.. figure:: img/management-console-s3-create-folder-1.png
+   :scale: 100%
+
+.. figure:: img/management-console-s3-create-folder-2.png
+   :scale: 100%
+
+■S3コンソールでバケットを選択し、アップロードボタンを押下する。
+
+.. figure:: img/management-console-s3-upload-1.png
+   :scale: 100%
+
+■アップロード対象のファイルを選択したのち、ファイルの閲覧権限を設定してアップロードする。
+
+.. figure:: img/management-console-s3-upload-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-s3-upload-3.png
+   :scale: 100%
+
+.. figure:: img/management-console-s3-upload-4.png
+   :scale: 100%
 
 .. _section5-2-glacier-label:
 
@@ -53,4 +118,3 @@ Elastic File System
 ------------------------------------------------------
 
 Elastic File Systemは共有ファイルストレージサービスである。複数のEC2インスタンスから、ファイル共有プロトコル「NFSv4」を介して同時にアクセスできる。ファイルの追加や削除に伴い容量を自動的に拡張または縮小する。ペタバイト規模まで拡張できるよう設計されており、S3やGlacierと同様、複数のデータセンター間でデータをレプリケーションすることで可用性を確保する。主な用途としては、データやコンテンツの共有等が挙げられる。
-

@@ -94,6 +94,8 @@
 <li class="toctree-l3"><a class="reference internal" href="article/computing.html">Computing Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="article/storage.html">Storage Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="article/datastore.html">DataStore Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/security.html">Security Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html">AWSでの運用オペレーション</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../docker/index.html">Docker</a></li>
@@ -165,7 +167,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="article/network.html#direct-connect">Direct Connect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="article/network.html#elastic-load-balancing-elb">Elastic Load Balancing(ELB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/network.html#elastic-load-balancing-elb">Elastic Load Balancing(ELB)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/network.html#section3-3-1-elb-overview-label">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/network.html#classic-load-barancing-application-load-barancingnetwork-load-barancing">Classic Load Barancing と Application Load Barancing、Network Load Barancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/network.html#alb">ALBの設定</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="article/network.html#route53">Route53</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="article/network.html#section3-4-1-route53-overview-label">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="article/network.html#section3-4-2-route53-registration-label">ドメインの登録</a></li>
@@ -187,7 +194,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="article/storage.html">Storage Category</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="article/storage.html#simple-storage-service-s3">Simple Storage Service(S3)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/storage.html#simple-storage-service-s3">Simple Storage Service(S3)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/storage.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/storage.html#section5-1-2-s3-create-bucket-label">バケットの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/storage.html#section5-1-2-s3-create-folder-and-object-label">フォルダの作成・オブジェクトのアップロード</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="article/storage.html#glacier">Glacier</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/storage.html#storage-gateway">Storage Gateway</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/storage.html#elastic-file-system">Elastic File System</a></li>
@@ -198,6 +210,36 @@
 <li class="toctree-l2"><a class="reference internal" href="article/datastore.html#elasticache">ElastiCache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/datastore.html#dynamodb">DynamoDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/datastore.html#redshift">Redshift</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="article/security.html">Security Category</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="article/security.html#iam-indentity-access-management">IAM(Indentity Access Management)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/security.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/security.html#iam">IAMアカウントの作成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/security.html#aws-certificate-manager">AWS Certificate Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/security.html#section7-2-1-acm-overview-label">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/security.html#section7-2-2-acm-request-certication-label">証明書のリクエスト</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="article/operation.html">AWSでの運用オペレーション</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="article/operation.html#ec2">実行中のEC2インスタンスのバックアップ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#overview">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#ebs">EBSボリュームの作成手順</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#ebsami">EBSスナップショットからAMIの作成手順</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/operation.html#section8-2-stamp-label">同じ構成のEC2インスタンスを作成する</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#section8-2-1-stamp-overview-label">overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#ec2ami">実行中EC2インスタンスからAMIの作成手順</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/operation.html#amiec2">複製したAMIからEC2インスタンスを実行する手順</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/operation.html#cpu">CPUやメモリスペックを上昇させる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/operation.html#section7-4-ondemand-disk-label">ディスク容量を増設する</a></li>
 </ul>
 </li>
 </ul>

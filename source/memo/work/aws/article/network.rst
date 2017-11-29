@@ -75,6 +75,11 @@ Direct ConnectはVPCとオンプレミス環境をプライベートに接続す
 Elastic Load Balancing(ELB)
 ------------------------------------------------------
 
+.. _section3-3-1-elb-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Elastic Load BalancingはAWS内で利用できる仮想ロードバランサーで以下の様な特徴を持つ。
 
 * ELB自体のスケーリング
@@ -82,6 +87,124 @@ Elastic Load BalancingはAWS内で利用できる仮想ロードバランサー�
 * 運用管理の容易性
 
 ELBはアプリケーショントラフィックの増減にあわせて自動的にスケーリングを行う。定義上ELBは1つの機器のように扱われるが、内部的には複数のリソースで構成されており、負荷に合わせて自動的にELBを構成する。負荷が増えるとELBリソースを追加してスケールアウトしたり、ELBリソースの性能を向上させてスケールアップするが、逆に負荷が減少するとELBのリソースを削除したり、スケールダウンを行う。ELBは従量課金性で、使用時間と処理データ量の組み合わせで料金が決定する。そのためスケールの状況によって変化しない。また、ファームウェアの更新はAWSにより行われるため、容易に運用管理を行える。その他、ELBはSSLターミネーションとアクセスログ取得機能を持つ。SSLターミネーションは通信の暗号化処理を行い、サーバ側のパフォーマンス向上に寄与する。アクセスログはロードバランサーで一括して収集を行うことでEC2インスタンスに分散してログ収集を行わずにすむ。
+
+.. _section3-3-2-clb-and-alb-label:
+
+Classic Load Barancing と Application Load Barancing、Network Load Barancing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ELBでは、ロードバランシングサービスの１つとして「Application Load Balancer（ALB）」が提供されている。
+代表的な機能としては、パケットの内容に応じたコンテントベースのルーティングで、レイヤー7（L7）スイッチが備える機能を持つ。
+従来のロードバランシングサービスELBは「Classic Load Balancer（CLB）」という名称に変更された。
+ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロードバランシングサービスの総称として表現される。
+
+ALBでは、その他にも、以下の特徴をもつ。
+
+* パスベースルーティング
+* コンテナ化されたアプリケーションのサポート
+* HTTP/2サポート
+* WebSocketサポート
+* StickySessionの強化
+* ヘルスチェックの強化
+* インスタンスのヘルスチェックは従来通りHTTP/HTTPSでping
+* レスポンスコードの指定（200〜299複数）
+* CloudWatchのメトリクス強化（ターゲットグループ単位とか）
+
+ALB、ELBはリバースプロキシ型の負荷分散サービスを提供する一方、もっとも最新のNLBはL4 NATロードバランサである。特徴としては、
+
+* 固定IPアドレス
+* Pre-warming申請不要
+* ゾーナリティ
+* Source Address Preservation
+* フェイルオーバーに対応
+
+などがある。各ロードバランシングサービスの比較は `Elastic Load Balancing 製品の詳細 <https://aws.amazon.com/jp/elasticloadbalancing/details/#compare>`_ に詳細がまとめられている。
+
+.. _section3-3-3-alb-setting-label:
+
+ALBの設定
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ここでは、ロードバランシングサービス利用の一例として、ALBの設定を行う。
+
+1. EC2コンソールメニューから、ロードバランサを選択し、「ロードバランサの作成」をクリックする。
+
+.. figure:: img/management-console-application-load-balancing-setting-1.png
+   :scale: 100%
+
+2. 「アプリケーションロードバランサ」を選択する。
+
+.. figure:: img/management-console-application-load-balancing-setting-2.png
+   :scale: 100%
+
+3. ロードバランサの以下の設定項目を入力する。
+
+.. figure:: img/management-console-application-load-balancing-setting-3.png
+   :scale: 100%
+
+* 名前：ALBの名称
+* スキーム：ロードバランサーのタイプを選択する。外部からのアクセスかAPサーバ等の内部ネットワークからのアクセスか。
+* リスナー：プロトコルを指定する。http or HTTPS
+* アベイラビリティゾーン：ALBを配置するアベイラビティゾーンを選択。２箇所以上が必須。
+
+4. 証明書・セキュリティポリシーの設定。
+
+.. figure:: img/management-console-application-load-balancing-setting-4.png
+   :scale: 100%
+
+* 証明書タイプ：設定する証明書のタイプを指定する。 :ref:`section7-2-2-acm-request-certication-label` にて作成した証明書を使用
+* 証明書の名前：証明書をプルダウンから選択
+* セキュリティポリシー： `フロントエンド接続に使用するセキュリティポリシー <http://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/create-https-listener.html>`_ を選択
+
+5. セキュリティグループの設定
+
+.. figure:: img/management-console-application-load-balancing-setting-5.png
+   :scale: 100%
+
+6. ルーティングの設定
+
+ロードバランサーからディスパッチするサーバのインスタンスグループを指定する。
+
+.. figure:: img/management-console-application-load-balancing-setting-6.png
+   :scale: 100%
+
+* 名前：任意のターゲットグループ名(xxx-app-alb等)
+* プロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)
+* ヘルスチェックプロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)
+* ヘルスチェックパス：ヘルスチェックを行うURLでドメイン名以下のパス
+* ヘルスチェックの詳細設定：任意
+
+7. ターゲットの登録
+
+インスタンスグループに登録するターゲットを指定。
+
+.. figure:: img/management-console-application-load-balancing-setting-7.png
+   :scale: 100%
+
+確認ボタンを押下し、ALBを作成する。
+
+8. スティッキーセッションの設定
+
+セッションがサーバ固有のものを使用しているアプリケーションやWebSocketアプリケーションなど、
+スティッキーセッションを維持する必要があるものは、ターゲットグループからスティッキーセッションの設定を行う。
+
+EC2コンソールから、メニュー「ターゲットグループ」を選び、「属性」オプションを選択する。
+
+.. figure:: img/management-console-application-load-balancing-setting-8.png
+   :scale: 100%
+
+「ロードバランサーによって生成されたCookieの維持を有効化」にチェックを入れ、維持期間を設定する。
+
+.. figure:: img/management-console-application-load-balancing-setting-9.png
+   :scale: 100%
+
+
+
+
+.. figure:: img/management-console-application-load-balancing-setting-5.png
+   :scale: 100%
+
+
 
 
 .. _section3-4-route53-label:
@@ -155,23 +278,23 @@ Route53ダッシュボードに移動すると、申請したドメインの登�
    :scale: 100%
 
 .. list-table:: Create Record Setの設定値
-   :widths: 3, 7, 3 
+   :widths: 3, 7, 3
 
    * - 設定値
      - 説明
      - IPv4設定値サンプル
 
    * - Name
-     - ドメイン名の接頭辞となるホスト名を指定 
-     - www 
+     - ドメイン名の接頭辞となるホスト名を指定
+     - www
    * - Type
      - レコードタイプを指定する。 |br| Aレコード：ドメインとIPアドレスを指定 |br| AAAAレコード：ドメインとIPv6アドレスを設定 |br| PTRレコード：ドメインとIPアドレスの逆引き設定 |br| MXレコード：メールサーバの設定 |br| NSレコード：DNSレコードを設定
      - A IPv4アドレス
    * - Alias
-     - 他のレコードの設定を参照する場合Yes 
-     - No 
+     - 他のレコードの設定を参照する場合Yes
+     - No
    * - TTL
-     - キャッシュの有効期間を設定 
+     - キャッシュの有効期間を設定
      - 300
    * - Value
      - Aレコードの場合IPアドレス
@@ -195,5 +318,3 @@ Createボタンを押下すると、設定が反映される。しばらく時�
 
 Amazon CloudFront
 ------------------------------------------------------
-
-
