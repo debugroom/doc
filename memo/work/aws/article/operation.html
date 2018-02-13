@@ -99,7 +99,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#ec2">実行中のEC2インスタンスのバックアップ</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section8-2-stamp-label">同じ構成のEC2インスタンスを作成する</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cpu">CPUやメモリスペックを上昇させる</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section7-4-ondemand-disk-label">ディスク容量を増設する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-4-ondemand-disk-label">ディスク容量を増設する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-5-application-update-label">冗長化構成のアプリケーションをアップデートする</a></li>
 </ul>
 </li>
 </ul>
@@ -294,9 +295,45 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 </div>
 <div class="section" id="cpu">
 <span id="section8-3-scale-up-label"></span><h2>CPUやメモリスペックを上昇させる<a class="headerlink" href="#cpu" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">EC2インスタンス起動中にCPUやメモリスペックを変更する手順を記載する。</p>
 </div>
-<div class="section" id="section7-4-ondemand-disk-label">
-<span id="id3"></span><h2>ディスク容量を増設する<a class="headerlink" href="#section7-4-ondemand-disk-label" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="section8-4-ondemand-disk-label">
+<span id="id3"></span><h2>ディスク容量を増設する<a class="headerlink" href="#section8-4-ondemand-disk-label" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">EC2インスタンス起動中にディスク容量を増設する手順を記載する。</p>
+</div>
+</div>
+<div class="section" id="section8-5-application-update-label">
+<span id="id4"></span><h2>冗長化構成のアプリケーションをアップデートする<a class="headerlink" href="#section8-5-application-update-label" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section8-5-1-application-update-overview-label">
+<span id="id5"></span><h3>overview<a class="headerlink" href="#section8-5-1-application-update-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>ロードバランサーを使用して冗長化構成したアプリケーションをサービス停止せずにアップデートする。
+片系のアプリケーションサーバをターゲットグループから除外した後、アプリケーションをアップデートし、
+再度ターゲットグループに組み込む。その後もう片系のアプリケーションサーバを同様にターゲットグループから削除し、
+アップデートを行い、組み戻しを行う。</p>
+<hr class="docutils" id="section8-5-2-exclude-target-group-label" />
+<ol class="arabic simple">
+<li>APサーバのインスタンスをターゲットグループから除外</li>
+</ol>
+<p>コンソールのメニュー「ターゲットグループ」にて、ターゲットタブから編集ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-operation-app-update-1.png"><img alt="../../../../_images/management-console-operation-app-update-1.png" src="../../../../_images/management-console-operation-app-update-1.png" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>アップデート対象のアプリケーションインスタンスを選択し、削除ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-operation-app-update-2.png"><img alt="../../../../_images/management-console-operation-app-update-2.png" src="../../../../_images/management-console-operation-app-update-2.png" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">削除したインスタンスはロードバランサーがターゲットのリクエストルーティングを即時指定するが、deregistration_delay.timeout_secondsとして設定した時間、Connection Dranining状態として、セッションが維持される。</p>
+</div>
+</div>
 </div>
 </div>
 

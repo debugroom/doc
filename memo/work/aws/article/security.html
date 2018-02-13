@@ -103,7 +103,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
 </ul>
 </li>
@@ -172,8 +171,8 @@
 <li>IAMグループ</li>
 <li>IAMロール</li>
 </ul>
-<table border="1" class="docutils" id="id5">
-<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<table border="1" class="docutils" id="id4">
+<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="29%" />
 <col width="71%" />
@@ -199,26 +198,94 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 オブジェクトとして管理できるIAM管理ポリシーと、従来の通り、ユーザ・グループ、ロール個別に設定していくインラインポリシーの2種類がある。</p>
 </div>
 <div class="section" id="iam">
-<span id="section7-1-2-iam-create-user-label"></span><h3>IAMアカウントの作成<a class="headerlink" href="#iam" title="Permalink to this headline">¶</a></h3>
+<span id="section7-1-2-iam-create-user-label"></span><h3>IAMユーザ・グループの作成<a class="headerlink" href="#iam" title="Permalink to this headline">¶</a></h3>
 <p>アプリケーションからアクセスするためのユーザ、及びグループを作成し、AWS管理ポリシーを割り当てる。</p>
-<p>管理コンソールのIAMから、ユーザメニューから「ユーザの作成」を選択する。</p>
+<p>■管理コンソールのIAMから、ユーザを選び「ユーザの作成」を選択する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-user-1.png"><img alt="../../../../_images/management-console-iam-create-user-1.png" src="../../../../_images/management-console-iam-create-user-1.png" /></a>
 </div>
-<p>ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。</p>
+<p>■ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-user-2.png"><img alt="../../../../_images/management-console-iam-create-user-2.png" src="../../../../_images/management-console-iam-create-user-2.png" /></a>
 </div>
-<p>新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。</p>
+<p>■新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-group-1.png"><img alt="../../../../_images/management-console-iam-create-group-1.png" src="../../../../_images/management-console-iam-create-group-1.png" /></a>
+</div>
+</div>
+<div class="section" id="section7-1-3-iam-create-role-label">
+<span id="id1"></span><h3>IAMロールの作成<a class="headerlink" href="#section7-1-3-iam-create-role-label" title="Permalink to this headline">¶</a></h3>
+<p>IAMロールは、アプリケーションでS3へのダイレクトアップロードを行う場合など、一時的にAWSリソースへアクセス権限を付与する場合に使用する。
+ここでは、S3へファイルの書き込みに対して、STS(Security Token Service)を利用することを想定した、IAMロールの設定を行う。</p>
+<p>■管理コンソールのIAMからロールを選び、「ロールの作成」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-role-1.png"><img alt="../../../../_images/management-console-iam-create-role-1.png" src="../../../../_images/management-console-iam-create-role-1.png" /></a>
+</div>
+<p>■アプリケーション用のユーザ(のみ)が、STSに対して、AssumreRoleリクエストが発行できるように、「別のAWSアカウント」を選択し、アプリケーション用のユーザを作成したアカウントIDを入力する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-role-2.png"><img alt="../../../../_images/management-console-iam-create-role-2.png" src="../../../../_images/management-console-iam-create-role-2.png" /></a>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">AWSサービス(EC2等)に対してロールを割り当ててしまうと、アプリケーションの実装を知っていれば、第３者でもアクセスできてしまうため、アプリケーションのユーザのみがAssumeRoleリクエストを発行できるように設定する。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">アプリケーションユーザの割り当ては後ほど行うため、ここでは、アプリケーション用のIAMユーザを作成したアカウントだけ設定する。</p>
+</div>
+<p>■S3への書き込みが行えるポリシーを作成する。新規ポリシーの作成を選択し、以下の通り、S3のバケットオブジェクトへPutObject権限を割り当てる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-policy-1.png"><img alt="../../../../_images/management-console-iam-create-policy-1.png" src="../../../../_images/management-console-iam-create-policy-1.png" /></a>
+</div>
+<ul class="simple">
+<li>サービス：S3</li>
+<li>アクション：PutObjectを設定</li>
+<li>リソース：書き込み用のバケット名とオブジェクト名(フォルダ名+ワイルドカード)を指定。</li>
+<li>リクエスト条件：ここでは特に設定しない</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-policy-2.png"><img alt="../../../../_images/management-console-iam-create-policy-2.png" src="../../../../_images/management-console-iam-create-policy-2.png" /></a>
+</div>
+<p>■「ReviewPolicy」を押下し、ポリシー名を入力して、「CreatePolicy」でポリシーを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-policy-3.png"><img alt="../../../../_images/management-console-iam-create-policy-3.png" src="../../../../_images/management-console-iam-create-policy-3.png" /></a>
+</div>
+<p>■作成したポリシーをロールに対して割り当て、ロール名を入力し、ロールを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-role-3.png"><img alt="../../../../_images/management-console-iam-create-role-3.png" src="../../../../_images/management-console-iam-create-role-3.png" /></a>
+</div>
+<p>■ロールを作成したのち、信頼関係タブで、「信頼関係の編集」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-role-4.png"><img alt="../../../../_images/management-console-iam-create-role-4.png" src="../../../../_images/management-console-iam-create-role-4.png" /></a>
+</div>
+<p>■PrincipalのAWS属性を以下の通り書き換える。</p>
+<p>&#8220;arn:aws:iam::&lt;アカウント&gt;:user:&lt;アプリケーション用のIAMユーザ&gt;&#8221;</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-iam-create-role-5.png"><img alt="../../../../_images/management-console-iam-create-role-5.png" src="../../../../_images/management-console-iam-create-role-5.png" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>アプリケーションからSTSを利用する場合、アカウントIDを含むロールARNを取得する必要があるが、アプリケーションのセキュリティ対策上の問題で、アプリケーション内で定義したロール名からARNを取得したい場合(アカウントIDなどをプロパティに定義したくない場合)、AssumeRequestするユーザがロール情報を取得できるよう、以下のようなポリシーをユーザにアタッチしておく必要がある。</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[{</span>
+    <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">&quot;iam:GetRole&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;iam:PassRole&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:iam::&lt;account-id&gt;:role/XX-*&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
 <div class="section" id="aws-certificate-manager">
 <span id="section7-2-acm-label"></span><h2>AWS Certificate Manager<a class="headerlink" href="#aws-certificate-manager" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section7-2-1-acm-overview-label">
-<span id="id1"></span><h3>Overview<a class="headerlink" href="#section7-2-1-acm-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>Overview<a class="headerlink" href="#section7-2-1-acm-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>AWS Certification Managerは、AWSの各種サービスで使用する
 Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 証明書のプロビジョニング、管理、およびデプロイを、簡単に行えるサービスである。具体的には、</p>
@@ -237,9 +304,9 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 メールに記載されているURLをクリックするだけで、証明書の取得が可能である。</p>
 </div>
 <div class="section" id="section7-2-2-acm-request-certication-label">
-<span id="id2"></span><h3>証明書のリクエスト<a class="headerlink" href="#section7-2-2-acm-request-certication-label" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>証明書のリクエスト<a class="headerlink" href="#section7-2-2-acm-request-certication-label" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、<a href="#id3"><span class="problematic" id="id4">*</span></a>.debugroom.orgを入力。</li>
+<li>証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、¥*.debugroom.orgを入力。</li>
 </ol>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-acm-request-certification-1.png"><img alt="../../../../_images/management-console-acm-request-certification-1.png" src="../../../../_images/management-console-acm-request-certification-1.png" /></a>

@@ -15,11 +15,11 @@
 検証のポイント
 -----------------------------------------------------
 
-* Cassandraのテーブル構造  |br| 
+* Cassandraのテーブル構造  |br|
   →リレーショナルデータベースとは違い、データ中心の設計アプローチをとるべきではない(と言われている)。データストアの特性が違うので、Cassandraで出来る事・出来ない事を整理して、適切な永続化のテーブル構造を考える。
-* アプリケーションのデータモデリングの差異 |br| 
+* アプリケーションのデータモデリングの差異 |br|
   → エンティティオブジェクトはどのような構造をとるべきか
-* Spring Data Cassandraのマッピング機能とデータアクセスのお作法 |br| 
+* Spring Data Cassandraのマッピング機能とデータアクセスのお作法 |br|
   → どのような機能を持っていて、どういう実装方法が望ましいか
 * データモデリング設計の進め方
 
@@ -50,47 +50,47 @@
    * - ログインIDをキーに特定のユーザを検索する
      - なし
    * - 特定のユーザのアドレスを検索する
-     - ユーザ : 住所 = 1 : 1 
+     - ユーザ : 住所 = 1 : 1
    * - 指定されたユーザのEmailの一覧を取得する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定したグループ名を元にグループを検索する
      - なし
    * - 特定の郵便番号を持つユーザ一覧を取得する
-     - ユーザ : 住所 = 1 : 1 
+     - ユーザ : 住所 = 1 : 1
    * - 特定の郵便番号を持たないユーザ一覧を取得する
-     - ユーザ : 住所 = 1 : 1  
+     - ユーザ : 住所 = 1 : 1
    * - 指定されたユーザの住所を追加する
-     - ユーザ : 住所 = 1 : 1 
+     - ユーザ : 住所 = 1 : 1
    * - 指定されたユーザの住所を更新する
-     - ユーザ : 住所 = 1 : 1 
+     - ユーザ : 住所 = 1 : 1
    * - 指定されたユーザの住所を削除する
-     - ユーザ : 住所 = 1 : 1 
+     - ユーザ : 住所 = 1 : 1
    * - 特定のメールアドレスを持つユーザを検索する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定されたユーザのメールアドレスを追加する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定されたユーザをメールアドレスを含めて追加する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定されたユーザのメールアドレスを更新する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定されたユーザのメールアドレスを1件削除する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定されたユーザのメールアドレスを全件削除する
-     - ユーザ : メール = 1 : N 
+     - ユーザ : メール = 1 : N
    * - 指定したユーザが属するグループの一覧を取得する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定したグループに所属する全てのユーザ一覧を取得する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定したグループに所属しない全てのユーザ一覧を取得する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定したユーザを指定したグループに追加する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定したユーザをグループから除外する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定したグループを削除し、 |br| ユーザが所属するグループの情報を更新する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
    * - 指定されたユーザを削除し、グループのユーザ一覧を更新する
-     - ユーザ : グループ = N : N 
+     - ユーザ : グループ = N : N
 
 .. _section6-X-differenece-relational-data-modeling-label:
 
@@ -188,10 +188,10 @@ RDBMSとCassandra
      - WHERE句でプライマリキー以外を使用するにはインデックスが必要 |br| → セカンダリインデックスを作成したり、マテリアライズドビューを使用する。
    * - 4
      - データ型でCollectionをサポート。1:n関連に相当する有限のデータはCollectionを利用する。 |br|
-       センサーデータのような無限にデータが増えていく場合は、ノードを分散させるために、 |br| 
+       センサーデータのような無限にデータが増えていく場合は、ノードを分散させるために、 |br|
        複合プライマリーキーを使用する。 |br| → 必要に応じて、テーブルを非正規化する。
    * - 5
-     - 更新の条件指定はプライマリキーのみに限定される |br| アプリの中でロジックとして実装する。 
+     - 更新の条件指定はプライマリキーのみに限定される |br| アプリの中でロジックとして実装する。
    * - 6
      - "OR"、"NOT"といった論理演算子はなく、ANDのみに限定される |br| → アプリの中でロジックとして実装する
    * - 7
@@ -230,10 +230,10 @@ Spring Data Cassandraを使用したユースケースの実装
      - クラス
      - 複合主キーで使用されるカラムを表現するクラス
    * - @Id
-     - フィールド 
+     - フィールド
      - IDとして表現するフィールドに付与する。
    * - @PrimaryKey
-     - フィールド 
+     - フィールド
      - @Idと機能は同じで、カラム名を指定可能である。
    * - @PrimaryKeyColumn
      - フィールド
@@ -299,7 +299,7 @@ Spring Data Cassandraを使用したユースケースの実装
 	   @Column("ver")
 	   private int ver;
 	   @Column("last_updated_date")
-	   private Date lastUpdatedDate;	
+	   private Date lastUpdatedDate;
 	   @CassandraType(type = Name.UDT, userTypeName="addressofuser")
 	   private UDTValue address;
 	   @Transient
@@ -348,7 +348,7 @@ Spring Data Cassandraを使用したユースケースの実装
 	   @Column("ver")
 	   private int ver;
 	   @Column("last_updated_date")
-	   private Date lastUpdatedDate;	
+	   private Date lastUpdatedDate;
 
    }
 
@@ -393,7 +393,7 @@ Serviceクラスの作成
 * 全てのグループを検索する。  |br| → getGroups()
 * 特定のユーザを検索する。  |br| → getUser(Long userId)
 * 特定のユーザのアドレスを検索する。  |br| → getAddress(Long userId)
-* 特定のユーザがもつEmailアドレスを検索する。  |br| → getEmails(Long userId)	
+* 特定のユーザがもつEmailアドレスを検索する。  |br| → getEmails(Long userId)
 * 指定したグループ名を元にグループを検索する。  |br| → getGroups(String groupName)
 * 特定の郵便番号を持つユーザ一覧を取得する。  |br| → getUsers(String zipCd)
 * 特定の郵便番号を持たないユーザ一覧を取得する  |br| → getNotUsers(String zipCd)
@@ -426,57 +426,57 @@ Serviceクラスの作成
    public interface SampleService<U, A, E, G> {
 
        public List<U> getUsers();
-	
+
        public List<A> getAddresses();
-	
+
        public List<E> getEmails();
-	
+
        public List<G> getGroups();
-	
+
        public U getUser(Long userId);
-	
+
        public U getUser(String loginId);
 
        public A getAddress(Long userId);
 
        public List<E> getEmails(Long userId);
-	
+
        public List<G> getGroups(String groupName);
 
        public List<U> getUsers(String zipCd);
-	
+
        public List<U> getNotUsers(String zipCd);
-	
+
        public U addAddress(Long userId, String zipCd, String address);
 
        public U updateAddress(Long userId, String zipCd, String address);
-	
+
        public U deleteAddress(Long userId);
 
        public U getUserByEmail(String email);
-	
+
        public U addEmail(Long userId, String email);
-	
+
        public U addUserWithEmail(Long userId, String userName, String email);
-	
+
        public U updateEmail(Long userId, String email, String newEmail);
-	
+
        public U deleteEmail(Long userId, String email);
-	
+
        public U deleteEmails(Long userId);
-	
+
        public List<G> getGroups(Long userId);
-	
+
        public List<U> getUsersByGroupId(Long groupId);
-	
+
        public List<U> getNotUsersByGroupId(Long groupId);
-	
+
        public G addUserToGroup(Long userId, Long groupId);
-	
+
        public G deleteUserFromGroup(Long userId, Long groupId);
-	
+
        public G deleteGroup(Long groupId);
-	
+
        public U deleteUser(Long userId);
 
    }
@@ -531,7 +531,7 @@ Serviceクラスの作成
        user_id bigint,
        ver int,
        PRIMARY KEY ((login_id, credential_type))
-   ); 
+   );
 
    CREATE TABLE sample.users (
        user_id bigint PRIMARY KEY,
@@ -551,7 +551,7 @@ Serviceクラスの作成
        last_updated_date timestamp,
        users list<frozen<userofgroup>>,
        ver int
-   ); 
+   );
 
    CREATE TABLE sample.email (
        email text PRIMARY KEY,
@@ -567,8 +567,8 @@ Serviceクラスの作成
        last_updated_date timestamp,
        ver int,
        PRIMARY KEY (zip_cd, user_id)
-   ); 
-   
+   );
+
 .. _section6-X-X-X-usecase-implementation-patten1-get-users-label:
 
 全てのユーザを検索する
@@ -590,8 +590,8 @@ Userテーブルのすべてのデータを検索する場合は、UserRepositor
 
        @Autowired
        UserRepository userRepository;
-	
-       // omit 
+
+       // omit
 
       @Override
       public List<User> getUsers() {
@@ -639,7 +639,7 @@ Addressテーブルのすべてのデータを検索する場合は、AddressRep
        @Column("ver")
        private int ver;
        @Column("last_updated_date")
-       private Date lastUpdatedDate;	
+       private Date lastUpdatedDate;
 
    }
 
@@ -672,8 +672,8 @@ Addressテーブルのすべてのデータを検索する場合は、AddressRep
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<Address> getAddresses() {
@@ -753,8 +753,8 @@ Emailテーブルのすべてのデータを検索する場合は、EmailReposit
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<Email> getEmails() {
@@ -805,7 +805,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
        @Column("ver")
        private int ver;
        @Column("last_updated_date")
-       private Date lastUpdatedDate;	
+       private Date lastUpdatedDate;
 
     }
 
@@ -835,8 +835,8 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<Group> getGroups() {
@@ -865,8 +865,8 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User getUser(Long userId) {
@@ -928,7 +928,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
        @Column("ver")
        private int ver;
        @Column("last_updated_date")
-       private Date lastUpdatedDate;	
+       private Date lastUpdatedDate;
 
    }
 
@@ -960,7 +960,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
        private String zipCd; // zipCdはパーティションキーで指定しているので必須
        @PrimaryKeyColumn(name = "user_id", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
        private Long userId; // userIdはクラスタカラムとして指定しているので必須ではない
-	
+
    }
 
 .. note:: AddressPKクラスにおいて、クラスタカラムとして定義しているuserIdを単体の検索キーとして利用するには、セカンダリインデックスを作成すれば可能であるが、`DataStax社の提供するCassandraのドキュメント <https://docs.datastax.com/ja/cql-jajp/3.3/cql/cql_using/useWhenIndex.html>`_ ではカーディナリティの高い(バラエティが多い)データで、セカンダリインデックスを作るのは推奨していない。カーディナリティの高いデータに対してはマテリアライズドビューの作成を推奨しているが、いずれにせよパーティションキーである郵便番号が必要になる。
@@ -972,7 +972,7 @@ Serviceの実装クラスでは、Userテーブルから非正規化した住所
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getAddress(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -982,8 +982,8 @@ Serviceの実装クラスでは、Userテーブルから非正規化した住所
 
        @Autowired
        UserRepository userRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public Address getAddress(Long userId) {
@@ -1006,7 +1006,7 @@ Serviceの実装クラスでは、Userテーブルから非正規化した住所
 
 .. _section6-X-X-X-usecase-implementation-patten1-get-email-label:
 
-特定のユーザがもつEmailアドレスを検索する	
+特定のユーザがもつEmailアドレスを検索する
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Emailテーブルでは、Emailがプライマリキーであるため、CQLのwhere句の条件にuserIdは指定できない。
@@ -1051,21 +1051,21 @@ Emailテーブルでは、Emailがプライマリキーであるため、CQLのw
    import org.debugroom.sample.cassandra.pattern1.domain.entity.Email;
 
    public interface EmailRepository extends CrudRepository<Email, String>{
-	
+
        // Use secondary index or materialized view depending on data cardinality.
        // (Not recommend) 1. Create secondary index
        // "create index on sample.email (user_id);"
 	   // @Query("select * from email where user_id = ?0")
        // (Not recommend) 2. Add allow filtering option to cql.
 	   @Query("select * from email where user_id = ?0 allow filtering")
-       // (Recommend) 3. Use materialized view 
+       // (Recommend) 3. Use materialized view
 	   // "create materialized view email_by_user_id as select email, user_id, ver, last_updated_date from email where user_id is not null and email is not null primary key(user_id, email);"
        //@Query("select * from email_by_user_id where user_id = ?0")
        public List<Email> findByUserId(Long userId);
 
    }
 
-.. warning:: userIdはユニークな値なので、本来一番推奨される方法はマテリアライズドビューを使用する方法である。	
+.. warning:: userIdはユニークな値なので、本来一番推奨される方法はマテリアライズドビューを使用する方法である。
 
 Service実装クラスからは、定義したメソッドEmailRepository.findByUserId()を実行すれば良い。
 
@@ -1073,7 +1073,7 @@ Service実装クラスからは、定義したメソッドEmailRepository.findBy
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getEmails(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -1083,8 +1083,8 @@ Service実装クラスからは、定義したメソッドEmailRepository.findBy
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        	@Override
         public List<Email> getEmails(Long userId) {
@@ -1196,7 +1196,7 @@ Groupテーブルでは、groupIdがプライマリキーであるため、CQL�
        private String zipCd; // パーティションキーとして定義
        @PrimaryKeyColumn(name = "user_id", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
        private Long userId;  // クラスタカラムキーとして定義
-	
+
    }
 
 .. warning:: パーティションキーはどのノードにデータを配置するかを決定する重要なキーである。
@@ -1242,7 +1242,7 @@ Serviceクラスの実装では、まずパーティションキーであるzipC
    public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
 
        public List<User> findByUserIdIn(List<Long> userIds);
-	
+
    }
 
 Service実装クラスでは、
@@ -1251,7 +1251,7 @@ Service実装クラスでは、
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUsers(String zipCd)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -1264,8 +1264,8 @@ Service実装クラスでは、
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<User> getUsers(String zipCd) {
@@ -1292,7 +1292,7 @@ Service実装クラスでは、
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getNotUsers(String zipCd)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -1305,8 +1305,8 @@ Service実装クラスでは、
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<User> getNotUsers(String zipCd) {
@@ -1342,7 +1342,7 @@ Service実装クラスでは、
    public interface UserRepositoryCustom {
 
        public Map<Long, User> findAllForMap();
-	
+
    }
 
 カスタムインターフェースをUserRepositoryクラスに継承させる。
@@ -1359,7 +1359,7 @@ Service実装クラスでは、
    public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
 
        public List<User> findByUserIdIn(List<Long> userIds);
-	
+
        public List<User> findByUserIdNotIn(List<Long> userIds);
 
    }
@@ -1390,7 +1390,7 @@ Service実装クラスでは、
        @Autowired
        @Qualifier("cassandraTemplate")
        CassandraOperations cassandraOperations;
-	
+
        @Override
        public Map<Long, User> findAllForMap() {
        Select select = QueryBuilder.select().from("users");
@@ -1425,11 +1425,11 @@ Service実装クラスでは、
    public class UserMapExtractor implements ResultSetExtractor<Map<Long, User>> {
 
        @Override
-       public Map<Long, User> extractData(ResultSet resultSet) 
+       public Map<Long, User> extractData(ResultSet resultSet)
                                    throws DriverException, DataAccessException {
 
            Map<Long, User> userMap = new HashMap<Long, User>();
-		
+
            while(resultSet.iterator().hasNext()){
                Row row = resultSet.one();
                List<GroupOfUser> groupOfUsers = new ArrayList<GroupOfUser>();
@@ -1474,7 +1474,7 @@ Service実装クラスでは、
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addAddress(Long userId, String zipCd, String address)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -1487,8 +1487,8 @@ Service実装クラスでは、
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User addAddress(Long userId, String zipCd, String address) {
@@ -1503,7 +1503,7 @@ Service実装クラスでは、
                                         .lastUpdatedDate(new Date())
                                         .build();
            addressRepository.save(saveAddress);
-           // Add data to Address of User 
+           // Add data to Address of User
            User user = userRepository.findOne(userId);
            return userRepository.addAddress(user, zipCd, address);
        }
@@ -1539,11 +1539,11 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
        @Autowired
        @Qualifier("cassandraTemplate")
        CassandraOperations cassandraOperations;
-	
+
        @Autowired
        @Qualifier("cassandraAdminOperations")
        CassandraAdminOperations cassandraAdminOperations;
-	
+
        @Override
        public Map<Long, User> findAllForMap() {
           Select select = QueryBuilder.select().from("users");
@@ -1562,7 +1562,7 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
            udtValue.setInt("ver", 0);
            udtValue.setTimestamp("last_updated_date", new Date());
            user.setAddress(udtValue);
-		
+
            cassandraOperations.insert(user);
 
            return user;
@@ -1621,7 +1621,7 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#updateAddress(Long userId, String zipCd, String address)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    import com.datastax.driver.core.UDTValue
    // omit other import statement.
 
@@ -1634,8 +1634,8 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User updateAddress(Long userId, String zipCd, String address) {
@@ -1666,7 +1666,7 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteAddress(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1678,8 +1678,8 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
 
        @Autowired
        AddressRepository addressRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User deleteAddress(Long userId) {
@@ -1704,7 +1704,7 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUserByEmail(String email)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1716,8 +1716,8 @@ UDTValueは org.springframework.data.cassandra.core.CassandraAdminOperationsか�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User getUserByEmail(String email) {
@@ -1737,7 +1737,7 @@ Emailを追加する場合は、EmailRepository.save()メソッドを使用す�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addEmail(Long userId, String email)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1749,8 +1749,8 @@ Emailを追加する場合は、EmailRepository.save()メソッドを使用す�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User addEmail(Long userId, String email) {
@@ -1782,7 +1782,7 @@ Emailを追加する場合は、EmailRepository.save()メソッドを使用す�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addUserWithEmail(Long userId, String userName, String email)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1794,8 +1794,8 @@ Emailを追加する場合は、EmailRepository.save()メソッドを使用す�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User addUserWithEmail(Long userId, String userName, String email) {
@@ -1832,7 +1832,7 @@ Emailを更新する場合、Emailはプライマリキーであるため、そ�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#updateEmail(Long userId, String email, String newEmail)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1844,8 +1844,8 @@ Emailを更新する場合、Emailはプライマリキーであるため、そ�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User updateEmail(Long userId, String email, String newEmail) {
@@ -1881,7 +1881,7 @@ Emailを削除する場合、単純に指定されたEmailオブジェクトを�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteEmail(Long userId, String email)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1893,8 +1893,8 @@ Emailを削除する場合、単純に指定されたEmailオブジェクトを�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User deleteEmail(Long userId, String email) {
@@ -1916,7 +1916,7 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteEmails(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -1928,8 +1928,8 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
 
        @Autowired
        EmailRepository emailRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public User deleteEmails(Long userId) {
@@ -2001,7 +2001,7 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
        @Column("ver")
        private int ver;
        @Column("last_updated_date")
-       private Date lastUpdatedDate;	
+       private Date lastUpdatedDate;
    }
 
 データの取得は単純にUserRepositoryからUserデータを取得し、Groupを返すだけで良い。
@@ -2010,7 +2010,7 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getGroups(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2022,8 +2022,8 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<Group> getGroups(Long userId) {
@@ -2031,11 +2031,11 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
            return Lists.transform(groupsOfUser, new Function<GroupOfUser, Group>() {
                @Override
                public Group apply(GroupOfUser groupOfUser){
-                   return mapper.map(groupOfUser, Group.class); 
+                   return mapper.map(groupOfUser, Group.class);
                }
            });
        }
-	
+
        public List<GroupOfUser> getGroupsOfUser(Long userId){
            return userRepository.findOne(userId).getGroups();
        }
@@ -2111,7 +2111,7 @@ Emailを全て削除する場合、ユーザIDをキーにEmailオブジェク�
        @Column("ver")
        private int ver;
        @Column("last_updated_date")
-       private Date lastUpdatedDate;	
+       private Date lastUpdatedDate;
    }
 
 Service実装クラスからはGroupRepositoryを介してデータを取得し、返却するだけで良い。
@@ -2120,7 +2120,7 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getUsersByGroupId(Long groupId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2132,8 +2132,8 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<User> getUsersByGroupId(Long groupId) {
@@ -2163,7 +2163,7 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#getNotUsersByGroupId(Long groupId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2175,8 +2175,8 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public List<User> getNotUsersByGroupId(Long groupId) {
@@ -2187,7 +2187,7 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
            }
 		   return new ArrayList<User>(userMap.values());
 	    }
-        
+
 .. note:: UserRepository.findAllForMap()はユースケース「特定の郵便番号を持たないユーザ一覧を取得する」で作成したカスタムUserRepositoryクラスのメソッドである。
 
 
@@ -2202,7 +2202,7 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#addUserToGroup(Long userId, Long groupId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2214,8 +2214,8 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public Group addUserToGroup(Long userId, Long groupId) {
@@ -2239,7 +2239,7 @@ Service実装クラスからはGroupRepositoryを介してデータを取得し�
            userRepository.save(user);
            return groupRepository.save(group);
        }
-        
+
 
 .. _section6-X-X-X-usecase-implementation-patten1-delete-user-from-group-label:
 
@@ -2253,7 +2253,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteUserFromGroup(Long userId, Long groupId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2265,8 +2265,8 @@ Listデータからremove()すると実装が複雑化するので、除外し�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public Group deleteUserFromGroup(Long userId, Long groupId) {
@@ -2303,7 +2303,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteGroup(Long groupId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2315,8 +2315,8 @@ Listデータからremove()すると実装が複雑化するので、除外し�
 
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
+
+       // omit
 
        @Override
        public Group deleteGroup(Long groupId) {
@@ -2348,7 +2348,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
    :caption: org.debugroom.sample.cassandra.pattern1.domain.service.SampleServiceImpl#deleteUser(Long userId)
 
    package org.debugroom.sample.cassandra.pattern1.domain.service;
-   
+
    // omit other import statement.
 
    @Slf4j
@@ -2360,16 +2360,16 @@ Listデータからremove()すると実装が複雑化するので、除外し�
 
        @Autowired
        AddressRepository addressRepository;
-	
+
        @Autowired
        EmailRepository emailRepository;
-	
+
        @Autowired
        GroupRepository groupRepository;
-	
-       // omit 
 
-      
+       // omit
+
+
        @Override
        public User deleteUser(Long userId) {
            User deleteUser = userRepository.findOne(userId);
@@ -2462,7 +2462,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
        private Date lastUpdatedDate;
        @Transient
        private List<Group> groups;
-	
+
    }
 
 
@@ -2488,7 +2488,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
    @Data
    @Table("group")
    public class Group {
-	
+
        public Group(){
        }
 
@@ -2535,7 +2535,7 @@ Listデータからremove()すると実装が複雑化するので、除外し�
        private int ver;
 	   @Column("last_updated_date")
 	   private Date lastUpdatedDate;
-	
+
    }
 
 .. sourcecode:: java
@@ -2738,12 +2738,12 @@ Userテーブルのすべてのデータを検索する場合は、UserRepositor
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
        }
-	
+
 .. _section6-X-X-X-usecase-implementation-patten2-get-addresses-label:
 
 全ての住所を検索する
@@ -2763,7 +2763,7 @@ Addressクラスはユーザ定義クラスであり、Addressテーブルを定
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
@@ -2801,11 +2801,11 @@ Address同様、Emailクラスはユーザ定義クラスであり、Emailテー
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public List<Email> getEmails() {
@@ -2840,7 +2840,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        GroupRepository groupRepository;
-	
+
        @Override
        public List<Group> getGroups() {
            return (List<Group>) groupRepository.findAll();
@@ -2866,7 +2866,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User getUser(Long userId) {
            return userRepository.findOne(userId);
@@ -2893,7 +2893,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public Address getAddress(Long userId) {
            return userRepository.findOne(userId).getAddress();
@@ -2901,7 +2901,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
 .. _section6-X-X-X-usecase-implementation-patten2-get-email-label:
 
-特定のユーザがもつEmailアドレスを検索する	
+特定のユーザがもつEmailアドレスを検索する
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 前セクション「特定のユーザのアドレス」と同様、テーブルUserの中にユーザ定義クラスEmailをList形式で保持しているので、ユーザデータを取得して、Emailデータをそのまま返せば良い。
@@ -2918,7 +2918,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<Email> getEmails(Long userId) {
            return userRepository.findOne(userId).getEmails();
@@ -2964,7 +2964,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        GroupRepository groupRepository;
-	
+
        @Override
        public List<Group> getGroups(String groupName) {
            return groupRepository.findByGroupName(groupName);
@@ -2989,17 +2989,17 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public List<User> getUsers(String zipCd) {
            List<User> users = new ArrayList<User>();
            for(User user : getUsers()){
-               if(null != user.getAddress() 
+               if(null != user.getAddress()
                        && user.getAddress().getZipCd().equals(zipCd)){
                    users.add(user);
                }
@@ -3024,7 +3024,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
    public interface UserRepositoryCustom {
 
        public Map<String, List<User>> findAllForMappedListByZipCd();
-	
+
    }
 
 作成したインターフェースをUserRepositoryクラスに継承させる。
@@ -3070,7 +3070,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
        @Autowired
        @Qualifier("cassandraTemplate")
        CassandraOperations cassandraOperations;
-	
+
        @Override
        public Map<String, List<User>> findAllForMappedListByZipCd() {
            Select select = QueryBuilder.select().from("users");
@@ -3102,16 +3102,16 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
    import com.datastax.driver.core.UDTValue;
    import com.datastax.driver.core.exceptions.DriverException;
 
-   public class UserMappedListByZipCdExtractor implements 
+   public class UserMappedListByZipCdExtractor implements
                                     ResultSetExtractor<Map<String, List<User>>>{
 
        @Override
        @SuppressWarnings("unchecked")
-       public Map<String, List<User>> extractData(ResultSet resultSet) 
+       public Map<String, List<User>> extractData(ResultSet resultSet)
                                            throws DriverException, DataAccessException {
 
            Map<String, List<User>> mappedLists = new HashMap<String, List<User>>();
-		
+
            while(resultSet.iterator().hasNext()){
 
                Row row = resultSet.one();
@@ -3153,7 +3153,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
                                    .lastUpdatedDate(udtValue.getTimestamp("last_updated_date"))
                                    .build());
                }
-			
+
                for(UDTValue udtValue : (List<UDTValue>)row.getObject("credentials")){
                    credentials.add(Credential.builder()
                                              .credentialType(udtValue.getString("credential_type"))
@@ -3170,7 +3170,7 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
                    mappedLists.put(zipCd, users);
                }
                users.add(user);
-			
+
            }
            return mappedLists;
        }
@@ -3191,15 +3191,15 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public List<User> getUsers(String zipCd) {
-           Map<String, List<User>> usersMapByZipCd = 
+           Map<String, List<User>> usersMapByZipCd =
                                         userRepository.findAllForMappedListByZipCd();
        List<User> users = usersMapByZipCd.get(zipCd);
            return users;
@@ -3230,11 +3230,11 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public List<User> getNotUsers(String zipCd) {
@@ -3262,11 +3262,11 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public List<User> getNotUsers(String zipCd) {
@@ -3303,11 +3303,11 @@ Groupテーブルのすべてのデータを検索する場合は、GroupReposit
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public User addAddress(Long userId, String zipCd, String address) {
@@ -3377,11 +3377,11 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public User deleteAddress(Long userId) {
@@ -3412,11 +3412,11 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsers(){
            return (List<User>)userRepository.findAll();
-       }	
+       }
 
        @Override
        public User getUserByEmail(String email) {
@@ -3445,11 +3445,11 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
    import org.debugroom.sample.cassandra.pattern2.domain.entity.User;
 
    public interface UserRepositoryCustom {
-		
+
        //omit
 
        public Map<String, User> findAllForMappByEmail();
-	
+
    }
 
 上記の実装クラスは以下の通りである。また、cassandraOperation.query()メソッドの引数として指定する、ResultSetExtractorを継承して、メールアドレスをキーに、Map<String, User>型のユーザ一覧を返却するよう、UserMapByEmailExtractorを実装する。
@@ -3480,7 +3480,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
        @Autowired
        @Qualifier("cassandraTemplate")
        CassandraOperations cassandraOperations;
-	
+
        @Override
        public Map<String, User> findAllForMappByEmail() {
            Select select = QueryBuilder.select().from("users");
@@ -3515,11 +3515,11 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @SuppressWarnings("unchecked")
        @Override
-       public Map<String, User> extractData(ResultSet resultSet) 
+       public Map<String, User> extractData(ResultSet resultSet)
                                             throws DriverException, DataAccessException {
-		
+
            Map<String, User> mappedUser = new HashMap<String, User>();
-		
+
            while(resultSet.iterator().hasNext()){
 
                Row row = resultSet.one();
@@ -3555,7 +3555,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
                          .build());
                    mappedUser.put(email, user);
                }
-			
+
                for(UDTValue udtValue : (List<UDTValue>)row.getObject("credentials")){
                    credentials.add(Credential.builder()
                                              .credentialType(udtValue.getString("credential_type"))
@@ -3586,7 +3586,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User getUserByEmail(String email) {
            Map<String, User> usersMapByEmail = userRepository.findAllForMappByEmail();
@@ -3613,7 +3613,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User addEmail(Long userId, String email) {
            User user = userRepository.findOne(userId);
@@ -3645,7 +3645,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User addUserWithEmail(Long userId, String userName, String email) {
            List<Email> emails = new ArrayList<Email>();
@@ -3687,7 +3687,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User updateEmail(Long userId, String email, String newEmail) {
            User user = userRepository.findOne(userId);
@@ -3721,7 +3721,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User deleteEmail(Long userId, String email) {
            User user = userRepository.findOne(userId);
@@ -3755,7 +3755,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User deleteEmails(Long userId) {
            User user = userRepository.findOne(userId);
@@ -3801,7 +3801,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
        private int ver;
        @Column("last_updated_date")
        private Date lastUpdatedDate;
-	
+
    }
 
 .. sourcecode:: java
@@ -3828,7 +3828,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
        private static final long serialVersionUID = 6634695143792297552L;
 
        public AffiliationPK(){}
-       
+
        @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.CLUSTERED)
        private Long userId;
        @PrimaryKeyColumn(name = "group_id", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
@@ -3853,7 +3853,7 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
    import org.debugroom.sample.cassandra.pattern2.domain.entity.AffiliationPK;
 
    public interface AffiliationRepository extends CrudRepository<Affiliation, AffiliationPK>{
-	
+
        @Query("select * from affiliation where user_id =?0 allow filtering")
        public List<Affiliation> findByAffiliationpkUserId(Long userId);
 
@@ -3874,10 +3874,10 @@ Userテーブルのアドレスプロパティのデータを削除する。エ�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<Group> getGroups(Long userId) {
-           List<Affiliation> affiliations = 
+           List<Affiliation> affiliations =
                                    affiliationRepository.findByAffiliationpkUserId(userId);
            List<Long> groupIds = new ArrayList<Long>();
            for(Affiliation affiliation : affiliations){
@@ -3901,7 +3901,7 @@ IN句を使用したCQLの実行のために、以下の通り、GroupRepository
    // omit
 
        public List<Group> findByGroupIdIn(List<Long> groupIds);
-	
+
    }
 
 .. warning:: パーティションキーはデータをどのノードに配置するか決定するキーであるため、基本的には条件検索する場合、指定が必須である。ALLOW FILTERオプションを指定すると、クラスタカラムキーのみで検索が可能にはなるが、各ノードごとに全て問い合わせする必要があるため、著しくパフォーマンス低下する可能性があることに注意。
@@ -3921,7 +3921,7 @@ Map型でデータ返却するために、AffiliationRepositoryのカスタムRe
    public interface AffiliationRepositoryCustom {
 
        public Map<Long, List<Long>> findGroupIdsMapByUserId();
-	
+
    }
 
 カスタムインターフェースをAffiliationRepositoryに継承させる。
@@ -3996,11 +3996,11 @@ AffiliationMapByUserIdExtractorでは、ユーザIDをキーにして、所属�
    public class AffiliationMapByUserIdExtractor implements ResultSetExtractor<Map<Long, List<Long>>>{
 
        @Override
-       public Map<Long, List<Long>> extractData(ResultSet resultSet) 
+       public Map<Long, List<Long>> extractData(ResultSet resultSet)
                                         throws DriverException, DataAccessException {
-		
+
            Map<Long, List<Long>> groupIdsMap = new HashMap<Long, List<Long>>();
-		
+
            while(resultSet.iterator().hasNext()){
 			   Row row = resultSet.one();
                Long userId = row.getLong("user_id");
@@ -4030,7 +4030,7 @@ AffiliationMapByUserIdExtractorでは、ユーザIDをキーにして、所属�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<Group> getGroups(Long userId) {
            Map<Long, List<Long>> groupIdsMap = affiliationRepository.findGroupIdsMapByUserId();
@@ -4059,7 +4059,7 @@ AffiliationRepositoryクラスでは、Spring Dataのメソッド命名規約に
    // omit
 
    public interface AffiliationRepository extends CrudRepository<Affiliation, AffiliationPK>{
-	
+
        public List<Affiliation> findByAffiliationpkGroupId(Long groupId);
 
        //omit
@@ -4082,10 +4082,10 @@ AffiliationRepositoryクラスでは、Spring Dataのメソッド命名規約に
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getUsersByGroupId(Long groupId) {
-           List<Affiliation> affiliations = 
+           List<Affiliation> affiliations =
                affiliationRepository.findByAffiliationpkGroupId(groupId);
            List<Long> userIds = new ArrayList<Long>();
            for(Affiliation affiliation : affiliations){
@@ -4110,7 +4110,7 @@ IN句を使用したCQLの実行のために、以下の通り、UserRepository�
    import org.debugroom.sample.cassandra.pattern2.domain.entity.User;
 
    public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom{
-	
+
    // omit
 
        public List<User> findByUserIdIn(List<Long> userIds);
@@ -4137,10 +4137,10 @@ IN句を使用したCQLの実行のために、以下の通り、UserRepository�
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public List<User> getNotUsersByGroupId(Long groupId) {
-           List<Affiliation> affiliations = 
+           List<Affiliation> affiliations =
                                   affiliationRepository.findByAffiliationpkGroupId(groupId);
            Map<Long, User> userMap = userRepository.findAllForMap();
            for(Affiliation affiliation : affiliations){
@@ -4162,11 +4162,11 @@ IN句を使用したCQLの実行のために、以下の通り、UserRepository�
    import org.debugroom.sample.cassandra.pattern2.domain.entity.User;
 
    public interface UserRepositoryCustom {
-		
+
        //omit
 
        public Map<Long, User> findAllForMap();
-	
+
    }
 
 実装クラスは、以下の通り、UserMapExtractorクラスを指定してクエリ実行する。
@@ -4197,7 +4197,7 @@ IN句を使用したCQLの実行のために、以下の通り、UserRepository�
        @Autowired
        @Qualifier("cassandraTemplate")
        CassandraOperations cassandraOperations;
-	
+
        @Override
        public Map<Long, User> findAllForMap() {
            Select select = QueryBuilder.select().from("users");
@@ -4234,11 +4234,11 @@ UserMapExtractorクラスの実装は以下の通りである。
 
        @SuppressWarnings("unchecked")
        @Override
-       public Map<Long, User> extractData(ResultSet resultSet) 
+       public Map<Long, User> extractData(ResultSet resultSet)
                                    throws DriverException, DataAccessException {
-		
+
            Map<Long, User> userMap = new HashMap<Long, User>();
-		
+
            while(resultSet.iterator().hasNext()){
                Row row = resultSet.one();
                UDTValue address = row.getUDTValue("address");
@@ -4262,7 +4262,7 @@ UserMapExtractorクラスの実装は以下の通りである。
                                           .lastUpdatedDate(row.getTimestamp("last_updated_date"))
                                           .build());
                }
-			
+
                for(UDTValue udtValue : (List<UDTValue>)row.getObject("emails")){
                    emails.add(Email.builder()
                                    .email(udtValue.getString("email"))
@@ -4307,7 +4307,7 @@ UserMapExtractorクラスの実装は以下の通りである。
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public Group addUserToGroup(Long userId,  Long groupId) {
            Affiliation affiliation = Affiliation.builder()
@@ -4339,7 +4339,7 @@ UserMapExtractorクラスの実装は以下の通りである。
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public Group deleteUserFromGroup(Long userId, Long groupId) {
            Affiliation affiliation = affiliationRepository
@@ -4370,10 +4370,10 @@ UserMapExtractorクラスの実装は以下の通りである。
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public Group deleteGroup(Long groupId) {
-           List<Affiliation> affiliations = 
+           List<Affiliation> affiliations =
                                    affiliationRepository.findByAffiliationpkGroupId(groupId);
            for(Affiliation affiliation : affiliations){
                affiliationRepository.delete(affiliation);
@@ -4402,7 +4402,7 @@ UserMapExtractorクラスの実装は以下の通りである。
 
        @Autowired
        UserRepository userRepository;
-	
+
        @Override
        public User deleteUser(Long userId) {
            Map<Long, List<Long>> groupIdsMap = affiliationRepository.findGroupIdsMapByUserId();
@@ -4457,17 +4457,17 @@ Cassandraにおけるデータモデリングのポイント
      - 理由
 
    * - 1
-     - 1度のデータアクセスで関連エンティティの |br| 
-       情報も含めて(ユーザと住所など)取得したい場合は |br| 
+     - 1度のデータアクセスで関連エンティティの |br|
+       情報も含めて(ユーザと住所など)取得したい場合は |br|
        ユーザ定義型を使用する。
      - 結合の概念がないので、テーブル定義した単位で |br|
        データアクセスする必要があるため。
    * - 2
-     - あるテーブルに全件データアクセスする場合は |br| 
-       No1と併用するのであれば、非正規化が必要 
+     - あるテーブルに全件データアクセスする場合は |br|
+       No1と併用するのであれば、非正規化が必要
      - ユーザ定義型のデータには当然全件検索できないため
    * - 3
-     - プライマリキー以外を検索キーに指定する場合、|br| 
+     - プライマリキー以外を検索キーに指定する場合、|br|
        マテリアライズドビューを作成するか、 |br|
        セカンダリインデックスを作成するか、 |br|
        CQLにallow filteringオプションを付与する |br|
@@ -4522,6 +4522,3 @@ Cassandraにおけるデータモデリングのポイント
    #. テーブル定義
    #. インデックス定義
    #. 物理配置設計
-
-
-

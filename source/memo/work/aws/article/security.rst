@@ -49,25 +49,110 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 
 .. _section7-1-2-iam-create-user-label:
 
-IAMアカウントの作成
+IAMユーザ・グループの作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 アプリケーションからアクセスするためのユーザ、及びグループを作成し、AWS管理ポリシーを割り当てる。
 
-管理コンソールのIAMから、ユーザメニューから「ユーザの作成」を選択する。
+■管理コンソールのIAMから、ユーザを選び「ユーザの作成」を選択する。
 
 .. figure:: img/management-console-iam-create-user-1.png
    :scale: 100%
 
-ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。
+■ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。
 
 .. figure:: img/management-console-iam-create-user-2.png
       :scale: 100%
 
-新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。
+■新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。
 
 .. figure:: img/management-console-iam-create-group-1.png
       :scale: 100%
+
+
+.. _section7-1-3-iam-create-role-label:
+
+IAMロールの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+IAMロールは、アプリケーションでS3へのダイレクトアップロードを行う場合など、一時的にAWSリソースへアクセス権限を付与する場合に使用する。
+ここでは、S3へファイルの書き込みに対して、STS(Security Token Service)を利用することを想定した、IAMロールの設定を行う。
+
+■管理コンソールのIAMからロールを選び、「ロールの作成」ボタンを押下する。
+
+.. figure:: img/management-console-iam-create-role-1.png
+      :scale: 100%
+
+
+■アプリケーション用のユーザ(のみ)が、STSに対して、AssumreRoleリクエストが発行できるように、「別のAWSアカウント」を選択し、アプリケーション用のユーザを作成したアカウントIDを入力する。
+
+.. figure:: img/management-console-iam-create-role-2.png
+      :scale: 100%
+
+
+.. warning:: AWSサービス(EC2等)に対してロールを割り当ててしまうと、アプリケーションの実装を知っていれば、第３者でもアクセスできてしまうため、アプリケーションのユーザのみがAssumeRoleリクエストを発行できるように設定する。
+
+.. note:: アプリケーションユーザの割り当ては後ほど行うため、ここでは、アプリケーション用のIAMユーザを作成したアカウントだけ設定する。
+
+■S3への書き込みが行えるポリシーを作成する。新規ポリシーの作成を選択し、以下の通り、S3のバケットオブジェクトへPutObject権限を割り当てる。
+
+.. figure:: img/management-console-iam-create-policy-1.png
+   :scale: 100%
+
+
+* サービス：S3
+* アクション：PutObjectを設定
+* リソース：書き込み用のバケット名とオブジェクト名(フォルダ名+ワイルドカード)を指定。
+* リクエスト条件：ここでは特に設定しない
+
+
+.. figure:: img/management-console-iam-create-policy-2.png
+   :scale: 100%
+
+
+■「ReviewPolicy」を押下し、ポリシー名を入力して、「CreatePolicy」でポリシーを作成する。
+
+
+.. figure:: img/management-console-iam-create-policy-3.png
+   :scale: 100%
+
+
+
+■作成したポリシーをロールに対して割り当て、ロール名を入力し、ロールを作成する。
+
+
+.. figure:: img/management-console-iam-create-role-3.png
+   :scale: 100%
+
+
+■ロールを作成したのち、信頼関係タブで、「信頼関係の編集」を押下する。
+
+.. figure:: img/management-console-iam-create-role-4.png
+   :scale: 100%
+
+
+■PrincipalのAWS属性を以下の通り書き換える。
+
+"arn:aws:iam::<アカウント>:user:<アプリケーション用のIAMユーザ>"
+
+.. figure:: img/management-console-iam-create-role-5.png
+   :scale: 100%
+
+.. note:: アプリケーションからSTSを利用する場合、アカウントIDを含むロールARNを取得する必要があるが、アプリケーションのセキュリティ対策上の問題で、アプリケーション内で定義したロール名からARNを取得したい場合(アカウントIDなどをプロパティに定義したくない場合)、AssumeRequestするユーザがロール情報を取得できるよう、以下のようなポリシーをユーザにアタッチしておく必要がある。
+
+   .. sourcecode:: javascript
+
+      {
+        "Version": "2012-10-17",
+        "Statement": [{
+          "Effect": "Allow",
+          "Action": [
+            "iam:GetRole",
+            "iam:PassRole"
+          ],
+          "Resource": "arn:aws:iam::<account-id>:role/XX-*"
+        }]
+      }
 
 .. _section7-2-acm-label:
 
@@ -101,7 +186,7 @@ SSL証明書には、
 証明書のリクエスト
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. 証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、*.debugroom.orgを入力。
+1. 証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、¥*.debugroom.orgを入力。
 
 .. figure:: img/management-console-acm-request-certification-1.png
       :scale: 100%

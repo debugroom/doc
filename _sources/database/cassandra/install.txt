@@ -1,6 +1,6 @@
-.. include:: ../../../module.txt
+.. include:: ../../module.txt
 
-.. _section1-install-cassandra-label:
+.. _section0-install-cassandra-label:
 
 Cassandraのインストール
 ====================================
@@ -8,7 +8,7 @@ Cassandraのインストール
 
 以下のページを参考。Homebrewのインストールは、Cassandraのページのインストールコマンドがリンク切れだったのでHomebrew本家のインストールコマンドを使用した。
 
-* `Installing Cassandra on Mac OS X <https://gist.github.com/hkhamm/a9a2b45dd749e5d3b3ae>`_ 
+* `Installing Cassandra on Mac OS X <https://gist.github.com/hkhamm/a9a2b45dd749e5d3b3ae>`_
 * `Homebrew <http://brew.sh>`_
 
 * Homebrewをインストール
@@ -33,7 +33,7 @@ Cassandraのインストール
 
    sudo pip install cql
 
-  
+
 * Cassandraのインストール
 
 .. sourcecode:: sh
@@ -67,11 +67,7 @@ Cassandraのインストール
 .. note::
 
    設定ファイルは以下を参照すること。`DATASTAXのパッケージインストールディレクトリ <http://docs.datastax.com/ja/cassandra-jajp/3.0/cassandra/install/referenceInstallLocatePkg.html>`_ も参考にすること。
-   
+
    * Properties: /usr/local/etc/cassandra
    * Logs: /usr/local/var/log/cassandra
    * Data: /usr/local/var/lib/cassandra/data
-
-
-
-

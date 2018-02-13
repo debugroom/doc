@@ -198,15 +198,6 @@ EC2コンソールから、メニュー「ターゲットグループ」を選�
 .. figure:: img/management-console-application-load-balancing-setting-9.png
    :scale: 100%
 
-
-
-
-.. figure:: img/management-console-application-load-balancing-setting-5.png
-   :scale: 100%
-
-
-
-
 .. _section3-4-route53-label:
 
 Route53
