@@ -13,7 +13,7 @@ Region and available zone
 Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。各エリアのデータセンターとコード名は以下の通りである。
 
 .. list-table:: AWSのリージョン
-   :widths: 3, 3, 4 
+   :widths: 3, 3, 4
 
    * - 地域
      - 設置都市
@@ -80,7 +80,7 @@ AWSでサービスを提供されているサービスは以下の通りであ�
 
 .. list-table:: AWSの提供するサービス
    :widths: 20, 30, 50　
-   :header-rows: 1 
+   :header-rows: 1
 
    * - カテゴリ
      - サービス名
@@ -297,3 +297,31 @@ Management consoleは、Amazon web serviceを管理するためのWebアプリ�
 .. figure:: img/management-console-biling-dashboad.png
    :scale: 100%
 
+.. _section1-4-overview-arn-label:
+
+Amazon Resource Name(ARN)
+------------------------------------------------------
+
+Amazon Resource Name(ARN)は、AWSのリソースを一意に識別するために使用するキーである。フォーマットは、
+
+arn:partition:service:region:account-id:resource
+
+で表される。
+
+.. list-table:: ARN
+   :widths: 20, 80
+   :header-rows: 1
+
+   * - 識別子
+     - 概要
+
+   * - partition
+     - リソースが存在するパーティション。標準的なAWSリージョンのパーティションは"aws"となり、他のパーティションにリソースがある場合のパーティションは"aws-partitionname"である。
+   * - service
+     - AWSの製品を識別するサービスの名前空間
+   * - region
+     - リソースが存在するリージョン
+   * - account-id
+     - リソースを保有しているAWSアカウントのハイフンなしのID
+   * - resource
+     - リソースのキー
