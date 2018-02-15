@@ -2,7 +2,7 @@
 
 .. _section8-operation-label:
 
-AWSでの運用オペレーション
+Operation on AWS
 ======================================================
 
 .. _section8-1-snapshot-label:

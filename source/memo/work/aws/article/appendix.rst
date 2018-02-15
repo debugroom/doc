@@ -1,11 +1,11 @@
 .. include:: ../module.txt
 
-.. _section8-appendix-label:
+.. _section9-appendix-label:
 
 Appendix - 付録
 ======================================================
 
-.. _section6-1-setting-credential-label:
+.. _section9-1-setting-credential-label:
 
 SDK使用時の認証情報の設定
 ------------------------------------------------------
@@ -21,11 +21,3 @@ AWSのSDKを用いた開発では、開発端末に以下のとおり、アカ�
    * - デフォルトリージョン
      - ~/.aws/config
      - region=us-east-1
-
-awsstudent
-3JZRLVY6Csz
-073612854886
-AKIAJ22DVGARLRR77UDA
-ucKWKf+bxrUtbPUR92J211dv34SoNKYse8cBIRZ0
-
-54.250.2.75
