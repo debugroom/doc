@@ -154,6 +154,9 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
         }]
       }
 
+.. note:: Policyは、未記入 < ALLOW < DENYの順で優先される。
+
+
 .. _section7-2-acm-label:
 
 AWS Certificate Manager
@@ -220,3 +223,40 @@ SSL証明書には、
 
 .. figure:: img/management-console-acm-request-certification-7.png
       :scale: 100%
+
+.. _section7-3-cognito-label:
+
+Amazon Cognito
+------------------------------------------------------
+
+.. _section7-3-1-cognito-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Amazon CognitoはモバイルID管理とデバイス間のデータ同期を提供するサービスである。
+バックエンドコードを記述したりすることなく、アプリケーションの設定や状態をモバイル⇔クラウド上で同期できる。
+
+アプリケーションでCognitoを作成する場合は、IDプールを作成する必要がある。IDプールとはアカウント固有のユーザIDデータが保存される場所である。
+
+.. _section7-3-1-cognito-create-idpool-label:
+
+IDプールの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。
+
+.. figure:: img/management-console-cognito-create-idpool-1.png
+      :scale: 100%
+
+■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。
+
+.. figure:: img/management-console-cognito-create-idpool-2.png
+      :scale: 100%
+
+■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。
+
+.. figure:: img/management-console-cognito-create-idpool-3.png
+      :scale: 100%
+
+.. todo:: Cognitoの使用方法を整理し記述
