@@ -204,22 +204,37 @@ request-responseモデルは、Amazon Lambdaがファンクションを同期的
    * デバッグ用のシステムコールは制限される
    * TCP25ポートはトラフィックが制限される(スパム対策)
 
-.. _section7-4-2-lambda-deploy-label:
+.. _section7-4-3-lambda-deploy-label:
 
-コードのデプロイ
+コードの作成・デプロイ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Lambdaファンクションを、Javaでコードを作成する場合、com.amazonaws.services.lambda.runtime.RequestHandlerを継承したクラスで、ハンドラメソッドを実装する必要がある。
+AWSコンソール上から登録することでデプロイする。イベントのトリガーは、後述するAPI Gatewayからのリクエスト要求や、S3のバケットに対する変更等、同様にAWSコンソール上から設定する。
+ここでは、単純な例として、API Gateway経由でLambdaファンクションを実行し、結果を返すコードの実装例を記述する。
+
+なお、コードの作成には、Spring Cloud Functionを利用する。プロジェクトの作成・ビルドの方法や実装したコードの詳細は `こちら <section1-spring-cloud-function-introduction-label:>`_ を を参照すること。
 Lambdaファンクションをデプロイするには、以下の３つの方法がある。
 
 * AWSコンソール上のインラインエディタで編集
 * コードと依存関係をZIPファイルへ圧縮し(Lambdaデプロイパッケージ)、アップロード
 * LambdaデプロイパッケージをS3にアップロード
 
+ここでは、上記のリンクを通り、MavenプロジェクトからビルドしたJARファイルをアップロードし、デプロイする。
+
+
+
 .. note:: アップロードしたコードは一意のARNをもち、バージョニングされる。また、ファンクションのエイリアスを作成できる。
+
+
+org.springframework.cloud.function.adapter.aws.SpringBootApiGatewayRequestHandler::handleRequest
+org.debugroom.sample.spring.cloud.function.Handler::handleRequest
+org.debugroom.sample.spring.cloud.function.S3EventHanlder::handleRequest
 
 .. _section7-4-3-api-gateway-label:
 
-API gateway
+API gatewayorg.debugroom.sample.spring.cloud.function.Handler::handleRequest
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 API GatewayはAPIを作成、公開、メンテナンス、モニタリングするマネージドサービスである。サービスのRESTfulエンドポイントを作成し、Amazon Lambdaのファンクションと紐づける。
