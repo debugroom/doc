@@ -20,7 +20,7 @@ Elastic Compute Cloud(EC2)は仮想サーバサービスである。それぞれ
 CPUやメモリ、ストレージといったリソースキャパシティを定義したものをインスタンスタイプと呼ぶ。インスタンスタイプはAmazonのインスタンス選択の `ガイドライン <https://aws.amazon.com/jp/ec2/instance-types/>`_ に沿って、選択するとよい。インスタンスタイプにはカテゴリがあり、それぞれ以下のようなアプリケーション特性に従い、インスタンスタイプを選択する。
 
 .. list-table:: インスタンスタイプ
-   :widths: 2, 3, 5 
+   :widths: 2, 3, 5
 
    * - インスタンスタイプ
      - 種別
@@ -41,44 +41,73 @@ CPUやメモリ、ストレージといったリソースキャパシティを�
    * - C4
      - コンピューティング最適化
      - C3と同様のハイパフォーマンス型だが、 |br| 最新世代インスタンスを利用。
+   * - F1
+     - コンピューティング最適化
+     - FPGA(フィールドプログラマブルゲートアレイ)を |br| 搭載したインスタンス。
    * - X1
      - メモリ最適化
      - RAM1GiBの料金が最も低コスト。インメモリ |br| データベース、ビッグデータ処理エンジン、 |br| ハイパフォーマンスコンピューティング(HPC)
    * - R3
      - メモリ最適化
      - RAM1GiBの料金が安価。ハイパフォーマンス |br| データベース。分散型メモリキャッシュ、 |br| インメモリ分析、その他エンタープライズ |br| アプリケーション
+   * - R4
+     - メモリ最適化
+     - R3と同様、大量のメモリを使用するアプリケーション向け |br| 最新世代インスタンス。
    * - G2
      - GPU最適化
      - グラフィック向け。3Dアプリケーション |br| ストリーミング、 機械学習、|br| 動画エンコーディング
    * - I2
      - ストレージ最適化
      - 高速ランダムIOパフォーマンス最適化。 |br| NoSQLデータベース、トランザクションデータベース |br| データウェアハウス、Hadoop |br| クラスターファイルシステム
+   * - I3
+     - ストレージ最適化
+     - I2と同様のストレージアクセス最適化 |br| 最新世代インスタンス。
    * - D2
      - ストレージ最適化
      - 最も低コストでディスクを提供。超並列処理 |br| (MPP)、データウェアハウス、 |br| MapReduceとHadoop分散処理、 |br| 分散ファイルシステム
 
-ストレージはEC2にアタッチされるElastic Block Store(EBS)というブロックレベルのストレージボリュームで、以下の通り3種類を選択できる。
+.. note:: インスタンスタイプの数字は世代を表す。世代ごとにCPUなどのハードが異なり、数字が高いほど最新である。価格は必ずしも世代が新しいからといって高くはないので、検討のうえ世代を選択すること。
+
+.. note:: EC2のインスタンスタイプを変更すると、ハイパーバイザを実行している物理ホストを変更することになり、EC2の停止が必要になる。
+
+
+
+ストレージはEC2にアタッチされるElastic Block Store(EBS)というブロックレベルのストレージボリュームで、以下の通り4種類を選択できる。
 
 .. list-table:: EBSの種類
-   :widths: 3, 2, 2, 3 
+   :widths: 3, 2, 2, 3, 4
 
    * - 種類
+     - 最大ボリュームサイズ
      - 費用
-     - IOPS
-     - 用途
+     - IOPS・スループット
+     - 推奨用途
 
    * - マグネティックボリューム
+     - 16TiB
      - 安い
-     - 低
-     - アクセス頻度が低いシステム
-   * - 汎用ボリューム
+     - ー
+     - アクセス頻度が低いシステム |br| 下位互換のためで基本使用しない
+   * - 汎用SSD
+     - 16TiB
      - 普通
-     - 中
-     - 汎用
+     - 10000, 160MiB/s
+     - 汎用インスタンス用ボリューム
    * - プロビジョンドIOPSボリューム
-     - 高い
+     - 16TiB
      - 高
-     - アクセス頻度が高いシステム
+     - 20000, 320MiB/s
+     - ランダムなデータのアクセス頻度が高い |br| システム。RDB等。
+   * - スループット最適化HDD
+     - 16TiB
+     - 安い
+     - 500, 500MiB/s
+     - 連続した大量データのシステム
+   * - コールドHDD
+     - 16TiB
+     - 安い
+     - 250, 250MiB/s
+     - アクセス頻度の低い大量データのシステム
 
 購入オプションは、
 
@@ -121,12 +150,12 @@ EC2インスタンスの設定
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-3.png
    :scale: 100%
-     
+
 ■ショッピングカートで購入するを押下すると、購入したインスタンスのステータスが一覧化して表示される。
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-4.png
    :scale: 100%
-     
+
 .. _section3-1-2-X-ec2-create-instance-label:
 
 インスタンスの作成
@@ -137,23 +166,23 @@ EC2インスタンスの設定
 
 .. figure:: img/management-console-ec2-create-instance-1.png
    :scale: 100%
-     
+
 
 ■マシンイメージを選択する。リザーブドインスタンスで購入しているのであれば、無料のAMIが表示される。
 
 .. figure:: img/management-console-ec2-create-instance-2.png
    :scale: 100%
-     
+
 ■インスタンスタイプを選択する。リザーブドインスタンスで購入しているのであれば、無料枠のインスタンスタイプが表示される。
 
 .. figure:: img/management-console-ec2-create-instance-3.png
    :scale: 100%
-     
+
 ■インスタンスの起動オプションを設定する。ここではデフォルトで設定。
 
 .. figure:: img/management-console-ec2-create-instance-4.png
    :scale: 100%
-     
+
 ■インスタンスにアタッチするストレージのオプションを選択する。
 
 .. figure:: img/management-console-ec2-create-instance-5.png
@@ -165,32 +194,33 @@ EC2インスタンスの設定
    :scale: 100%
 
 ■セキュリティグループの設定を行う。ここでは新規にセキュリティグループを作成する。
-     
+
 .. figure:: img/management-console-ec2-create-instance-7.png
    :scale: 100%
 
 .. note:: 後述するSSH接続のために、セキュリティグループのインバウンドルールにSSH（送信元：0.0.0.0/0）が設定しておくこと。
 
 ■設定したインスタンスオプションの内容を確認し、"作成"ボタンを押下する。
-     
+
 .. figure:: img/management-console-ec2-create-instance-8.png
    :scale: 100%
 
 ■新規でキーペアを作成する場合、サーバへ接続するためのキーペアとなるpemファイルをダウンロードしておく。
-     
+
 .. figure:: img/management-console-ec2-create-instance-9.png
    :scale: 100%
-     
+
 ■作成ボタンを押下すると、インスタンスが作成される。実行中のステータスになるまで少々待つ。
 
 .. figure:: img/management-console-ec2-create-instance-10.png
    :scale: 100%
-     
+
 ◇インスタンスが実行中になると、以下の通り、起動中のインスタンスの情報が一覧化できる。
 
 .. figure:: img/management-console-ec2-create-instance-11.png
    :scale: 100%
-     
+
+.. note:: インスタンスを指定する際にマルチアベイラブルゾーン構成にしたい場合は、異なるアベライブルゾーンで作成したサブネットを指定してインスタンス起動すること。
 
 .. _section3-1-2-X-ec2-ssh-connect-instance-label:
 
@@ -212,8 +242,8 @@ EC2インスタンスへのSSH接続
    ssh -i /Users/username/.ssh/キー名.pem ec2-user@ec2-XX-XXX-XXX-XX.compute-1.amazonaws.com
 
 
-.. note:: 
-   
+.. note::
+
    * DNSはインスタンス情報の「パブリックDNS」を参照
    * Amazon Linuxインスタンスにおけるユーザ名はデフォルトでec2-user
    * 鍵の指定を絶対パスですること。相対パスや「~/.ssh/」などで指定するとErrorになる
