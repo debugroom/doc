@@ -54,7 +54,34 @@ CloudConfigはAWSのリソースの設定の履歴、変更通知利用できる
 * リソース変更通知
 * リソースの関連性
 
-.. _section9-4-cost-report-label:
+.. _section9-5-cloud-formation-label:
+
+CloudFormation
+------------------------------------------------------
+
+CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
+
+.. todo:: CloudFormationのテンプレート記述要領について記述。
+
+.. _section9-6-elastic-beanstalk-label:
+
+Elastic Beanstalk
+------------------------------------------------------
+
+Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。
+
+.. todo:: Elastic Beanstalkについて詳述。
+
+.. _section9-7-cost-report-label:
 
 請求レポート
 ------------------------------------------------------
+
+.. todo:: 請求レポートについて詳述。
+
+.. _section9-8-trusted-advisor-label:
+
+Trusted Advisor
+------------------------------------------------------
+
+.. todo:: Trusted Advisorについて記述。

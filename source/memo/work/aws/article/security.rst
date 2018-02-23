@@ -260,3 +260,56 @@ IDプールの作成
       :scale: 100%
 
 .. todo:: Cognitoの使用方法を整理し記述
+
+.. _section7-4-sts-label:
+
+Amazon STS
+------------------------------------------------------
+
+.. _section7-4-1-sts-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: STSについて整理し記述
+
+.. note:: フェデレーテッドユーザとは、特定の認証を完了した認証済みのユーザを指す。
+
+.. _section7-X-other-label:
+
+AWSのセキュリティ対策
+------------------------------------------------------
+
+.. _section7-3-1-ddos-attack-label:
+
+DDos対策
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+DDosを緩和する場合は
+
+CloudFrontエッジロケーション > ロードバランサ > WAF > Webアプリケーション
+
+といった形でシステム構成を行っておく。
+
+
+.. _section7-3-2-security-inspector-label:
+
+Security Inspector
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Security InspetorはAWSにデプロイされたアプリケーションのセキュリティ評価サービスである。
+
+.. todo:: Security Inspectorについて記述。
+
+
+
+.. _section7-3-3-key-management-service-label:
+
+AWS Key Management Service(KMS)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AWS Key Management Serviceとは、データを暗号化するキーのマネージド暗号化サービス
+
+.. todo:: KMSについて記述。
+
+.. note:: AWS CloudHSMと類似するサービスであるが、KMSはマスターとなるキー自体を生成するのに対し、CloudHSMはキーを保管しておくだけのサービスである。

@@ -10,8 +10,13 @@ Application Category
 Amazon Simple Notification Service(SNS)
 ------------------------------------------------------
 
+.. _section7-1-1-sns-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Amazon Simple Notification ServiceはPublish/Subscribe型のメッセージ配信サービスである。
-発行者(Publisher)は、複数の購読者(Subscriver：WebServer, Mail, Amazon SQS, Amazon Lamda)へ非同期メッセージ送信する。
+発行者(Publisher)は、複数の購読者(Subscriber：WebServer, Mail, Amazon SQS, Amazon Lamda)へ非同期メッセージ送信する。
 
 SNSは以下のような特徴をもつ。
 
@@ -29,13 +34,48 @@ SNSは以下のような特徴をもつ。
      - 概要
 
    * - CreateTopic
-     - 通知の公開先トピックを作成する。
-   * - Subscrive
-     - エンドポイントに登録確認メッセージを送信して、 |br| エンドポイントを受信(Subscrive)登録する。
+     - 通知の公開先トピック(受け口・発信元の定義)を作成する。
+   * - Subscribe
+     - エンドポイントに登録確認メッセージを送信して、 |br| エンドポイントを受信(Subscribe)登録する。
    * - DeleteTopic
      - トピックとその登録サブスクリプションをすべて削除する。
    * - Publish
      - トピックを受信登録しているエンドポイントにメッセージを送信する。
+
+.. _section7-1-2-sns-overview-label:
+
+SNS Topicの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■AWSコンソールからSNSを選択する。
+
+.. figure:: img/management-console-sns-create-topic-1.png
+   :scale: 100%
+
+■トピックメニューを選択し、「新しくトピックを作成」をクリックする。
+
+.. figure:: img/management-console-sns-create-topic-2.png
+   :scale: 100%
+
+■トピック名を作成し、「トピックの作成」をクリックする。トピックが作成される。
+
+.. figure:: img/management-console-sns-create-topic-3.png
+   :scale: 100%
+
+.. figure:: img/management-console-sns-create-topic-4.png
+   :scale: 100%
+
+ここでは、AutoScaleした際にイベント通知をSNSを行う場合の例を説明する。
+
+■EC2サービスでAutoScaleグループメニューを選択し、「通知」タブの「通知の作成」をクリックする。
+
+.. figure:: img/management-console-sns-create-topic-5.png
+   :scale: 100%
+
+■上記で作成したトピックが選択されるので、イベントを追加し、保存を押下する。これによりAutoScaleでEC2インスタンスが起動すると、SNSトピックにメッセージが送信されるようになる。
+
+.. figure:: img/management-console-sns-create-topic-6.png
+   :scale: 100%
 
 
 .. _section7-2-sqs-label:
@@ -43,12 +83,20 @@ SNSは以下のような特徴をもつ。
 Amazon Simple Queue Service(SQS)
 ------------------------------------------------------
 
-Amazon Simple Queue Serviceは分散型キュー配信方式のメッセージサービスである。複数のサーバに複数のメッセージのコピーを保存して信頼性を確保しながら最低一度の配信を保証する。
+.. _section7-2-1-sqs-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Amazon Simple Queue Service(SQS)は完全マネージド分散型キュー配信方式のメッセージサービスである。
+複数のサーバに複数のメッセージのコピーを保存して信頼性を確保しながら最低一度の配信を保証する。
 大容量のデータを高スループットで転送可能であり、メッセージ送信の信頼性が高く、各コンポーネントを疎結合にできる。
 
-キューは以下のようなURLフォーマット、メッセージID、受信ハンドル(ReceiptHandle)で識別される。キューは専用のAPIにより、以下のような操作が可能である。
+キューは以下のようなURLフォーマット、メッセージID、受信ハンドル(ReceiptHandle)で識別される。
 
 > http://sqs.<region>.amazonaws.com/<accout-id>
+
+キューは専用のAPIにより、以下のような操作が可能である。
 
 .. list-table:: キューの操作
    :widths: 20, 80
@@ -89,6 +137,53 @@ Amazon Simple Queue Serviceは分散型キュー配信方式のメッセージ�
      - 特定のアプリケーションコンポーネントからキューがメッセージを取得した後、 |br| その他からメッセージが不可視となる時間。
 
 .. note:: SQSではメッセージの処理順序でシーケンス性が保証されないので注意。メッセージ順序を保証する場合はFIFOキュー(2018年2月現在、東京リージョンでは未対応)の利用を検討する。
+
+.. note:: SQSには可視性タイムアウト(Visibility Timeout)機能があり、あるキューが処理中に異常処理した場合に、別のノードでキューを処理するためにキューをロックした状態で残しておくが、
+   可視性タイムアウトはそのロック時間を指す。ロックをかけるのは、複数のノードが同じキューを処理することをさけるためである。
+   また、デッドレターキューとして、処理できなかったキューを除外することもできる。
+
+.. note:: SQSのサービスはS3と同じく、リージョン単位で提供されるサービスである。
+
+.. _section7-2-1-sqs-create-queue-label:
+
+キューの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■コンソールからSQSを選択し、「今すぐ始める」をクリックする。
+
+.. figure:: img/management-console-sqs-create-queue-1.png
+   :scale: 100%
+
+■キューに名称、キューの属性を設定し、キューの作成を押下する。
+
+.. figure:: img/management-console-sqs-create-queue-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-sqs-create-queue-3.png
+   :scale: 100%
+
+■キューが登録される。
+
+.. figure:: img/management-console-sqs-create-queue-4.png
+   :scale: 100%
+
+.. _section7-2-2-sqs-subscribe-sns-label:
+
+SNSトピックからの通知を購読するキューの設定
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+SNSトピックから通知されたイベントを受け取りキューをメッセージングする設定を行う。
+
+■作成したSQSキューを選択し、「キュー操作」>「SNSトピックへのキューサブスクライブ」を選択する。
+
+.. figure:: img/management-console-sqs-subscribe-sns-1.png
+   :scale: 100%
+
+■ 購読する対象のSNSトピックを選択する。
+
+.. figure:: img/management-console-sqs-subscribe-sns-2.png
+   :scale: 100%
+
 
 .. _section7-3-kinesis-stream-label:
 
@@ -178,9 +273,9 @@ Amazon Lamda
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 Amazon Lamdaはユーザのコードを実行し、同時に基盤となるコンピューティングリソースをユーザに代わって管理するコンピューティングサービス。
-S3バケットに対する変更やDynamoテーブルの更新、アプリケーションやデバイスによって生成されたカスタムイベントなどに応答してコードを実行可能である。
+S3バケットに対する変更やDynamoテーブルの更新などのAWSリソースに対するイベント、
+アプリケーションやデバイスによって生成されたカスタムイベントなどに応答してコードを実行可能である。
 
 Lambdaではファンクションという単位でソースコードを作成し、以下の方法でファンクションを呼び出す。
 
@@ -188,8 +283,10 @@ Lambdaではファンクションという単位でソースコードを作成�
 * プルイベントモデル
 * 相互呼び出し(request-response)モデル
 
-プッシュイベントモデルでは、定義したイベントソース(AmazonS3, AmazonSNS, Amazon Cognito, Amazon Echo等)で発生したイベントをトリガーとしてファンクションを実行する。
-プルイベントモデルでは、Lambdaがイベントソースをポーリングし、イベント検出時にファンクションを呼び出す。これらのモデルはAmazon kinesis streamやAmazon Dynamo streamなどに適用される。
+プッシュイベントモデルでは、定義したイベントソース(AmazonS3, AmazonSNS, Amazon Cognito, Amazon Echo等)で発生したイベントを
+トリガーとしてファンクションを実行する。
+プルイベントモデルでは、Lambdaがイベントソースをポーリングし、イベント検出時にファンクションを呼び出す。
+これらのモデルはAmazon kinesis streamやAmazon Dynamo streamなどに適用される。
 request-responseモデルは、Amazon Lambdaがファンクションを同期的に実行し、即座に応答を返す方式である。
 
 .. note:: Lambdaファンクションの所有者は関数の実行権限および関連するリソースにアクセスする権限をアクセスポリシーとして付与する必要がある。
