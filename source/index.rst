@@ -12,8 +12,10 @@ Contents:
    :maxdepth: 3
 
    java/jBatch/index.rst
-   java/spring/springboot/index.rst
-   java/spring/springdatajpa/index.rst
+   java/spring/spring-boot/index.rst
+   java/spring/spring-data-jpa/index.rst
+   java/spring/spring-cloud-aws/index.rst
+   java/spring/spring-cloud-function/index.rst
    database/cassandra/index.rst
    memo/work/index.rst
 
@@ -23,4 +25,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

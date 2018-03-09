@@ -69,9 +69,12 @@ DynamoDBもその他のAWSサービスと同様、従量課金制で、基準は
 DynamoDBの設定では、テーブルごとに目標とする書き込みと読み込みのリクエストスループットを、キャパシティーユニットとして、以下のいずれか指定する。
 
 * 読み込みキャパシティーユニット
+
   #. 最大4KBのデータを上限に、強い整合性のある読み込みを１秒あたり１回
   #. 最大4KBのデータを上限に、結果整合性のある読み込みを１秒あたり２回
+  
 * 書き込みキャパシティーユニット
+
   #. 最大1KBのデータを上限に、書き込みを１秒あたり１回
 
 DynamoDBは指定されたリクエストスループットに基づいて、自動的に必要なコンピュータリソースを確保する。
@@ -86,12 +89,12 @@ DynamoDBの作成
 
 ■AWSコンソールからDynamodbを選択し、「テーブルの作成」を押下する。
 
-.. figure:: img/management-console-create-dynamodb-1.png
+.. figure:: img/management-console-dynamodb-create-1.png
       :scale: 100%
 
 ■テーブル名、プライマリーキー等入力し、「作成」ボタンを押下する。
 
-.. figure:: img/management-console-create-dynamodb-2.png
+.. figure:: img/management-console-dynamodb-create-2.png
       :scale: 100%
 
 .. _section6-4-redshift-label:

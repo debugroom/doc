@@ -143,21 +143,21 @@ CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy
 .. figure:: img/management-console-s3-setting-cors-1.png
    :scale: 100%
 
-   .. warning:: S3ではオブジェクトにアクセスするURLを２種類サポートしている。
+.. warning:: S3ではオブジェクトにアクセスするURLを２種類サポートしている。
 
-      .. list-table:: S3のサポートするURLの形式
-         :widths: 20, 80
-         :header-rows: 1
+   .. list-table:: S3のサポートするURLの形式
+      :widths: 20, 80
+      :header-rows: 1
 
-         * - サポートする形式
-           - 構造
+      * - サポートする形式
+        - 構造
 
-         * - パス形式
-           - http://<リージョン固有のエンドポイント>/<バケット名>/<オブジェクト名>
-         * - 仮想ホスト形式のURL
-           - http://<バケット名>.s3.amazonawscom/<オブジェクトキー>
+      * - パス形式
+        - http://<リージョン固有のエンドポイント>/<バケット名>/<オブジェクト名>
+      * - 仮想ホスト形式のURL
+        - http://<バケット名>.s3.amazonawscom/<オブジェクトキー>
 
-      Webページ内にCORSした、バケット内に保存した静的リソース(HTMLやJavaScript)で、更にバケット内のリソースを取得しようとすると、パス形式のURLが使われることにより、クロスドメイン制約に引っかかりエラーとなる場合があるので注意。
+   Webページ内にCORSした、バケット内に保存した静的リソース(HTMLやJavaScript)で、更にバケット内のリソースを取得しようとすると、パス形式のURLが使われることにより、クロスドメイン制約に引っかかりエラーとなる場合があるので注意。
 
 .. _section5-1-4-s3-operation-label:
 
@@ -178,9 +178,9 @@ S3オブジェクトは、以下のような操作がサポートされている
    * - List Key
      - プレフィックスと区切り記号でオブジェクトキーを一覧表示する。
    * - PUT
-     -
+     - オブジェクトのアップロード及び更新を行う。
    * - DELETE
-     -
+     - オブジェクトの削除を行う。
 
 .. warning:: オブジェクトキーの一覧は、内部的には最大１０００件の取得となるので大量データの取得には注意すること。
 

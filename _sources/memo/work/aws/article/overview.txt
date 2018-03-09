@@ -10,10 +10,12 @@ Overview
 Region and available zone
 ------------------------------------------------------
 
-Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。各エリアのデータセンターとコード名は以下の通りである。
+Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。
+2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。
+各エリアのデータセンターとコード名は以下の通りである。
 
 .. list-table:: AWSのリージョン
-   :widths: 3, 3, 4 
+   :widths: 3, 3, 4
 
    * - 地域
      - 設置都市
@@ -71,6 +73,16 @@ Amazon Web Services（以下AWS）は、Amazon.comにより提供されている
      - シドニー
      - ``ap-southeast-2``
 
+各リージョンは複数のアベイラビリティゾーンで構成されており、各アベイラビリティゾーンは専用線で結ばれており、高速なデータ転送が可能である。
+
+.. note:: リージョン間はインターネットを経由した接続となる。
+
+.. note:: GovCloudは米国政府専用のリージョンで、一般ユーザは利用できない。同様に、中国リージョンも使用不可である。
+
+.. note:: 自分のいる場所で各リージョンがどれくらいの通信速度になるかを `Cloud Ping Info <http://www.cloudping.info/>`_ で測定することができる。
+
+また、AWSでは、70を超える世界各地のエッジロケーションで、DNSであるRoute53やコンテンツキャッシュを行うCloud Frontなどのサービスをサポートしている。
+
 .. _section1-2-overview-service-label:
 
 Service
@@ -80,7 +92,7 @@ AWSでサービスを提供されているサービスは以下の通りであ�
 
 .. list-table:: AWSの提供するサービス
    :widths: 20, 30, 50　
-   :header-rows: 1 
+   :header-rows: 1
 
    * - カテゴリ
      - サービス名
@@ -213,7 +225,7 @@ AWSでサービスを提供されているサービスは以下の通りであ�
      - Command Line Tool |br| (CLI)
      - ターミナルからAWSサービスを実行するための |br| コマンド群
    * - 管理ツール
-     - CloudWath
+     - CloudWatch
      - AWSの各リソースのモニタリング、閾値、 |br| アラーム設定サービス
    * - 管理ツール
      - CloudFormation
@@ -284,6 +296,12 @@ AWSでサービスを提供されているサービスは以下の通りであ�
 
 AWSのサービス全ては、HTTP/HTTPSを通じWebAPIによって操作できる。サービスはそれぞれにSLAが定められており、その範囲内でのサービスレベルが保障される。また、地域が分散したリージョンによる災害対策、電源や空調、物理セキュリティ、ネットワークが分離されたアベイラブルゾーンによる概念により、サービスレベルのコントロールを図ることが可能になっている。
 
+.. note:: マネージドされたAWSのサービスはスケーラビリティや冗長性が担保される。例えば、リレーショナルデータベースであるRDSでは、マルチアベイラビリティゾーンでマスター・スレーブ構成をとり、自動でフェイルオーバーされる。また、自動で日次バックアップやトランザクションログが記録される。
+
+.. note:: セキュリティのテスト等は事前にAWSへ申請が必要である。
+
+.. note:: リージョンごとに提供されるサービス(S3やDynamo)とアベイラビリティゾーン間のネットワークは専用線で結ばれている。
+
 .. _section1-3-overview-management-console-label:
 
 Management console
@@ -297,3 +315,31 @@ Management consoleは、Amazon web serviceを管理するためのWebアプリ�
 .. figure:: img/management-console-biling-dashboad.png
    :scale: 100%
 
+.. _section1-4-overview-arn-label:
+
+Amazon Resource Name(ARN)
+------------------------------------------------------
+
+Amazon Resource Name(ARN)は、AWSのリソースを一意に識別するために使用するキーである。フォーマットは、
+
+arn:partition:service:region:account-id:resource
+
+で表される。
+
+.. list-table:: ARN
+   :widths: 20, 80
+   :header-rows: 1
+
+   * - 識別子
+     - 概要
+
+   * - partition
+     - リソースが存在するパーティション。標準的なAWSリージョンのパーティションは"aws"となり、他のパーティションにリソースがある場合のパーティションは"aws-partitionname"である。
+   * - service
+     - AWSの製品を識別するサービスの名前空間
+   * - region
+     - リソースが存在するリージョン
+   * - account-id
+     - リソースを保有しているAWSアカウントのハイフンなしのID
+   * - resource
+     - リソースのキー

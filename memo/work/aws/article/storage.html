@@ -84,8 +84,10 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springboot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">work guideline</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
@@ -96,12 +98,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#simple-storage-service-s3">Simple Storage Service(S3)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#glacier">Glacier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#storage-gateway">Storage Gateway</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#elastic-file-system">Elastic File System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-cloud-front">Amazon Cloud Front</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="security.html">Security Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="operation.html">AWSでの運用オペレーション</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
@@ -168,10 +173,51 @@
 <li>セキュリティ</li>
 <li>Webサーバ</li>
 </ul>
-<p>としての動作が主な特徴として挙げられる。データセンター内の複数のデバイスに必ず3箇所以上に複製されることにより、きわめて高い信頼性を確保するとともにバージョン管理によるユーザの誤操作からの復元が可能である。
-データは「バケット」と呼ばれる保存場所にアップロードする。全ての通信はSSLによって暗号化され、バケットごとにポリシーを設定でき、アクセスを詳細に制御できる。
-アップロードデータの自動暗号化機能もあり、情報漏えい時に参照はできない。また、S3はWebサーバとしても動作するため、アップロードされたデータをそのままコンテンツとして保存できる。
-ただしスクリプト言語やデータベースの導入はできないため、動的なコンテンツは利用できないがHTMLや画像ファイルで構成される静的なコンテンツならば、信頼性が高いWebサイトをそのまま構築することが可能である。</p>
+<p>としての動作が主な特徴として挙げられる。データセンター内の複数のデバイスに必ず3箇所以上に複製されることにより、
+きわめて高い信頼性を確保する(イレブン9のオーダー)とともにバージョン管理によるユーザの誤操作からの復元が可能である。
+データは「バケット」と呼ばれる保存場所に「オブジェクト」として、アップロードする。
+全ての通信はSSLによって暗号化され、バケットごとにポリシーを設定でき、アクセスを詳細に制御できる。
+アップロードデータの自動暗号化機能もあり、情報漏えい時に参照はできない。また、S3はWebサーバとしても動作するため、
+アップロードされたデータをそのままコンテンツとして保存できる。
+ただしスクリプト言語やデータベースの導入はできないため、動的なコンテンツは利用できないがHTMLや画像ファイルで構成される
+静的なコンテンツならば、信頼性が高いWebサイトをそのまま構築することが可能である。</p>
+<p>オブジェクトを保存するときは、オプションでスタンダード、低冗長化、標準IA、Glacierが選択できる。
+信頼性とアクセス頻度に応じて料金はそれぞれ以下の目安となる。</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="30%" />
+<col width="30%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">オプション</th>
+<th class="head">信頼性</th>
+<th class="head">料金</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>スタンダード</td>
+<td>99.999999999%</td>
+<td>1GBあたり３円程度</td>
+</tr>
+<tr class="row-odd"><td>低冗長化</td>
+<td>99.99%</td>
+<td>スタンダードの2/3</td>
+</tr>
+<tr class="row-even"><td>標準IA</td>
+<td>99.999999999%</td>
+<td>スタンダードの2/3 <br /> ただし、アクセス料金が高い</td>
+</tr>
+<tr class="row-odd"><td>Glacier</td>
+<td>99.999999999%</td>
+<td>スタンダードの1/3 <br /> データの取り出しに数時間必要。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">S3のデータは同一リージョンの専用のデータ領域に保存される。</p>
+</div>
 </div>
 <div class="section" id="section5-1-2-s3-create-bucket-label">
 <span id="id1"></span><h3>バケットの作成<a class="headerlink" href="#section5-1-2-s3-create-bucket-label" title="Permalink to this headline">¶</a></h3>
@@ -222,6 +268,10 @@
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-s3-upload-4.png"><img alt="../../../../_images/management-console-s3-upload-4.png" src="../../../../_images/management-console-s3-upload-4.png" /></a>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Amazon S3 では、オブジェクトのキー名に基づきバケットが仕切られるため、タイムスタンプやアルファベット順など、順次的なプレフィックスを使用すると、Amazon S3 では大量のキーが保存される特定のパーティションが使用される確率が高くなる。S3のリクエストのワークロードが1秒につき、100を超えるPUT、LIST、DELETE、あるいは300を超えるGETが見込まれるとき、<a class="reference external" href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">ガイドライン</a> に従い、パフォーマンスの向上のためにバケット名の先頭に異なる英数字の使用を検討すること。</p>
+</div>
 </div>
 <div class="section" id="cors-cross-origin-resource-sharing">
 <span id="section5-1-3-s3-setting-cors-label"></span><h3>CORS(Cross-Origin Resource Sharing)の設定<a class="headerlink" href="#cors-cross-origin-resource-sharing" title="Permalink to this headline">¶</a></h3>
@@ -240,11 +290,80 @@ CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-s3-setting-cors-1.png"><img alt="../../../../_images/management-console-s3-setting-cors-1.png" src="../../../../_images/management-console-s3-setting-cors-1.png" /></a>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>S3ではオブジェクトにアクセスするURLを２種類サポートしている。</p>
+<table border="1" class="colwidths-given docutils" id="id5">
+<caption><span class="caption-text">S3のサポートするURLの形式</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">サポートする形式</th>
+<th class="head">構造</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>パス形式</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;リージョン固有のエンドポイント&gt;/&lt;バケット名&gt;/&lt;オブジェクト名&gt;</td>
+</tr>
+<tr class="row-odd"><td>仮想ホスト形式のURL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;バケット名&gt;.s3.amazonawscom/&lt;オブジェクトキー&gt;</td>
+</tr>
+</tbody>
+</table>
+<p class="last">Webページ内にCORSした、バケット内に保存した静的リソース(HTMLやJavaScript)で、更にバケット内のリソースを取得しようとすると、パス形式のURLが使われることにより、クロスドメイン制約に引っかかりエラーとなる場合があるので注意。</p>
+</div>
+</div>
+<div class="section" id="s3">
+<span id="section5-1-4-s3-operation-label"></span><h3>S3オブジェクトに対する操作<a class="headerlink" href="#s3" title="Permalink to this headline">¶</a></h3>
+<p>S3オブジェクトは、以下のような操作がサポートされている。</p>
+<table border="1" class="colwidths-given docutils" id="id6">
+<caption><span class="caption-text">S3のサポートする操作</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">操作</th>
+<th class="head">詳細</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>オブジェクト全体もしくはオブジェクトの一部を取得する。バイトレンジの指定が可能。</td>
+</tr>
+<tr class="row-odd"><td>List Key</td>
+<td>プレフィックスと区切り記号でオブジェクトキーを一覧表示する。</td>
+</tr>
+<tr class="row-even"><td>PUT</td>
+<td>オブジェクトのアップロード及び更新を行う。</td>
+</tr>
+<tr class="row-odd"><td>DELETE</td>
+<td>オブジェクトの削除を行う。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">オブジェクトキーの一覧は、内部的には最大１０００件の取得となるので大量データの取得には注意すること。</p>
+</div>
 </div>
 </div>
 <div class="section" id="glacier">
 <span id="section5-2-glacier-label"></span><h2>Glacier<a class="headerlink" href="#glacier" title="Permalink to this headline">¶</a></h2>
-<p>Glacierはアクセス頻度は少ないが、必要なときに確実にアクセスしたいデータを低価格で長期保存することに向いたデータストレージサービスである。システムのバックアップや一定期間保存しなければならないデータの保存に向いている。オンプレミスで言えば、DAT(Digital Audio Tape)やLTO(Linear Tape Open)などの外部媒体に相当する。GlacierもS3同様、高い堅牢性をもち、保存できるデータ容量に上限はない。通信は全てSSLによって暗号化され、自動暗号化機能もあるが、料金はS3の1/3程度である。ただし、S3のようにリアルタイムなデータアクセスはできず、データの取り出しに3～5時間かかる。主な用途としてはS3のバックアップでアップロードから指定した期間が経過したデータをGlacierに自動的に移動させる機能を持っている。</p>
+<p>Glacierはアクセス頻度は少ないが、必要なときに確実にアクセスしたいデータを低価格で長期保存することに向いた
+データストレージサービスである。システムのバックアップや一定期間保存しなければならないデータの保存に向いている。
+オンプレミスで言えば、DAT(Digital Audio Tape)やLTO(Linear Tape Open)などの外部媒体に相当する。
+GlacierもS3同様、高い堅牢性をもち、保存できるデータ容量に上限はない。通信は全てSSL/TLSによって暗号化され、
+自動暗号化機能によりデータは必ず暗号化されるが、料金はS3の1/3程度である。ただし、S3のようにリアルタイムなデータアクセスはできず、
+データの取り出しに時間がかかる。主な用途としてはS3のバックアップで、アップロードから指定した期間が経過したデータを
+Glacierに自動的に移動させる機能を持っている。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">データ取り出しでは緊急、標準、一括の３つのオプションが用意されている。それぞれ、緊急：１～５分程度、標準：３～５時間、一括：５～１２時間である。</p>
+</div>
 </div>
 <div class="section" id="storage-gateway">
 <span id="section5-3-storage-gateway-label"></span><h2>Storage Gateway<a class="headerlink" href="#storage-gateway" title="Permalink to this headline">¶</a></h2>
@@ -260,9 +379,24 @@ CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy
 <p>ゲートウェイVTLは物理テープライブラリの代替として、Storage Gatewayを仮想テープライブラリ装置として利用するタイプである。一般的なバックアップソフトウェアから物理テープにデータを書き込むようにS3にデータをバックアップできる。ゲートウェイVTLの大きなメリットは、物理テープで発生するコストの削減である。仮想テープが作成されるS3及びGlacierは冗長化構成によって信頼性を確保し、またAWSのデータセンター上に保管されるため災害対策の目的として有効である。</p>
 <p>ただし、いずれのサービスもオンプレミスとの大量のデータ通信が発生する可能性があるため、必要に応じて「AWS Direct Connect」との併用を検討したほうがよい。</p>
 </div>
-<div class="section" id="elastic-file-system">
-<span id="section5-4-efs-label"></span><h2>Elastic File System<a class="headerlink" href="#elastic-file-system" title="Permalink to this headline">¶</a></h2>
-<p>Elastic File Systemは共有ファイルストレージサービスである。複数のEC2インスタンスから、ファイル共有プロトコル「NFSv4」を介して同時にアクセスできる。ファイルの追加や削除に伴い容量を自動的に拡張または縮小する。ペタバイト規模まで拡張できるよう設計されており、S3やGlacierと同様、複数のデータセンター間でデータをレプリケーションすることで可用性を確保する。主な用途としては、データやコンテンツの共有等が挙げられる。</p>
+<div class="section" id="amazon-cloud-front">
+<span id="section5-5-cloud-front-label"></span><h2>Amazon Cloud Front<a class="headerlink" href="#amazon-cloud-front" title="Permalink to this headline">¶</a></h2>
+<p>Amazon Cloud FrontはAmazonが提供するコンテンツ配信ネットワーク(Contents Distribution Network:CDN)サービスである。
+CDNでは、世界各地に分散して配置したサーバのうち、ユーザに近いロケーション(エッジロケーション)にコンテンツを配置し、
+ユーザに高速にデータ配信する仕組みである。Cloud Frontは静的コンテンツおよび、エンドユーザごとに変化する動的なコンテンツ両方に対応する。</p>
+<p>エッジロケーションにコンテンツのキャッシュを配置することで高速化を図るわけであるが、Cloud Frontでは以下のような機能をもつ。</p>
+<ul class="simple">
+<li>キャッシュ動作をどのパスパターンに適用するか</li>
+<li>Cloud Frontでどのオリジンにリクエストを転送するか</li>
+<li>クエリ文字列をオリジンに転送するかどうか</li>
+<li>指定したファイルへのアクセスに署名つきURLを必要とするかどうか</li>
+<li>HTTPSの使用有無</li>
+<li>キャッシュを保持する最小時間</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CloudFrontはデフォルトでは、<a class="reference external" href="https://dxxxx.cloudfront.net">https://dxxxx.cloudfront.net</a>/xxxxのようなディストリビューションドメインで行われるが、独自SSL証明書サポート機能により、独自のドメイン名とSSL証明書を使用できる。</p>
+</div>
 </div>
 </div>
 

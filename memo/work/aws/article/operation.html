@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>AWSでの運用オペレーション &mdash; document 0.1-SNAPSHOTS documentation</title>
+  <title>Operation on AWS &mdash; document 0.1-SNAPSHOTS documentation</title>
   
 
   
@@ -95,7 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="storage.html">Storage Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="security.html">Security Category</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="">AWSでの運用オペレーション</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Operation on AWS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ec2">実行中のEC2インスタンスのバックアップ</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section8-2-stamp-label">同じ構成のEC2インスタンスを作成する</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cpu">CPUやメモリスペックを上昇させる</a></li>
@@ -106,7 +106,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
 </ul>
 </li>
@@ -144,7 +143,7 @@
       
           <li><a href="../index.html">Amazon web service</a> &raquo;</li>
       
-    <li>AWSでの運用オペレーション</li>
+    <li>Operation on AWS</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -158,8 +157,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="aws">
-<span id="section8-operation-label"></span><h1>AWSでの運用オペレーション<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="operation-on-aws">
+<span id="section8-operation-label"></span><h1>Operation on AWS<a class="headerlink" href="#operation-on-aws" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="ec2">
 <span id="section8-1-snapshot-label"></span><h2>実行中のEC2インスタンスのバックアップ<a class="headerlink" href="#ec2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="overview">
@@ -220,6 +219,14 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">スナップショットの選択時に、右クリック「コピー」を選択すると、別のリージョンへボリュームをコピーできる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EBSスナップショットは
+* 差分(増分)バックアップ
+* 圧縮された状態で保存
+* S3に３箇所複数される。
+* ディスクサイズはフルサイズ表示となるが、実態は差分バックアップのため、サイズが必ずしも実際のデータサイズと一致しているわけではない。</p>
 </div>
 </div>
 <div class="section" id="ebsami">

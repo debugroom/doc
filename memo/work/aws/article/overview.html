@@ -93,16 +93,18 @@
 <li class="toctree-l4"><a class="reference internal" href="#region-and-available-zone">Region and available zone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#service">Service</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#management-console">Management console</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-resource-name-arn">Amazon Resource Name(ARN)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="network.html">Network Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="computing.html">Computing Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="storage.html">Storage Category</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cassandra/install.html">Cassandraのインストール</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
 </ul>
 </li>
@@ -158,8 +160,10 @@
 <span id="section1-overview-label"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="region-and-available-zone">
 <span id="section1-1-overview-region-availablezone-label"></span><h2>Region and available zone<a class="headerlink" href="#region-and-available-zone" title="Permalink to this headline">¶</a></h2>
-<p>Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。各エリアのデータセンターとコード名は以下の通りである。</p>
-<table border="1" class="docutils" id="id1">
+<p>Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。
+2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。
+各エリアのデータセンターとコード名は以下の通りである。</p>
+<table border="1" class="colwidths-given docutils" id="id1">
 <caption><span class="caption-text">AWSのリージョン</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
@@ -241,11 +245,25 @@
 </tr>
 </tbody>
 </table>
+<p>各リージョンは複数のアベイラビリティゾーンで構成されており、各アベイラビリティゾーンは専用線で結ばれており、高速なデータ転送が可能である。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">リージョン間はインターネットを経由した接続となる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GovCloudは米国政府専用のリージョンで、一般ユーザは利用できない。同様に、中国リージョンも使用不可である。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">自分のいる場所で各リージョンがどれくらいの通信速度になるかを <a class="reference external" href="http://www.cloudping.info/">Cloud Ping Info</a> で測定することができる。</p>
+</div>
+<p>また、AWSでは、70を超える世界各地のエッジロケーションで、DNSであるRoute53やコンテンツキャッシュを行うCloud Frontなどのサービスをサポートしている。</p>
 </div>
 <div class="section" id="service">
 <span id="section1-2-overview-service-label"></span><h2>Service<a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h2>
 <p>AWSでサービスを提供されているサービスは以下の通りである。</p>
-<table border="1" class="docutils" id="id2">
+<table border="1" class="colwidths-given docutils" id="id2">
 <caption><span class="caption-text">AWSの提供するサービス</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
@@ -428,7 +446,7 @@
 <td>ターミナルからAWSサービスを実行するための <br /> コマンド群</td>
 </tr>
 <tr class="row-even"><td>管理ツール</td>
-<td>CloudWath</td>
+<td>CloudWatch</td>
 <td>AWSの各リソースのモニタリング、閾値、 <br /> アラーム設定サービス</td>
 </tr>
 <tr class="row-odd"><td>管理ツール</td>
@@ -522,6 +540,18 @@
 </tbody>
 </table>
 <p>AWSのサービス全ては、HTTP/HTTPSを通じWebAPIによって操作できる。サービスはそれぞれにSLAが定められており、その範囲内でのサービスレベルが保障される。また、地域が分散したリージョンによる災害対策、電源や空調、物理セキュリティ、ネットワークが分離されたアベイラブルゾーンによる概念により、サービスレベルのコントロールを図ることが可能になっている。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">マネージドされたAWSのサービスはスケーラビリティや冗長性が担保される。例えば、リレーショナルデータベースであるRDSでは、マルチアベイラビリティゾーンでマスター・スレーブ構成をとり、自動でフェイルオーバーされる。また、自動で日次バックアップやトランザクションログが記録される。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">セキュリティのテスト等は事前にAWSへ申請が必要である。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">リージョンごとに提供されるサービス(S3やDynamo)とアベイラビリティゾーン間のネットワークは専用線で結ばれている。</p>
+</div>
 </div>
 <div class="section" id="management-console">
 <span id="section1-3-overview-management-console-label"></span><h2>Management console<a class="headerlink" href="#management-console" title="Permalink to this headline">¶</a></h2>
@@ -532,6 +562,41 @@
 <div class="figure">
 <a class="reference internal image-reference" href="../../../../_images/management-console-biling-dashboad.png"><img alt="../../../../_images/management-console-biling-dashboad.png" src="../../../../_images/management-console-biling-dashboad.png" /></a>
 </div>
+</div>
+<div class="section" id="amazon-resource-name-arn">
+<span id="section1-4-overview-arn-label"></span><h2>Amazon Resource Name(ARN)<a class="headerlink" href="#amazon-resource-name-arn" title="Permalink to this headline">¶</a></h2>
+<p>Amazon Resource Name(ARN)は、AWSのリソースを一意に識別するために使用するキーである。フォーマットは、</p>
+<p>arn:partition:service:region:account-id:resource</p>
+<p>で表される。</p>
+<table border="1" class="colwidths-given docutils" id="id3">
+<caption><span class="caption-text">ARN</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">識別子</th>
+<th class="head">概要</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>partition</td>
+<td>リソースが存在するパーティション。標準的なAWSリージョンのパーティションは&#8221;aws&#8221;となり、他のパーティションにリソースがある場合のパーティションは&#8221;aws-partitionname&#8221;である。</td>
+</tr>
+<tr class="row-odd"><td>service</td>
+<td>AWSの製品を識別するサービスの名前空間</td>
+</tr>
+<tr class="row-even"><td>region</td>
+<td>リソースが存在するリージョン</td>
+</tr>
+<tr class="row-odd"><td>account-id</td>
+<td>リソースを保有しているAWSアカウントのハイフンなしのID</td>
+</tr>
+<tr class="row-even"><td>resource</td>
+<td>リソースのキー</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

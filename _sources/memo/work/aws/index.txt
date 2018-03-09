@@ -18,3 +18,6 @@ Contents:
    article/datastore.rst
    article/security.rst
    article/operation.rst
+   article/application.rst
+   article/management.rst
+   article/appendix.rst

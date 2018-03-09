@@ -32,7 +32,7 @@
   
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/>
         <link rel="up" title="Amazon web service" href="../index.html"/>
-        <link rel="next" title="AWSでの運用オペレーション" href="operation.html"/>
+        <link rel="next" title="Operation on AWS" href="operation.html"/>
         <link rel="prev" title="DataStore Category" href="datastore.html"/> 
 
   
@@ -97,9 +97,15 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="">Security Category</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#iam-indentity-access-management">IAM(Indentity Access Management)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#aws-certificate-manager">AWS Certificate Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-cognito">Amazon Cognito</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#amazon-sts">Amazon STS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aws">AWSのセキュリティ対策</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="operation.html">AWSでの運用オペレーション</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
@@ -171,8 +177,8 @@
 <li>IAMグループ</li>
 <li>IAMロール</li>
 </ul>
-<table border="1" class="docutils" id="id4">
-<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id6">
+<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="29%" />
 <col width="71%" />
@@ -280,6 +286,10 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 </pre></div>
 </div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Policyは、未記入 &lt; ALLOW &lt; DENYの順で優先される。</p>
+</div>
 </div>
 </div>
 <div class="section" id="aws-certificate-manager">
@@ -349,6 +359,74 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 </div>
 </div>
 </div>
+<div class="section" id="amazon-cognito">
+<span id="section7-3-cognito-label"></span><h2>Amazon Cognito<a class="headerlink" href="#amazon-cognito" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section7-3-1-cognito-overview-label">
+<span id="id4"></span><h3>Overview<a class="headerlink" href="#section7-3-1-cognito-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>Amazon CognitoはモバイルID管理とデバイス間のデータ同期を提供するサービスである。
+バックエンドコードを記述したりすることなく、アプリケーションの設定や状態をモバイル⇔クラウド上で同期できる。</p>
+<p>アプリケーションでCognitoを作成する場合は、IDプールを作成する必要がある。IDプールとはアカウント固有のユーザIDデータが保存される場所である。</p>
+</div>
+<div class="section" id="section7-3-1-cognito-create-idpool-label">
+<span id="id"></span><h3>IDプールの作成<a class="headerlink" href="#section7-3-1-cognito-create-idpool-label" title="Permalink to this headline">¶</a></h3>
+<p>■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-cognito-create-idpool-1.png"><img alt="../../../../_images/management-console-cognito-create-idpool-1.png" src="../../../../_images/management-console-cognito-create-idpool-1.png" /></a>
+</div>
+<p>■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-cognito-create-idpool-2.png"><img alt="../../../../_images/management-console-cognito-create-idpool-2.png" src="../../../../_images/management-console-cognito-create-idpool-2.png" /></a>
+</div>
+<p>■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Cognitoの使用方法を整理し記述</p>
+</div>
+</div>
+</div>
+<div class="section" id="amazon-sts">
+<span id="section7-4-sts-label"></span><h2>Amazon STS<a class="headerlink" href="#amazon-sts" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section7-4-1-sts-overview-label">
+<span id="id5"></span><h3>Overview<a class="headerlink" href="#section7-4-1-sts-overview-label" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">STSについて整理し記述</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フェデレーテッドユーザとは、特定の認証を完了した認証済みのユーザを指す。</p>
+</div>
+</div>
+</div>
+<div class="section" id="aws">
+<span id="section7-x-other-label"></span><h2>AWSのセキュリティ対策<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ddos">
+<span id="section7-3-1-ddos-attack-label"></span><h3>DDos対策<a class="headerlink" href="#ddos" title="Permalink to this headline">¶</a></h3>
+<p>DDosを緩和する場合は</p>
+<p>CloudFrontエッジロケーション &gt; ロードバランサ &gt; WAF &gt; Webアプリケーション</p>
+<p>といった形でシステム構成を行っておく。</p>
+</div>
+<div class="section" id="security-inspector">
+<span id="section7-3-2-security-inspector-label"></span><h3>Security Inspector<a class="headerlink" href="#security-inspector" title="Permalink to this headline">¶</a></h3>
+<p>Security InspetorはAWSにデプロイされたアプリケーションのセキュリティ評価サービスである。</p>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Security Inspectorについて記述。</p>
+</div>
+</div>
+<div class="section" id="aws-key-management-service-kms">
+<span id="section7-3-3-key-management-service-label"></span><h3>AWS Key Management Service(KMS)<a class="headerlink" href="#aws-key-management-service-kms" title="Permalink to this headline">¶</a></h3>
+<p>AWS Key Management Serviceとは、データを暗号化するキーのマネージド暗号化サービス</p>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">KMSについて記述。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AWS CloudHSMと類似するサービスであるが、KMSはマスターとなるキー自体を生成するのに対し、CloudHSMはキーを保管しておくだけのサービスである。</p>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -358,7 +436,7 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="operation.html" class="btn btn-neutral float-right" title="AWSでの運用オペレーション" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="operation.html" class="btn btn-neutral float-right" title="Operation on AWS" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datastore.html" class="btn btn-neutral" title="DataStore Category" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

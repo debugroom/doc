@@ -256,9 +256,6 @@ IDプールの作成
 
 ■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。
 
-.. figure:: img/management-console-cognito-create-idpool-3.png
-      :scale: 100%
-
 .. todo:: Cognitoの使用方法を整理し記述
 
 .. _section7-4-sts-label:
