@@ -21,7 +21,7 @@
 1. /usr/local/var/log/cassandra/system.logを確認する。
 2. 以下の様なエラーログが出力されていることを確認。実行中のJVMが異常終了した際に、コミットログが破損する等した場合に発生する模様。
 
-.. sourcecode:: Java
+.. sourcecode:: java
 
    ERROR [main] 2018-02-11 05:14:11,722 JVMStabilityInspector.java:82 - Exiting due to error while processing commit log during initialization.
    org.apache.cassandra.db.commitlog.CommitLogReplayer$CommitLogReplayException: Could not read commit log descriptor in file /usr/local/var/lib/cassandra/commitlog/CommitLog-6-1517069302120.log
@@ -42,3 +42,22 @@
    > mkdir backup
    > mv /usr/local/var/lib/cassandra/commitlog/CommitLog-* backup/
    > launchctl load ~/Library/LaunchAgents/homebrew.mxcl.cassandra.plist
+
+.. _section7-cassandra-connection-error-label:
+
+接続エラー
+------------------------------------
+
+* Javaアプリケーション上からDriver経由でCassandraに接続しようとすると、コネクションエラーが発生する。
+
+.. sourcecode:: java
+
+   Caused by: com.datastax.driver.core.exceptions.NoHostAvailableException: All host(s) tried for query failed (tried: /XXX.XXX.XXX.XXX:9042
+   (com.datastax.driver.core.exceptions.TransportException: [/XXX.XXX.XXX.XXX:9042] Cannot connect))
+   at com.datastax.driver.core.ControlConnection.reconnectInternal(ControlConnection.java:233) ~[cassandra-driver-core-3.1.4.jar!/:na]
+   at com.datastax.driver.core.ControlConnection.connect(ControlConnection.java:79) ~[cassandra-driver-core-3.1.4.jar!/:na]
+
+* 原因：接続先の通信がファイアフォールがブロックされている際に発生する。
+* 対処
+
+1. Cassandaサーバのファイアウォール設定状況を確認し、接続先クライアントのIPの接続を許可する。

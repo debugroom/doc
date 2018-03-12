@@ -173,7 +173,162 @@ CPUやメモリスペックを上昇させる
 ディスク容量を増設する
 ------------------------------------------------------
 
-.. todo:: EC2インスタンス起動中にディスク容量を増設する手順を記載する。
+.. _section8-4-1-application-extend-volume-overview-label:
+
+overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+起動中のEC2インスタンスの容量が足りなくなった場合、以下のようなメッセージが表示される。
+
+.. sourcecode:: bash
+
+   open /var/lib/docker/image/devicemapper/layerdb/tmp/layer-314207183/diff: no space left on device
+
+dfコマンドでディスク残容量の確認は以下の通り可能であるが、ここでは、起動中のインスタンスのディスク増設する方法を記述する。
+
+.. sourcecode:: bash
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ df -h
+   Filesystem      Size  Used Avail Use% Mounted on
+   /dev/xvda1      8.0G  8.0G   52M 100% /
+   devtmpfs        7.4G     0  7.4G   0% /dev
+   tmpfs           7.4G     0  7.4G   0% /dev/shm
+   tmpfs           7.4G   17M  7.4G   1% /run
+   tmpfs           7.4G     0  7.4G   0% /sys/fs/cgroup
+   tmpfs           1.5G     0  1.5G   0% /run/user/1000
+
+.. _section8-4-2-application-extend-volume-label:
+
+EC2ボリュームサイズの拡張
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■EC2コンソールメニューからボリュームを選び、拡張したいインスタンスのボリュームを選択する。アクションメニューから、「ボリュームの変更」を選択する。
+
+.. figure:: img/management-console-ec2-modify-volume-1.png
+   :scale: 100%
+
+■ボリュームサイズを変更し、「変更」ボタンを押下する。
+
+.. figure:: img/management-console-ec2-modify-volume-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-ec2-modify-volume-3.png
+   :scale: 100%
+
+■EC2インスタンスにSSHでログインし、拡張したボリュームサイズにルートデバイスのパーティションを拡張させる。最初に、現状のディスクの状況を確認する。
+
+.. sourcecode:: bash
+
+   # ルートデバイスのパーティションサイズを確認。
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ lsblk
+   NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+   xvda                         202:0    0   50G  0 disk
+   └─xvda1                      202:1    0    8G  0 part /
+   loop0                          7:0    0  100G  0 loop
+   └─docker-202:1-12881694-pool 253:0    0  100G  0 dm
+   loop1                          7:1    0    2G  0 loop
+   └─docker-202:1-12881694-pool 253:0    0  100G  0 dm
+
+   # パーティションの占有状況を確認。
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ df -TH
+   Filesystem     Type      Size  Used Avail Use% Mounted on
+   /dev/xvda1     xfs       8.6G  8.6G   58M 100% /
+   devtmpfs       devtmpfs  8.0G     0  8.0G   0% /dev
+   tmpfs          tmpfs     8.0G     0  8.0G   0% /dev/shm
+   tmpfs          tmpfs     8.0G   18M  8.0G   1% /run
+   tmpfs          tmpfs     8.0G     0  8.0G   0% /sys/fs/cgroup
+   tmpfs          tmpfs     1.6G     0  1.6G   0% /run/user/1000
+
+   # ファイルシステムの確認。
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo file -s /dev/xvd*
+   /dev/xvda:  x86 boot sector; partition 1: ID=0x83, active, starthead 32, startsector 2048, 16775168 sectors, code offset 0x63
+   /dev/xvda1: SGI XFS filesystem data (blksz 4096, inosz 512, v2 dirs)
+
+.. warning:: `AWSの公式ガイド <https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html>`_ では、XFSファイルシステムのディスク拡張はxfs_growfsコマンドを使用しているが、更新が行われなかったため、fdiskコマンドを使ってパーティションの再作成を行う方法で実施する。
+
+■ fdiskコマンドを使用して、/dev/xvdaのパーティションを作成し直し、再起動する。
+
+.. sourcecode:: bash
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo fdisk /dev/xvda
+   Welcome to fdisk (util-linux 2.23.2).
+
+   Changes will remain in memory only, until you decide to write them.
+   Be careful before using the write command.
+
+
+   Command (m for help): p
+
+   Disk /dev/xvda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+   Units = sectors of 1 * 512 = 512 bytes
+   Sector size (logical/physical): 512 bytes / 512 bytes
+   I/O size (minimum/optimal): 512 bytes / 512 bytes
+   Disk label type: dos
+   Disk identifier: 0x000ae09f
+
+   Device Boot      Start         End      Blocks   Id  System
+   /dev/xvda1   *        2048    16777215     8387584   83  Linux
+
+   Command (m for help): d
+   Selected partition 1
+   Partition 1 is deleted
+
+   Command (m for help): n
+   Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+   Select (default p): p
+   Partition number (1-4, default 1): 1
+   First sector (2048-104857599, default 2048):
+   Using default value 2048
+   Last sector, +sectors or +size{K,M,G} (2048-104857599, default 104857599):
+   Using default value 104857599
+   Partition 1 of type Linux and of size 50 GiB is set
+
+   Command (m for help): p
+
+   Disk /dev/xvda: 53.7 GB, 53687091200 bytes, 104857600 sectors
+   Units = sectors of 1 * 512 = 512 bytes
+   Sector size (logical/physical): 512 bytes / 512 bytes
+   I/O size (minimum/optimal): 512 bytes / 512 bytes
+   Disk label type: dos
+   Disk identifier: 0x000ae09f
+
+   Device Boot      Start         End      Blocks   Id  System
+   /dev/xvda1            2048   104857599    52427776   83  Linux
+
+   Command (m for help): w
+   The partition table has been altered!
+
+   Calling ioctl() to re-read partition table.
+
+   WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+   The kernel still uses the old table. The new table will be used at
+   the next reboot or after you run partprobe(8) or kpartx(8)
+   Syncing disks.
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ reboot
+
+   # 再起動後、パーティションのサイズ変更を確認。
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ df -TH
+   Filesystem     Type      Size  Used Avail Use% Mounted on
+   /dev/xvda1     xfs        54G  8.6G   46G  16% /
+   devtmpfs       devtmpfs  8.0G     0  8.0G   0% /dev
+   tmpfs          tmpfs     8.0G     0  8.0G   0% /dev/shm
+   tmpfs          tmpfs     8.0G   18M  8.0G   1% /run
+   tmpfs          tmpfs     8.0G     0  8.0G   0% /sys/fs/cgroup
+   tmpfs          tmpfs     1.6G     0  1.6G   0% /run/user/1000
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ lsblk
+   NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+   xvda                         202:0    0   50G  0 disk
+   └─xvda1                      202:1    0   50G  0 part /
+   loop0                          7:0    0  100G  0 loop
+   └─docker-202:1-12881694-pool 253:0    0  100G  0 dm
+   loop1                          7:1    0    2G  0 loop
+   └─docker-202:1-12881694-pool 253:0    0  100G  0 dm
 
 .. _section8-5-application-update-label:
 

@@ -32,7 +32,7 @@
   
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/>
         <link rel="up" title="Amazon web service" href="../index.html"/>
-        <link rel="next" title="Docker" href="../../docker/index.html"/>
+        <link rel="next" title="Application Category" href="application.html"/>
         <link rel="prev" title="Security Category" href="security.html"/> 
 
   
@@ -84,8 +84,10 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springboot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">work guideline</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
@@ -103,6 +105,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#section8-5-application-update-label">冗長化構成のアプリケーションをアップデートする</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l3"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
@@ -309,15 +314,156 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 </div>
 <div class="section" id="section8-4-ondemand-disk-label">
 <span id="id3"></span><h2>ディスク容量を増設する<a class="headerlink" href="#section8-4-ondemand-disk-label" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-2">
-<p class="first admonition-title">Todo</p>
-<p class="last">EC2インスタンス起動中にディスク容量を増設する手順を記載する。</p>
+<div class="section" id="section8-4-1-application-extend-volume-overview-label">
+<span id="id4"></span><h3>overview<a class="headerlink" href="#section8-4-1-application-extend-volume-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>起動中のEC2インスタンスの容量が足りなくなった場合、以下のようなメッセージが表示される。</p>
+<div class="highlight-bash"><div class="highlight"><pre>open /var/lib/docker/image/devicemapper/layerdb/tmp/layer-314207183/diff: no space left on device
+</pre></div>
+</div>
+<p>dfコマンドでディスク残容量の確認は以下の通り可能であるが、ここでは、起動中のインスタンスのディスク増設する方法を記述する。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda1      8.0G  8.0G   52M 100% /
+devtmpfs        7.4G     <span class="m">0</span>  7.4G   0% /dev
+tmpfs           7.4G     <span class="m">0</span>  7.4G   0% /dev/shm
+tmpfs           7.4G   17M  7.4G   1% /run
+tmpfs           7.4G     <span class="m">0</span>  7.4G   0% /sys/fs/cgroup
+tmpfs           1.5G     <span class="m">0</span>  1.5G   0% /run/user/1000
+</pre></div>
+</div>
+</div>
+<div class="section" id="section8-4-2-application-extend-volume-label">
+<span id="id5"></span><h3>EC2ボリュームサイズの拡張<a class="headerlink" href="#section8-4-2-application-extend-volume-label" title="Permalink to this headline">¶</a></h3>
+<p>■EC2コンソールメニューからボリュームを選び、拡張したいインスタンスのボリュームを選択する。アクションメニューから、「ボリュームの変更」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-ec2-modify-volume-1.png"><img alt="../../../../_images/management-console-ec2-modify-volume-1.png" src="../../../../_images/management-console-ec2-modify-volume-1.png" /></a>
+</div>
+<p>■ボリュームサイズを変更し、「変更」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-ec2-modify-volume-2.png"><img alt="../../../../_images/management-console-ec2-modify-volume-2.png" src="../../../../_images/management-console-ec2-modify-volume-2.png" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../../_images/management-console-ec2-modify-volume-3.png"><img alt="../../../../_images/management-console-ec2-modify-volume-3.png" src="../../../../_images/management-console-ec2-modify-volume-3.png" /></a>
+</div>
+<p>■EC2インスタンスにSSHでログインし、拡張したボリュームサイズにルートデバイスのパーティションを拡張させる。最初に、現状のディスクの状況を確認する。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># ルートデバイスのパーティションサイズを確認。</span>
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>lsblk
+NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+xvda                         202:0    <span class="m">0</span>   50G  <span class="m">0</span> disk
+└─xvda1                      202:1    <span class="m">0</span>    8G  <span class="m">0</span> part /
+loop0                          7:0    <span class="m">0</span>  100G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool 253:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+loop1                          7:1    <span class="m">0</span>    2G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool 253:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+
+<span class="c"># パーティションの占有状況を確認。</span>
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>df -TH
+Filesystem     Type      Size  Used Avail Use% Mounted on
+/dev/xvda1     xfs       8.6G  8.6G   58M 100% /
+devtmpfs       devtmpfs  8.0G     <span class="m">0</span>  8.0G   0% /dev
+tmpfs          tmpfs     8.0G     <span class="m">0</span>  8.0G   0% /dev/shm
+tmpfs          tmpfs     8.0G   18M  8.0G   1% /run
+tmpfs          tmpfs     8.0G     <span class="m">0</span>  8.0G   0% /sys/fs/cgroup
+tmpfs          tmpfs     1.6G     <span class="m">0</span>  1.6G   0% /run/user/1000
+
+<span class="c"># ファイルシステムの確認。</span>
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo file -s /dev/xvd*
+/dev/xvda:  x86 boot sector<span class="p">;</span> partition 1: <span class="nv">ID</span><span class="o">=</span>0x83, active, starthead 32, startsector 2048, <span class="m">16775168</span> sectors, code offset 0x63
+/dev/xvda1: SGI XFS filesystem data <span class="o">(</span>blksz 4096, inosz 512, v2 <span class="nb">dirs</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><a class="reference external" href="https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html">AWSの公式ガイド</a> では、XFSファイルシステムのディスク拡張はxfs_growfsコマンドを使用しているが、更新が行われなかったため、fdiskコマンドを使ってパーティションの再作成を行う方法で実施する。</p>
+</div>
+<p>■ fdiskコマンドを使用して、/dev/xvdaのパーティションを作成し直し、再起動する。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>sudo fdisk /dev/xvda
+Welcome to fdisk <span class="o">(</span>util-linux 2.23.2<span class="o">)</span>.
+
+Changes will remain in memory only, <span class="k">until</span> you decide to write them.
+Be careful before using the write command.
+
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: p
+
+Disk /dev/xvda: 53.7 GB, <span class="m">53687091200</span> bytes, <span class="m">104857600</span> sectors
+<span class="nv">Units</span> <span class="o">=</span> sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+Disk label <span class="nb">type</span>: dos
+Disk identifier: 0x000ae09f
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/xvda1   *        <span class="m">2048</span>    <span class="m">16777215</span>     <span class="m">8387584</span>   <span class="m">83</span>  Linux
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: d
+Selected partition 1
+Partition <span class="m">1</span> is deleted
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: n
+Partition <span class="nb">type</span>:
+p   primary <span class="o">(</span><span class="m">0</span> primary, <span class="m">0</span> extended, <span class="m">4</span> free<span class="o">)</span>
+e   extended
+Select <span class="o">(</span>default p<span class="o">)</span>: p
+Partition number <span class="o">(</span>1-4, default 1<span class="o">)</span>: 1
+First sector <span class="o">(</span>2048-104857599, default 2048<span class="o">)</span>:
+Using default value 2048
+Last sector, +sectors or +size<span class="o">{</span>K,M,G<span class="o">}</span> <span class="o">(</span>2048-104857599, default 104857599<span class="o">)</span>:
+Using default value 104857599
+Partition <span class="m">1</span> of <span class="nb">type </span>Linux and of size <span class="m">50</span> GiB is <span class="nb">set</span>
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: p
+
+Disk /dev/xvda: 53.7 GB, <span class="m">53687091200</span> bytes, <span class="m">104857600</span> sectors
+<span class="nv">Units</span> <span class="o">=</span> sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+Disk label <span class="nb">type</span>: dos
+Disk identifier: 0x000ae09f
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/xvda1            <span class="m">2048</span>   <span class="m">104857599</span>    <span class="m">52427776</span>   <span class="m">83</span>  Linux
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: w
+The partition table has been altered!
+
+Calling ioctl<span class="o">()</span> to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe<span class="o">(</span>8<span class="o">)</span> or kpartx<span class="o">(</span>8<span class="o">)</span>
+Syncing disks.
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>reboot
+
+<span class="c"># 再起動後、パーティションのサイズ変更を確認。</span>
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>df -TH
+Filesystem     Type      Size  Used Avail Use% Mounted on
+/dev/xvda1     xfs        54G  8.6G   46G  16% /
+devtmpfs       devtmpfs  8.0G     <span class="m">0</span>  8.0G   0% /dev
+tmpfs          tmpfs     8.0G     <span class="m">0</span>  8.0G   0% /dev/shm
+tmpfs          tmpfs     8.0G   18M  8.0G   1% /run
+tmpfs          tmpfs     8.0G     <span class="m">0</span>  8.0G   0% /sys/fs/cgroup
+tmpfs          tmpfs     1.6G     <span class="m">0</span>  1.6G   0% /run/user/1000
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span><span class="nv">$ </span>lsblk
+NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+xvda                         202:0    <span class="m">0</span>   50G  <span class="m">0</span> disk
+└─xvda1                      202:1    <span class="m">0</span>   50G  <span class="m">0</span> part /
+loop0                          7:0    <span class="m">0</span>  100G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool 253:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+loop1                          7:1    <span class="m">0</span>    2G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool 253:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="section8-5-application-update-label">
-<span id="id4"></span><h2>冗長化構成のアプリケーションをアップデートする<a class="headerlink" href="#section8-5-application-update-label" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>冗長化構成のアプリケーションをアップデートする<a class="headerlink" href="#section8-5-application-update-label" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section8-5-1-application-update-overview-label">
-<span id="id5"></span><h3>overview<a class="headerlink" href="#section8-5-1-application-update-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>overview<a class="headerlink" href="#section8-5-1-application-update-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>ロードバランサーを使用して冗長化構成したアプリケーションをサービス停止せずにアップデートする。
 片系のアプリケーションサーバをターゲットグループから除外した後、アプリケーションをアップデートし、
 再度ターゲットグループに組み込む。その後もう片系のアプリケーションサーバを同様にターゲットグループから削除し、
@@ -351,7 +497,7 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../docker/index.html" class="btn btn-neutral float-right" title="Docker" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="application.html" class="btn btn-neutral float-right" title="Application Category" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="security.html" class="btn btn-neutral" title="Security Category" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
