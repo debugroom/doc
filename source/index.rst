@@ -17,6 +17,9 @@ Contents:
    java/spring/spring-cloud-aws/index.rst
    java/spring/spring-cloud-function/index.rst
    database/cassandra/index.rst
+   cloud/aws/index.rst
+   cloud/docker/index.rst
+   cloud/kubernetes/index.rst
    memo/work/index.rst
 
 Indices and tables
