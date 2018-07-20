@@ -1,316 +1,366 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>Monitorイメージセットアップ手順書 &mdash; クラウド実践演習 0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
+
+    <link rel="stylesheet" href="_static/default.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
     <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT: '',
+            VERSION: '0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE: true
+        };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="クラウド実践演習 0 documentation" href="index.html" />
-    <link rel="next" title="WEBイメージセットアップ手順書" href="web.html" />
-    <link rel="prev" title="Mailイメージセットアップ手順書" href="mail.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
+    <link rel="top" title="クラウド実践演習 0 documentation" href="index.html"/>
+    <link rel="next" title="WEBイメージセットアップ手順書" href="web.html"/>
+    <link rel="prev" title="Mailイメージセットアップ手順書" href="mail.html"/>
+</head>
+<body>
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="web.html" title="WEBイメージセットアップ手順書"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="mail.html" title="Mailイメージセットアップ手順書"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+            <a href="genindex.html" title="General Index"
+               accesskey="I">index</a></li>
+        <li class="right">
+            <a href="web.html" title="WEBイメージセットアップ手順書"
+               accesskey="N">next</a> |
+        </li>
+        <li class="right">
+            <a href="mail.html" title="Mailイメージセットアップ手順書"
+               accesskey="P">previous</a> |
+        </li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li>
+    </ul>
+</div>
 
-    <div class="document">
-      <div class="documentwrapper">
+<div class="document">
+    <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
-            
-  <div class="section" id="monitor">
-<h1>Monitorイメージセットアップ手順書<a class="headerlink" href="#monitor" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><pre>この手順書は、本演習で使用するMonitorイメージを作成する手順である。</pre>
-</div>
-</div>
-<div class="section" id="id2">
-<h2>前提条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること</li>
-</ul>
-</div>
-<div class="section" id="id3">
-<h2>パッケージのインストールと設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="nagios">
-<h2>Nagios<a class="headerlink" href="#nagios" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3>インストール<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install nagios3</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id5">
-<h3>設定<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><pre>画面に従って、Web画面へログインするためのBASIC認証のパスワードを決定する
+            <div class="body">
+
+                <div class="section" id="monitor">
+                    <h1>Monitorイメージセットアップ手順書<a class="headerlink" href="#monitor"
+                                               title="Permalink to this headline">¶</a></h1>
+                    <div class="section" id="id1">
+                        <h2>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+                        <div class="highlight-python">
+                            <pre>この手順書は、本演習で使用するMonitorイメージを作成する手順である。</pre>
+                        </div>
+                    </div>
+                    <div class="section" id="id2">
+                        <h2>前提条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+                        <ul class="simple">
+                            <li>Baseイメージセットアップ手順書に従ってBaseイメージが作成されていること</li>
+                        </ul>
+                    </div>
+                    <div class="section" id="id3">
+                        <h2>パッケージのインストールと設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a>
+                        </h2>
+                    </div>
+                    <div class="section" id="nagios">
+                        <h2>Nagios<a class="headerlink" href="#nagios" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id4">
+                            <h3>インストール<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install nagios3</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="id5">
+                            <h3>設定<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python"><pre>画面に従って、Web画面へログインするためのBASIC認証のパスワードを決定する
 ユーザー名とパスワードは [nagiosadmin]</pre>
-</div>
-</div>
-</div>
-<div class="section" id="webnode-plugin">
-<h2>webnode plugin<a class="headerlink" href="#webnode-plugin" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>インストール<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># cd /usr/lib/nagios/plugins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="webnode-plugin">
+                        <h2>webnode plugin<a class="headerlink" href="#webnode-plugin"
+                                             title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id6">
+                            <h3>インストール<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># cd /usr/lib/nagios/plugins</span>
 <span class="c"># git clone git.opty.jp:/home/repos/git/repos/nii-deploy.git</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="rrdtool">
-<h2>rrdtool<a class="headerlink" href="#rrdtool" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>インストール<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install rrdtool</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="ganglia">
-<h2>Ganglia<a class="headerlink" href="#ganglia" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id8">
-<h3>インストール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install gmetad</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="ganglia-webfrontend">
-<h2>ganglia-webfrontend<a class="headerlink" href="#ganglia-webfrontend" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>インストール<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install ganglia-webfrontend</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="id10">
-<h3>設定<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># cp -p /etc/ganglia-webfrontend/apache.conf /etc/apache2/conf.d/ganglia.conf</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="libnagios-plugin-perl">
-<h2>libnagios-plugin-perl<a class="headerlink" href="#libnagios-plugin-perl" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>インストール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install libnagios-plugin-perl</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="python-lxml">
-<h2>python-lxml<a class="headerlink" href="#python-lxml" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id12">
-<h3>インストール<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install python-lxml</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="librrds-perl">
-<h2>librrds-perl<a class="headerlink" href="#librrds-perl" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id13">
-<h3>インストール<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># apt-get install librrds-perl</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="puppet">
-<h2>puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id14">
-<h3>設定<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<p>puppet agentのプロセスを起動できるようにする</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># vi /etc/default puppet</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="rrdtool">
+                        <h2>rrdtool<a class="headerlink" href="#rrdtool" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id7">
+                            <h3>インストール<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install rrdtool</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="ganglia">
+                        <h2>Ganglia<a class="headerlink" href="#ganglia" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id8">
+                            <h3>インストール<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install gmetad</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="ganglia-webfrontend">
+                        <h2>ganglia-webfrontend<a class="headerlink" href="#ganglia-webfrontend"
+                                                  title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id9">
+                            <h3>インストール<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install ganglia-webfrontend</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="id10">
+                            <h3>設定<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># cp -p /etc/ganglia-webfrontend/apache.conf /etc/apache2/conf.d/ganglia.conf</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="libnagios-plugin-perl">
+                        <h2>libnagios-plugin-perl<a class="headerlink" href="#libnagios-plugin-perl"
+                                                    title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id11">
+                            <h3>インストール<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span
+                                        class="c"># apt-get install libnagios-plugin-perl</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="python-lxml">
+                        <h2>python-lxml<a class="headerlink" href="#python-lxml"
+                                          title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id12">
+                            <h3>インストール<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install python-lxml</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="librrds-perl">
+                        <h2>librrds-perl<a class="headerlink" href="#librrds-perl"
+                                           title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id13">
+                            <h3>インストール<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># apt-get install librrds-perl</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="puppet">
+                        <h2>puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id14">
+                            <h3>設定<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+                            <p>puppet agentのプロセスを起動できるようにする</p>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># vi /etc/default puppet</span>
 <span class="n">START</span><span class="o">=</span><span class="n">yes</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># rm -rf /var/lib/puppt/ssl</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="id15">
-<h2>サービスの無効化<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id16">
-<h3>設定<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>不必要なサービスを無効化する</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># /etc/init.d/puppetmaster stop</span>
+</pre>
+                                </div>
+                            </div>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># rm -rf /var/lib/puppt/ssl</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="id15">
+                        <h2>サービスの無効化<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id16">
+                            <h3>設定<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+                            <p>不必要なサービスを無効化する</p>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># /etc/init.d/puppetmaster stop</span>
 <span class="c"># /etc/init.d/stompserver stop</span>
 <span class="c"># /etc/init.d/mcollective stop</span>
 <span class="c"># /etc/init.d/nagios3 stop</span>
 <span class="c"># /etc/init.d/gmetad stop</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># update-rc.d -f puppetmaster remove</span>
+</pre>
+                                </div>
+                            </div>
+                            <div class="highlight-python">
+                                <div class="highlight"><pre><span class="c"># update-rc.d -f puppetmaster remove</span>
 <span class="c"># update-rc.d -f puppet remove</span>
 <span class="c"># update-rc.d -f mcollective remove</span>
 <span class="c"># update-rc.d -f stompserver remove</span>
 <span class="c"># update-rc.d -f nagios3 remove</span>
 <span class="c"># update-rc.d -f gmetad remove</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="startup">
-<h2>　startupスクリプトの設定<a class="headerlink" href="#startup" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="rc-local">
-<h2>rc.local<a class="headerlink" href="#rc-local" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id17">
-<h3>設定<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><pre># vi /etc/rc.local
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="startup">
+                        <h2>　startupスクリプトの設定<a class="headerlink" href="#startup"
+                                               title="Permalink to this headline">¶</a></h2>
+                    </div>
+                    <div class="section" id="rc-local">
+                        <h2>rc.local<a class="headerlink" href="#rc-local" title="Permalink to this headline">¶</a></h2>
+                        <div class="section" id="id17">
+                            <h3>設定<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+                            <div class="highlight-python"><pre># vi /etc/rc.local
 /root/work/setup/startup.sh monitor</pre>
-</div>
-</div>
-</div>
-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-          </div>
+            </div>
         </div>
-      </div>
-      <div class="sphinxsidebar">
+    </div>
+    <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Monitorイメージセットアップ手順書</a><ul>
-<li><a class="reference internal" href="#id1">はじめに</a></li>
-<li><a class="reference internal" href="#id2">前提条件</a></li>
-<li><a class="reference internal" href="#id3">パッケージのインストールと設定</a></li>
-<li><a class="reference internal" href="#nagios">Nagios</a><ul>
-<li><a class="reference internal" href="#id4">インストール</a></li>
-<li><a class="reference internal" href="#id5">設定</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#webnode-plugin">webnode plugin</a><ul>
-<li><a class="reference internal" href="#id6">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#rrdtool">rrdtool</a><ul>
-<li><a class="reference internal" href="#id7">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ganglia">Ganglia</a><ul>
-<li><a class="reference internal" href="#id8">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ganglia-webfrontend">ganglia-webfrontend</a><ul>
-<li><a class="reference internal" href="#id9">インストール</a></li>
-<li><a class="reference internal" href="#id10">設定</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#libnagios-plugin-perl">libnagios-plugin-perl</a><ul>
-<li><a class="reference internal" href="#id11">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#python-lxml">python-lxml</a><ul>
-<li><a class="reference internal" href="#id12">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#librrds-perl">librrds-perl</a><ul>
-<li><a class="reference internal" href="#id13">インストール</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#puppet">puppet</a><ul>
-<li><a class="reference internal" href="#id14">設定</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id15">サービスの無効化</a><ul>
-<li><a class="reference internal" href="#id16">設定</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#startup">　startupスクリプトの設定</a></li>
-<li><a class="reference internal" href="#rc-local">rc.local</a><ul>
-<li><a class="reference internal" href="#id17">設定</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+                <li><a class="reference internal" href="#">Monitorイメージセットアップ手順書</a>
+                    <ul>
+                        <li><a class="reference internal" href="#id1">はじめに</a></li>
+                        <li><a class="reference internal" href="#id2">前提条件</a></li>
+                        <li><a class="reference internal" href="#id3">パッケージのインストールと設定</a></li>
+                        <li><a class="reference internal" href="#nagios">Nagios</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id4">インストール</a></li>
+                                <li><a class="reference internal" href="#id5">設定</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#webnode-plugin">webnode plugin</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id6">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#rrdtool">rrdtool</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id7">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#ganglia">Ganglia</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id8">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#ganglia-webfrontend">ganglia-webfrontend</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id9">インストール</a></li>
+                                <li><a class="reference internal" href="#id10">設定</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#libnagios-plugin-perl">libnagios-plugin-perl</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id11">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#python-lxml">python-lxml</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id12">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#librrds-perl">librrds-perl</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id13">インストール</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#puppet">puppet</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id14">設定</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#id15">サービスの無効化</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id16">設定</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="reference internal" href="#startup">　startupスクリプトの設定</a></li>
+                        <li><a class="reference internal" href="#rc-local">rc.local</a>
+                            <ul>
+                                <li><a class="reference internal" href="#id17">設定</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="mail.html"
-                        title="previous chapter">Mailイメージセットアップ手順書</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="web.html"
-                        title="next chapter">WEBイメージセットアップ手順書</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/monitor.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mail.html"
+                                  title="previous chapter">Mailイメージセットアップ手順書</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="web.html"
+                                  title="next chapter">WEBイメージセットアップ手順書</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+                <li><a href="_sources/monitor.txt"
+                       rel="nofollow">Show Source</a></li>
+            </ul>
+            <div id="searchbox" style="display: none">
+                <h3>Quick search</h3>
+                <form class="search" action="search.html" method="get">
+                    <input type="text" name="q"/>
+                    <input type="submit" value="Go"/>
+                    <input type="hidden" name="check_keywords" value="yes"/>
+                    <input type="hidden" name="area" value="default"/>
+                </form>
+                <p class="searchtip" style="font-size: 90%">
+                    Enter search terms or a module, class or function name.
+                </p>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
-      </div>
-      <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
+    <div class="clearer"></div>
+</div>
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="web.html" title="WEBイメージセットアップ手順書"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="mail.html" title="Mailイメージセットアップ手順書"
-             >previous</a> |</li>
-        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2012, Nii.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
-    </div>
-  </body>
+            <a href="genindex.html" title="General Index"
+            >index</a></li>
+        <li class="right">
+            <a href="web.html" title="WEBイメージセットアップ手順書"
+            >next</a> |
+        </li>
+        <li class="right">
+            <a href="mail.html" title="Mailイメージセットアップ手順書"
+            >previous</a> |
+        </li>
+        <li><a href="index.html">クラウド実践演習 0 documentation</a> &raquo;</li>
+    </ul>
+</div>
+<div class="footer">
+    &copy; Copyright 2012, Nii.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+</div>
+</body>
 </html>

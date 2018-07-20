@@ -4,21 +4,21 @@ import jp.ac.nii.sample.utility.EdubaseCloudController;
 import jp.ac.nii.sample.utility.PropertyLoader;
 
 public class ShutdownCluster {
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-		// İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğ‚µ‚Ü‚·
-		PropertyLoader config = new PropertyLoader("src/config.properties");
-		String awsSecretKey = config.getProperty("secretKey");
-		String awsAccessId = config.getProperty("accessKey");
-		String hostName = config.getProperty("hostName");
-		String resourcePrefix = config.getProperty("resourcePrefix");
-		String keyname = config.getProperty("keyName");
-		int port = Integer.parseInt(config.getProperty("port"));
-		// edubase Cloud‚ÌƒRƒ“ƒgƒ[ƒ‰‚ğ‰Šú‰»‚µ‚Ü‚·
-		EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
-				awsSecretKey, hostName, resourcePrefix, port);
+        // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        PropertyLoader config = new PropertyLoader("src/config.properties");
+        String awsSecretKey = config.getProperty("secretKey");
+        String awsAccessId = config.getProperty("accessKey");
+        String hostName = config.getProperty("hostName");
+        String resourcePrefix = config.getProperty("resourcePrefix");
+        String keyname = config.getProperty("keyName");
+        int port = Integer.parseInt(config.getProperty("port"));
+        // edubase Cloudï¿½ÌƒRï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
+                awsSecretKey, hostName, resourcePrefix, port);
 
-		// ‚·‚×‚Ä‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğI—¹‚µ‚Ü‚·
-		cloud.shutdownAllRunningInstances(keyname);
-	}
+        // ï¿½ï¿½ï¿½×‚Ä‚ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        cloud.shutdownAllRunningInstances(keyname);
+    }
 }

@@ -13,41 +13,40 @@ package com.wakaleo.articles;
 
 /**
  * Simple utilities class for benchmarking unit tests. Use is a follows:
- *     TestTimer t = new TestTimer("My task");
- * 	   // Do something
- *     t.done();
-
+ * TestTimer t = new TestTimer("My task");
+ * // Do something
+ * t.done();
+ *
  * @author jfsmart
  */
 public class TestTimer {
 
-	private long startTime;
-	private String message; 
+    private long startTime;
+    private String message;
 
-	/**
-	 * Initiate a timer
-	 */
-	public TestTimer(String message) {
-		startTime = System.currentTimeMillis();
-		this.message = message;
-	}
-	
-	/**
-	 * Reset the timer for another timing session.
-	 *
-	 */
-	public void reset() {
-		startTime = System.currentTimeMillis();		
-	}
-	
-	/**
-	 * End the timing session and output the results.
-	 */
-	public void done() {
+    /**
+     * Initiate a timer
+     */
+    public TestTimer(String message) {
+        startTime = System.currentTimeMillis();
+        this.message = message;
+    }
 
-		System.out.println(message 
-						+ " : "
-				   		+ (System.currentTimeMillis() - startTime) 
-				   		+ " ms.");		
-	}
+    /**
+     * Reset the timer for another timing session.
+     */
+    public void reset() {
+        startTime = System.currentTimeMillis();
+    }
+
+    /**
+     * End the timing session and output the results.
+     */
+    public void done() {
+
+        System.out.println(message
+                + " : "
+                + (System.currentTimeMillis() - startTime)
+                + " ms.");
+    }
 }

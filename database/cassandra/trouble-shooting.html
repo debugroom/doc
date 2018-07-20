@@ -1,281 +1,471 @@
-
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>トラブルシューティング &mdash; document 0.1-SNAPSHOTS documentation</title>
-  
+    <meta charset="utf-8">
 
-  
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  
+    <title>トラブルシューティング &mdash; document 0.1-SNAPSHOTS documentation</title>
 
-  
-  
-    
 
-  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
 
-  
-
-  
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
-        <link rel="up" title="Cassandra" href="index.html"/>
-        <link rel="next" title="work guideline" href="../../memo/work/index.html"/>
-        <link rel="prev" title="データモデリング" href="datamodeling.html"/> 
+    <link rel="up" title="Cassandra" href="index.html"/>
+    <link rel="next" title="work guideline" href="../../memo/work/index.html"/>
+    <link rel="prev" title="データモデリング" href="datamodeling.html"/>
 
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
+
+    <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
+<div class="wy-grid-for-nav">
 
-    
+
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
 
-          
-            <a href="../../index.html" class="icon icon-home"> document
-          
 
-          
-          </a>
+                <a href="../../index.html" class="icon icon-home"> document
 
-          
-            
-            
-              <div class="version">
-                0.1-SNAPSHOTS
-              </div>
-            
-          
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+                </a>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
+                <div class="version">
+                    0.1-SNAPSHOTS
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html">Cassandraのインストール</a></li>
-<li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
-<li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">トラブルシューティング</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#section7-cassandra-launch-error-label">起動エラー</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#section7-cassandra-connection-error-label">接続エラー</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
-</ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/spring-cloud-function/index.html">Spring Cloud
+                        Function</a></li>
+                    <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a>
+                        <ul class="current">
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="introduction.html">Introduction</a></li>
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="install.html">Cassandraのインストール</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra
+                                - SpringFrameworkアプリケーション</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a>
+                            </li>
+                            <li class="toctree-l2 current"><a class="current reference internal" href="">トラブルシューティング</a>
+                                <ul>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section7-cassandra-launch-error-label">起動エラー</a>
+                                    </li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section7-cassandra-connection-error-label">接続エラー</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work
+                        guideline</a></li>
+                </ul>
 
-            
-          
+
+            </div>
         </div>
-      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">document</a>
-      </nav>
+
+        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../index.html">document</a>
+        </nav>
 
 
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
- 
+        <div class="wy-nav-content">
+            <div class="rst-content">
 
 
+                <div role="navigation" aria-label="breadcrumbs navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="../../index.html">Docs</a> &raquo;</li>
 
-<div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="index.html">Cassandra</a> &raquo;</li>
-      
-    <li>トラブルシューティング</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="../../_sources/database/cassandra/trouble-shooting.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <div class="section" id="section7-cassandra-trouble-shooting-label">
-<span id="id1"></span><h1>トラブルシューティング<a class="headerlink" href="#section7-cassandra-trouble-shooting-label" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="section7-cassandra-launch-error-label">
-<span id="id2"></span><h2>起動エラー<a class="headerlink" href="#section7-cassandra-launch-error-label" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>cqlshを実行すると、以下のようなConnection Errorが発生する。</li>
-</ul>
-<div class="highlight-bash"><div class="highlight"><pre>Connection error: <span class="o">(</span><span class="s1">&#39;Unable to connect to any servers&#39;</span>, <span class="o">{</span><span class="s1">&#39;::1&#39;</span>: error<span class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;::1&#39;, 9042, 0, 0)]. Last error: Connection refused&quot;</span><span class="o">)</span>, <span class="s1">&#39;fe80::1%lo0&#39;</span>: error<span class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;fe80::1%lo0&#39;, 9042, 0, 1)]. Last error: Connection refused&quot;</span><span class="o">)</span>, <span class="s1">&#39;127.0.0.1&#39;</span>: error<span class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;127.0.0.1&#39;, 9042)]. Last error: Connection refused&quot;</span><span class="o">)})</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>対処</li>
-</ul>
-<ol class="arabic simple">
-<li>/usr/local/var/log/cassandra/system.logを確認する。</li>
-<li>以下の様なエラーログが出力されていることを確認。実行中のJVMが異常終了した際に、コミットログが破損する等した場合に発生する模様。</li>
-</ol>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">ERROR</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="mi">2018</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">11</span> <span class="mi">05</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mi">11</span><span class="o">,</span><span class="mi">722</span> <span class="n">JVMStabilityInspector</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">82</span> <span class="o">-</span> <span class="n">Exiting</span> <span class="n">due</span> <span class="n">to</span> <span class="n">error</span> <span class="k">while</span> <span class="n">processing</span> <span class="n">commit</span> <span class="n">log</span> <span class="n">during</span> <span class="n">initialization</span><span class="o">.</span>
-<span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLogReplayer$CommitLogReplayException</span><span class="o">:</span> <span class="n">Could</span> <span class="n">not</span> <span class="n">read</span> <span class="n">commit</span> <span class="n">log</span> <span class="n">descriptor</span> <span class="n">in</span> <span class="n">file</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">cassandra</span><span class="o">/</span><span class="n">commitlog</span><span class="o">/</span><span class="n">CommitLog</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">1517069302120</span><span class="o">.</span><span class="na">log</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLogReplayer</span><span class="o">.</span><span class="na">handleReplayError</span><span class="o">(</span><span class="n">CommitLogReplayer</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">616</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLogReplayer</span><span class="o">.</span><span class="na">recover</span><span class="o">(</span><span class="n">CommitLogReplayer</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">378</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLogReplayer</span><span class="o">.</span><span class="na">recover</span><span class="o">(</span><span class="n">CommitLogReplayer</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">228</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLog</span><span class="o">.</span><span class="na">recover</span><span class="o">(</span><span class="n">CommitLog</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">185</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">commitlog</span><span class="o">.</span><span class="na">CommitLog</span><span class="o">.</span><span class="na">recover</span><span class="o">(</span><span class="n">CommitLog</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">165</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">CassandraDaemon</span><span class="o">.</span><span class="na">setup</span><span class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">314</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">CassandraDaemon</span><span class="o">.</span><span class="na">activate</span><span class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">585</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">cassandra</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">CassandraDaemon</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">714</span><span class="o">)</span> <span class="o">[</span><span class="n">apache</span><span class="o">-</span><span class="n">cassandra</span><span class="o">-</span><span class="mf">3.7</span><span class="o">.</span><span class="na">jar</span><span class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li>データが失われても問題なければ、コミットログを削除し、再起動。</li>
-</ol>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.cassandra.plist
+                        <li><a href="index.html">Cassandra</a> &raquo;</li>
+
+                        <li>トラブルシューティング</li>
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="../../_sources/database/cassandra/trouble-shooting.txt" rel="nofollow"> View page
+                                source</a>
+
+
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="section7-cassandra-trouble-shooting-label">
+                            <span id="id1"></span>
+                            <h1>トラブルシューティング<a class="headerlink" href="#section7-cassandra-trouble-shooting-label"
+                                              title="Permalink to this headline">¶</a></h1>
+                            <div class="section" id="section7-cassandra-launch-error-label">
+                                <span id="id2"></span>
+                                <h2>起動エラー<a class="headerlink" href="#section7-cassandra-launch-error-label"
+                                            title="Permalink to this headline">¶</a></h2>
+                                <ul class="simple">
+                                    <li>cqlshを実行すると、以下のようなConnection Errorが発生する。</li>
+                                </ul>
+                                <div class="highlight-bash">
+                                    <div class="highlight"><pre>Connection error: <span class="o">(</span><span
+                                            class="s1">&#39;Unable to connect to any servers&#39;</span>, <span
+                                            class="o">{</span><span class="s1">&#39;::1&#39;</span>: error<span
+                                            class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;::1&#39;, 9042, 0, 0)]. Last error: Connection refused&quot;</span><span
+                                            class="o">)</span>, <span
+                                            class="s1">&#39;fe80::1%lo0&#39;</span>: error<span
+                                            class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;fe80::1%lo0&#39;, 9042, 0, 1)]. Last error: Connection refused&quot;</span><span
+                                            class="o">)</span>, <span class="s1">&#39;127.0.0.1&#39;</span>: error<span
+                                            class="o">(</span>61, <span class="s2">&quot;Tried connecting to [(&#39;127.0.0.1&#39;, 9042)]. Last error: Connection refused&quot;</span><span
+                                            class="o">)})</span>
+</pre>
+                                    </div>
+                                </div>
+                                <ul class="simple">
+                                    <li>対処</li>
+                                </ul>
+                                <ol class="arabic simple">
+                                    <li>/usr/local/var/log/cassandra/system.logを確認する。</li>
+                                    <li>以下の様なエラーログが出力されていることを確認。実行中のJVMが異常終了した際に、コミットログが破損する等した場合に発生する模様。</li>
+                                </ol>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="n">ERROR</span> <span
+                                            class="o">[</span><span class="n">main</span><span class="o">]</span> <span
+                                            class="mi">2018</span><span class="o">-</span><span
+                                            class="mi">02</span><span class="o">-</span><span class="mi">11</span> <span
+                                            class="mi">05</span><span class="o">:</span><span class="mi">14</span><span
+                                            class="o">:</span><span class="mi">11</span><span class="o">,</span><span
+                                            class="mi">722</span> <span class="n">JVMStabilityInspector</span><span
+                                            class="o">.</span><span class="na">java</span><span class="o">:</span><span
+                                            class="mi">82</span> <span class="o">-</span> <span class="n">Exiting</span> <span
+                                            class="n">due</span> <span class="n">to</span> <span class="n">error</span> <span
+                                            class="k">while</span> <span class="n">processing</span> <span class="n">commit</span> <span
+                                            class="n">log</span> <span class="n">during</span> <span class="n">initialization</span><span
+                                            class="o">.</span>
+<span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span
+                                                class="na">cassandra</span><span class="o">.</span><span
+                                                class="na">db</span><span class="o">.</span><span
+                                                class="na">commitlog</span><span class="o">.</span><span class="na">CommitLogReplayer$CommitLogReplayException</span><span
+                                                class="o">:</span> <span class="n">Could</span> <span
+                                                class="n">not</span> <span class="n">read</span> <span
+                                                class="n">commit</span> <span class="n">log</span> <span class="n">descriptor</span> <span
+                                                class="n">in</span> <span class="n">file</span> <span class="o">/</span><span
+                                                class="n">usr</span><span class="o">/</span><span class="n">local</span><span
+                                                class="o">/</span><span class="n">var</span><span
+                                                class="o">/</span><span class="n">lib</span><span
+                                                class="o">/</span><span class="n">cassandra</span><span
+                                                class="o">/</span><span class="n">commitlog</span><span
+                                                class="o">/</span><span class="n">CommitLog</span><span
+                                                class="o">-</span><span class="mi">6</span><span class="o">-</span><span
+                                                class="mi">1517069302120</span><span class="o">.</span><span class="na">log</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">db</span><span
+                                                class="o">.</span><span class="na">commitlog</span><span
+                                                class="o">.</span><span class="na">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">handleReplayError</span><span
+                                                class="o">(</span><span class="n">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">616</span><span
+                                                class="o">)</span> <span class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">db</span><span
+                                                class="o">.</span><span class="na">commitlog</span><span
+                                                class="o">.</span><span class="na">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">recover</span><span
+                                                class="o">(</span><span class="n">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">378</span><span
+                                                class="o">)</span> <span class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">db</span><span
+                                                class="o">.</span><span class="na">commitlog</span><span
+                                                class="o">.</span><span class="na">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">recover</span><span
+                                                class="o">(</span><span class="n">CommitLogReplayer</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">228</span><span
+                                                class="o">)</span> <span class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">db</span><span
+                                                class="o">.</span><span class="na">commitlog</span><span
+                                                class="o">.</span><span class="na">CommitLog</span><span
+                                                class="o">.</span><span class="na">recover</span><span
+                                                class="o">(</span><span class="n">CommitLog</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">185</span><span
+                                                class="o">)</span> <span class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">db</span><span
+                                                class="o">.</span><span class="na">commitlog</span><span
+                                                class="o">.</span><span class="na">CommitLog</span><span
+                                                class="o">.</span><span class="na">recover</span><span
+                                                class="o">(</span><span class="n">CommitLog</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">165</span><span
+                                                class="o">)</span> <span class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">service</span><span
+                                                class="o">.</span><span class="na">CassandraDaemon</span><span
+                                                class="o">.</span><span class="na">setup</span><span
+                                                class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span
+                                                class="na">java</span><span class="o">:</span><span
+                                                class="mi">314</span><span class="o">)</span> <span
+                                                class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">service</span><span
+                                                class="o">.</span><span class="na">CassandraDaemon</span><span
+                                                class="o">.</span><span class="na">activate</span><span
+                                                class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span
+                                                class="na">java</span><span class="o">:</span><span
+                                                class="mi">585</span><span class="o">)</span> <span
+                                                class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+  <span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="na">apache</span><span
+                                                class="o">.</span><span class="na">cassandra</span><span
+                                                class="o">.</span><span class="na">service</span><span
+                                                class="o">.</span><span class="na">CassandraDaemon</span><span
+                                                class="o">.</span><span class="na">main</span><span
+                                                class="o">(</span><span class="n">CassandraDaemon</span><span class="o">.</span><span
+                                                class="na">java</span><span class="o">:</span><span
+                                                class="mi">714</span><span class="o">)</span> <span
+                                                class="o">[</span><span class="n">apache</span><span
+                                                class="o">-</span><span class="n">cassandra</span><span
+                                                class="o">-</span><span class="mf">3.7</span><span
+                                                class="o">.</span><span class="na">jar</span><span
+                                                class="o">:</span><span class="mf">3.7</span><span class="o">]</span>
+</pre>
+                                    </div>
+                                </div>
+                                <ol class="arabic simple" start="3">
+                                    <li>データが失われても問題なければ、コミットログを削除し、再起動。</li>
+                                </ol>
+                                <div class="highlight-bash">
+                                    <div class="highlight"><pre>&gt; launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.cassandra.plist
 &gt; mkdir backup
 &gt; mv /usr/local/var/lib/cassandra/commitlog/CommitLog-* backup/
 &gt; launchctl load ~/Library/LaunchAgents/homebrew.mxcl.cassandra.plist
-</pre></div>
-</div>
-</div>
-<div class="section" id="section7-cassandra-connection-error-label">
-<span id="id3"></span><h2>接続エラー<a class="headerlink" href="#section7-cassandra-connection-error-label" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Javaアプリケーション上からDriver経由でCassandraに接続しようとすると、コネクションエラーが発生する。</li>
-</ul>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">Caused</span> <span class="n">by</span><span class="o">:</span> <span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span class="o">.</span><span class="na">driver</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">exceptions</span><span class="o">.</span><span class="na">NoHostAvailableException</span><span class="o">:</span> <span class="n">All</span> <span class="nf">host</span><span class="o">(</span><span class="n">s</span><span class="o">)</span> <span class="n">tried</span> <span class="k">for</span> <span class="n">query</span> <span class="nf">failed</span> <span class="o">(</span><span class="n">tried</span><span class="o">:</span> <span class="o">/</span><span class="n">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">:</span><span class="mi">9042</span>
-<span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span class="o">.</span><span class="na">driver</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">exceptions</span><span class="o">.</span><span class="na">TransportException</span><span class="o">:</span> <span class="o">[/</span><span class="n">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">.</span><span class="na">XXX</span><span class="o">:</span><span class="mi">9042</span><span class="o">]</span> <span class="n">Cannot</span> <span class="n">connect</span><span class="o">))</span>
-<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span class="o">.</span><span class="na">driver</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">ControlConnection</span><span class="o">.</span><span class="na">reconnectInternal</span><span class="o">(</span><span class="n">ControlConnection</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">233</span><span class="o">)</span> <span class="o">~[</span><span class="n">cassandra</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">3.1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="na">jar</span><span class="o">!/:</span><span class="n">na</span><span class="o">]</span>
-<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span class="o">.</span><span class="na">driver</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">ControlConnection</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">ControlConnection</span><span class="o">.</span><span class="na">java</span><span class="o">:</span><span class="mi">79</span><span class="o">)</span> <span class="o">~[</span><span class="n">cassandra</span><span class="o">-</span><span class="n">driver</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">3.1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="na">jar</span><span class="o">!/:</span><span class="n">na</span><span class="o">]</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>原因：接続先の通信がファイアフォールがブロックされている際に発生する。</li>
-<li>対処</li>
-</ul>
-<ol class="arabic simple">
-<li>Cassandaサーバのファイアウォール設定状況を確認し、接続先クライアントのIPの接続を許可する。</li>
-</ol>
-</div>
-</div>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="section7-cassandra-connection-error-label">
+                                <span id="id3"></span>
+                                <h2>接続エラー<a class="headerlink" href="#section7-cassandra-connection-error-label"
+                                            title="Permalink to this headline">¶</a></h2>
+                                <ul class="simple">
+                                    <li>Javaアプリケーション上からDriver経由でCassandraに接続しようとすると、コネクションエラーが発生する。</li>
+                                </ul>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="n">Caused</span> <span
+                                            class="n">by</span><span class="o">:</span> <span class="n">com</span><span
+                                            class="o">.</span><span class="na">datastax</span><span
+                                            class="o">.</span><span class="na">driver</span><span
+                                            class="o">.</span><span class="na">core</span><span class="o">.</span><span
+                                            class="na">exceptions</span><span class="o">.</span><span class="na">NoHostAvailableException</span><span
+                                            class="o">:</span> <span class="n">All</span> <span
+                                            class="nf">host</span><span class="o">(</span><span class="n">s</span><span
+                                            class="o">)</span> <span class="n">tried</span> <span
+                                            class="k">for</span> <span class="n">query</span> <span
+                                            class="nf">failed</span> <span class="o">(</span><span
+                                            class="n">tried</span><span class="o">:</span> <span class="o">/</span><span
+                                            class="n">XXX</span><span class="o">.</span><span class="na">XXX</span><span
+                                            class="o">.</span><span class="na">XXX</span><span class="o">.</span><span
+                                            class="na">XXX</span><span class="o">:</span><span class="mi">9042</span>
+<span class="o">(</span><span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span
+                                                class="o">.</span><span class="na">driver</span><span class="o">.</span><span
+                                                class="na">core</span><span class="o">.</span><span class="na">exceptions</span><span
+                                                class="o">.</span><span class="na">TransportException</span><span
+                                                class="o">:</span> <span class="o">[/</span><span
+                                                class="n">XXX</span><span class="o">.</span><span
+                                                class="na">XXX</span><span class="o">.</span><span class="na">XXX</span><span
+                                                class="o">.</span><span class="na">XXX</span><span
+                                                class="o">:</span><span class="mi">9042</span><span
+                                                class="o">]</span> <span class="n">Cannot</span> <span
+                                                class="n">connect</span><span class="o">))</span>
+<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span
+                                                class="o">.</span><span class="na">driver</span><span class="o">.</span><span
+                                                class="na">core</span><span class="o">.</span><span class="na">ControlConnection</span><span
+                                                class="o">.</span><span class="na">reconnectInternal</span><span
+                                                class="o">(</span><span class="n">ControlConnection</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">233</span><span
+                                                class="o">)</span> <span class="o">~[</span><span
+                                                class="n">cassandra</span><span class="o">-</span><span
+                                                class="n">driver</span><span class="o">-</span><span
+                                                class="n">core</span><span class="o">-</span><span class="mf">3.1</span><span
+                                                class="o">.</span><span class="mi">4</span><span class="o">.</span><span
+                                                class="na">jar</span><span class="o">!/:</span><span class="n">na</span><span
+                                                class="o">]</span>
+<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="na">datastax</span><span
+                                                class="o">.</span><span class="na">driver</span><span class="o">.</span><span
+                                                class="na">core</span><span class="o">.</span><span class="na">ControlConnection</span><span
+                                                class="o">.</span><span class="na">connect</span><span
+                                                class="o">(</span><span class="n">ControlConnection</span><span
+                                                class="o">.</span><span class="na">java</span><span
+                                                class="o">:</span><span class="mi">79</span><span
+                                                class="o">)</span> <span class="o">~[</span><span
+                                                class="n">cassandra</span><span class="o">-</span><span
+                                                class="n">driver</span><span class="o">-</span><span
+                                                class="n">core</span><span class="o">-</span><span class="mf">3.1</span><span
+                                                class="o">.</span><span class="mi">4</span><span class="o">.</span><span
+                                                class="na">jar</span><span class="o">!/:</span><span class="n">na</span><span
+                                                class="o">]</span>
+</pre>
+                                    </div>
+                                </div>
+                                <ul class="simple">
+                                    <li>原因：接続先の通信がファイアフォールがブロックされている際に発生する。</li>
+                                    <li>対処</li>
+                                </ul>
+                                <ol class="arabic simple">
+                                    <li>Cassandaサーバのファイアウォール設定状況を確認し、接続先クライアントのIPの接続を許可する。</li>
+                                </ol>
+                            </div>
+                        </div>
 
 
-           </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="work guideline" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="datamodeling.html" class="btn btn-neutral" title="データモデリング" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
+                    </div>
+                </div>
+                <footer>
 
-  <hr/>
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, org.debugroom.
+                        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="work guideline"
+                           accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
 
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-</footer>
+                        <a href="datamodeling.html" class="btn btn-neutral" title="データモデリング" accesskey="p"><span
+                                class="fa fa-arrow-circle-left"></span> Previous</a>
 
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2016, org.debugroom.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
         </div>
-      </div>
 
     </section>
 
-  </div>
-  
+</div>
 
 
-  
+<script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT: '../../',
+        VERSION: '0.1-SNAPSHOTS',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE: true
+    };
+</script>
+<script type="text/javascript" src="../../_static/jquery.js"></script>
+<script type="text/javascript" src="../../_static/underscore.js"></script>
+<script type="text/javascript" src="../../_static/doctools.js"></script>
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.1-SNAPSHOTS',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
 
-  
+<script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
 
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
+<script type="text/javascript">
+    jQuery(function () {
+        SphinxRtdTheme.StickyNav.enable();
+    });
+</script>
+
 
 </body>
 </html>

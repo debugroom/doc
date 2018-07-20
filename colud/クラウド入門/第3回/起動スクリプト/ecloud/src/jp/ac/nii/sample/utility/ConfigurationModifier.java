@@ -13,55 +13,55 @@ import ch.ethz.ssh2.Session;
 
 public class ConfigurationModifier {
 
-	private static final PropertyLoader config = new PropertyLoader("src/config.properties");
-	private static final File keyFile = new File(config.getProperty("keyFile"));
-	private static final int BUFFER_SIZE = 4096;
-	
-	//ƒRƒ}ƒ“ƒh‚ÌÀsŒ‹‰Ê‚ğ•\¦‚µ‚Ü‚·B
-	private static String streamToString(InputStream in) throws IOException {
-		byte[] buf = new byte[BUFFER_SIZE];
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		int len;
-		while((len = in.read(buf, 0, BUFFER_SIZE))> 0 )out.write(buf, 0, len);
-		return out.toString();
-	}
-	
-	//‘ÎÛ‚Ìhost‚Æ‚ÌƒRƒlƒNƒVƒ‡ƒ“‚ğ‚Í‚è‚Ü‚·B
-	private static Connection connectionHost(String targetHost){
-		Connection conn = new Connection(targetHost);
-		Integer res = null;
-		do {
-			try {
-				conn.connect();
-				res = 0;
-				Thread.sleep(10000);
-			}catch (Exception e) {
-				res = 1;
-				System.out.println("connection retry ...");
-			}
-		}while(res != 0);
-		return conn;
-	}
+    private static final PropertyLoader config = new PropertyLoader("src/config.properties");
+    private static final File keyFile = new File(config.getProperty("keyFile"));
+    private static final int BUFFER_SIZE = 4096;
 
-	// SSH‚ğ—p‚¢‚ÄƒŠƒ‚[ƒg‚ÅƒRƒ}ƒ“ƒh‚ğÀs‚µ‚Ü‚·
-	public static void ssh(String user, String targetHost, String command)
-			throws IOException {
-		Connection conn = connectionHost(targetHost);
-		conn.authenticateWithPublicKey(user, keyFile, null);
-		Session session = conn.openSession();
-		session.execCommand(command);
-		System.out.println(streamToString(session.getStdout()));
-		session.close();
-		conn.close();
-	}
+    //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½Ê‚ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+    private static String streamToString(InputStream in) throws IOException {
+        byte[] buf = new byte[BUFFER_SIZE];
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int len;
+        while ((len = in.read(buf, 0, BUFFER_SIZE)) > 0) out.write(buf, 0, len);
+        return out.toString();
+    }
 
-	// SCP‚ğ—p‚¢‚Äƒtƒ@ƒCƒ‹‚ğ“]‘—‚µ‚Ü‚·
-	public static void scp(String sourceFile, String user, String targetHost,
-			String distinationPath) throws IOException {
-		Connection conn = connectionHost(targetHost);
-		conn.authenticateWithPublicKey(user, keyFile, null);
-		SCPClient scp = conn.createSCPClient();
-		scp.put(sourceFile, distinationPath);
-		conn.close();
-	}
+    //ï¿½ÎÛ‚ï¿½hostï¿½Æ‚ÌƒRï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½Ü‚ï¿½ï¿½B
+    private static Connection connectionHost(String targetHost) {
+        Connection conn = new Connection(targetHost);
+        Integer res = null;
+        do {
+            try {
+                conn.connect();
+                res = 0;
+                Thread.sleep(10000);
+            } catch (Exception e) {
+                res = 1;
+                System.out.println("connection retry ...");
+            }
+        } while (res != 0);
+        return conn;
+    }
+
+    // SSHï¿½ï¿½pï¿½ï¿½ï¿½Äƒï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ÅƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void ssh(String user, String targetHost, String command)
+            throws IOException {
+        Connection conn = connectionHost(targetHost);
+        conn.authenticateWithPublicKey(user, keyFile, null);
+        Session session = conn.openSession();
+        session.execCommand(command);
+        System.out.println(streamToString(session.getStdout()));
+        session.close();
+        conn.close();
+    }
+
+    // SCPï¿½ï¿½pï¿½ï¿½ï¿½Äƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void scp(String sourceFile, String user, String targetHost,
+                           String distinationPath) throws IOException {
+        Connection conn = connectionHost(targetHost);
+        conn.authenticateWithPublicKey(user, keyFile, null);
+        SCPClient scp = conn.createSCPClient();
+        scp.put(sourceFile, distinationPath);
+        conn.close();
+    }
 }

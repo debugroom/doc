@@ -33,41 +33,41 @@ import org.seasar.struts.annotation.Execute;
 
 public class IndexAction {
 
-	public List<Res> reses;
-	public List countRes;
-	
-	public Integer start;
-	public Integer pageSize;
-	
-	@ActionForm
-	@Resource
-	protected ResForm resForm;
-	
-    @Execute(validator = false, urlPattern="{start}-{cmd}")
-	public String index() {
-    	ResDao dao = new ResDao();
-		Transaction tx = Hibernate.openSession().beginTransaction();
-		PageRequest pageRequest = PageRequest.getPageRequest(resForm.cmd, resForm.start, resForm.pageSize);
-		reses = dao.getResesByPage(pageRequest);
-		countRes = dao.getCountRes();
-		start = pageRequest.getStart();
-		pageSize = pageRequest.getPageSize();
-		tx.commit();
-		Hibernate.closeSession();
+    public List<Res> reses;
+    public List countRes;
+
+    public Integer start;
+    public Integer pageSize;
+
+    @ActionForm
+    @Resource
+    protected ResForm resForm;
+
+    @Execute(validator = false, urlPattern = "{start}-{cmd}")
+    public String index() {
+        ResDao dao = new ResDao();
+        Transaction tx = Hibernate.openSession().beginTransaction();
+        PageRequest pageRequest = PageRequest.getPageRequest(resForm.cmd, resForm.start, resForm.pageSize);
+        reses = dao.getResesByPage(pageRequest);
+        countRes = dao.getCountRes();
+        start = pageRequest.getStart();
+        pageSize = pageRequest.getPageSize();
+        tx.commit();
+        Hibernate.closeSession();
         return "index.jsp";
-	}
+    }
 
     @Execute(input = "index.jsp")
     public String insert() {
-    	ResDao dao = new ResDao();
-    	Res entity = Beans.createAndCopy(Res.class, resForm).execute();
-    	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    	entity.setDate(timestamp);
-    	
-    	Transaction tx = Hibernate.openSession().beginTransaction();
-    	dao.insertRes(entity);
-    	tx.commit();
-    	Hibernate.closeSession();
-    	return "?redirect=true";
+        ResDao dao = new ResDao();
+        Res entity = Beans.createAndCopy(Res.class, resForm).execute();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        entity.setDate(timestamp);
+
+        Transaction tx = Hibernate.openSession().beginTransaction();
+        dao.insertRes(entity);
+        tx.commit();
+        Hibernate.closeSession();
+        return "?redirect=true";
     }
 }

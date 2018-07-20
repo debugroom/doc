@@ -33,23 +33,23 @@ import org.apache.commons.logging.LogFactory;
  * <pre>
  *   hibernate.configuration.file = hibernate-test.cfg.xml
  * </pre>
- * 
+ * <p>
  * The session is automatically initialized when necessary by the
  * getConnection() method in the HibernateConnectionFactory class.
  *
  * @author jfsmart
- *
+ * <p>
  * Copyright (c) 2003
  * @version $Id: SessionManager.java,v 1.12 2005/06/02 12:53:53 jfsmart Exp $
  */
 public final class SessionManager {
- 
+
     /**
      * Parameter used to define the XML Hibernate configuration file
      */
-    private static final String HIBERNATE_CONFIGURATION_FILE_PROPERTY 
-        = "hibernate.configuration.file";
-    
+    private static final String HIBERNATE_CONFIGURATION_FILE_PROPERTY
+            = "hibernate.configuration.file";
+
     /**
      * Class logger
      */
@@ -72,39 +72,40 @@ public final class SessionManager {
             throw new RuntimeException("Configuration problem: " + ex.getMessage(), ex);
         }
     }
-    
-    /** 
+
+    /**
      * The thread-local Hibernate session object
      */
     private static final ThreadLocal threadSession = new ThreadLocal();
-    
+
     public static Session getSession() throws HibernateException {
-    	return currentSession();
+        return currentSession();
     }
-    
+
     public static Session currentSession() throws HibernateException {
-    	log.debug("Hibernate Session Manager :Fetching a hibernate session");
+        log.debug("Hibernate Session Manager :Fetching a hibernate session");
         Session s = (Session) threadSession.get();
         // Open a new Session, if this Thread has none yet
         if (s == null) {
             s = sessionFactory.openSession();
             threadSession.set(s);
-        } 
+        }
         if (!s.isOpen()) {
             s = null;
             s = sessionFactory.openSession();
             threadSession.set(s);
         }
-        
-        if (!s.isConnected()){
-        	s.reconnect();
+
+        if (!s.isConnected()) {
+            s.reconnect();
         }
-    	log.debug("Hibernate Session Manager :Fetching a hibernate session done.");
+        log.debug("Hibernate Session Manager :Fetching a hibernate session done.");
         return s;
     }
 
     /**
      * Close the current Hibernate session
+     *
      * @throws HibernateException
      * @throws InfrastructureException
      */
@@ -119,29 +120,31 @@ public final class SessionManager {
         }
         s = null;
     }
-    
+
     /**
      * Connect this session to the current thread
+     *
      * @param session
      * @throws HibernateException
      */
     public static void reconnect(Session session) throws HibernateException {
-            if (!session.isConnected()) {
-            	session.reconnect();
-            }
-            threadSession.set(session);
+        if (!session.isConnected()) {
+            session.reconnect();
+        }
+        threadSession.set(session);
     }
-    
+
     /**
      * Disconnect the current session from the current thread
+     *
      * @return
      * @throws HibernateException
      * @throws HibernateException
      */
     public static Session disconnectSession() throws HibernateException {
         Session session = currentSession();
-    	if (session.isConnected() && session.isOpen()) {
-			session.disconnect();
+        if (session.isConnected() && session.isOpen()) {
+            session.disconnect();
         }
         return session;
     }
@@ -156,6 +159,7 @@ public final class SessionManager {
     /**
      * Returns an instance of a session mananger used to obtain
      * a Hibernate Session object.
+     *
      * @return the Hibernate session manager.
      */
     public static SessionManager getInstance() {

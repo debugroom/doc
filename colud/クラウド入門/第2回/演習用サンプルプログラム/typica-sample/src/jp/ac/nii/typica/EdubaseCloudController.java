@@ -8,44 +8,45 @@ import com.xerox.amazonws.ec2.Jec2;
 import com.xerox.amazonws.ec2.ReservationDescription;
 
 public class EdubaseCloudController {
-	static Jec2 ec2;
-	
-	// Eucalyptus‚Ö‚ÌÚ‘±İ’è‚ğs‚¢‚Ü‚·
-	private static void init() throws Exception {
-		String awsAccessId = "awsAccessId";
-		String awsSecretKey = "awsSecretKey";
-		String endpoint="hostName";
-		int port = 8773;
-		ec2 = new Jec2(awsAccessId, awsSecretKey, false, endpoint, port);
-		ec2.setSignatureVersion(1);
-		ec2.setResourcePrefix("/services/Eucalyptus");
+    static Jec2 ec2;
+
+    // Eucalyptusï¿½Ö‚ÌÚ‘ï¿½ï¿½İ’ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½
+    private static void init() throws Exception {
+        String awsAccessId = "awsAccessId";
+        String awsSecretKey = "awsSecretKey";
+        String endpoint = "hostName";
+        int port = 8773;
+        ec2 = new Jec2(awsAccessId, awsSecretKey, false, endpoint, port);
+        ec2.setSignatureVersion(1);
+        ec2.setResourcePrefix("/services/Eucalyptus");
     }
-	//ƒCƒ[ƒW‚ÌƒŠƒXƒg‚ğæ“¾‚µ‚Ü‚·
-	public static List<ImageDescription> describeImages() throws Exception {
-		List<String> params = new ArrayList<String>();		
-		List<ImageDescription> images = ec2.describeImages(params);
-		return images;
-	}
-	
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹N“®‚µ‚Ü‚·
-	public static void runInstances(String imageId) throws Exception {
-	}
-	
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚ğI—¹‚µ‚Ü‚·
-	public static void terminateInstances(String instanceId) throws Exception {
-	}
-	
-	//‹N“®‚µ‚Ä‚¢‚éƒCƒ“ƒXƒ^ƒ“ƒX‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·
-	public static List<ReservationDescription> describeInstances() throws Exception {
-		List<ReservationDescription> instances = null;
-		return instances;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		init();
-		List<ImageDescription> images = describeImages();
-		for(ImageDescription img : images) {
-			System.out.println(img);
-		}
-	}
+
+    //ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static List<ImageDescription> describeImages() throws Exception {
+        List<String> params = new ArrayList<String>();
+        List<ImageDescription> images = ec2.describeImages(params);
+        return images;
+    }
+
+    //ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void runInstances(String imageId) throws Exception {
+    }
+
+    //ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void terminateInstances(String instanceId) throws Exception {
+    }
+
+    //ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìˆê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static List<ReservationDescription> describeInstances() throws Exception {
+        List<ReservationDescription> instances = null;
+        return instances;
+    }
+
+    public static void main(String[] args) throws Exception {
+        init();
+        List<ImageDescription> images = describeImages();
+        for (ImageDescription img : images) {
+            System.out.println(img);
+        }
+    }
 }

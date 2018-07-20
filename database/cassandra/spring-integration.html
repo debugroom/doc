@@ -1,212 +1,231 @@
-
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Cassandra - SpringFrameworkアプリケーション &mdash; document 0.1-SNAPSHOTS documentation</title>
-  
+    <meta charset="utf-8">
 
-  
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  
+    <title>Cassandra - SpringFrameworkアプリケーション &mdash; document 0.1-SNAPSHOTS documentation</title>
 
-  
-  
-    
 
-  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
 
-  
-
-  
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
-        <link rel="up" title="Cassandra" href="index.html"/>
-        <link rel="next" title="データモデリング" href="datamodeling.html"/>
-        <link rel="prev" title="データベースの操作" href="manipulate.html"/> 
+    <link rel="up" title="Cassandra" href="index.html"/>
+    <link rel="next" title="データモデリング" href="datamodeling.html"/>
+    <link rel="prev" title="データベースの操作" href="manipulate.html"/>
 
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
+
+    <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
+<div class="wy-grid-for-nav">
 
-    
+
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
 
-          
-            <a href="../../index.html" class="icon icon-home"> document
-          
 
-          
-          </a>
+                <a href="../../index.html" class="icon icon-home"> document
 
-          
-            
-            
-              <div class="version">
-                0.1-SNAPSHOTS
-              </div>
-            
-          
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+                </a>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
+                <div class="version">
+                    0.1-SNAPSHOTS
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
-<li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Cassandra - SpringFrameworkアプリケーション</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#section5-1-environment-label">動作環境</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#section5-2-cassandra-settings-label">事前準備</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pom-xml">pom.xml設定</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section5-2-2-setting-cassandra-label">キースペース、テーブル、データ設定</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#section5-3-cassandra-create-application-label">アプリケーションの作成</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spring-data-cassandra">Spring Data Cassandraのサポート</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
-</ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring
+                        Boot</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+                    <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a>
+                        <ul class="current">
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="introduction.html">Introduction</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a>
+                            </li>
+                            <li class="toctree-l2 current"><a class="current reference internal" href="">Cassandra -
+                                SpringFrameworkアプリケーション</a>
+                                <ul>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section5-1-environment-label">動作環境</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section5-2-cassandra-settings-label">事前準備</a>
+                                        <ul>
+                                            <li class="toctree-l4"><a class="reference internal" href="#pom-xml">pom.xml設定</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#section5-2-2-setting-cassandra-label">キースペース、テーブル、データ設定</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section5-3-cassandra-create-application-label">アプリケーションの作成</a>
+                                    </li>
+                                    <li class="toctree-l3"><a class="reference internal" href="#spring-data-cassandra">Spring
+                                        Data Cassandraのサポート</a></li>
+                                </ul>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work
+                        guideline</a></li>
+                </ul>
 
-            
-          
+
+            </div>
         </div>
-      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">document</a>
-      </nav>
+
+        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../index.html">document</a>
+        </nav>
 
 
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
- 
+        <div class="wy-nav-content">
+            <div class="rst-content">
 
 
+                <div role="navigation" aria-label="breadcrumbs navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="../../index.html">Docs</a> &raquo;</li>
 
-<div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="index.html">Cassandra</a> &raquo;</li>
-      
-    <li>Cassandra - SpringFrameworkアプリケーション</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="../../_sources/database/cassandra/spring-integration.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <div class="section" id="cassandra-springframework">
-<span id="section5-cassandra-spring-integration-label"></span><h1>Cassandra - SpringFrameworkアプリケーション<a class="headerlink" href="#cassandra-springframework" title="Permalink to this headline">¶</a></h1>
-<p>実際に作成したサンプルは <a class="reference external" href="https://github.com/debugroom/sample/tree/develop/sample-spring-cassandra">GitHub</a> を参照のこと。</p>
-<div class="section" id="section5-1-environment-label">
-<span id="id1"></span><h2>動作環境<a class="headerlink" href="#section5-1-environment-label" title="Permalink to this headline">¶</a></h2>
-<p>インストール手順は、<a class="reference external" href="http://debugroom.github.io/doc/memo/work/cassandra/install.html">Cassandraのインストール</a> を、キースペース、テーブルの作成は、<a class="reference external" href="http://debugroom.github.io/doc/database/cassandra/definition.html">データベースの定義</a> を参照すること。</p>
-<p>また、アプリケーションの作成は、Spring Bootを利用しているため詳細は、<a class="reference external" href="http://debugroom.github.io/doc/java/spring/springboot/index.html">Spring Boot</a> を参照すること。</p>
-<p>[OS] <br/>
-MacOSX 10.9.5</p>
-<p>[JVM] <br/>
-Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)</p>
-<p>[Cassandraバージョン] <br/></p>
-<ul class="simple">
-<li>cqlsh 5.0.1</li>
-<li>Cassandra 3.7</li>
-<li>CQL spec 3.4.2</li>
-<li>Native protocol v4</li>
-<li>Cassandra driver 3.0.3</li>
-</ul>
-<p>[Springバージョン] <br/></p>
-<ul class="simple">
-<li>Spring Boot 1.4.0.RELEASE(Spring Framework 4.3.2.RELEASE)</li>
-<li>Spring Data Cassandra 1.5.0.M1</li>
-</ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">2016年9月時点では、Spring Data Cassandra 1.4.3.RELEASEが最新だが、 <a class="reference external" href="http://docs.spring.io/spring-data/cassandra/docs/1.4.3.RELEASE/reference/html/#requirements">Cassandra 2.Xのみをサポートしている。</a> Cassandra3.Xへの対応は <a class="reference external" href="https://spring.io/blog/2016/07/27/spring-data-release-train-ingalls-m1-released">Spring Data Cassandra 1.5以降を予定しているため</a> 、Spring Data Release Train Ingalls M1を使用する。</p>
-</div>
-</div>
-<div class="section" id="section5-2-cassandra-settings-label">
-<span id="id3"></span><h2>事前準備<a class="headerlink" href="#section5-2-cassandra-settings-label" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="pom-xml">
-<span id="section5-2-1-setting-pom-label"></span><h3>pom.xml設定<a class="headerlink" href="#pom-xml" title="Permalink to this headline">¶</a></h3>
-<p>上述の通り、Spring Data Release Train Ingalls M1を使用するため、pom.xmlに以下の通り設定を行っておく必要がある。</p>
-<ul>
-<li><p class="first">parentとして、spring-boot-starter-parentを指定</p>
-</li>
-<li><p class="first">Spring Milestone Repositoryを追加</p>
-</li>
-<li><p class="first">プロパティにIngalls-M1を指定</p>
-</li>
-<li><p class="first">Cassandra driverのバージョンを指定</p>
-</li>
-<li><p class="first">Spring Data Cassandraに必要なライブラリを追加</p>
-<blockquote>
-<div><ul class="simple">
-<li>spring-boot-starter-aop</li>
-<li>spring-boot-starter-data-cassandra</li>
-<li>cassandra-driver-core</li>
-<li>jackson-databind</li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
-<div class="highlight-xml"><div class="highlight"><pre> <span class="nt">&lt;parent&gt;</span>
+                        <li><a href="index.html">Cassandra</a> &raquo;</li>
+
+                        <li>Cassandra - SpringFrameworkアプリケーション</li>
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="../../_sources/database/cassandra/spring-integration.txt" rel="nofollow"> View page
+                                source</a>
+
+
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="cassandra-springframework">
+                            <span id="section5-cassandra-spring-integration-label"></span>
+                            <h1>Cassandra - SpringFrameworkアプリケーション<a class="headerlink"
+                                                                      href="#cassandra-springframework"
+                                                                      title="Permalink to this headline">¶</a></h1>
+                            <p>実際に作成したサンプルは <a class="reference external"
+                                               href="https://github.com/debugroom/sample/tree/develop/sample-spring-cassandra">GitHub</a>
+                                を参照のこと。</p>
+                            <div class="section" id="section5-1-environment-label">
+                                <span id="id1"></span>
+                                <h2>動作環境<a class="headerlink" href="#section5-1-environment-label"
+                                           title="Permalink to this headline">¶</a></h2>
+                                <p>インストール手順は、<a class="reference external"
+                                                href="http://debugroom.github.io/doc/memo/work/cassandra/install.html">Cassandraのインストール</a>
+                                    を、キースペース、テーブルの作成は、<a class="reference external"
+                                                         href="http://debugroom.github.io/doc/database/cassandra/definition.html">データベースの定義</a>
+                                    を参照すること。</p>
+                                <p>また、アプリケーションの作成は、Spring Bootを利用しているため詳細は、<a class="reference external"
+                                                                              href="http://debugroom.github.io/doc/java/spring/springboot/index.html">Spring
+                                    Boot</a> を参照すること。</p>
+                                <p>[OS] <br/>
+                                    MacOSX 10.9.5</p>
+                                <p>[JVM] <br/>
+                                    Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Server
+                                    VM (build 25.40-b25, mixed mode)</p>
+                                <p>[Cassandraバージョン] <br/></p>
+                                <ul class="simple">
+                                    <li>cqlsh 5.0.1</li>
+                                    <li>Cassandra 3.7</li>
+                                    <li>CQL spec 3.4.2</li>
+                                    <li>Native protocol v4</li>
+                                    <li>Cassandra driver 3.0.3</li>
+                                </ul>
+                                <p>[Springバージョン] <br/></p>
+                                <ul class="simple">
+                                    <li>Spring Boot 1.4.0.RELEASE(Spring Framework 4.3.2.RELEASE)</li>
+                                    <li>Spring Data Cassandra 1.5.0.M1</li>
+                                </ul>
+                                <div class="admonition note">
+                                    <p class="first admonition-title">Note</p>
+                                    <p class="last">2016年9月時点では、Spring Data Cassandra 1.4.3.RELEASEが最新だが、 <a
+                                            class="reference external"
+                                            href="http://docs.spring.io/spring-data/cassandra/docs/1.4.3.RELEASE/reference/html/#requirements">Cassandra
+                                        2.Xのみをサポートしている。</a> Cassandra3.Xへの対応は <a class="reference external"
+                                                                                 href="https://spring.io/blog/2016/07/27/spring-data-release-train-ingalls-m1-released">Spring
+                                        Data Cassandra 1.5以降を予定しているため</a> 、Spring Data Release Train Ingalls M1を使用する。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="section" id="section5-2-cassandra-settings-label">
+                                <span id="id3"></span>
+                                <h2>事前準備<a class="headerlink" href="#section5-2-cassandra-settings-label"
+                                           title="Permalink to this headline">¶</a></h2>
+                                <div class="section" id="pom-xml">
+                                    <span id="section5-2-1-setting-pom-label"></span>
+                                    <h3>pom.xml設定<a class="headerlink" href="#pom-xml"
+                                                    title="Permalink to this headline">¶</a></h3>
+                                    <p>上述の通り、Spring Data Release Train Ingalls M1を使用するため、pom.xmlに以下の通り設定を行っておく必要がある。</p>
+                                    <ul>
+                                        <li><p class="first">parentとして、spring-boot-starter-parentを指定</p>
+                                        </li>
+                                        <li><p class="first">Spring Milestone Repositoryを追加</p>
+                                        </li>
+                                        <li><p class="first">プロパティにIngalls-M1を指定</p>
+                                        </li>
+                                        <li><p class="first">Cassandra driverのバージョンを指定</p>
+                                        </li>
+                                        <li><p class="first">Spring Data Cassandraに必要なライブラリを追加</p>
+                                            <blockquote>
+                                                <div>
+                                                    <ul class="simple">
+                                                        <li>spring-boot-starter-aop</li>
+                                                        <li>spring-boot-starter-data-cassandra</li>
+                                                        <li>cassandra-driver-core</li>
+                                                        <li>jackson-databind</li>
+                                                    </ul>
+                                                </div>
+                                            </blockquote>
+                                        </li>
+                                    </ul>
+                                    <div class="highlight-xml">
+                                        <div class="highlight"><pre> <span class="nt">&lt;parent&gt;</span>
    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
    <span class="nt">&lt;version&gt;</span>1.4.0.RELEASE<span class="nt">&lt;/version&gt;</span>
@@ -215,7 +234,8 @@ Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Ser
  <span class="nt">&lt;properties&gt;</span>
    <span class="nt">&lt;apt.version&gt;</span>1.1.3<span class="nt">&lt;/apt.version&gt;</span>
    <span class="nt">&lt;querydsl.version&gt;</span>4.1.3<span class="nt">&lt;/querydsl.version&gt;</span>
-   <span class="nt">&lt;cassandra-driver.version&gt;</span>3.0.3<span class="nt">&lt;/cassandra-driver.version&gt;</span>
+   <span class="nt">&lt;cassandra-driver.version&gt;</span>3.0.3<span
+                                                    class="nt">&lt;/cassandra-driver.version&gt;</span>
    <span class="nt">&lt;spring-data-releasetrain.version&gt;</span>Ingalls-M1<span class="nt">&lt;/spring-data-releasetrain.version&gt;</span>
  <span class="nt">&lt;/properties&gt;</span>
 
@@ -237,7 +257,8 @@ Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Ser
    <span class="nt">&lt;/dependency&gt;</span>
    <span class="nt">&lt;dependency&gt;</span>
      <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-     <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-cassandra<span class="nt">&lt;/artifactId&gt;</span>
+     <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-cassandra<span
+                                                    class="nt">&lt;/artifactId&gt;</span>
    <span class="nt">&lt;/dependency&gt;</span>
    <span class="nt">&lt;dependency&gt;</span>
      <span class="nt">&lt;groupId&gt;</span>com.datastax.cassandra<span class="nt">&lt;/groupId&gt;</span>
@@ -253,153 +274,248 @@ Java(TM) SE Runtime Environment (build 1.8.0_40-b27) Java HotSpot(TM) 64-Bit Ser
      <span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
    <span class="nt">&lt;/dependency&gt;</span>
 <span class="nt">&lt;/dependencies&gt;</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">公式の <a class="reference external" href="https://github.com/spring-projects/spring-data-examples">Spring Data Examples</a>  もあわせて適宜参考にすること。</p>
-</div>
-</div>
-<div class="section" id="section5-2-2-setting-cassandra-label">
-<span id="id4"></span><h3>キースペース、テーブル、データ設定<a class="headerlink" href="#section5-2-2-setting-cassandra-label" title="Permalink to this headline">¶</a></h3>
-<p>アクセスするCassandraの環境を事前に構築しておく。ここでは、テーブル構築とデータ設定は別ファイルchema.sql、data.sqlに切り出しておき、Cassandraに接続後、キースペースを作成して、データ設定を行う。</p>
-<div class="literal-block-wrapper container" id="schema-cql">
-<div class="code-block-caption"><span class="caption-text">schema.cql</span><a class="headerlink" href="#schema-cql" title="Permalink to this code">¶</a></div>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">USE</span> <span class="n">sample</span><span class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">公式の <a class="reference external"
+                                                               href="https://github.com/spring-projects/spring-data-examples">Spring
+                                            Data Examples</a> もあわせて適宜参考にすること。</p>
+                                    </div>
+                                </div>
+                                <div class="section" id="section5-2-2-setting-cassandra-label">
+                                    <span id="id4"></span>
+                                    <h3>キースペース、テーブル、データ設定<a class="headerlink"
+                                                            href="#section5-2-2-setting-cassandra-label"
+                                                            title="Permalink to this headline">¶</a></h3>
+                                    <p>
+                                        アクセスするCassandraの環境を事前に構築しておく。ここでは、テーブル構築とデータ設定は別ファイルchema.sql、data.sqlに切り出しておき、Cassandraに接続後、キースペースを作成して、データ設定を行う。</p>
+                                    <div class="literal-block-wrapper container" id="schema-cql">
+                                        <div class="code-block-caption"><span class="caption-text">schema.cql</span><a
+                                                class="headerlink" href="#schema-cql"
+                                                title="Permalink to this code">¶</a></div>
+                                        <div class="highlight-sql">
+                                            <div class="highlight"><pre><span class="n">USE</span> <span class="n">sample</span><span
+                                                    class="p">;</span>
 
-<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">users</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span
+                                                        class="n">users</span><span class="p">;</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span> <span class="p">(</span>
         <span class="n">user_id</span> <span class="nb">bigint</span><span class="p">,</span>
         <span class="n">user_name</span> <span class="nb">text</span><span class="p">,</span>
         <span class="n">first_name</span> <span class="nb">text</span><span class="p">,</span>
         <span class="n">last_name</span> <span class="nb">text</span><span class="p">,</span>
-        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">user_id</span><span
+                                                        class="p">)</span>
     <span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="literal-block-wrapper container" id="data-cql">
-<div class="code-block-caption"><span class="caption-text">data.cql</span><a class="headerlink" href="#data-cql" title="Permalink to this code">¶</a></div>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">USE</span> <span class="n">sample</span><span class="p">;</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="literal-block-wrapper container" id="data-cql">
+                                        <div class="code-block-caption"><span class="caption-text">data.cql</span><a
+                                                class="headerlink" href="#data-cql" title="Permalink to this code">¶</a>
+                                        </div>
+                                        <div class="highlight-sql">
+                                            <div class="highlight"><pre><span class="n">USE</span> <span class="n">sample</span><span
+                                                    class="p">;</span>
 
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">JSON</span> <span class="s1">&#39;{&quot;user_id&quot;: 0, &quot;user_name&quot;: &quot;org.debugroom&quot;, &quot;first_name&quot;: &quot;org&quot;, &quot;last_name&quot;: &quot;debugroom&quot; }&#39;</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">;</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">JSON</span> <span class="s1">&#39;{&quot;user_id&quot;: 1, &quot;user_name&quot;: &quot;(ΦωΦ)&quot;, &quot;first_name&quot;: &quot;(・∀・)&quot;, &quot;last_name&quot;: &quot;(・ω・`)&quot; }&#39;</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<p>cqlshを起動して、データ設定を行う。</p>
-<div class="highlight-bash"><div class="highlight"><pre>cqlsh localhost 9042
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">JSON</span> <span
+                                                        class="s1">&#39;{&quot;user_id&quot;: 0, &quot;user_name&quot;: &quot;org.debugroom&quot;, &quot;first_name&quot;: &quot;org&quot;, &quot;last_name&quot;: &quot;debugroom&quot; }&#39;</span> <span
+                                                        class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span
+                                                        class="p">;</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">JSON</span> <span
+                                                        class="s1">&#39;{&quot;user_id&quot;: 1, &quot;user_name&quot;: &quot;(ΦωΦ)&quot;, &quot;first_name&quot;: &quot;(・∀・)&quot;, &quot;last_name&quot;: &quot;(・ω・`)&quot; }&#39;</span> <span
+                                                        class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span
+                                                        class="p">;</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>cqlshを起動して、データ設定を行う。</p>
+                                    <div class="highlight-bash">
+                                        <div class="highlight"><pre>cqlsh localhost 9042
 
-cqlsh&gt; CREATE KEYSPACE sample WITH <span class="nv">replication</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span>: <span class="s1">&#39;SimpleStrategy&#39;</span>, <span class="s1">&#39;replication_factor&#39;</span> : 1<span class="o">}</span><span class="p">;</span>
+cqlsh&gt; CREATE KEYSPACE sample WITH <span class="nv">replication</span> <span class="o">=</span> <span
+                                                    class="o">{</span><span class="s1">&#39;class&#39;</span>: <span
+                                                    class="s1">&#39;SimpleStrategy&#39;</span>, <span class="s1">&#39;replication_factor&#39;</span> : 1<span
+                                                    class="o">}</span><span class="p">;</span>
 
 cqlsh&gt; <span class="nb">source</span> <span class="s1">&#39;schema.cql&#39;</span>
 
 calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="section5-3-cassandra-create-application-label">
-<span id="id5"></span><h2>アプリケーションの作成<a class="headerlink" href="#section5-3-cassandra-create-application-label" title="Permalink to this headline">¶</a></h2>
-<p>作成したテーブルに対応するエンティティクラスを作成する。</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.entity</span><span class="o">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="section5-3-cassandra-create-application-label">
+                                <span id="id5"></span>
+                                <h2>アプリケーションの作成<a class="headerlink"
+                                                  href="#section5-3-cassandra-create-application-label"
+                                                  title="Permalink to this headline">¶</a></h2>
+                                <p>作成したテーブルに対応するエンティティクラスを作成する。</p>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.entity</span><span
+                                            class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.mapping.Column</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.mapping.PrimaryKey</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.mapping.Table</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.mapping.PrimaryKey</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.mapping.Table</span><span
+                                                class="o">;</span>
 
 <span class="nd">@Data</span>
 <span class="nd">@NoArgsConstructor</span>
 <span class="nd">@Table</span><span class="o">(</span><span class="s">&quot;users&quot;</span><span class="o">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
 
-        <span class="nd">@PrimaryKey</span><span class="o">(</span><span class="s">&quot;user_id&quot;</span><span class="o">)</span> <span class="kd">private</span> <span class="n">Long</span> <span class="n">userId</span><span class="o">;</span>
+        <span class="nd">@PrimaryKey</span><span class="o">(</span><span class="s">&quot;user_id&quot;</span><span
+                                                class="o">)</span> <span class="kd">private</span> <span
+                                                class="n">Long</span> <span class="n">userId</span><span
+                                                class="o">;</span>
 
-        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;user_name&quot;</span><span class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
-        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;first_name&quot;</span><span class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
-        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;last_name&quot;</span><span class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;user_name&quot;</span><span
+                                                class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span
+                                                class="n">userName</span><span class="o">;</span>
+        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;first_name&quot;</span><span
+                                                class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span
+                                                class="n">firstName</span><span class="o">;</span>
+        <span class="nd">@Column</span><span class="o">(</span><span class="s">&quot;last_name&quot;</span><span
+                                                class="o">)</span> <span class="kd">private</span> <span class="n">String</span> <span
+                                                class="n">lastName</span><span class="o">;</span>
 
-        <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span
+                                                class="n">Long</span> <span class="n">userId</span><span
+                                                class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span
+                                                class="n">userId</span><span class="o">);</span>
         <span class="o">}</span>
 <span class="o">}</span>
-</pre></div>
-</div>
-<p>Repositoryクラスを作成する。</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.repository</span><span class="o">;</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>Repositoryクラスを作成する。</p>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.repository</span><span
+                                            class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.springframework.data.repository.CrudRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.CrudRepository</span><span
+                                                class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span
+                                                class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;{</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span
+                                                class="kd">extends</span> <span class="n">CrudRepository</span><span
+                                                class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span
+                                                class="n">Long</span><span class="o">&gt;{</span>
 <span class="o">}</span>
-</pre></div>
-</div>
-<p>Serviceインターフェース及び、実装クラスを作成する。</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.service</span><span class="o">;</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>Serviceインターフェース及び、実装クラスを作成する。</p>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.service</span><span
+                                            class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span
+                                                class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleService</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleService</span> <span
+                                                class="o">{</span>
 
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span
+                                                class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span
+                                                class="o">();</span>
 
 <span class="o">}</span>
-</pre></div>
-</div>
-<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.service</span><span class="o">;</span>
+</pre>
+                                    </div>
+                                </div>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.service</span><span
+                                            class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span
+                                                class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.repository.UserRepository</span><span
+                                                class="o">;</span>
 
 <span class="nd">@Service</span><span class="o">(</span><span class="s">&quot;sampleService&quot;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleService</span><span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleServiceImpl</span> <span class="kd">implements</span> <span
+                                                class="n">SampleService</span><span class="o">{</span>
 
     <span class="nd">@Autowired</span>
     <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
-        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span><span class="n">users</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span
+                                                class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span
+                                                class="o">()</span> <span class="o">{</span>
+        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span
+                                                class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span
+                                                class="o">.</span><span class="na">findAll</span><span
+                                                class="o">();</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span
+                                                class="o">&lt;</span><span class="n">User</span><span
+                                                class="o">&gt;)</span><span class="n">users</span><span
+                                                class="o">;</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
-</pre></div>
-</div>
-<p>コンフィグレーション及びアプリケーション実行クラスを作成する。</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.config</span><span class="o">;</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>コンフィグレーション及びアプリケーション実行クラスを作成する。</p>
+                                <div class="highlight-java">
+                                    <div class="highlight"><pre><span class="kn">package</span> <span class="nn">org.debugroom.sample.cassandra.config</span><span
+                                            class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">com.datastax.driver.core.Session</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.config.SchemaAction</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.core.CassandraTemplate</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.repository.config.EnableCassandraRepositories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.ConfigurableApplicationContext</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.config.SchemaAction</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.core.CassandraTemplate</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.cassandra.repository.config.EnableCassandraRepositories</span><span
+                                                class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.service.SampleService</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.service.SampleServiceImpl</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.entity.User</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.service.SampleService</span><span
+                                                class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.sample.cassandra.service.SampleServiceImpl</span><span
+                                                class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
 
@@ -408,148 +524,194 @@ calsh&gt; <span class="nb">source</span> <span class="s1">&#39;data.cql&#39;</sp
 <span class="nd">@EnableAutoConfiguration</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleApp</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span class="o">(</span>
-                             <span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">web</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
-        <span class="n">SampleService</span> <span class="n">sampleService</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">SampleService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">sampleService</span><span class="o">.</span><span class="na">getUsers</span><span class="o">();</span>
-        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; : users &quot;</span><span class="o">);</span>
-        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span class="o">:</span> <span class="n">users</span><span class="o">){</span>
-            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; :     - &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span
+                                                class="nf">main</span><span class="o">(</span><span
+                                                class="n">String</span><span class="o">[]</span> <span
+                                                class="n">args</span><span class="o">){</span>
+        <span class="n">ConfigurableApplicationContext</span> <span class="n">context</span> <span
+                                                class="o">=</span> <span class="k">new</span> <span class="n">SpringApplicationBuilder</span><span
+                                                class="o">(</span>
+                             <span class="n">SimpleApp</span><span class="o">.</span><span class="na">class</span><span
+                                                class="o">).</span><span class="na">web</span><span
+                                                class="o">(</span><span class="kc">false</span><span class="o">).</span><span
+                                                class="na">run</span><span class="o">(</span><span class="n">args</span><span
+                                                class="o">);</span>
+        <span class="n">SampleService</span> <span class="n">sampleService</span> <span class="o">=</span> <span
+                                                class="n">context</span><span class="o">.</span><span
+                                                class="na">getBean</span><span class="o">(</span><span class="n">SampleService</span><span
+                                                class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span
+                                                class="o">&gt;</span> <span class="n">users</span> <span
+                                                class="o">=</span> <span class="n">sampleService</span><span
+                                                class="o">.</span><span class="na">getUsers</span><span
+                                                class="o">();</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span
+                                                class="n">SimpleApp</span><span class="o">.</span><span
+                                                class="na">class</span><span class="o">.</span><span
+                                                class="na">getName</span><span class="o">()</span> <span
+                                                class="o">+</span> <span class="s">&quot; : users &quot;</span><span
+                                                class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span> <span
+                                                class="o">:</span> <span class="n">users</span><span class="o">){</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span
+                                                class="n">SimpleApp</span><span class="o">.</span><span
+                                                class="na">class</span><span class="o">.</span><span
+                                                class="na">getName</span><span class="o">()</span> <span
+                                                class="o">+</span> <span class="s">&quot; :     - &quot;</span> <span
+                                                class="o">+</span> <span class="n">user</span><span
+                                                class="o">.</span><span class="na">toString</span><span
+                                                class="o">());</span>
         <span class="o">}</span>
      <span class="o">}</span>
 
-     <span class="nd">@Bean</span> <span class="n">SampleService</span> <span class="nf">sampleService</span><span class="o">(){</span>
-         <span class="k">return</span> <span class="k">new</span> <span class="n">SampleServiceImpl</span><span class="o">();</span>
+     <span class="nd">@Bean</span> <span class="n">SampleService</span> <span class="nf">sampleService</span><span
+                                                class="o">(){</span>
+         <span class="k">return</span> <span class="k">new</span> <span class="n">SampleServiceImpl</span><span
+                                                class="o">();</span>
      <span class="o">}</span>
 
      <span class="nd">@ComponentScan</span>
      <span class="nd">@Configuration</span>
-     <span class="nd">@EnableCassandraRepositories</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.cassandra.repository&quot;</span><span class="o">)</span>
-     <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CassandraConfig</span> <span class="kd">extends</span> <span class="n">AbstractCassandraConfiguration</span><span class="o">{</span>
+     <span class="nd">@EnableCassandraRepositories</span><span class="o">(</span><span class="s">&quot;org.debugroom.sample.cassandra.repository&quot;</span><span
+                                                class="o">)</span>
+     <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CassandraConfig</span> <span
+                                                class="kd">extends</span> <span
+                                                class="n">AbstractCassandraConfiguration</span><span class="o">{</span>
 
          <span class="nd">@Override</span>
-         <span class="kd">protected</span> <span class="n">String</span> <span class="nf">getKeyspaceName</span><span class="o">()</span> <span class="o">{</span>
+         <span class="kd">protected</span> <span class="n">String</span> <span class="nf">getKeyspaceName</span><span
+                                                class="o">()</span> <span class="o">{</span>
              <span class="k">return</span> <span class="s">&quot;sample&quot;</span><span class="o">;</span>
          <span class="o">}</span>
 
          <span class="nd">@Override</span>
-         <span class="kd">public</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getEntityBasePackages</span><span class="o">()</span> <span class="o">{</span>
-             <span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">&quot;org.debugroom.sample.cassandra.entity&quot;</span> <span class="o">};</span>
+         <span class="kd">public</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getEntityBasePackages</span><span
+                                                class="o">()</span> <span class="o">{</span>
+             <span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span
+                                                class="o">[]</span> <span class="o">{</span> <span class="s">&quot;org.debugroom.sample.cassandra.entity&quot;</span> <span
+                                                class="o">};</span>
          <span class="o">}</span>
 
          <span class="nd">@Override</span>
-         <span class="kd">public</span> <span class="n">SchemaAction</span> <span class="nf">getSchemaAction</span><span class="o">()</span> <span class="o">{</span>
-             <span class="k">return</span> <span class="n">SchemaAction</span><span class="o">.</span><span class="na">CREATE_IF_NOT_EXISTS</span><span class="o">;</span>
+         <span class="kd">public</span> <span class="n">SchemaAction</span> <span class="nf">getSchemaAction</span><span
+                                                class="o">()</span> <span class="o">{</span>
+             <span class="k">return</span> <span class="n">SchemaAction</span><span class="o">.</span><span class="na">CREATE_IF_NOT_EXISTS</span><span
+                                                class="o">;</span>
          <span class="o">}</span>
 
          <span class="nd">@Bean</span>
-         <span class="kd">public</span> <span class="n">CassandraTemplate</span> <span class="nf">cassandraTemplate</span><span class="o">(</span><span class="n">Session</span> <span class="n">session</span><span class="o">){</span>
-             <span class="k">return</span> <span class="k">new</span> <span class="n">CassandraTemplate</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+         <span class="kd">public</span> <span class="n">CassandraTemplate</span> <span
+                                                class="nf">cassandraTemplate</span><span class="o">(</span><span
+                                                class="n">Session</span> <span class="n">session</span><span class="o">){</span>
+             <span class="k">return</span> <span class="k">new</span> <span class="n">CassandraTemplate</span><span
+                                                class="o">(</span><span class="n">session</span><span
+                                                class="o">);</span>
          <span class="o">}</span>
 
      <span class="o">}</span>
 <span class="o">}</span>
-</pre></div>
-</div>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Spring Data CassandraのEntity、Repository、Configurationクラスのオプションを整理。</p>
-</div>
-</div>
-<div class="section" id="spring-data-cassandra">
-<span id="section5-4-spring-cassandra-support-label"></span><h2>Spring Data Cassandraのサポート<a class="headerlink" href="#spring-data-cassandra" title="Permalink to this headline">¶</a></h2>
-<p>Spring Data Cassandraのサポート内容を公式ページから直訳すると以下の通りである。</p>
-<ul class="simple">
-<li>Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート</li>
-<li>共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL TableとPOJOのマッピング</li>
-<li>Springの統合的な例外ヒエラルキーへの例外の変換</li>
-<li>SpringのCoversionServiceと統合したリッチなオブジェクトマッピング</li>
-<li>アノテーションをベースとしたメタデータのマッピングと他のメタデータフォーマットをサポートするための拡張</li>
-<li>永続化とライフサイクルイベントへのマッピング</li>
-<li>Javaベースのクエリ、クライテリア、更新DSL</li>
-<li>カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装</li>
-</ul>
-<p>より意訳的に、Spring Data Cassandraが提供するメリットの内容としては、以下の通りである。</p>
-<ul class="simple">
-<li>Cassandraへのデータアクセスするためのボイラープレートコードの隠蔽。</li>
-<li>Spring Frameworkとの統合、依存性の注入によるCassandaTemplateクラスの提供。</li>
-<li>エンティティクラスアノテーションによるオブジェクトマッピング機能</li>
-<li>設定クラスによるAP起動時のCassandraテーブル構築オプションの提供</li>
-<li>CrudRepositoryの継承インターフェースによる基本的なデータアクセスコード実装量の軽減</li>
-<li>メソッド命名規約によるCQL自動組み立てによるコード実装量の軽減</li>
-<li>Spring Data のRepositoryCustomやResultsetExecutorによる拡張性の保持</li>
-<li>SrpngのDataアクセス例外を提供することによる、サービスロジックの抽象化による差分の隠蔽。</li>
-</ul>
-</div>
-</div>
+</pre>
+                                    </div>
+                                </div>
+                                <div class="admonition-todo admonition" id="index-0">
+                                    <p class="first admonition-title">Todo</p>
+                                    <p class="last">Spring Data
+                                        CassandraのEntity、Repository、Configurationクラスのオプションを整理。</p>
+                                </div>
+                            </div>
+                            <div class="section" id="spring-data-cassandra">
+                                <span id="section5-4-spring-cassandra-support-label"></span>
+                                <h2>Spring Data Cassandraのサポート<a class="headerlink" href="#spring-data-cassandra"
+                                                                 title="Permalink to this headline">¶</a></h2>
+                                <p>Spring Data Cassandraのサポート内容を公式ページから直訳すると以下の通りである。</p>
+                                <ul class="simple">
+                                    <li>Cassandra Driverインスタンスや、レプリカセットの設定のためのJavaConfig及びXML定義のSpring設定のサポート</li>
+                                    <li>共通的なCassandraオペレーションの処理生産性向上させるCassandraTemplateのヘルパークラス及び、CQL
+                                        TableとPOJOのマッピング
+                                    </li>
+                                    <li>Springの統合的な例外ヒエラルキーへの例外の変換</li>
+                                    <li>SpringのCoversionServiceと統合したリッチなオブジェクトマッピング</li>
+                                    <li>アノテーションをベースとしたメタデータのマッピングと他のメタデータフォーマットをサポートするための拡張</li>
+                                    <li>永続化とライフサイクルイベントへのマッピング</li>
+                                    <li>Javaベースのクエリ、クライテリア、更新DSL</li>
+                                    <li>カスタムファインダーメソッドのサポートを含むRepositoryインターフェースの自動実装</li>
+                                </ul>
+                                <p>より意訳的に、Spring Data Cassandraが提供するメリットの内容としては、以下の通りである。</p>
+                                <ul class="simple">
+                                    <li>Cassandraへのデータアクセスするためのボイラープレートコードの隠蔽。</li>
+                                    <li>Spring Frameworkとの統合、依存性の注入によるCassandaTemplateクラスの提供。</li>
+                                    <li>エンティティクラスアノテーションによるオブジェクトマッピング機能</li>
+                                    <li>設定クラスによるAP起動時のCassandraテーブル構築オプションの提供</li>
+                                    <li>CrudRepositoryの継承インターフェースによる基本的なデータアクセスコード実装量の軽減</li>
+                                    <li>メソッド命名規約によるCQL自動組み立てによるコード実装量の軽減</li>
+                                    <li>Spring Data のRepositoryCustomやResultsetExecutorによる拡張性の保持</li>
+                                    <li>SrpngのDataアクセス例外を提供することによる、サービスロジックの抽象化による差分の隠蔽。</li>
+                                </ul>
+                            </div>
+                        </div>
 
 
-           </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="datamodeling.html" class="btn btn-neutral float-right" title="データモデリング" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="manipulate.html" class="btn btn-neutral" title="データベースの操作" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
+                    </div>
+                </div>
+                <footer>
 
-  <hr/>
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, org.debugroom.
+                        <a href="datamodeling.html" class="btn btn-neutral float-right" title="データモデリング" accesskey="n">Next
+                            <span class="fa fa-arrow-circle-right"></span></a>
 
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-</footer>
+                        <a href="manipulate.html" class="btn btn-neutral" title="データベースの操作" accesskey="p"><span
+                                class="fa fa-arrow-circle-left"></span> Previous</a>
 
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2016, org.debugroom.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
         </div>
-      </div>
 
     </section>
 
-  </div>
-  
+</div>
 
 
-  
+<script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT: '../../',
+        VERSION: '0.1-SNAPSHOTS',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE: true
+    };
+</script>
+<script type="text/javascript" src="../../_static/jquery.js"></script>
+<script type="text/javascript" src="../../_static/underscore.js"></script>
+<script type="text/javascript" src="../../_static/doctools.js"></script>
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.1-SNAPSHOTS',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
 
-  
+<script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
 
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
+<script type="text/javascript">
+    jQuery(function () {
+        SphinxRtdTheme.StickyNav.enable();
+    });
+</script>
+
 
 </body>
 </html>

@@ -12,73 +12,73 @@ import com.xerox.amazonws.ec2.ReservationDescription.Instance;
 
 public class LaunchCluster {
 
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-		// Šeíƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·
+        // ï¿½eï¿½íƒ†ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½
 
-		// İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğ‚µ‚Ü‚·
-		PropertyLoader config = new PropertyLoader("src/config.properties");
+        // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        PropertyLoader config = new PropertyLoader("src/config.properties");
 
-		// edubase Cloud‚Ö‚ÌƒAƒNƒZƒXî•ñ‚ğæ“¾‚µ‚Ü‚·
-		String awsSecretKey = config.getProperty("secretKey");
-		String awsAccessId = config.getProperty("accessKey");
-		String hostName = config.getProperty("hostName");
-		String resourcePrefix = config.getProperty("resourcePrefix");
-		int port = Integer.parseInt(config.getProperty("port"));
+        // edubase Cloudï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String awsSecretKey = config.getProperty("secretKey");
+        String awsAccessId = config.getProperty("accessKey");
+        String hostName = config.getProperty("hostName");
+        String resourcePrefix = config.getProperty("resourcePrefix");
+        int port = Integer.parseInt(config.getProperty("port"));
 
-		// ‹N“®‚·‚éƒ}ƒVƒ“ƒCƒ[ƒW‚ÆA‹N“®Œã‚Ég‚¤SSHƒL[AƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv–¼‚ğæ“¾‚µ‚Ü‚·
-		List<String> imageList = config.getImageList();
-		List<String> instanceList = new ArrayList<String>();
-		HashMap<String, String> imageMap = config.getImageMap();
-		HashMap<String, String> instanceMap = new HashMap<String, String>();
-		String keyName = config.getProperty("keyName");
-		List<String> securityGroups = config.getSecurityGroups();
+        // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÆAï¿½Nï¿½ï¿½ï¿½ï¿½Égï¿½ï¿½SSHï¿½Lï¿½[ï¿½Aï¿½Zï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Bï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        List<String> imageList = config.getImageList();
+        List<String> instanceList = new ArrayList<String>();
+        HashMap<String, String> imageMap = config.getImageMap();
+        HashMap<String, String> instanceMap = new HashMap<String, String>();
+        String keyName = config.getProperty("keyName");
+        List<String> securityGroups = config.getSecurityGroups();
 
-		// edubase Cloud‚ÌƒRƒ“ƒgƒ[ƒ‰‚ğ‰Šú‰»‚µ‚Ü‚·
-		EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
-				awsSecretKey, hostName, resourcePrefix, port);
+        // edubase Cloudï¿½ÌƒRï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
+                awsSecretKey, hostName, resourcePrefix, port);
 
-		// ƒ}ƒVƒ“ƒCƒ[ƒW•ª‚ÌƒT[ƒo‚ğƒCƒ“ƒXƒ^ƒ“ƒX‚Æ‚µ‚Ä‚P‘ä‚¸‚Â‹N“®‚µ‚Ü‚·
-		for (String imageId : imageList) {
-			String instanceId = cloud.runInstances(imageId, keyName,
-					securityGroups);
-			instanceMap.put(imageId, instanceId);
-			instanceList.add(instanceId);
-		}
-		
-		// ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìó‘Ô‚ª‚·‚×‚Ärunning‚É‚È‚é‚Ü‚Å‘Ò‚¿‚Ü‚·B
-		cloud.waitInstance(instanceList);
+        // ï¿½}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ÌƒTï¿½[ï¿½oï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Æ‚ï¿½ï¿½Ä‚Pï¿½ä‚¸ï¿½Â‹Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        for (String imageId : imageList) {
+            String instanceId = cloud.runInstances(imageId, keyName,
+                    securityGroups);
+            instanceMap.put(imageId, instanceId);
+            instanceList.add(instanceId);
+        }
 
-		// ‹N“®‚³‚ê‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìî•ñ‚ğæ“¾‚µ‚Ü‚·
-		Instance dbInstance = cloud.describeInstance(instanceMap.get(imageMap
-				.get("dbImageId")));
-		Instance appInstance = cloud.describeInstance(instanceMap.get(imageMap
-				.get("appImageId")));
-		Instance webInstance = cloud.describeInstance(instanceMap.get(imageMap
-				.get("webImageId")));
-		Instance lbInstance = cloud.describeInstance(instanceMap.get(imageMap
-				.get("lbImageId")));
+        // ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½Ô‚ï¿½ï¿½ï¿½ï¿½×‚ï¿½runningï¿½É‚È‚ï¿½Ü‚Å‘Ò‚ï¿½ï¿½Ü‚ï¿½ï¿½B
+        cloud.waitInstance(instanceList);
 
-		// ƒCƒ“ƒXƒ^ƒ“ƒX‚»‚ê‚¼‚ê‚ÌIPƒAƒhƒŒƒX‚ğæ“¾‚µ‚Ü‚·
-		String dbPrivateDnsName = dbInstance.getPrivateDnsName();
-		String appDnsName = appInstance.getDnsName();
-		String appPrivateDnsName = appInstance.getPrivateDnsName();
-		String webPrivateDnsName = webInstance.getPrivateDnsName();
-		String webDnsName = webInstance.getDnsName();
-		String lbDnsName = lbInstance.getDnsName();
+        // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        Instance dbInstance = cloud.describeInstance(instanceMap.get(imageMap
+                .get("dbImageId")));
+        Instance appInstance = cloud.describeInstance(instanceMap.get(imageMap
+                .get("appImageId")));
+        Instance webInstance = cloud.describeInstance(instanceMap.get(imageMap
+                .get("webImageId")));
+        Instance lbInstance = cloud.describeInstance(instanceMap.get(imageMap
+                .get("lbImageId")));
 
-		// ƒT[ƒrƒX‚É•K—v‚Èİ’èƒtƒ@ƒCƒ‹‚ª’u‚¢‚Ä‚ ‚éêŠ‚ğæ“¾‚µ‚Ü‚·
-		String srcDir = config.getProperty("srcDir");
-		
-		//File keyFile = new File(config.getProperty("keyFile"));
-		// Tomcat(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-		StartupProcess.appServer(appDnsName, dbPrivateDnsName, srcDir);
+        // ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String dbPrivateDnsName = dbInstance.getPrivateDnsName();
+        String appDnsName = appInstance.getDnsName();
+        String appPrivateDnsName = appInstance.getPrivateDnsName();
+        String webPrivateDnsName = webInstance.getPrivateDnsName();
+        String webDnsName = webInstance.getDnsName();
+        String lbDnsName = lbInstance.getDnsName();
 
-		// Apache(WebƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-		StartupProcess.webServer(webDnsName, appPrivateDnsName);
+        // ï¿½Tï¿½[ï¿½rï¿½Xï¿½É•Kï¿½vï¿½Èİ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½êŠï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String srcDir = config.getProperty("srcDir");
 
-		// nginx(ƒ[ƒhƒoƒ‰ƒ“ƒT[)‚ğ‹N“®‚µ‚Ü‚·
-		StartupProcess.lbServer(lbDnsName, webPrivateDnsName, srcDir, false);
+        //File keyFile = new File(config.getProperty("keyFile"));
+        // Tomcat(ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        StartupProcess.appServer(appDnsName, dbPrivateDnsName, srcDir);
 
-	}
+        // Apache(Webï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        StartupProcess.webServer(webDnsName, appPrivateDnsName);
+
+        // nginx(ï¿½ï¿½ï¿½[ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        StartupProcess.lbServer(lbDnsName, webPrivateDnsName, srcDir, false);
+
+    }
 }

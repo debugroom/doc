@@ -2,6 +2,7 @@ package jp.ac.nii.sample.utility;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,133 +16,134 @@ import com.xerox.amazonws.ec2.ReservationDescription.Instance;
 
 public class EdubaseCloudController {
 
-	private Jec2 ec2;
-	private Log log = LogFactory.getLog(EdubaseCloudController.class);
+    private Jec2 ec2;
+    private Log log = LogFactory.getLog(EdubaseCloudController.class);
 
-	public EdubaseCloudController(String awsAccessId, String awsSecretKey,
-			String hostName, String resourcePrefix, int port) {
-		try {
-			init(awsAccessId, awsSecretKey, hostName, resourcePrefix, port);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    public EdubaseCloudController(String awsAccessId, String awsSecretKey,
+                                  String hostName, String resourcePrefix, int port) {
+        try {
+            init(awsAccessId, awsSecretKey, hostName, resourcePrefix, port);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	public void init(String awsAccessId, String awsSecretKey, String hostName,
-			String resourcePrefix, int port) throws Exception {
-		ec2 = new Jec2(awsAccessId, awsSecretKey, false, hostName, port);
-		ec2.setSignatureVersion(1);
-		ec2.setResourcePrefix(resourcePrefix);
-	}
+    public void init(String awsAccessId, String awsSecretKey, String hostName,
+                     String resourcePrefix, int port) throws Exception {
+        ec2 = new Jec2(awsAccessId, awsSecretKey, false, hostName, port);
+        ec2.setSignatureVersion(1);
+        ec2.setResourcePrefix(resourcePrefix);
+    }
 
-	// Runningó‘Ô‚É‚ ‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‚·‚×‚Ä‹­§I—¹‚µ‚Ü‚·
-	public void shutdownAllRunningInstances(String keyname) throws Exception {
-		List<ReservationDescription> instances = null;
-		instances = describeInstances();
+    // Runningï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä‹ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public void shutdownAllRunningInstances(String keyname) throws Exception {
+        List<ReservationDescription> instances = null;
+        instances = describeInstances();
 
-		ArrayList<String> instanceIds = new ArrayList<String>();
-		for (ReservationDescription res : instances) {
-			for (Instance inst : res.getInstances()) {
-				if (inst.getState().equals("running") && inst.getKeyName().equals(keyname)) {
-					instanceIds.add(inst.getInstanceId());
-				}
-			}
-		}
+        ArrayList<String> instanceIds = new ArrayList<String>();
+        for (ReservationDescription res : instances) {
+            for (Instance inst : res.getInstances()) {
+                if (inst.getState().equals("running") && inst.getKeyName().equals(keyname)) {
+                    instanceIds.add(inst.getInstanceId());
+                }
+            }
+        }
 
-		if (instanceIds.size() != 0) {
-			List<InstanceStateChangeDescription> result = ec2
-					.terminateInstances(instanceIds);
-			log.info(result);
-		}
-	}
+        if (instanceIds.size() != 0) {
+            List<InstanceStateChangeDescription> result = ec2
+                    .terminateInstances(instanceIds);
+            log.info(result);
+        }
+    }
 
-	// w’è‚³‚ê‚½ğŒ‚ÅƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‚P‘ä‹N“®‚µ‚Ü‚·
-	public String runInstances(String imageId, String keyName,
-			List<String> securityGroups) throws Exception {
+    // ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½ÅƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Pï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public String runInstances(String imageId, String keyName,
+                               List<String> securityGroups) throws Exception {
 
-		System.out.println("Running instance");
+        System.out.println("Running instance");
 
-		LaunchConfiguration lc = new LaunchConfiguration(imageId);
-		InstanceType instanceType = InstanceType.DEFAULT;
+        LaunchConfiguration lc = new LaunchConfiguration(imageId);
+        InstanceType instanceType = InstanceType.DEFAULT;
 
-		lc.setInstanceType(instanceType);
-		lc.setKeyName(keyName);
-		lc.setMinCount(1);
-		lc.setMaxCount(1);
-		lc.setSecurityGroup(securityGroups);
+        lc.setInstanceType(instanceType);
+        lc.setKeyName(keyName);
+        lc.setMinCount(1);
+        lc.setMaxCount(1);
+        lc.setSecurityGroup(securityGroups);
 
-		ReservationDescription result = ec2.runInstances(lc);
-		String resultInstanceId = null;
+        ReservationDescription result = ec2.runInstances(lc);
+        String resultInstanceId = null;
 
-		for (Instance inst : result.getInstances()) {
-			resultInstanceId = inst.getInstanceId();
-		}
-		
-		return resultInstanceId;
-	}
-	
-	public void waitInstance(List<String> instanceList) {
-		String state = null;
-		Integer count = null;
-		try {
-			do {
-				count = 0;
-				for(String instanceId : instanceList){
-					state = getInstanceStatus(instanceId);
-					if (state.equals("pending")){
-						count += 1;
-						System.out.println("waiting...");
-						Thread.sleep(1000);
-					}
-				}
-			} while (count != 0);
-		} catch (Exception e) {
-			log.error(e);
-		}
-		System.out.println("Success:Running instances");
-	}
-	// ‹N“®‚³‚ê‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìó‘Ô‚ğæ“¾‚µ‚Ü‚·
-	public Instance describeInstance(String instanceId) throws Exception {
-		List<String> params = new ArrayList<String>();
-		params.add(instanceId);
-		List<ReservationDescription> instances = ec2.describeInstances(params);
-		Instance resultInstance = null;
-		for (ReservationDescription res : instances) {
-			for (Instance inst : res.getInstances()) {
-				resultInstance = inst;
-			}
-		}
-		return resultInstance;
-	}
+        for (Instance inst : result.getInstances()) {
+            resultInstanceId = inst.getInstanceId();
+        }
 
-	// ‹N“®‚µ‚Ä‚¢‚éƒCƒ“ƒXƒ^ƒ“ƒX‚Ìˆê——‚ğæ“¾‚µ‚Ü‚·
-	public List<ReservationDescription> describeInstances() throws Exception {
-		List<String> params = new ArrayList<String>();
-		params = new ArrayList<String>();
-		List<ReservationDescription> instances = ec2.describeInstances(params);
-		return instances;
-	}
+        return resultInstanceId;
+    }
 
-	// w’è‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìó‘Ô(pending, running, shutting-down, terminated)‚ğ•Ô‚µ‚Ü‚·
-	public String getInstanceStatus(String instanceId) throws Exception {
-		List<String> params = new ArrayList<String>();
-		String state = new String();
-		params.add(instanceId);
-		List<ReservationDescription> instances = ec2.describeInstances(params);
-		for (ReservationDescription res : instances) {
-			for (Instance inst : res.getInstances()) {
-				state = inst.getState();
-			}
-		}
+    public void waitInstance(List<String> instanceList) {
+        String state = null;
+        Integer count = null;
+        try {
+            do {
+                count = 0;
+                for (String instanceId : instanceList) {
+                    state = getInstanceStatus(instanceId);
+                    if (state.equals("pending")) {
+                        count += 1;
+                        System.out.println("waiting...");
+                        Thread.sleep(1000);
+                    }
+                }
+            } while (count != 0);
+        } catch (Exception e) {
+            log.error(e);
+        }
+        System.out.println("Success:Running instances");
+    }
 
-		return state;
-	}
+    // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½Ô‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+    public Instance describeInstance(String instanceId) throws Exception {
+        List<String> params = new ArrayList<String>();
+        params.add(instanceId);
+        List<ReservationDescription> instances = ec2.describeInstances(params);
+        Instance resultInstance = null;
+        for (ReservationDescription res : instances) {
+            for (Instance inst : res.getInstances()) {
+                resultInstance = inst;
+            }
+        }
+        return resultInstance;
+    }
 
-	// ƒ}ƒVƒ“ƒCƒ[ƒW‚Ìˆê——‚ğ•Ô‚µ‚Ü‚·
-	public List<ImageDescription> describeImages() throws Exception {
-		List<String> params = new ArrayList<String>();
-		List<ImageDescription> images = ec2.describeImages(params);
-		return images;
-	}
+    // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìˆê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+    public List<ReservationDescription> describeInstances() throws Exception {
+        List<String> params = new ArrayList<String>();
+        params = new ArrayList<String>();
+        List<ReservationDescription> instances = ec2.describeInstances(params);
+        return instances;
+    }
+
+    // ï¿½wï¿½è‚µï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½(pending, running, shutting-down, terminated)ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
+    public String getInstanceStatus(String instanceId) throws Exception {
+        List<String> params = new ArrayList<String>();
+        String state = new String();
+        params.add(instanceId);
+        List<ReservationDescription> instances = ec2.describeInstances(params);
+        for (ReservationDescription res : instances) {
+            for (Instance inst : res.getInstances()) {
+                state = inst.getState();
+            }
+        }
+
+        return state;
+    }
+
+    // ï¿½}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½Ìˆê——ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
+    public List<ImageDescription> describeImages() throws Exception {
+        List<String> params = new ArrayList<String>();
+        List<ImageDescription> images = ec2.describeImages(params);
+        return images;
+    }
 }

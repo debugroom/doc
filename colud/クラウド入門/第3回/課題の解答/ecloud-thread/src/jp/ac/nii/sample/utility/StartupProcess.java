@@ -5,120 +5,120 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-// ƒŠƒ‚[ƒg‚Å“Á’è‚Ìè‡‚ğÀs‚³‚¹‚é‚½‚ß‚Ìƒ†[ƒeƒBƒŠƒeƒB‚Å‚·
+// ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Å“ï¿½ï¿½ï¿½Ìè‡ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìƒï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½eï¿½Bï¿½Å‚ï¿½
 public class StartupProcess {
 
-	// Tomcat(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-	public static void appServer(String appDnsName, String dbPrivateDnsName,
-			String srcDir) throws IOException {
+    // Tomcat(ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void appServer(String appDnsName, String dbPrivateDnsName,
+                                 String srcDir) throws IOException {
 
-		// hibernate‚Ìİ’è‚ğs‚¢‚Ü‚·
-		try {
-			// ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
-			FileReader fr = new FileReader("src/hibernate-template.xml");
-			BufferedReader br = new BufferedReader(fr);
+        // hibernateï¿½Ìİ’ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½
+        try {
+            // ï¿½eï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
+            FileReader fr = new FileReader("src/hibernate-template.xml");
+            BufferedReader br = new BufferedReader(fr);
 
-			StringBuffer tmp_str = new StringBuffer();
-			String tmp;
-			while ((tmp = br.readLine()) != null) {
-				tmp_str.append(tmp);
-				tmp_str.append("\n");
-			}
-			br.close();
+            StringBuffer tmp_str = new StringBuffer();
+            String tmp;
+            while ((tmp = br.readLine()) != null) {
+                tmp_str.append(tmp);
+                tmp_str.append("\n");
+            }
+            br.close();
 
-			// ƒf[ƒ^ƒx[ƒXƒT[ƒo‚ÌÚ‘±æIPƒAƒhƒŒƒX‚ğƒeƒ“ƒvƒŒ[ƒg‚É–„‚ß‚İ‚Ü‚·
-			String xmlValue = String.format(tmp_str.toString(),
-					dbPrivateDnsName);
+            // ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Tï¿½[ï¿½oï¿½ÌÚ‘ï¿½ï¿½ï¿½IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½eï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½É–ï¿½ï¿½ßï¿½ï¿½İ‚Ü‚ï¿½
+            String xmlValue = String.format(tmp_str.toString(),
+                    dbPrivateDnsName);
 
-			// İ’èƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä‘‚«o‚µ‚Ü‚·
-			FileWriter fw = new FileWriter("src/hibernate.cfg.xml");
-			fw.write(xmlValue);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+            // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½
+            FileWriter fw = new FileWriter("src/hibernate.cfg.xml");
+            fw.write(xmlValue);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
-		System.out.println("created hibernate.cfg.xml");
+        System.out.println("created hibernate.cfg.xml");
 
-		// Š®¬‚µ‚½İ’èƒtƒ@ƒCƒ‹‚ğƒCƒ“ƒXƒ^ƒ“ƒX‚Öscp‚µAã‘‚«‚µ‚Ü‚·
-		ConfigurationModifier.scp(srcDir + "hibernate.cfg.xml", "root",
-				appDnsName,
-				"/opt/sample-kejiban/src/main/webapp/WEB-INF/classes/");
-		System.out.println("send file hibernate.cfg.xml: " + appDnsName);
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½scpï¿½ï¿½ï¿½Aï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier.scp(srcDir + "hibernate.cfg.xml", "root",
+                appDnsName,
+                "/opt/sample-kejiban/src/main/webapp/WEB-INF/classes/");
+        System.out.println("send file hibernate.cfg.xml: " + appDnsName);
 
-		// Tomcat‚ğ‹N“®‚µ‚Ü‚·
-		ConfigurationModifier.ssh("root", appDnsName,
-				"/etc/init.d/tomcat start");
-		System.out.println("app server start: " + appDnsName);
+        // Tomcatï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier.ssh("root", appDnsName,
+                "/etc/init.d/tomcat start");
+        System.out.println("app server start: " + appDnsName);
 
-	}
+    }
 
-	// Apache(WebƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-	public static void webServer(String webDnsName, String appPrivateDnsName)
-			throws IOException {
+    // Apache(Webï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void webServer(String webDnsName, String appPrivateDnsName)
+            throws IOException {
 
-		// Tomcat‚ÌÚ‘±æIP‚ğw’è‚·‚é‚½‚ßAApache‚ª‹N“®‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‘Î‚µİ’èƒtƒ@ƒCƒ‹‚ğ’¼Ú•ÏX‚µ‚Ü‚·
-		ConfigurationModifier
-				.ssh("root",
-						webDnsName,
-						String.format(
-								"echo ProxyPass /sample-kejiban ajp://%1$1s:8009/sample-kejiban >> /etc/httpd/conf.d/proxy_ajp.conf",
-								appPrivateDnsName));
-		System.out.println("Added ProxyPass: " + webDnsName);
+        // Tomcatï¿½ÌÚ‘ï¿½ï¿½ï¿½IPï¿½ï¿½ï¿½wï¿½è‚·ï¿½é‚½ï¿½ßAApacheï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½É‘Î‚ï¿½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ğ’¼Ú•ÏXï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier
+                .ssh("root",
+                        webDnsName,
+                        String.format(
+                                "echo ProxyPass /sample-kejiban ajp://%1$1s:8009/sample-kejiban >> /etc/httpd/conf.d/proxy_ajp.conf",
+                                appPrivateDnsName));
+        System.out.println("Added ProxyPass: " + webDnsName);
 
-		// Apache‚ğÄ‹N“®‚µ‚Ü‚·
-		ConfigurationModifier.ssh("root", webDnsName,
-				"/etc/init.d/httpd restart");
-		System.out.println("web server restart: " + webDnsName);
-	}
+        // Apacheï¿½ï¿½ï¿½Ä‹Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier.ssh("root", webDnsName,
+                "/etc/init.d/httpd restart");
+        System.out.println("web server restart: " + webDnsName);
+    }
 
-	// nginx(ƒ[ƒhƒoƒ‰ƒ“ƒT[)‚ğ‹N“®‚µ‚Ü‚·
-	public static void lbServer(String lbDnsName, String webPrivateDnsName,
-			String srcDir, Boolean update) throws IOException {
+    // nginx(ï¿½ï¿½ï¿½[ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+    public static void lbServer(String lbDnsName, String webPrivateDnsName,
+                                String srcDir, Boolean update) throws IOException {
 
-		// ƒ[ƒhƒoƒ‰ƒ“ƒT[‚ğV‹K‚É‹N“®‚·‚éê‡‚Íƒeƒ“ƒvƒŒ[ƒg‚ğ—p‚¢‚Ü‚·‚ªA
-		// Šù‘¶‚Ìİ’è‚ğXV‚·‚éê‡‚Ío—ÍŒ‹‰Ê‚Å‚ ‚énginx.confƒtƒ@ƒCƒ‹‚ğ•ÒW‚µ‚Ü‚·B
-		String tmpFile = (update) ? "src/nginx.conf"
-				: "src/nginx-template.conf";
+        // ï¿½ï¿½ï¿½[ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½ï¿½Vï¿½Kï¿½É‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒeï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½pï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½A
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ìİ’ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íoï¿½ÍŒï¿½ï¿½Ê‚Å‚ï¿½ï¿½ï¿½nginx.confï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ÒWï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+        String tmpFile = (update) ? "src/nginx.conf"
+                : "src/nginx-template.conf";
 
-		try {
-			// w’è‚³‚ê‚½İ’èƒtƒ@ƒCƒ‹‚ğŠJ‚«‚Ü‚·
-			FileReader fr = new FileReader(tmpFile);
-			BufferedReader br = new BufferedReader(fr);
+        try {
+            // ï¿½wï¿½è‚³ï¿½ê‚½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½
+            FileReader fr = new FileReader(tmpFile);
+            BufferedReader br = new BufferedReader(fr);
 
-			StringBuffer tmp_str = new StringBuffer();
-			String tmp;
-			while ((tmp = br.readLine()) != null) {
-				tmp_str.append(tmp);
-				tmp_str.append("\n");
-				// İ’èƒtƒ@ƒCƒ‹‚Ì•ÏXŠY“–‰ÓŠ‚ğŒŸo‚µ‚Ü‚·
-				if (tmp.endsWith("upstream backend {")) {
-					// ƒoƒ‰ƒ“ƒX‚·‚éæ‚ÉWebƒT[ƒo‚ÌÚ‘±æIPƒAƒhƒŒƒX‚ğw’è‚µ‚Ü‚·
-					tmp_str.append(String.format("	server %1$1s;",
-							webPrivateDnsName));
-					tmp_str.append("\n");
-				}
-			}
-			br.close();
-			
-			// nginx‚Ìİ’èƒtƒ@ƒCƒ‹‚Æ‚µ‚Äo—Í‚µ‚Ü‚·
-			String confValue = tmp_str.toString();
-			FileWriter fw = new FileWriter("src/nginx.conf");
-			fw.write(confValue);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+            StringBuffer tmp_str = new StringBuffer();
+            String tmp;
+            while ((tmp = br.readLine()) != null) {
+                tmp_str.append(tmp);
+                tmp_str.append("\n");
+                // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì•ÏXï¿½Yï¿½ï¿½ï¿½Óï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½
+                if (tmp.endsWith("upstream backend {")) {
+                    // ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Webï¿½Tï¿½[ï¿½oï¿½ÌÚ‘ï¿½ï¿½ï¿½IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½wï¿½è‚µï¿½Ü‚ï¿½
+                    tmp_str.append(String.format("	server %1$1s;",
+                            webPrivateDnsName));
+                    tmp_str.append("\n");
+                }
+            }
+            br.close();
 
-		// SCP‚Ånginx‚ª“®‚¢‚Ä‚¢‚éƒCƒ“ƒXƒ^ƒ“ƒX‚Öİ’èƒtƒ@ƒCƒ‹‚ğ“]‘—Aã‘‚«‚µ‚Ü‚·
-		ConfigurationModifier.scp(srcDir + "nginx.conf", "root", lbDnsName,
-				"/usr/local/nginx/conf/");
+            // nginxï¿½Ìİ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Äoï¿½Í‚ï¿½ï¿½Ü‚ï¿½
+            String confValue = tmp_str.toString();
+            FileWriter fw = new FileWriter("src/nginx.conf");
+            fw.write(confValue);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
-		// nginx‚ğÄ‹N“®‚µ‚Ü‚·
-		ConfigurationModifier.ssh("root", lbDnsName,
-				"/etc/init.d/nginx restart");
-		System.out.println("lb server restart: " + lbDnsName);
-	}
+        // SCPï¿½ï¿½nginxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Öİ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Aï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier.scp(srcDir + "nginx.conf", "root", lbDnsName,
+                "/usr/local/nginx/conf/");
+
+        // nginxï¿½ï¿½ï¿½Ä‹Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        ConfigurationModifier.ssh("root", lbDnsName,
+                "/etc/init.d/nginx restart");
+        System.out.println("lb server restart: " + lbDnsName);
+    }
 }

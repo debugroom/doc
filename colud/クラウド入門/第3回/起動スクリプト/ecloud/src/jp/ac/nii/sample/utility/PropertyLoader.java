@@ -8,52 +8,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-// w’è‚³‚ê‚½İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Şƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Å‚·
+// ï¿½wï¿½è‚³ï¿½ê‚½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½Şƒï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Xï¿½Å‚ï¿½
 public class PropertyLoader extends Properties {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public PropertyLoader(String filename) {
-		try {
-			load(filename);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    public PropertyLoader(String filename) {
+        try {
+            load(filename);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	public void load(String filename) throws Exception {
-		InputStream inputStream = new FileInputStream(new File(filename));
-		load(inputStream);
-	}
+    public void load(String filename) throws Exception {
+        InputStream inputStream = new FileInputStream(new File(filename));
+        load(inputStream);
+    }
 
-	// İ’èƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒCƒ[ƒW‚ğ‚·‚×‚Äˆê——‚É‚µ‚Ä•Ô‚µ‚Ü‚·
-	public List<String> getImageList() {
-		List<String> imageList = new ArrayList<String>();
-		imageList.add(getProperty("dbImageId"));
-		imageList.add(getProperty("appImageId"));
-		imageList.add(getProperty("webImageId"));
-		imageList.add(getProperty("lbImageId"));
-		return imageList;
-	}
+    // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½ê‚½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½×‚Äˆê——ï¿½É‚ï¿½ï¿½Ä•Ô‚ï¿½ï¿½Ü‚ï¿½
+    public List<String> getImageList() {
+        List<String> imageList = new ArrayList<String>();
+        imageList.add(getProperty("dbImageId"));
+        imageList.add(getProperty("appImageId"));
+        imageList.add(getProperty("webImageId"));
+        imageList.add(getProperty("lbImageId"));
+        return imageList;
+    }
 
-	// İ’èƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒCƒ[ƒW‚ğ–¼‘O‚Â‚«‚Å‚·‚×‚Ä•Ô‚µ‚Ü‚·
-	public HashMap<String, String> getImageMap() {
-		HashMap<String, String> imageMap = new HashMap<String, String>();
-		imageMap.put("dbImageId", getProperty("dbImageId"));
-		imageMap.put("appImageId", getProperty("appImageId"));
-		imageMap.put("webImageId", getProperty("webImageId"));
-		imageMap.put("lbImageId", getProperty("lbImageId"));
-		return imageMap;
-	}
+    // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½ê‚½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ğ–¼‘Oï¿½Â‚ï¿½ï¿½Å‚ï¿½ï¿½×‚Ä•Ô‚ï¿½ï¿½Ü‚ï¿½
+    public HashMap<String, String> getImageMap() {
+        HashMap<String, String> imageMap = new HashMap<String, String>();
+        imageMap.put("dbImageId", getProperty("dbImageId"));
+        imageMap.put("appImageId", getProperty("appImageId"));
+        imageMap.put("webImageId", getProperty("webImageId"));
+        imageMap.put("lbImageId", getProperty("lbImageId"));
+        return imageMap;
+    }
 
-	// İ’èƒtƒ@ƒCƒ‹‚É‹Lq‚³‚ê‚½ƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv‚ğˆê——‚É‚µ‚Ä•Ô‚µ‚Ü‚·
-	public List<String> getSecurityGroups() {
-		List<String> ret = new ArrayList<String>();
-		ret.add(getProperty("securityGroup"));
-		return ret;
-	}
+    // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½ê‚½ï¿½Zï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Bï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ê——ï¿½É‚ï¿½ï¿½Ä•Ô‚ï¿½ï¿½Ü‚ï¿½
+    public List<String> getSecurityGroups() {
+        List<String> ret = new ArrayList<String>();
+        ret.add(getProperty("securityGroup"));
+        return ret;
+    }
 
 }

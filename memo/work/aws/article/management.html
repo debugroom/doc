@@ -1,321 +1,344 @@
-
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Management Tools &mdash; document 0.1-SNAPSHOTS documentation</title>
-  
+    <meta charset="utf-8">
 
-  
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  
+    <title>Management Tools &mdash; document 0.1-SNAPSHOTS documentation</title>
 
-  
-  
-    
 
-  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css"/>
 
-  
-  
-    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  
 
-  
-
-  
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../../index.html"/>
-        <link rel="up" title="Amazon web service" href="../index.html"/>
-        <link rel="next" title="Appendix - 付録" href="appendix.html"/>
-        <link rel="prev" title="Application Category" href="application.html"/> 
+    <link rel="up" title="Amazon web service" href="../index.html"/>
+    <link rel="next" title="Appendix - 付録" href="appendix.html"/>
+    <link rel="prev" title="Application Category" href="application.html"/>
 
-  
-  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+    <script src="../../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
+<div class="wy-grid-for-nav">
 
-    
+
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
 
-          
-            <a href="../../../../index.html" class="icon icon-home"> document
-          
 
-          
-          </a>
+                <a href="../../../../index.html" class="icon icon-home"> document
 
-          
-            
-            
-              <div class="version">
-                0.1-SNAPSHOTS
-              </div>
-            
-          
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+                </a>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
+                <div class="version">
+                    0.1-SNAPSHOTS
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../database/cassandra/index.html">Cassandra</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">work guideline</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="network.html">Network Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="computing.html">Computing Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="storage.html">Storage Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="security.html">Security Category</a></li>
-<li class="toctree-l3"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="application.html">Application Category</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="">Management Tools</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cloudwatch">CloudWatch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cloudtrail">CloudTrail</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cloudconfig">CloudConfig</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cloudformation">CloudFormation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#elastic-beanstalk">Elastic Beanstalk</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section9-7-cost-report-label">請求レポート</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#trusted-advisor">Trusted Advisor</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
-</ul>
-</li>
-</ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../../java/jBatch/index.html">jBatch</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../../../java/spring/spring-data-jpa/index.html">Spring Data
+                        JPA</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../../../java/spring/spring-cloud-aws/index.html">Spring Cloud
+                        AWS</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../../../java/spring/spring-cloud-function/index.html">Spring
+                        Cloud Function</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../../../database/cassandra/index.html">Cassandra</a></li>
+                    <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">work
+                        guideline</a>
+                        <ul class="current">
+                            <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Amazon web
+                                service</a>
+                                <ul class="current">
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="overview.html">Overview</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="network.html">Network
+                                        Category</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="computing.html">Computing
+                                        Category</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="storage.html">Storage
+                                        Category</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="datastore.html">DataStore
+                                        Category</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="security.html">Security
+                                        Category</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="operation.html">Operation
+                                        on AWS</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="application.html">Application
+                                        Category</a></li>
+                                    <li class="toctree-l3 current"><a class="current reference internal" href="">Management
+                                        Tools</a>
+                                        <ul>
+                                            <li class="toctree-l4"><a class="reference internal" href="#cloudwatch">CloudWatch</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#cloudtrail">CloudTrail</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#cloudconfig">CloudConfig</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#cloudformation">CloudFormation</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#elastic-beanstalk">Elastic Beanstalk</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#section9-7-cost-report-label">請求レポート</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#trusted-advisor">Trusted Advisor</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="toctree-l3"><a class="reference internal" href="appendix.html">Appendix -
+                                        付録</a></li>
+                                </ul>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="../../docker/index.html">Docker</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="../../sphinx/install.html">Sphinxの導入とGitHubページの作成</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
-            
-          
+
+            </div>
         </div>
-      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../../index.html">document</a>
-      </nav>
+
+        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../../../index.html">document</a>
+        </nav>
 
 
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
- 
+        <div class="wy-nav-content">
+            <div class="rst-content">
 
 
+                <div role="navigation" aria-label="breadcrumbs navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="../../../../index.html">Docs</a> &raquo;</li>
 
-<div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../../index.html">work guideline</a> &raquo;</li>
-      
-          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
-      
-    <li>Management Tools</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="../../../../_sources/memo/work/aws/article/management.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <div class="section" id="management-tools">
-<span id="section9-management-label"></span><h1>Management Tools<a class="headerlink" href="#management-tools" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="cloudwatch">
-<span id="section9-2-cloud-trail-label"></span><h2>CloudWatch<a class="headerlink" href="#cloudwatch" title="Permalink to this headline">¶</a></h2>
-<p>Cloud WatchはAWSのリソースをモニタリングするサービスである。提供される機能は以下のとおりである。</p>
-<ul class="simple">
-<li>以下のようなメトリクスのハイパーバイザレベルでの追跡・収集(EC2の標準メトリクス)<ol class="arabic">
-<li>CPU利用率</li>
-<li>DisK I/O</li>
-<li>ネットワーク転送量</li>
-<li>ステータスチェック(死活監視)</li>
-</ol>
-</li>
-<li>以下のようなカスタムメトリクス収集<ol class="arabic">
-<li>メモリ使用量</li>
-<li>ディスク空き容量</li>
-<li>ウェブページの読み込み時間</li>
-<li>リクエストのエラー発生率</li>
-<li>同時処理・スレッド数</li>
-</ol>
-</li>
-<li>メトリクスの閾値設定・アラーム通知、アクション実行<ol class="arabic">
-<li>(例)CPU使用率が50%を下回るとオートスケーリング、AmazonLamdaのイベント発生</li>
-</ol>
-</li>
-<li>CloudWatch Logsを使用してアプリケーションログを保存・モニタリング</li>
-</ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">各サービスによって標準となるメトリクスは異なる。ALBではリクエスト数などをCloudWatchで収集しており、そのメトリクスに応じてEC2のオートスケールイベントを発生することは可能である。</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">CloudWatchだけでシステム運用の全てのメトリクスの収集は難しいので、必要に応じて運用監視ミドルウェアの導入を行うこと。</p>
-</div>
-</div>
-<div class="section" id="cloudtrail">
-<span id="section9-3-cloud-trail-label"></span><h2>CloudTrail<a class="headerlink" href="#cloudtrail" title="Permalink to this headline">¶</a></h2>
-<p>CloudTrailはアカウントユーザに対する全てのAPIリクエストを記録するサービスである。
-セキュリティ分析やAWSリソースの変更の追跡、トラブルシューティングに活用できる。</p>
-</div>
-<div class="section" id="cloudconfig">
-<span id="section9-4-cloud-config-label"></span><h2>CloudConfig<a class="headerlink" href="#cloudconfig" title="Permalink to this headline">¶</a></h2>
-<p>CloudConfigはAWSのリソースの設定の履歴、変更通知利用できる。
-例えば、セキュリティグループのこれまでの設定履歴や変更タイミングなどをトレースすることができる。
-サポートされるリソースの対象は <a class="reference external" href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">こちら</a>　になる。
-各々、以下のような情報の取得が可能である。</p>
-<ul class="simple">
-<li>AWS設定のスナップショット</li>
-<li>AWSリソースの設定履歴</li>
-<li>リソース変更通知</li>
-<li>リソースの関連性</li>
-</ul>
-</div>
-<div class="section" id="cloudformation">
-<span id="section9-5-cloud-formation-label"></span><h2>CloudFormation<a class="headerlink" href="#cloudformation" title="Permalink to this headline">¶</a></h2>
-<p>CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">CloudFormationのテンプレート記述要領について記述。</p>
-</div>
-</div>
-<div class="section" id="elastic-beanstalk">
-<span id="section9-6-elastic-beanstalk-label"></span><h2>Elastic Beanstalk<a class="headerlink" href="#elastic-beanstalk" title="Permalink to this headline">¶</a></h2>
-<p>Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。</p>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Todo</p>
-<p class="last">Elastic Beanstalkについて詳述。</p>
-</div>
-</div>
-<div class="section" id="section9-7-cost-report-label">
-<span id="id2"></span><h2>請求レポート<a class="headerlink" href="#section9-7-cost-report-label" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-2">
-<p class="first admonition-title">Todo</p>
-<p class="last">請求レポートについて詳述。</p>
-</div>
-</div>
-<div class="section" id="trusted-advisor">
-<span id="section9-8-trusted-advisor-label"></span><h2>Trusted Advisor<a class="headerlink" href="#trusted-advisor" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-3">
-<p class="first admonition-title">Todo</p>
-<p class="last">Trusted Advisorについて記述。</p>
-</div>
-</div>
-</div>
+                        <li><a href="../../index.html">work guideline</a> &raquo;</li>
+
+                        <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+
+                        <li>Management Tools</li>
+                        <li class="wy-breadcrumbs-aside">
 
 
-           </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="appendix.html" class="btn btn-neutral float-right" title="Appendix - 付録" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="application.html" class="btn btn-neutral" title="Application Category" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
+                            <a href="../../../../_sources/memo/work/aws/article/management.txt" rel="nofollow"> View
+                                page source</a>
 
-  <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, org.debugroom.
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
 
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+                        <div class="section" id="management-tools">
+                            <span id="section9-management-label"></span>
+                            <h1>Management Tools<a class="headerlink" href="#management-tools"
+                                                   title="Permalink to this headline">¶</a></h1>
+                            <div class="section" id="cloudwatch">
+                                <span id="section9-2-cloud-trail-label"></span>
+                                <h2>CloudWatch<a class="headerlink" href="#cloudwatch"
+                                                 title="Permalink to this headline">¶</a></h2>
+                                <p>Cloud WatchはAWSのリソースをモニタリングするサービスである。提供される機能は以下のとおりである。</p>
+                                <ul class="simple">
+                                    <li>以下のようなメトリクスのハイパーバイザレベルでの追跡・収集(EC2の標準メトリクス)
+                                        <ol class="arabic">
+                                            <li>CPU利用率</li>
+                                            <li>DisK I/O</li>
+                                            <li>ネットワーク転送量</li>
+                                            <li>ステータスチェック(死活監視)</li>
+                                        </ol>
+                                    </li>
+                                    <li>以下のようなカスタムメトリクス収集
+                                        <ol class="arabic">
+                                            <li>メモリ使用量</li>
+                                            <li>ディスク空き容量</li>
+                                            <li>ウェブページの読み込み時間</li>
+                                            <li>リクエストのエラー発生率</li>
+                                            <li>同時処理・スレッド数</li>
+                                        </ol>
+                                    </li>
+                                    <li>メトリクスの閾値設定・アラーム通知、アクション実行
+                                        <ol class="arabic">
+                                            <li>(例)CPU使用率が50%を下回るとオートスケーリング、AmazonLamdaのイベント発生</li>
+                                        </ol>
+                                    </li>
+                                    <li>CloudWatch Logsを使用してアプリケーションログを保存・モニタリング</li>
+                                </ul>
+                                <div class="admonition note">
+                                    <p class="first admonition-title">Note</p>
+                                    <p class="last">
+                                        各サービスによって標準となるメトリクスは異なる。ALBではリクエスト数などをCloudWatchで収集しており、そのメトリクスに応じてEC2のオートスケールイベントを発生することは可能である。</p>
+                                </div>
+                                <div class="admonition note">
+                                    <p class="first admonition-title">Note</p>
+                                    <p class="last">CloudWatchだけでシステム運用の全てのメトリクスの収集は難しいので、必要に応じて運用監視ミドルウェアの導入を行うこと。</p>
+                                </div>
+                            </div>
+                            <div class="section" id="cloudtrail">
+                                <span id="section9-3-cloud-trail-label"></span>
+                                <h2>CloudTrail<a class="headerlink" href="#cloudtrail"
+                                                 title="Permalink to this headline">¶</a></h2>
+                                <p>CloudTrailはアカウントユーザに対する全てのAPIリクエストを記録するサービスである。
+                                    セキュリティ分析やAWSリソースの変更の追跡、トラブルシューティングに活用できる。</p>
+                            </div>
+                            <div class="section" id="cloudconfig">
+                                <span id="section9-4-cloud-config-label"></span>
+                                <h2>CloudConfig<a class="headerlink" href="#cloudconfig"
+                                                  title="Permalink to this headline">¶</a></h2>
+                                <p>CloudConfigはAWSのリソースの設定の履歴、変更通知利用できる。
+                                    例えば、セキュリティグループのこれまでの設定履歴や変更タイミングなどをトレースすることができる。
+                                    サポートされるリソースの対象は <a class="reference external"
+                                                       href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">こちら</a>　になる。
+                                    各々、以下のような情報の取得が可能である。</p>
+                                <ul class="simple">
+                                    <li>AWS設定のスナップショット</li>
+                                    <li>AWSリソースの設定履歴</li>
+                                    <li>リソース変更通知</li>
+                                    <li>リソースの関連性</li>
+                                </ul>
+                            </div>
+                            <div class="section" id="cloudformation">
+                                <span id="section9-5-cloud-formation-label"></span>
+                                <h2>CloudFormation<a class="headerlink" href="#cloudformation"
+                                                     title="Permalink to this headline">¶</a></h2>
+                                <p>CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。</p>
+                                <div class="admonition-todo admonition" id="index-0">
+                                    <p class="first admonition-title">Todo</p>
+                                    <p class="last">CloudFormationのテンプレート記述要領について記述。</p>
+                                </div>
+                            </div>
+                            <div class="section" id="elastic-beanstalk">
+                                <span id="section9-6-elastic-beanstalk-label"></span>
+                                <h2>Elastic Beanstalk<a class="headerlink" href="#elastic-beanstalk"
+                                                        title="Permalink to this headline">¶</a></h2>
+                                <p>Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。</p>
+                                <div class="admonition-todo admonition" id="index-1">
+                                    <p class="first admonition-title">Todo</p>
+                                    <p class="last">Elastic Beanstalkについて詳述。</p>
+                                </div>
+                            </div>
+                            <div class="section" id="section9-7-cost-report-label">
+                                <span id="id2"></span>
+                                <h2>請求レポート<a class="headerlink" href="#section9-7-cost-report-label"
+                                             title="Permalink to this headline">¶</a></h2>
+                                <div class="admonition-todo admonition" id="index-2">
+                                    <p class="first admonition-title">Todo</p>
+                                    <p class="last">請求レポートについて詳述。</p>
+                                </div>
+                            </div>
+                            <div class="section" id="trusted-advisor">
+                                <span id="section9-8-trusted-advisor-label"></span>
+                                <h2>Trusted Advisor<a class="headerlink" href="#trusted-advisor"
+                                                      title="Permalink to this headline">¶</a></h2>
+                                <div class="admonition-todo admonition" id="index-3">
+                                    <p class="first admonition-title">Todo</p>
+                                    <p class="last">Trusted Advisorについて記述。</p>
+                                </div>
+                            </div>
+                        </div>
 
-</footer>
 
+                    </div>
+                </div>
+                <footer>
+
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+                        <a href="appendix.html" class="btn btn-neutral float-right" title="Appendix - 付録" accesskey="n">Next
+                            <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="application.html" class="btn btn-neutral" title="Application Category"
+                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2016, org.debugroom.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
         </div>
-      </div>
 
     </section>
 
-  </div>
-  
+</div>
 
 
-  
+<script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT: '../../../../',
+        VERSION: '0.1-SNAPSHOTS',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE: true
+    };
+</script>
+<script type="text/javascript" src="../../../../_static/jquery.js"></script>
+<script type="text/javascript" src="../../../../_static/underscore.js"></script>
+<script type="text/javascript" src="../../../../_static/doctools.js"></script>
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../../',
-            VERSION:'0.1-SNAPSHOTS',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
 
-  
+<script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
-  
-  
-    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
-  
 
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
+<script type="text/javascript">
+    jQuery(function () {
+        SphinxRtdTheme.StickyNav.enable();
+    });
+</script>
+
 
 </body>
 </html>

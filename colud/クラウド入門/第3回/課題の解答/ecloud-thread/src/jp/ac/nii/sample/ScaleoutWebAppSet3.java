@@ -3,25 +3,25 @@ package jp.ac.nii.sample;
 import jp.ac.nii.sample.utility.PropertyLoader;
 
 public class ScaleoutWebAppSet3 {
-	public static void main(String[] args){
-		// İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğ‚µ‚Ü‚·
-		PropertyLoader config = new PropertyLoader("src/config.properties");
-		// thread‚Ì”‚ğæ“¾‚·‚é
-		Integer threadNumber = new Integer(config.getProperty("threads"));
-		// thread‚ğì¬‚·‚é
-		ScaleoutWebAppSetThread[] threads = new ScaleoutWebAppSetThread[threadNumber];
-		// •À—ñ‚ÅƒXƒP[ƒ‹ƒAƒEƒg‚ğÀs‚·‚é
-		for(int i = 0; i < threadNumber; i++){
-			threads[i] = new ScaleoutWebAppSetThread();
-			threads[i].start();
-		}
-		// thread‚ª‚·‚×‚ÄI—¹‚·‚é‚Ü‚Å‘Ò‚Â
-		for(int i = 0; i < threadNumber; i++){
-			try{
-				threads[i].join();
-			}catch (InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-	}
+    public static void main(String[] args) {
+        // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        PropertyLoader config = new PropertyLoader("src/config.properties");
+        // threadï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+        Integer threadNumber = new Integer(config.getProperty("threads"));
+        // threadï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+        ScaleoutWebAppSetThread[] threads = new ScaleoutWebAppSetThread[threadNumber];
+        // ï¿½ï¿½ï¿½ï¿½ÅƒXï¿½Pï¿½[ï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
+        for (int i = 0; i < threadNumber; i++) {
+            threads[i] = new ScaleoutWebAppSetThread();
+            threads[i].start();
+        }
+        // threadï¿½ï¿½ï¿½ï¿½ï¿½×‚ÄIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‘Ò‚ï¿½
+        for (int i = 0; i < threadNumber; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+    }
 }

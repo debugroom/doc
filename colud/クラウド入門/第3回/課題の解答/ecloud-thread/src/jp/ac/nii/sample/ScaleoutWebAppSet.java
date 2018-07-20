@@ -13,69 +13,69 @@ import com.xerox.amazonws.ec2.ReservationDescription.Instance;
 
 public class ScaleoutWebAppSet {
 
-	// ‰‰KFƒXƒP[ƒ‹ƒAƒEƒg‚ğÀ‘•‚·‚é
-	public static void main(String[] args) throws Exception {
+    // ï¿½ï¿½ï¿½Kï¿½Fï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static void main(String[] args) throws Exception {
 
-		// Šeíƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·
+        // ï¿½eï¿½íƒ†ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½
 
-		// İ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ğ‚µ‚Ü‚·
-		PropertyLoader config = new PropertyLoader("src/config.properties");
+        // ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½İ‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        PropertyLoader config = new PropertyLoader("src/config.properties");
 
-		// edubase Cloud‚Ö‚ÌƒAƒNƒZƒXî•ñ‚ğæ“¾‚µ‚Ü‚·
-		String awsSecretKey = config.getProperty("secretKey");
-		String awsAccessId = config.getProperty("accessKey");
-		String hostName = config.getProperty("hostName");
-		String resourcePrefix = config.getProperty("resourcePrefix");
-		int port = Integer.parseInt(config.getProperty("port"));
+        // edubase Cloudï¿½Ö‚ÌƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String awsSecretKey = config.getProperty("secretKey");
+        String awsAccessId = config.getProperty("accessKey");
+        String hostName = config.getProperty("hostName");
+        String resourcePrefix = config.getProperty("resourcePrefix");
+        int port = Integer.parseInt(config.getProperty("port"));
 
-		// ‹N“®‚·‚éƒ}ƒVƒ“ƒCƒ[ƒW‚ÆA‹N“®Œã‚Ég‚¤SSHƒL[AƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv–¼‚ğæ“¾‚µ‚Ü‚·
-		List<String> imageList = config.getImageList();
-		HashMap<String, String> imageMap = config.getImageMap();
-		String keyName = config.getProperty("keyName");
-		List<String> securityGroups = config.getSecurityGroups();
+        // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ÆAï¿½Nï¿½ï¿½ï¿½ï¿½Égï¿½ï¿½SSHï¿½Lï¿½[ï¿½Aï¿½Zï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Bï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        List<String> imageList = config.getImageList();
+        HashMap<String, String> imageMap = config.getImageMap();
+        String keyName = config.getProperty("keyName");
+        List<String> securityGroups = config.getSecurityGroups();
 
-		// edubase Cloud‚ÌƒRƒ“ƒgƒ[ƒ‰‚ğ‰Šú‰»‚µ‚Ü‚·
-		EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
-				awsSecretKey, hostName, resourcePrefix, port);
+        // edubase Cloudï¿½ÌƒRï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        EdubaseCloudController cloud = new EdubaseCloudController(awsAccessId,
+                awsSecretKey, hostName, resourcePrefix, port);
 
-		// ƒ}ƒVƒ“ƒCƒ[ƒW•ª‚ÌƒT[ƒo‚ğƒCƒ“ƒXƒ^ƒ“ƒX‚Æ‚µ‚Ä‚P‘ä‚¸‚Â‹N“®‚µ‚Ü‚·
-		// Tomcat(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo)‚ğ‹N“®‚·‚é
-		String appImageId = imageMap.get("appImageId"); // Tomcat(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo)‚Ìƒ}ƒVƒ“ƒCƒ[ƒWæ“¾
-		// TODO: ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹N“®‚µ‚Ä‚­‚¾‚³‚¢
-		
-		// Apache(WebƒT[ƒo)‚ğ‹N“®‚·‚é
-		String webImageId = imageMap.get("webImageId"); // Apache(WebƒT[ƒo)‚Ìƒ}ƒVƒ“ƒCƒ[ƒWæ“¾
-		// TODO: ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‹N“®‚µ‚Ä‚­‚¾‚³‚¢
-		
-		// TODO: ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìó‘Ô‚ª‚·‚×‚Ärunning‚É‚È‚é‚Ü‚Å‘Ò‚¿‚Ü‚·B
+        // ï¿½}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ÌƒTï¿½[ï¿½oï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Æ‚ï¿½ï¿½Ä‚Pï¿½ä‚¸ï¿½Â‹Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        // Tomcat(ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        String appImageId = imageMap.get("appImageId"); // Tomcat(ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½o)ï¿½Ìƒ}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ“¾
+        // TODO: ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		// TODO: ‹N“®‚³‚ê‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìî•ñ‚ğæ“¾‚µ‚Ü‚·		
-		Instance appInstance = null;
-		Instance webInstance = null;
+        // Apache(Webï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        String webImageId = imageMap.get("webImageId"); // Apache(Webï¿½Tï¿½[ï¿½o)ï¿½Ìƒ}ï¿½Vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Wï¿½æ“¾
+        // TODO: ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		// TODO: ‚·‚Å‚É‹N“®‚µ‚Ä‚¢‚éPostgreSQL(ƒf[ƒ^ƒx[ƒXƒT[ƒo)‚ÆAnginx(ƒ[ƒhƒoƒ‰ƒ“ƒT[)‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ìî•ñ‚ğæ“¾‚µ‚Ü‚·
-		Instance dbInstance = null;
-		Instance lbInstance = null;
-		
-		// ƒCƒ“ƒXƒ^ƒ“ƒX‚»‚ê‚¼‚ê‚ÌIPƒAƒhƒŒƒX‚ğæ“¾‚µ‚Ü‚·
-		String dbPrivateDnsName = dbInstance.getPrivateDnsName();
-		String appDnsName = appInstance.getDnsName();
-		String appPrivateDnsName = appInstance.getPrivateDnsName();
-		String webPrivateDnsName = webInstance.getPrivateDnsName();
-		String webDnsName = webInstance.getDnsName();
-		String lbDnsName = lbInstance.getDnsName();
+        // TODO: ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½Ô‚ï¿½ï¿½ï¿½ï¿½×‚ï¿½runningï¿½É‚È‚ï¿½Ü‚Å‘Ò‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 
-		// ƒT[ƒrƒX‚É•K—v‚Èİ’èƒtƒ@ƒCƒ‹‚ª’u‚¢‚Ä‚ ‚éêŠ‚ğæ“¾‚µ‚Ü‚·
-		String srcDir = config.getProperty("srcDir");
-		
-		// Tomcat(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-		// TODO: StartupProcess.appServer(appDnsName, dbPrivateDnsName, srcDir);
+        // TODO: ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        Instance appInstance = null;
+        Instance webInstance = null;
 
-		// Apache(WebƒT[ƒo)‚ğ‹N“®‚µ‚Ü‚·
-		// TODO: StartupProcess.webServer(webDnsName, appPrivateDnsName);
+        // TODO: ï¿½ï¿½ï¿½Å‚É‹Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½PostgreSQL(ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Tï¿½[ï¿½o)ï¿½ÆAnginx(ï¿½ï¿½ï¿½[ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[)ï¿½ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        Instance dbInstance = null;
+        Instance lbInstance = null;
 
-		// nginx(ƒ[ƒhƒoƒ‰ƒ“ƒT[)‚ğ‹N“®‚µ‚Ü‚·
-		// TODO: StartupProcess.lbServer(lbDnsName, webPrivateDnsName, srcDir, true);
+        // ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½ï¿½IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String dbPrivateDnsName = dbInstance.getPrivateDnsName();
+        String appDnsName = appInstance.getDnsName();
+        String appPrivateDnsName = appInstance.getPrivateDnsName();
+        String webPrivateDnsName = webInstance.getPrivateDnsName();
+        String webDnsName = webInstance.getDnsName();
+        String lbDnsName = lbInstance.getDnsName();
 
-	}
+        // ï¿½Tï¿½[ï¿½rï¿½Xï¿½É•Kï¿½vï¿½Èİ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½êŠï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
+        String srcDir = config.getProperty("srcDir");
+
+        // Tomcat(ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        // TODO: StartupProcess.appServer(appDnsName, dbPrivateDnsName, srcDir);
+
+        // Apache(Webï¿½Tï¿½[ï¿½o)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        // TODO: StartupProcess.webServer(webDnsName, appPrivateDnsName);
+
+        // nginx(ï¿½ï¿½ï¿½[ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½[)ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
+        // TODO: StartupProcess.lbServer(lbDnsName, webPrivateDnsName, srcDir, true);
+
+    }
 }

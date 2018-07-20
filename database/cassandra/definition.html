@@ -1,394 +1,546 @@
-
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>データベースの定義 &mdash; document 0.1-SNAPSHOTS documentation</title>
-  
+    <meta charset="utf-8">
 
-  
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  
+    <title>データベースの定義 &mdash; document 0.1-SNAPSHOTS documentation</title>
 
-  
-  
-    
 
-  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
 
-  
-
-  
     <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
-        <link rel="up" title="Cassandra" href="index.html"/>
-        <link rel="next" title="データベースの操作" href="manipulate.html"/>
-        <link rel="prev" title="Cassandraの起動" href="launch.html"/> 
+    <link rel="up" title="Cassandra" href="index.html"/>
+    <link rel="next" title="データベースの操作" href="manipulate.html"/>
+    <link rel="prev" title="Cassandraの起動" href="launch.html"/>
 
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
+
+    <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
 <body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
+<div class="wy-grid-for-nav">
 
-    
+
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
 
-          
-            <a href="../../index.html" class="icon icon-home"> document
-          
 
-          
-          </a>
+                <a href="../../index.html" class="icon icon-home"> document
 
-          
-            
-            
-              <div class="version">
-                0.1-SNAPSHOTS
-              </div>
-            
-          
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+                </a>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
+                <div class="version">
+                    0.1-SNAPSHOTS
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring Boot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">データベースの定義</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#section3-1-cassandra-database-common-definition-label">共通定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#section3-2-cassandra-create-keyspace-and-table-label">キースペース・テーブルの作成</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#create-keyspace">CREATE KEYSPACE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#use">USE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#alter-keyspace">ALTER KEYSPACE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#drop-keyspace">DROP KEYSPACE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#create-table">CREATE TABLE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#alter-table">ALTER TABLE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#drop-table">DROP TABLE ステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#truncate">TRUNCATEステートメント</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#describe">DESCRIBE ステートメント</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
-</ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring
+                        Boot</a></li>
+                    <li class="toctree-l1"><a class="reference internal"
+                                              href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
+                    <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a>
+                        <ul class="current">
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="introduction.html">Introduction</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a>
+                            </li>
+                            <li class="toctree-l2 current"><a class="current reference internal" href="">データベースの定義</a>
+                                <ul>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section3-1-cassandra-database-common-definition-label">共通定義</a>
+                                    </li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#section3-2-cassandra-create-keyspace-and-table-label">キースペース・テーブルの作成</a>
+                                        <ul>
+                                            <li class="toctree-l4"><a class="reference internal"
+                                                                      href="#create-keyspace">CREATE KEYSPACE
+                                                ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#use">USE
+                                                ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#alter-keyspace">ALTER
+                                                KEYSPACE ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#drop-keyspace">DROP
+                                                KEYSPACE ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#create-table">CREATE
+                                                TABLE ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#alter-table">ALTER
+                                                TABLE ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#drop-table">DROP
+                                                TABLE ステートメント</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#truncate">TRUNCATEステートメント</a>
+                                            </li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#describe">DESCRIBE
+                                                ステートメント</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra
+                                - SpringFrameworkアプリケーション</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work
+                        guideline</a></li>
+                </ul>
 
-            
-          
+
+            </div>
         </div>
-      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">document</a>
-      </nav>
+
+        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../index.html">document</a>
+        </nav>
 
 
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
- 
+        <div class="wy-nav-content">
+            <div class="rst-content">
 
 
+                <div role="navigation" aria-label="breadcrumbs navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="../../index.html">Docs</a> &raquo;</li>
 
-<div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="index.html">Cassandra</a> &raquo;</li>
-      
-    <li>データベースの定義</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="../../_sources/database/cassandra/definition.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <div class="section" id="section3-cassandra-database-definition-label">
-<span id="id1"></span><h1>データベースの定義<a class="headerlink" href="#section3-cassandra-database-definition-label" title="Permalink to this headline">¶</a></h1>
-<p>インストール手順は、<a class="reference external" href="http://debugroom.github.io/doc/memo/work/cassandra/install.html">Cassandraのインストール</a> を参考のこと。
-また、 <a class="reference external" href="http://cassandra.apache.org/doc/latest/cql/ddl.html">Apache Cassandraの公式ページ</a> も参照すること。動作環境は、インストール環境と同じく以下の通りである。</p>
-<p>[バージョン]</p>
-<ul class="simple">
-<li>cqlsh 5.0.1</li>
-<li>Cassandra 3.7</li>
-<li>CQL spec 3.4.2</li>
-<li>Native protocol v4</li>
-</ul>
-<p>CQLで格納されたデータは、テーブルによりその構造が決定され、キースペースによりグルーピングされる。キースペースでは、全てのテーブル定義に対し適用される多くのオプションの定義や、レプリケーション戦略を決定する。</p>
-<div class="section" id="section3-1-cassandra-database-common-definition-label">
-<span id="id2"></span><h2>共通定義<a class="headerlink" href="#section3-1-cassandra-database-common-definition-label" title="Permalink to this headline">¶</a></h2>
-<p>キースペース及びテーブルは以下の文法により記述される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">keyspace_name</span> <span class="p">::</span><span class="o">=</span>  <span class="n">name</span>
-<span class="k">table_name</span>    <span class="p">::</span><span class="o">=</span>  <span class="p">[</span> <span class="n">keyspace_name</span> <span class="s1">&#39;.&#39;</span> <span class="p">]</span> <span class="n">name</span>
-<span class="n">name</span>          <span class="p">::</span><span class="o">=</span>  <span class="n">unquoted_name</span> <span class="o">|</span> <span class="n">quoted_name</span>
-<span class="n">unquoted_name</span> <span class="p">::</span><span class="o">=</span>  <span class="n">re</span><span class="p">(</span><span class="s1">&#39;[a-zA-Z_0-9]{1, 48}&#39;</span><span class="p">)</span>
-<span class="n">quoted_name</span>   <span class="p">::</span><span class="o">=</span>  <span class="s1">&#39;&quot;&#39;</span> <span class="n">unquoted_name</span> <span class="s1">&#39;&quot;&#39;</span>
-</pre></div>
-</div>
-<p>キースペースとテーブル名は、空白を含まない、48文字以内の英数字のみで構成される必要がある。大文字小文字は区別はないが、ダブルクォートで囲むと大文字小文字区別する。テーブルはキースペースにより区別される必要があるが、指定しない場合、カレントで指定されているキースペースが使用される。</p>
-</div>
-<div class="section" id="section3-2-cassandra-create-keyspace-and-table-label">
-<span id="id3"></span><h2>キースペース・テーブルの作成<a class="headerlink" href="#section3-2-cassandra-create-keyspace-and-table-label" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="create-keyspace">
-<span id="section3-2-1-cassandra-create-keyspace-label"></span><h3>CREATE KEYSPACE ステートメント<a class="headerlink" href="#create-keyspace" title="Permalink to this headline">¶</a></h3>
-<p>キースペースは、以下の構文のCREATE KEYSPACEステートメントにより作成される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">create_keyspace_statement</span> <span class="p">::</span><span class="o">=</span>  <span class="k">CREATE</span> <span class="n">KEYSPACE</span> <span class="p">[</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">]</span> <span class="n">keyspace_name</span> <span class="k">WITH</span> <span class="k">options</span>
-</pre></div>
-</div>
-<p>オプションは、以下が選択できる。</p>
-<table border="1" class="docutils" id="id5">
-<caption><span class="caption-text">CREATE KEYSPACEのオプション</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="20%" />
-<col width="13%" />
-<col width="13%" />
-<col width="20%" />
-<col width="33%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション名</th>
-<th class="head">形式</th>
-<th class="head">必須</th>
-<th class="head">デフォルト値</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>replication</td>
-<td>マップ</td>
-<td>●</td>
-<td>&nbsp;</td>
-<td>キースペースのレプリケーション戦略。<br/> replicationプロパティには&#8221;class&#8221;属性で、<br/> レプリケーションクラス名を指定する。</td>
-</tr>
-<tr class="row-odd"><td>durable_writes</td>
-<td>boolean</td>
-<td>×</td>
-<td>true</td>
-<td>キースペース内での更新にコミットログを <br/> 使用するか否か。</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">アプリケーションごとに複数のキースペースを作成するのは可能であるが、あまり推奨されない。後述するレプリケーションファクタを絡むごとに分離したい場合などがあげられる。キースペースは、リレーショナルデータベースでいうところのデータベースに近い位置づけなので、直感的にアプリケーションで複数のデータベースに接続しない方が良い理由は直感的にも分かるだろう。</p>
-</div>
-<table border="1" class="docutils" id="id6">
-<caption><span class="caption-text">レプリケーション戦略</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="30%" />
-<col width="70%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">レプリケーション戦略クラス</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>SimpleStrategy</td>
-<td>クラスター全体のレプリケーションファクタを <br/> 定義する戦略。replication_factorのみが <br/> 定義可能である。</td>
-</tr>
-<tr class="row-odd"><td>NetworkTopologyStrategy</td>
-<td>それぞれのデータセンターで独立してレプリケーションファクタを <br/> 設定する戦略。サブオプションの残りは、データセンタ名と、 <br/> レプリケーションファクタを指定する。</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">レプリケーションファクタは各Rowがもつデータの複製を幾つのノードに行き渡させるかを決定する。レプリケーションファクタが3であれば、各Rowはリング上の３つのノードに複製される。レプリケーションの種類や配置戦略を別途 <a class="reference external" href="http">レプリケーション戦略</a> 参考にすること。</p>
-</div>
-<p>ターミナルコマンドからcqlshを起動し、キースペースを作成する。</p>
-<div class="highlight-sql"><div class="highlight"><pre>cqlsh localhost 9042
+                        <li><a href="index.html">Cassandra</a> &raquo;</li>
+
+                        <li>データベースの定義</li>
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="../../_sources/database/cassandra/definition.txt" rel="nofollow"> View page
+                                source</a>
+
+
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="section3-cassandra-database-definition-label">
+                            <span id="id1"></span>
+                            <h1>データベースの定義<a class="headerlink" href="#section3-cassandra-database-definition-label"
+                                            title="Permalink to this headline">¶</a></h1>
+                            <p>インストール手順は、<a class="reference external"
+                                            href="http://debugroom.github.io/doc/memo/work/cassandra/install.html">Cassandraのインストール</a>
+                                を参考のこと。
+                                また、 <a class="reference external"
+                                       href="http://cassandra.apache.org/doc/latest/cql/ddl.html">Apache
+                                    Cassandraの公式ページ</a> も参照すること。動作環境は、インストール環境と同じく以下の通りである。</p>
+                            <p>[バージョン]</p>
+                            <ul class="simple">
+                                <li>cqlsh 5.0.1</li>
+                                <li>Cassandra 3.7</li>
+                                <li>CQL spec 3.4.2</li>
+                                <li>Native protocol v4</li>
+                            </ul>
+                            <p>
+                                CQLで格納されたデータは、テーブルによりその構造が決定され、キースペースによりグルーピングされる。キースペースでは、全てのテーブル定義に対し適用される多くのオプションの定義や、レプリケーション戦略を決定する。</p>
+                            <div class="section" id="section3-1-cassandra-database-common-definition-label">
+                                <span id="id2"></span>
+                                <h2>共通定義<a class="headerlink"
+                                           href="#section3-1-cassandra-database-common-definition-label"
+                                           title="Permalink to this headline">¶</a></h2>
+                                <p>キースペース及びテーブルは以下の文法により記述される。</p>
+                                <div class="highlight-sql">
+                                    <div class="highlight"><pre><span class="n">keyspace_name</span> <span
+                                            class="p">::</span><span class="o">=</span>  <span class="n">name</span>
+<span class="k">table_name</span>    <span class="p">::</span><span class="o">=</span>  <span class="p">[</span> <span
+                                                class="n">keyspace_name</span> <span class="s1">&#39;.&#39;</span> <span
+                                                class="p">]</span> <span class="n">name</span>
+<span class="n">name</span>          <span class="p">::</span><span class="o">=</span>  <span
+                                                class="n">unquoted_name</span> <span class="o">|</span> <span class="n">quoted_name</span>
+<span class="n">unquoted_name</span> <span class="p">::</span><span class="o">=</span>  <span class="n">re</span><span
+                                                class="p">(</span><span
+                                                class="s1">&#39;[a-zA-Z_0-9]{1, 48}&#39;</span><span class="p">)</span>
+<span class="n">quoted_name</span>   <span class="p">::</span><span class="o">=</span>  <span class="s1">&#39;&quot;&#39;</span> <span
+                                                class="n">unquoted_name</span> <span class="s1">&#39;&quot;&#39;</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>
+                                    キースペースとテーブル名は、空白を含まない、48文字以内の英数字のみで構成される必要がある。大文字小文字は区別はないが、ダブルクォートで囲むと大文字小文字区別する。テーブルはキースペースにより区別される必要があるが、指定しない場合、カレントで指定されているキースペースが使用される。</p>
+                            </div>
+                            <div class="section" id="section3-2-cassandra-create-keyspace-and-table-label">
+                                <span id="id3"></span>
+                                <h2>キースペース・テーブルの作成<a class="headerlink"
+                                                     href="#section3-2-cassandra-create-keyspace-and-table-label"
+                                                     title="Permalink to this headline">¶</a></h2>
+                                <div class="section" id="create-keyspace">
+                                    <span id="section3-2-1-cassandra-create-keyspace-label"></span>
+                                    <h3>CREATE KEYSPACE ステートメント<a class="headerlink" href="#create-keyspace"
+                                                                  title="Permalink to this headline">¶</a></h3>
+                                    <p>キースペースは、以下の構文のCREATE KEYSPACEステートメントにより作成される。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span
+                                                class="n">create_keyspace_statement</span> <span
+                                                class="p">::</span><span class="o">=</span>  <span
+                                                class="k">CREATE</span> <span class="n">KEYSPACE</span> <span class="p">[</span> <span
+                                                class="n">IF</span> <span class="k">NOT</span> <span
+                                                class="k">EXISTS</span> <span class="p">]</span> <span class="n">keyspace_name</span> <span
+                                                class="k">WITH</span> <span class="k">options</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>オプションは、以下が選択できる。</p>
+                                    <table border="1" class="docutils" id="id5">
+                                        <caption><span class="caption-text">CREATE KEYSPACEのオプション</span><a
+                                                class="headerlink" href="#id5" title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="20%"/>
+                                            <col width="13%"/>
+                                            <col width="13%"/>
+                                            <col width="20%"/>
+                                            <col width="33%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション名</th>
+                                            <th class="head">形式</th>
+                                            <th class="head">必須</th>
+                                            <th class="head">デフォルト値</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>replication</td>
+                                            <td>マップ</td>
+                                            <td>●</td>
+                                            <td>&nbsp;</td>
+                                            <td>キースペースのレプリケーション戦略。<br/> replicationプロパティには&#8221;class&#8221;属性で、<br/>
+                                                レプリケーションクラス名を指定する。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>durable_writes</td>
+                                            <td>boolean</td>
+                                            <td>×</td>
+                                            <td>true</td>
+                                            <td>キースペース内での更新にコミットログを <br/> 使用するか否か。</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">
+                                            アプリケーションごとに複数のキースペースを作成するのは可能であるが、あまり推奨されない。後述するレプリケーションファクタを絡むごとに分離したい場合などがあげられる。キースペースは、リレーショナルデータベースでいうところのデータベースに近い位置づけなので、直感的にアプリケーションで複数のデータベースに接続しない方が良い理由は直感的にも分かるだろう。</p>
+                                    </div>
+                                    <table border="1" class="docutils" id="id6">
+                                        <caption><span class="caption-text">レプリケーション戦略</span><a class="headerlink"
+                                                                                                href="#id6"
+                                                                                                title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="30%"/>
+                                            <col width="70%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">レプリケーション戦略クラス</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>SimpleStrategy</td>
+                                            <td>クラスター全体のレプリケーションファクタを <br/> 定義する戦略。replication_factorのみが <br/> 定義可能である。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>NetworkTopologyStrategy</td>
+                                            <td>それぞれのデータセンターで独立してレプリケーションファクタを <br/> 設定する戦略。サブオプションの残りは、データセンタ名と、 <br/>
+                                                レプリケーションファクタを指定する。
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">
+                                            レプリケーションファクタは各Rowがもつデータの複製を幾つのノードに行き渡させるかを決定する。レプリケーションファクタが3であれば、各Rowはリング上の３つのノードに複製される。レプリケーションの種類や配置戦略を別途
+                                            <a class="reference external" href="http">レプリケーション戦略</a> 参考にすること。</p>
+                                    </div>
+                                    <p>ターミナルコマンドからcqlshを起動し、キースペースを作成する。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre>cqlsh localhost 9042
 
 cqlsh&gt; CREATE KEYSPACE sample WITH replication = {&#39;class&#39;: &#39;SimpleStrategy&#39;, &#39;replication_factor&#39; : 1};
 
 cqlsh&gt; describe keyspaces;
 
 system_schema  system_auth  system  sample  system_distributed  system_traces
-</pre></div>
-</div>
-<p>なお、上記のdescribeステートメントの詳細は、 <a class="reference internal" href="#section3-2-x-cassandra-describe-label"><span>DESCRIBE ステートメント</span></a> を参照のこと。</p>
-</div>
-<div class="section" id="use">
-<span id="section3-2-2-cassandra-use-label"></span><h3>USE ステートメント<a class="headerlink" href="#use" title="Permalink to this headline">¶</a></h3>
-<p>USEステートメントは、現在のキースペースを切り替えるために、以下の構文で使用される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">use_statement</span> <span class="p">::</span><span class="o">=</span>  <span class="n">USE</span> <span class="n">keyspace_name</span>
-</pre></div>
-</div>
-<p>実行例は以下の通りである。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">cqlsh</span><span class="o">&gt;</span> <span class="n">USE</span> <span class="n">sample</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="alter-keyspace">
-<span id="section3-2-3-cassandra-alter-keyspace-label"></span><h3>ALTER KEYSPACE ステートメント<a class="headerlink" href="#alter-keyspace" title="Permalink to this headline">¶</a></h3>
-<p>ALTER KEYSPACEステートメントはキースペースの定義を変更するために、以下の構文で使用される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">alter_keyspace_statement</span> <span class="p">::</span><span class="o">=</span>  <span class="k">ALTER</span> <span class="n">KEYSPACE</span> <span class="n">keyspace_name</span> <span class="k">WITH</span> <span class="k">options</span>
-</pre></div>
-</div>
-<p>実行例は以下の通りである。</p>
-<div class="highlight-sh"><div class="highlight"><pre>cqlsh&gt; ALTER KEYSPACE sample WITH <span class="nv">replication</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span>: <span class="s1">&#39;SimpleStrategy&#39;</span>, <span class="s1">&#39;replication_factor&#39;</span> : 4<span class="o">}</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="drop-keyspace">
-<span id="section3-2-4-cassandra-alter-keyspace-label"></span><h3>DROP KEYSPACE ステートメント<a class="headerlink" href="#drop-keyspace" title="Permalink to this headline">¶</a></h3>
-<p>DROP KEYSPACEステートメントはキースペースを削除するために、以下の構文で使用される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">drop_keyspace_statement</span> <span class="p">::</span><span class="o">=</span>  <span class="k">DROP</span> <span class="n">KEYSPACE</span> <span class="p">[</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="p">]</span> <span class="n">keyspace_name</span>
-</pre></div>
-</div>
-<p>実行例は以下の通りである。</p>
-<div class="highlight-sh"><div class="highlight"><pre>cqlsh&gt; DROP KEYSPACE sample<span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="create-table">
-<span id="section3-2-5-cassandra-create-table-label"></span><h3>CREATE TABLE ステートメント<a class="headerlink" href="#create-table" title="Permalink to this headline">¶</a></h3>
-<p>キースペースは、以下の構文の通り、CREATE TABLEステートメントにより作成される。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">create_table_statement</span> <span class="p">::</span><span class="o">=</span>  <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="p">[</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">]</span> <span class="k">table_name</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>なお、上記のdescribeステートメントの詳細は、 <a class="reference internal"
+                                                                     href="#section3-2-x-cassandra-describe-label"><span>DESCRIBE ステートメント</span></a>
+                                        を参照のこと。</p>
+                                </div>
+                                <div class="section" id="use">
+                                    <span id="section3-2-2-cassandra-use-label"></span>
+                                    <h3>USE ステートメント<a class="headerlink" href="#use" title="Permalink to this headline">¶</a>
+                                    </h3>
+                                    <p>USEステートメントは、現在のキースペースを切り替えるために、以下の構文で使用される。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">use_statement</span> <span
+                                                class="p">::</span><span class="o">=</span>  <span class="n">USE</span> <span
+                                                class="n">keyspace_name</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>実行例は以下の通りである。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">cqlsh</span><span
+                                                class="o">&gt;</span> <span class="n">USE</span> <span
+                                                class="n">sample</span><span class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section" id="alter-keyspace">
+                                    <span id="section3-2-3-cassandra-alter-keyspace-label"></span>
+                                    <h3>ALTER KEYSPACE ステートメント<a class="headerlink" href="#alter-keyspace"
+                                                                 title="Permalink to this headline">¶</a></h3>
+                                    <p>ALTER KEYSPACEステートメントはキースペースの定義を変更するために、以下の構文で使用される。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span
+                                                class="n">alter_keyspace_statement</span> <span class="p">::</span><span
+                                                class="o">=</span>  <span class="k">ALTER</span> <span class="n">KEYSPACE</span> <span
+                                                class="n">keyspace_name</span> <span class="k">WITH</span> <span
+                                                class="k">options</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>実行例は以下の通りである。</p>
+                                    <div class="highlight-sh">
+                                        <div class="highlight"><pre>cqlsh&gt; ALTER KEYSPACE sample WITH <span
+                                                class="nv">replication</span> <span class="o">=</span> <span
+                                                class="o">{</span><span class="s1">&#39;class&#39;</span>: <span
+                                                class="s1">&#39;SimpleStrategy&#39;</span>, <span class="s1">&#39;replication_factor&#39;</span> : 4<span
+                                                class="o">}</span><span class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section" id="drop-keyspace">
+                                    <span id="section3-2-4-cassandra-alter-keyspace-label"></span>
+                                    <h3>DROP KEYSPACE ステートメント<a class="headerlink" href="#drop-keyspace"
+                                                                title="Permalink to this headline">¶</a></h3>
+                                    <p>DROP KEYSPACEステートメントはキースペースを削除するために、以下の構文で使用される。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">drop_keyspace_statement</span> <span
+                                                class="p">::</span><span class="o">=</span>  <span class="k">DROP</span> <span
+                                                class="n">KEYSPACE</span> <span class="p">[</span> <span
+                                                class="n">IF</span> <span class="k">EXISTS</span> <span
+                                                class="p">]</span> <span class="n">keyspace_name</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>実行例は以下の通りである。</p>
+                                    <div class="highlight-sh">
+                                        <div class="highlight"><pre>cqlsh&gt; DROP KEYSPACE sample<span
+                                                class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section" id="create-table">
+                                    <span id="section3-2-5-cassandra-create-table-label"></span>
+                                    <h3>CREATE TABLE ステートメント<a class="headerlink" href="#create-table"
+                                                               title="Permalink to this headline">¶</a></h3>
+                                    <p>キースペースは、以下の構文の通り、CREATE TABLEステートメントにより作成される。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">create_table_statement</span> <span
+                                                class="p">::</span><span class="o">=</span>  <span
+                                                class="k">CREATE</span> <span class="k">TABLE</span> <span
+                                                class="p">[</span> <span class="n">IF</span> <span class="k">NOT</span> <span
+                                                class="k">EXISTS</span> <span class="p">]</span> <span class="k">table_name</span>
                          <span class="s1">&#39;(&#39;</span>
                              <span class="n">column_definition</span>
-                             <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span class="n">column_definition</span> <span class="p">)</span><span class="o">*</span>
-                             <span class="p">[</span> <span class="s1">&#39;,&#39;</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="s1">&#39;(&#39;</span> <span class="n">primary_key</span> <span class="s1">&#39;)&#39;</span> <span class="p">]</span>
-                         <span class="s1">&#39;)&#39;</span> <span class="p">[</span> <span class="k">WITH</span> <span class="n">table_options</span> <span class="p">]</span>
-<span class="n">column_definition</span>      <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span class="n">cql_type</span> <span class="p">[</span> <span class="k">STATIC</span> <span class="p">]</span> <span class="p">[</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">]</span>
-<span class="n">primary_key</span>            <span class="p">::</span><span class="o">=</span>  <span class="n">partition_key</span> <span class="p">[</span> <span class="s1">&#39;,&#39;</span> <span class="n">clustering_columns</span> <span class="p">]</span>
+                             <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span class="n">column_definition</span> <span
+                                                    class="p">)</span><span class="o">*</span>
+                             <span class="p">[</span> <span class="s1">&#39;,&#39;</span> <span class="k">PRIMARY</span> <span
+                                                    class="k">KEY</span> <span class="s1">&#39;(&#39;</span> <span
+                                                    class="n">primary_key</span> <span
+                                                    class="s1">&#39;)&#39;</span> <span class="p">]</span>
+                         <span class="s1">&#39;)&#39;</span> <span class="p">[</span> <span class="k">WITH</span> <span
+                                                    class="n">table_options</span> <span class="p">]</span>
+<span class="n">column_definition</span>      <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span
+                                                    class="n">cql_type</span> <span class="p">[</span> <span class="k">STATIC</span> <span
+                                                    class="p">]</span> <span class="p">[</span> <span
+                                                    class="k">PRIMARY</span> <span class="k">KEY</span><span
+                                                    class="p">]</span>
+<span class="n">primary_key</span>            <span class="p">::</span><span class="o">=</span>  <span class="n">partition_key</span> <span
+                                                    class="p">[</span> <span class="s1">&#39;,&#39;</span> <span
+                                                    class="n">clustering_columns</span> <span class="p">]</span>
 <span class="n">partition_key</span>          <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span>
-                             <span class="o">|</span> <span class="s1">&#39;(&#39;</span> <span class="k">column_name</span> <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span class="k">column_name</span> <span class="p">)</span><span class="o">*</span> <span class="s1">&#39;)&#39;</span>
-<span class="n">clustering_columns</span>     <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span class="k">column_name</span> <span class="p">)</span><span class="o">*</span>
-<span class="n">table_options</span>          <span class="p">::</span><span class="o">=</span>  <span class="n">COMPACT</span> <span class="k">STORAGE</span> <span class="p">[</span> <span class="k">AND</span> <span class="n">table_options</span> <span class="p">]</span>
-                         <span class="o">|</span> <span class="n">CLUSTERING</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="s1">&#39;(&#39;</span> <span class="n">clustering_order</span> <span class="s1">&#39;)&#39;</span> <span class="p">[</span> <span class="k">AND</span> <span class="n">table_options</span> <span class="p">]</span>
+                             <span class="o">|</span> <span class="s1">&#39;(&#39;</span> <span
+                                                    class="k">column_name</span> <span class="p">(</span> <span
+                                                    class="s1">&#39;,&#39;</span> <span
+                                                    class="k">column_name</span> <span class="p">)</span><span
+                                                    class="o">*</span> <span class="s1">&#39;)&#39;</span>
+<span class="n">clustering_columns</span>     <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span
+                                                    class="p">(</span> <span class="s1">&#39;,&#39;</span> <span
+                                                    class="k">column_name</span> <span class="p">)</span><span
+                                                    class="o">*</span>
+<span class="n">table_options</span>          <span class="p">::</span><span class="o">=</span>  <span
+                                                    class="n">COMPACT</span> <span class="k">STORAGE</span> <span
+                                                    class="p">[</span> <span class="k">AND</span> <span class="n">table_options</span> <span
+                                                    class="p">]</span>
+                         <span class="o">|</span> <span class="n">CLUSTERING</span> <span class="k">ORDER</span> <span
+                                                    class="k">BY</span> <span class="s1">&#39;(&#39;</span> <span
+                                                    class="n">clustering_order</span> <span
+                                                    class="s1">&#39;)&#39;</span> <span class="p">[</span> <span
+                                                    class="k">AND</span> <span class="n">table_options</span> <span
+                                                    class="p">]</span>
                          <span class="o">|</span> <span class="k">options</span>
-<span class="n">clustering_order</span>       <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span class="p">(</span><span class="k">ASC</span> <span class="o">|</span> <span class="k">DESC</span><span class="p">)</span> <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span class="k">column_name</span> <span class="p">(</span><span class="k">ASC</span> <span class="o">|</span> <span class="k">DESC</span><span class="p">)</span> <span class="p">)</span><span class="o">*</span>
-</pre></div>
-</div>
-<p>利用可能なデータ型は以下の通りである。</p>
-<table border="1" class="docutils" id="id7">
-<caption><span class="caption-text">テーブルのデータ型</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="30%" />
-<col width="70%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">データ型</th>
-<th class="head">概要</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>ascii</td>
-<td>US-ASCII文字列</td>
-</tr>
-<tr class="row-odd"><td>bigint</td>
-<td>64bitLong型数値</td>
-</tr>
-<tr class="row-even"><td>blob</td>
-<td>16進数で表記される任意のバイト</td>
-</tr>
-<tr class="row-odd"><td>boolean</td>
-<td>True or False</td>
-</tr>
-<tr class="row-even"><td>counter</td>
-<td>64bit型数値の累計</td>
-</tr>
-<tr class="row-odd"><td>decimal</td>
-<td>正確なDecimal型数値</td>
-</tr>
-<tr class="row-even"><td>double</td>
-<td>64bit IEEE-754 Float数値</td>
-</tr>
-<tr class="row-odd"><td>float</td>
-<td>32bit IEEE-754 Float数値</td>
-</tr>
-<tr class="row-even"><td>inet</td>
-<td>IPv4 あるいはIPv6のIPアドレスを表す文字列</td>
-</tr>
-<tr class="row-odd"><td>int</td>
-<td>32bitint型数値</td>
-</tr>
-<tr class="row-even"><td>list</td>
-<td>1つ以上の整列された要素</td>
-</tr>
-<tr class="row-odd"><td>map</td>
-<td>JSON表記された文字列の連想配列</td>
-</tr>
-<tr class="row-even"><td>set</td>
-<td>重複のない1つ以上の整列された要素</td>
-</tr>
-<tr class="row-odd"><td>text</td>
-<td>UTF8エンコードされた文字列</td>
-</tr>
-<tr class="row-even"><td>timestamp</td>
-<td>8byteで表現されたDateTime</td>
-</tr>
-<tr class="row-odd"><td>uuid</td>
-<td>UUIDフォーマット</td>
-</tr>
-<tr class="row-even"><td>timeuuid</td>
-<td>Type 1 UUID</td>
-</tr>
-<tr class="row-odd"><td>varchar</td>
-<td>UTF8エンコード文字列</td>
-</tr>
-<tr class="row-even"><td>varint</td>
-<td>正確なint</td>
-</tr>
-</tbody>
-</table>
-<p>実行例は以下の通りである。</p>
-<div class="highlight-sql"><div class="highlight"><pre>cqlsh&gt; CREATE TABLE monkeySpecies (
+<span class="n">clustering_order</span>       <span class="p">::</span><span class="o">=</span>  <span class="k">column_name</span> <span
+                                                    class="p">(</span><span class="k">ASC</span> <span
+                                                    class="o">|</span> <span class="k">DESC</span><span
+                                                    class="p">)</span> <span class="p">(</span> <span class="s1">&#39;,&#39;</span> <span
+                                                    class="k">column_name</span> <span class="p">(</span><span
+                                                    class="k">ASC</span> <span class="o">|</span> <span
+                                                    class="k">DESC</span><span class="p">)</span> <span
+                                                    class="p">)</span><span class="o">*</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>利用可能なデータ型は以下の通りである。</p>
+                                    <table border="1" class="docutils" id="id7">
+                                        <caption><span class="caption-text">テーブルのデータ型</span><a class="headerlink"
+                                                                                               href="#id7"
+                                                                                               title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="30%"/>
+                                            <col width="70%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">データ型</th>
+                                            <th class="head">概要</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>ascii</td>
+                                            <td>US-ASCII文字列</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>bigint</td>
+                                            <td>64bitLong型数値</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>blob</td>
+                                            <td>16進数で表記される任意のバイト</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>boolean</td>
+                                            <td>True or False</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>counter</td>
+                                            <td>64bit型数値の累計</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>decimal</td>
+                                            <td>正確なDecimal型数値</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>double</td>
+                                            <td>64bit IEEE-754 Float数値</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>float</td>
+                                            <td>32bit IEEE-754 Float数値</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>inet</td>
+                                            <td>IPv4 あるいはIPv6のIPアドレスを表す文字列</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>int</td>
+                                            <td>32bitint型数値</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>list</td>
+                                            <td>1つ以上の整列された要素</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>map</td>
+                                            <td>JSON表記された文字列の連想配列</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>set</td>
+                                            <td>重複のない1つ以上の整列された要素</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>text</td>
+                                            <td>UTF8エンコードされた文字列</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>timestamp</td>
+                                            <td>8byteで表現されたDateTime</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>uuid</td>
+                                            <td>UUIDフォーマット</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>timeuuid</td>
+                                            <td>Type 1 UUID</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>varchar</td>
+                                            <td>UTF8エンコード文字列</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>varint</td>
+                                            <td>正確なint</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>実行例は以下の通りである。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre>cqlsh&gt; CREATE TABLE monkeySpecies (
            species text PRIMARY KEY,
            common_name text,
            population varint,
@@ -412,164 +564,255 @@ cqlsh&gt; CREATE TABLE loads (
            load float,
        PRIMARY KEY ((machine, cpu), mtime)
        ) WITH CLUSTERING ORDER BY (mtime DESC);
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">上記の構文で、static修飾子は同一のパーティション内(同一のパーティションキーを持つ)で共有される値である。</p>
-</div>
-<p>static修飾された値は、値が共有されるので更新時には注意が必要である。下記の例では、static定義された&#8221;s&#8221;が共有されており、1番目のデータが後からINSERTされた２番目のデータに上書きされる例である。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">t</span> <span class="p">(</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">上記の構文で、static修飾子は同一のパーティション内(同一のパーティションキーを持つ)で共有される値である。</p>
+                                    </div>
+                                    <p>static修飾された値は、値が共有されるので更新時には注意が必要である。下記の例では、static定義された&#8221;s&#8221;が共有されており、1番目のデータが後からINSERTされた２番目のデータに上書きされる例である。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">cqlsh</span><span
+                                                class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span
+                                                class="n">t</span> <span class="p">(</span>
            <span class="n">pk</span> <span class="nb">int</span><span class="p">,</span>
            <span class="n">t</span> <span class="nb">int</span><span class="p">,</span>
            <span class="n">v</span> <span class="nb">text</span><span class="p">,</span>
            <span class="n">s</span> <span class="nb">text</span> <span class="k">static</span><span class="p">,</span>
-           <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+           <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span
+                                                    class="n">pk</span><span class="p">,</span> <span class="n">t</span><span
+                                                    class="p">)</span>
       <span class="p">);</span>
 
-<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">t</span> <span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;val0&#39;</span><span class="p">,</span> <span class="s1">&#39;static0&#39;</span><span class="p">);</span>
-<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">t</span> <span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;static1&#39;</span><span class="p">);</span>
-<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">t</span><span class="p">;</span>
+<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span
+                                                    class="n">t</span> <span class="p">(</span><span class="n">pk</span><span
+                                                    class="p">,</span> <span class="n">t</span><span class="p">,</span> <span
+                                                    class="n">v</span><span class="p">,</span> <span
+                                                    class="n">s</span><span class="p">)</span> <span
+                                                    class="k">VALUES</span> <span class="p">(</span><span
+                                                    class="mi">0</span><span class="p">,</span> <span
+                                                    class="mi">0</span><span class="p">,</span> <span class="s1">&#39;val0&#39;</span><span
+                                                    class="p">,</span> <span class="s1">&#39;static0&#39;</span><span
+                                                    class="p">);</span>
+<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span
+                                                    class="n">t</span> <span class="p">(</span><span class="n">pk</span><span
+                                                    class="p">,</span> <span class="n">t</span><span class="p">,</span> <span
+                                                    class="n">v</span><span class="p">,</span> <span
+                                                    class="n">s</span><span class="p">)</span> <span
+                                                    class="k">VALUES</span> <span class="p">(</span><span
+                                                    class="mi">0</span><span class="p">,</span> <span
+                                                    class="mi">1</span><span class="p">,</span> <span class="s1">&#39;val1&#39;</span><span
+                                                    class="p">,</span> <span class="s1">&#39;static1&#39;</span><span
+                                                    class="p">);</span>
+<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span
+                                                    class="k">FROM</span> <span class="n">t</span><span
+                                                    class="p">;</span>
 
-  <span class="n">pk</span> <span class="o">|</span> <span class="n">t</span> <span class="o">|</span> <span class="n">v</span>      <span class="o">|</span> <span class="n">s</span>
+  <span class="n">pk</span> <span class="o">|</span> <span class="n">t</span> <span class="o">|</span> <span
+                                                    class="n">v</span>      <span class="o">|</span> <span
+                                                    class="n">s</span>
 <span class="ss">&quot;----+---+--------+-----------&quot;</span>
-  <span class="mi">0</span>  <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="s1">&#39;val0&#39;</span> <span class="o">|</span> <span class="s1">&#39;static1&#39;</span>
-  <span class="mi">0</span>  <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="s1">&#39;val1&#39;</span> <span class="o">|</span> <span class="s1">&#39;static1&#39;</span>
-</pre></div>
-</div>
-<p>static定義されたカラムは以下の制約をもつ。</p>
-<ul class="simple">
-<li>COMPACT STORAGEオプションを選択したテーブルはstatic属性を利用できない。</li>
-<li>staticなカラムを持つことが出来ない、クラスタカラムなしのテーブル。</li>
-<li>PRIMARYキーを除くカラムのみがstatic定義できる。</li>
-</ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">上記の構文において、テーブルのデータは必ず一意のパーティションキーを持つ。パーティションキーは、どのノードで、データを保持、処理するのかを決定し、パーティションキーによってノードが決定した行をパーティションと呼ぶ。パーティション内には、複数の行を持つ場合があり、これらを一意に識別するのがプライマリーキーである。プライマリーキーは、パーティションキー単独の場合(パーティション内に１つの行しかない場合)と、パーティションキー+クラスタカラムで構成される場合(パーティション内に複数の行が存在し、クラスタごとに保持するデータがそれぞれの行で異なる場合)の２ケースが存在する。</p>
-</div>
-<p>プライマリーキーの表現方法は、</p>
-<ul class="simple">
-<li>PRIMARY KEY (a) : aはパーティションキーでもあり、クラスタカラムはない。</li>
-<li>PRIMARY KEY (a, b, c) : aはパーティションキーであり、bとcはクラスタカラムである。</li>
-<li>PRIMARY KEY ((a, b), c) : aとbは複合パーティションキーと呼び、cはクラスタカラムである。</li>
-</ul>
-<p>以下の例は、row1とrow2のデータが同じパーティション、row3とrow4が同じパーティションに属する。ただし、row3とrow4は配置されたクラスタが異なる。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">t</span> <span class="p">(</span>
+  <span class="mi">0</span>  <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span
+                                                    class="s1">&#39;val0&#39;</span> <span class="o">|</span> <span
+                                                    class="s1">&#39;static1&#39;</span>
+  <span class="mi">0</span>  <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span
+                                                    class="s1">&#39;val1&#39;</span> <span class="o">|</span> <span
+                                                    class="s1">&#39;static1&#39;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>static定義されたカラムは以下の制約をもつ。</p>
+                                    <ul class="simple">
+                                        <li>COMPACT STORAGEオプションを選択したテーブルはstatic属性を利用できない。</li>
+                                        <li>staticなカラムを持つことが出来ない、クラスタカラムなしのテーブル。</li>
+                                        <li>PRIMARYキーを除くカラムのみがstatic定義できる。</li>
+                                    </ul>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">
+                                            上記の構文において、テーブルのデータは必ず一意のパーティションキーを持つ。パーティションキーは、どのノードで、データを保持、処理するのかを決定し、パーティションキーによってノードが決定した行をパーティションと呼ぶ。パーティション内には、複数の行を持つ場合があり、これらを一意に識別するのがプライマリーキーである。プライマリーキーは、パーティションキー単独の場合(パーティション内に１つの行しかない場合)と、パーティションキー+クラスタカラムで構成される場合(パーティション内に複数の行が存在し、クラスタごとに保持するデータがそれぞれの行で異なる場合)の２ケースが存在する。</p>
+                                    </div>
+                                    <p>プライマリーキーの表現方法は、</p>
+                                    <ul class="simple">
+                                        <li>PRIMARY KEY (a) : aはパーティションキーでもあり、クラスタカラムはない。</li>
+                                        <li>PRIMARY KEY (a, b, c) : aはパーティションキーであり、bとcはクラスタカラムである。</li>
+                                        <li>PRIMARY KEY ((a, b), c) : aとbは複合パーティションキーと呼び、cはクラスタカラムである。</li>
+                                    </ul>
+                                    <p>
+                                        以下の例は、row1とrow2のデータが同じパーティション、row3とrow4が同じパーティションに属する。ただし、row3とrow4は配置されたクラスタが異なる。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">cqlsh</span><span
+                                                class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span
+                                                class="n">t</span> <span class="p">(</span>
            <span class="n">a</span> <span class="nb">int</span><span class="p">,</span>
            <span class="n">b</span> <span class="nb">int</span><span class="p">,</span>
            <span class="k">c</span> <span class="nb">int</span><span class="p">,</span>
            <span class="n">d</span> <span class="nb">int</span><span class="p">,</span>
-           <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="k">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+           <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">((</span><span
+                                                    class="n">a</span><span class="p">,</span> <span
+                                                    class="n">b</span><span class="p">),</span> <span class="k">c</span><span
+                                                    class="p">,</span> <span class="n">d</span><span class="p">)</span>
        <span class="p">);</span>
 
- <span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">t</span><span class="p">;</span>
+ <span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span
+                                                    class="k">FROM</span> <span class="n">t</span><span
+                                                    class="p">;</span>
 
-   <span class="n">a</span> <span class="o">|</span> <span class="n">b</span> <span class="o">|</span> <span class="k">c</span> <span class="o">|</span> <span class="n">d</span>
+   <span class="n">a</span> <span class="o">|</span> <span class="n">b</span> <span class="o">|</span> <span
+                                                    class="k">c</span> <span class="o">|</span> <span class="n">d</span>
  <span class="ss">&quot;---+---+---+---&quot;</span>
-   <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span>    <span class="o">//</span> <span class="k">row</span> <span class="mi">1</span>
-   <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">1</span>    <span class="o">//</span> <span class="k">row</span> <span class="mi">2</span>
-   <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span> <span class="o">|</span> <span class="mi">2</span>    <span class="o">//</span> <span class="k">row</span> <span class="mi">3</span>
-   <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="mi">3</span>    <span class="o">//</span> <span class="k">row</span> <span class="mi">4</span>
-   <span class="mi">1</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="mi">4</span>    <span class="o">//</span> <span class="k">row</span> <span class="mi">5</span>
-</pre></div>
-</div>
-<p>また、パーティションキーが同じであれば、レプリカ内にも同じデータセットで格納されていることをするが、クラスタカラムでは、レプリカセット内で行がどのように保存されるかを制御するために利用される。ソートされることで、SELECT * FROM t WHERE a = 0 AND b = 0 And c &gt; 1 and c &lt;= 3 のように、効率的なデータ検索に役立つ。</p>
-<p>テーブルオプションはWITHキーワードを使用して指定するが、COMPACT STORAGEオプションと、CLUSTERING ORDERオプションについては、生成後に変更が出来ないことと、実行されるクエリに影響があるため注意が必要である。</p>
-<table border="1" class="docutils" id="id8">
-<caption><span class="caption-text">テーブルオプションの注意点</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="30%" />
-<col width="70%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション</th>
-<th class="head">概要</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>COMPACT STOAGE</td>
-<td>複合PRIMARYキーを使用してデータを作成する場合は、 <br/> キー以外の項目は１つの行データにまとめるオプション。<br/> このオプションを採用すると以下の制約が課せられる。<br/>  <br/>
-1.コレクションやstatic定義カラムを使用することは出来ない。<br/>
-2.少なくともクラスタカラムを持ち、PRIMARYキーの外側に <br/> 少なくとも１つのカラムが必要である。これはテーブル生成後に、<br/> 追加したり削除することは出来ない。 <br/>
-3.作成されたインデックスに制約があり、マテリアライズドビューは <br/> 使用できない。</td>
-</tr>
-<tr class="row-odd"><td>CLUSTERING ORDER</td>
-<td>クラスタカラムのデータの並び順を昇順から降順に変更するオプション。 <br/> このオプションを採用すると、以下の制約が課せられる。 <br/>  <br/>
-1.テーブルにSELECTを実行した際のORDER順が変更される。 <br/>
-2.ORDER BYオプションを指定しなければ、CLUSTERING ORDERで <br/> 定義されたデータは返却される。 <br/>
-3.逆順の定義は幾つかのクエリにおいて、若干のパフォーマンス低下を <br/> 引き起こす。</td>
-</tr>
-</tbody>
-</table>
-<p>その他、以下のテーブルオプションをサポートする。</p>
-<table border="1" class="docutils" id="id9">
-<caption><span class="caption-text">CREATE TABLEのその他のオプション</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="15%" />
-<col width="15%" />
-<col width="15%" />
-<col width="54%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション名</th>
-<th class="head">形式</th>
-<th class="head">デフォルト</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>comment</td>
-<td>文字列</td>
-<td>none</td>
-<td>フリーフォーマットの手書きコメント</td>
-</tr>
-<tr class="row-odd"><td>read_repair_chance</td>
-<td>数値</td>
-<td>0.1</td>
-<td>Read_Repairのために、他のノードへクエリを送信する割合 <br/> 求められる一貫性レベル以上のノード数に従って指定する。</td>
-</tr>
-<tr class="row-even"><td>dclocal_read_repair_chance</td>
-<td>数値</td>
-<td>0</td>
-<td>同一データセンタにおけるレプリカへのread_repair_chance</td>
-</tr>
-<tr class="row-odd"><td>gc_grace_seconds</td>
-<td>数値</td>
-<td>864000</td>
-<td>サーバがトゥームストーンのガーベージコレクションを待つ時間 <br/>
-シングルノードクラスタは安全に0を設定できる。</td>
-</tr>
-<tr class="row-even"><td>bloom_filter_fp_chance</td>
-<td>数値</td>
-<td>0.00075</td>
-<td>SSTableのブルームフィルタ誤検出(False Positive)の確率 <br/>
-この値で、メモリ上、ディスク上のフィルタのサイズが決定される。</td>
-</tr>
-<tr class="row-odd"><td>default_time_to_live</td>
-<td>数値</td>
-<td>0</td>
-<td>テーブルのデフォルトの有効期限。制御がないときに <br/>
-MapReduce/Hiveシナリオで使用される。</td>
-</tr>
-<tr class="row-even"><td>compaction</td>
-<td>マップ</td>
-<td>下表参照</td>
-<td>コンパクションのオプション。</td>
-</tr>
-<tr class="row-odd"><td>compression</td>
-<td>マップ</td>
-<td>下表参照</td>
-<td>コンプレッションのオプション。</td>
-</tr>
-<tr class="row-even"><td>caching</td>
-<td>マップ</td>
-<td>下表参照</td>
-<td>キャッシュオプション。</td>
-</tr>
-</tbody>
-</table>
-<p>オプションをデフォルトにした場合の例は以下の通りである。</p>
-<div class="highlight-sql"><div class="highlight"><pre>CREATE TABLE sample.users (
+   <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span
+                                                    class="mi">0</span> <span class="o">|</span> <span
+                                                    class="mi">0</span>    <span class="o">//</span> <span
+                                                    class="k">row</span> <span class="mi">1</span>
+   <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span
+                                                    class="mi">1</span> <span class="o">|</span> <span
+                                                    class="mi">1</span>    <span class="o">//</span> <span
+                                                    class="k">row</span> <span class="mi">2</span>
+   <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span
+                                                    class="mi">2</span> <span class="o">|</span> <span
+                                                    class="mi">2</span>    <span class="o">//</span> <span
+                                                    class="k">row</span> <span class="mi">3</span>
+   <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span
+                                                    class="mi">3</span> <span class="o">|</span> <span
+                                                    class="mi">3</span>    <span class="o">//</span> <span
+                                                    class="k">row</span> <span class="mi">4</span>
+   <span class="mi">1</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span
+                                                    class="mi">4</span> <span class="o">|</span> <span
+                                                    class="mi">4</span>    <span class="o">//</span> <span
+                                                    class="k">row</span> <span class="mi">5</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        また、パーティションキーが同じであれば、レプリカ内にも同じデータセットで格納されていることをするが、クラスタカラムでは、レプリカセット内で行がどのように保存されるかを制御するために利用される。ソートされることで、SELECT
+                                        * FROM t WHERE a = 0 AND b = 0 And c &gt; 1 and c &lt;= 3
+                                        のように、効率的なデータ検索に役立つ。</p>
+                                    <p>テーブルオプションはWITHキーワードを使用して指定するが、COMPACT STORAGEオプションと、CLUSTERING
+                                        ORDERオプションについては、生成後に変更が出来ないことと、実行されるクエリに影響があるため注意が必要である。</p>
+                                    <table border="1" class="docutils" id="id8">
+                                        <caption><span class="caption-text">テーブルオプションの注意点</span><a class="headerlink"
+                                                                                                   href="#id8"
+                                                                                                   title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="30%"/>
+                                            <col width="70%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション</th>
+                                            <th class="head">概要</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>COMPACT STOAGE</td>
+                                            <td>複合PRIMARYキーを使用してデータを作成する場合は、 <br/> キー以外の項目は１つの行データにまとめるオプション。<br/>
+                                                このオプションを採用すると以下の制約が課せられる。<br/> <br/>
+                                                1.コレクションやstatic定義カラムを使用することは出来ない。<br/>
+                                                2.少なくともクラスタカラムを持ち、PRIMARYキーの外側に <br/>
+                                                少なくとも１つのカラムが必要である。これはテーブル生成後に、<br/> 追加したり削除することは出来ない。 <br/>
+                                                3.作成されたインデックスに制約があり、マテリアライズドビューは <br/> 使用できない。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>CLUSTERING ORDER</td>
+                                            <td>クラスタカラムのデータの並び順を昇順から降順に変更するオプション。 <br/> このオプションを採用すると、以下の制約が課せられる。 <br/>
+                                                <br/>
+                                                1.テーブルにSELECTを実行した際のORDER順が変更される。 <br/>
+                                                2.ORDER BYオプションを指定しなければ、CLUSTERING ORDERで <br/> 定義されたデータは返却される。 <br/>
+                                                3.逆順の定義は幾つかのクエリにおいて、若干のパフォーマンス低下を <br/> 引き起こす。
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>その他、以下のテーブルオプションをサポートする。</p>
+                                    <table border="1" class="docutils" id="id9">
+                                        <caption><span class="caption-text">CREATE TABLEのその他のオプション</span><a
+                                                class="headerlink" href="#id9" title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="15%"/>
+                                            <col width="15%"/>
+                                            <col width="15%"/>
+                                            <col width="54%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション名</th>
+                                            <th class="head">形式</th>
+                                            <th class="head">デフォルト</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>comment</td>
+                                            <td>文字列</td>
+                                            <td>none</td>
+                                            <td>フリーフォーマットの手書きコメント</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>read_repair_chance</td>
+                                            <td>数値</td>
+                                            <td>0.1</td>
+                                            <td>Read_Repairのために、他のノードへクエリを送信する割合 <br/> 求められる一貫性レベル以上のノード数に従って指定する。</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>dclocal_read_repair_chance</td>
+                                            <td>数値</td>
+                                            <td>0</td>
+                                            <td>同一データセンタにおけるレプリカへのread_repair_chance</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>gc_grace_seconds</td>
+                                            <td>数値</td>
+                                            <td>864000</td>
+                                            <td>サーバがトゥームストーンのガーベージコレクションを待つ時間 <br/>
+                                                シングルノードクラスタは安全に0を設定できる。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>bloom_filter_fp_chance</td>
+                                            <td>数値</td>
+                                            <td>0.00075</td>
+                                            <td>SSTableのブルームフィルタ誤検出(False Positive)の確率 <br/>
+                                                この値で、メモリ上、ディスク上のフィルタのサイズが決定される。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>default_time_to_live</td>
+                                            <td>数値</td>
+                                            <td>0</td>
+                                            <td>テーブルのデフォルトの有効期限。制御がないときに <br/>
+                                                MapReduce/Hiveシナリオで使用される。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>compaction</td>
+                                            <td>マップ</td>
+                                            <td>下表参照</td>
+                                            <td>コンパクションのオプション。</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>compression</td>
+                                            <td>マップ</td>
+                                            <td>下表参照</td>
+                                            <td>コンプレッションのオプション。</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>caching</td>
+                                            <td>マップ</td>
+                                            <td>下表参照</td>
+                                            <td>キャッシュオプション。</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>オプションをデフォルトにした場合の例は以下の通りである。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre>CREATE TABLE sample.users (
     user_id bigint PRIMARY KEY,
     first_name text,
     last_name text,
@@ -588,331 +831,436 @@ MapReduce/Hiveシナリオで使用される。</td>
     AND min_index_interval = 128
     AND read_repair_chance = 0.0
     AND speculative_retry = &#39;99PERCENTILE&#39;;
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Read Repairとは、読み込み時に各レプリカでデータに違いがあった場合、 <br/>
-最新のデータでレプリカを修復することである。修復はバッググラウンドで行われる。</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>トゥームストーンは、RDBにおいて、削除のSQLを実行する代わりに、削除を定義されたカラムを更新する「論理削除」と同様の仕組みを実現するための目印に相当する。Cassandraでは、削除操作を実行しても、SSTableのコンパンクションが実行されるまで実際の削除操作は保留されるが、削除までの間、トゥームストーンが削除マーカーとして保持される。詳細は <a class="reference external" href="http://docs.datastax.com/ja/cassandra-jajp/2.0/cassandra/dml/dml_about_deletes_c.html">DATASTAXの削除について</a> を参照すること。</p>
-<p class="last">この概念を理解するための、重要なポイントとしては、データ削除が行われる場合、レプリカが1つでもダウンしていると、削除が反映されず、レプリカ復帰時に、復帰したレプリカへのアクセスが発生すると、Read Repairによって、削除したはずのデータが復元してしまう可能性があることだ。そのため、ノード間のデータ不整合が発生した場合、トゥームストーンの有無により削除の要否を判断する。基本的にはトゥームストーンがあった場合、削除が優先される。トゥームストーンのデフォルトの設定は864000秒、すなわち10日である。実際の削除はSSTableのコンパクション時となるが、コンパクションの戦略によっては実際にデータ削除されるタイミングが長期に可能性があるので、必要に応じてデフォルトのコンパクション戦略を見直すこと。なお、この時間を過ぎて復旧できなかったノードは障害発生または交換が必要なノード対象となる。</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">SSTableブルームフィルタとは、指定されたキーがSSTable内のデータに含まれているかを検査するための高速な非決定性アルゴリズムで、パフォーマンス向上のために使用される。</p>
-</div>
-<p>コンパクションのオプションは、&#8217;class&#8217;属性に以下のクラスを指定する必要がある。</p>
-<table border="1" class="docutils" id="id10">
-<caption><span class="caption-text">コンパクションの戦略</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="22%" />
-<col width="78%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション名</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>SizeTieredCompactionStrategy</td>
-<td>デフォルトのコンパクションストラテジ。min_thresholdで指定された <br/> ファイルの個数を閾値として、同じサイズのファイルが上限を超えるとSSTableの <br/> マイナーコンパクションが発生する。</td>
-</tr>
-<tr class="row-odd"><td>LeveledCompactionStrategy</td>
-<td>固定されたサイズのSSTableを格納する領域をレベルごとに分類し、 <br/>
-SSTableが作成されるごとに 順次下のレベルから占有させていき、 <br/>
-レベル単位でデータのマージを行う戦略。 <br/>
-データ検索時にはレベルごとにマージされたSSTableを検索する。</td>
-</tr>
-<tr class="row-even"><td>TimeWindowCompactionStrategy</td>
-<td>データのタイムスタンプにより、ウィンドウと呼ばれる単位で１ファイルにつき <br/>
-１つのSSTableを割当て、コンパクションを実行する戦略</td>
-</tr>
-<tr class="row-odd"><td>DateTieredCompactionStrategy</td>
-<td>非推奨、代わりにTimeWindowCompactionStrategyの使用を推奨。</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">コンパクションには、メジャーコンパクションとマイナーコンパクションが存在する。
-マイナーコンパクションは複数のSSTableを1つにまとめるもので、メジャーコンパクションは
-全てのSSTableを１つにまとめるものである。</p>
-</div>
-<p>コンプレッションのオプションは、SSTableの圧縮方法を指定するもので、以下が利用可能である。</p>
-<table border="1" class="docutils" id="id11">
-<caption><span class="caption-text">コンプレッションのオプション</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="18%" />
-<col width="18%" />
-<col width="64%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション名</th>
-<th class="head">デフォルト</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>class</td>
-<td>LZ4Compressor</td>
-<td>圧縮アルゴリズムを指定する。その他、 <br/>
-SnappyCompressorとDeflateCompressorを選択できる。</td>
-</tr>
-<tr class="row-odd"><td>enabled</td>
-<td>true</td>
-<td>SSTableの圧縮可否</td>
-</tr>
-<tr class="row-even"><td>chunk_length_in_kb</td>
-<td>64KB</td>
-<td>SSTableの圧縮のブロックサイズを定義する。 <br/>
-より大きい方が圧縮率はよいが、読み出しのデータサイズが増加する。</td>
-</tr>
-<tr class="row-odd"><td>crc_check_chance</td>
-<td>1.0</td>
-<td>ブロックに含まれるチェックサムをチェックする割合</td>
-</tr>
-</tbody>
-</table>
-<p>キャッシュオプションはテーブルのキーとRowのキャッシュを定義する。</p>
-<table border="1" class="docutils" id="id12">
-<caption><span class="caption-text">キャッシュオプション</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="18%" />
-<col width="18%" />
-<col width="64%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">オプション名</th>
-<th class="head">デフォルト</th>
-<th class="head">詳細</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>keys</td>
-<td>ALL</td>
-<td>テーブルのキャッシュを行うかどうかをALLorNONE指定。</td>
-</tr>
-<tr class="row-odd"><td>rows_per_partition</td>
-<td>NONE</td>
-<td>パーティションにつきキャッシュする行の量。<br/>
-Integer型のNを指定すると、パーティションのクエリ行から取得した <br/>
-N行のクエリがキャッシュされる。その他ALLorNONEを指定可能。</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="alter-table">
-<span id="section3-2-6-cassandra-alter-table-label"></span><h3>ALTER TABLE ステートメント<a class="headerlink" href="#alter-table" title="Permalink to this headline">¶</a></h3>
-<p>存在済みのテーブルの変更を加えるのは、以下のALTER TABLEステートメントを利用する。</p>
-<div class="highlight-html"><div class="highlight"><pre>alter_table_statement   ::=  ALTER TABLE table_name alter_table_instruction
+</pre>
+                                        </div>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">Read Repairとは、読み込み時に各レプリカでデータに違いがあった場合、 <br/>
+                                            最新のデータでレプリカを修復することである。修復はバッググラウンドで行われる。</p>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p>
+                                            トゥームストーンは、RDBにおいて、削除のSQLを実行する代わりに、削除を定義されたカラムを更新する「論理削除」と同様の仕組みを実現するための目印に相当する。Cassandraでは、削除操作を実行しても、SSTableのコンパンクションが実行されるまで実際の削除操作は保留されるが、削除までの間、トゥームストーンが削除マーカーとして保持される。詳細は
+                                            <a class="reference external"
+                                               href="http://docs.datastax.com/ja/cassandra-jajp/2.0/cassandra/dml/dml_about_deletes_c.html">DATASTAXの削除について</a>
+                                            を参照すること。</p>
+                                        <p class="last">
+                                            この概念を理解するための、重要なポイントとしては、データ削除が行われる場合、レプリカが1つでもダウンしていると、削除が反映されず、レプリカ復帰時に、復帰したレプリカへのアクセスが発生すると、Read
+                                            Repairによって、削除したはずのデータが復元してしまう可能性があることだ。そのため、ノード間のデータ不整合が発生した場合、トゥームストーンの有無により削除の要否を判断する。基本的にはトゥームストーンがあった場合、削除が優先される。トゥームストーンのデフォルトの設定は864000秒、すなわち10日である。実際の削除はSSTableのコンパクション時となるが、コンパクションの戦略によっては実際にデータ削除されるタイミングが長期に可能性があるので、必要に応じてデフォルトのコンパクション戦略を見直すこと。なお、この時間を過ぎて復旧できなかったノードは障害発生または交換が必要なノード対象となる。</p>
+                                    </div>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">
+                                            SSTableブルームフィルタとは、指定されたキーがSSTable内のデータに含まれているかを検査するための高速な非決定性アルゴリズムで、パフォーマンス向上のために使用される。</p>
+                                    </div>
+                                    <p>コンパクションのオプションは、&#8217;class&#8217;属性に以下のクラスを指定する必要がある。</p>
+                                    <table border="1" class="docutils" id="id10">
+                                        <caption><span class="caption-text">コンパクションの戦略</span><a class="headerlink"
+                                                                                                href="#id10"
+                                                                                                title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="22%"/>
+                                            <col width="78%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション名</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>SizeTieredCompactionStrategy</td>
+                                            <td>デフォルトのコンパクションストラテジ。min_thresholdで指定された <br/>
+                                                ファイルの個数を閾値として、同じサイズのファイルが上限を超えるとSSTableの <br/> マイナーコンパクションが発生する。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>LeveledCompactionStrategy</td>
+                                            <td>固定されたサイズのSSTableを格納する領域をレベルごとに分類し、 <br/>
+                                                SSTableが作成されるごとに 順次下のレベルから占有させていき、 <br/>
+                                                レベル単位でデータのマージを行う戦略。 <br/>
+                                                データ検索時にはレベルごとにマージされたSSTableを検索する。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>TimeWindowCompactionStrategy</td>
+                                            <td>データのタイムスタンプにより、ウィンドウと呼ばれる単位で１ファイルにつき <br/>
+                                                １つのSSTableを割当て、コンパクションを実行する戦略
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>DateTieredCompactionStrategy</td>
+                                            <td>非推奨、代わりにTimeWindowCompactionStrategyの使用を推奨。</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="admonition note">
+                                        <p class="first admonition-title">Note</p>
+                                        <p class="last">コンパクションには、メジャーコンパクションとマイナーコンパクションが存在する。
+                                            マイナーコンパクションは複数のSSTableを1つにまとめるもので、メジャーコンパクションは
+                                            全てのSSTableを１つにまとめるものである。</p>
+                                    </div>
+                                    <p>コンプレッションのオプションは、SSTableの圧縮方法を指定するもので、以下が利用可能である。</p>
+                                    <table border="1" class="docutils" id="id11">
+                                        <caption><span class="caption-text">コンプレッションのオプション</span><a class="headerlink"
+                                                                                                    href="#id11"
+                                                                                                    title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="18%"/>
+                                            <col width="18%"/>
+                                            <col width="64%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション名</th>
+                                            <th class="head">デフォルト</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>class</td>
+                                            <td>LZ4Compressor</td>
+                                            <td>圧縮アルゴリズムを指定する。その他、 <br/>
+                                                SnappyCompressorとDeflateCompressorを選択できる。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>enabled</td>
+                                            <td>true</td>
+                                            <td>SSTableの圧縮可否</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>chunk_length_in_kb</td>
+                                            <td>64KB</td>
+                                            <td>SSTableの圧縮のブロックサイズを定義する。 <br/>
+                                                より大きい方が圧縮率はよいが、読み出しのデータサイズが増加する。
+                                            </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>crc_check_chance</td>
+                                            <td>1.0</td>
+                                            <td>ブロックに含まれるチェックサムをチェックする割合</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>キャッシュオプションはテーブルのキーとRowのキャッシュを定義する。</p>
+                                    <table border="1" class="docutils" id="id12">
+                                        <caption><span class="caption-text">キャッシュオプション</span><a class="headerlink"
+                                                                                                href="#id12"
+                                                                                                title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="18%"/>
+                                            <col width="18%"/>
+                                            <col width="64%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">オプション名</th>
+                                            <th class="head">デフォルト</th>
+                                            <th class="head">詳細</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>keys</td>
+                                            <td>ALL</td>
+                                            <td>テーブルのキャッシュを行うかどうかをALLorNONE指定。</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>rows_per_partition</td>
+                                            <td>NONE</td>
+                                            <td>パーティションにつきキャッシュする行の量。<br/>
+                                                Integer型のNを指定すると、パーティションのクエリ行から取得した <br/>
+                                                N行のクエリがキャッシュされる。その他ALLorNONEを指定可能。
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="section" id="alter-table">
+                                    <span id="section3-2-6-cassandra-alter-table-label"></span>
+                                    <h3>ALTER TABLE ステートメント<a class="headerlink" href="#alter-table"
+                                                              title="Permalink to this headline">¶</a></h3>
+                                    <p>存在済みのテーブルの変更を加えるのは、以下のALTER TABLEステートメントを利用する。</p>
+                                    <div class="highlight-html">
+                                        <div class="highlight"><pre>alter_table_statement   ::=  ALTER TABLE table_name alter_table_instruction
 alter_table_instruction ::=  ALTER column_name TYPE cql_type
                              | ADD column_name cql_type ( &#39;,&#39; column_name cql_type )*
                              | DROP column_name ( column_name )*
                              | WITH options
-</pre></div>
-</div>
-<p>以下は実行例である。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">addamsFamily</span> <span class="k">ALTER</span> <span class="n">lastKnownLocation</span> <span class="k">TYPE</span> <span class="n">uuid</span><span class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>以下は実行例である。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="n">cqlsh</span><span
+                                                class="o">&gt;</span> <span class="k">ALTER</span> <span
+                                                class="k">TABLE</span> <span class="n">addamsFamily</span> <span
+                                                class="k">ALTER</span> <span class="n">lastKnownLocation</span> <span
+                                                class="k">TYPE</span> <span class="n">uuid</span><span
+                                                class="p">;</span>
 
-<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">addamsFamily</span> <span class="k">ADD</span> <span class="n">gravesite</span> <span class="nb">varchar</span><span class="p">;</span>
+<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span
+                                                    class="n">addamsFamily</span> <span class="k">ADD</span> <span
+                                                    class="n">gravesite</span> <span class="nb">varchar</span><span
+                                                    class="p">;</span>
 
-<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">addamsFamily</span>
+<span class="n">cqlsh</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span
+                                                    class="n">addamsFamily</span>
        <span class="k">WITH</span> <span class="k">comment</span> <span class="o">=</span> <span class="s1">&#39;A most excellent and useful table&#39;</span>
-       <span class="k">AND</span> <span class="n">read_repair_chance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>ALTER TABLE構文では、以下が可能である。</p>
-<ul class="simple">
-<li>ALTER命令で、テーブル内のカラムの型を変更できる。カラムの型は簡単に変更できるものではない。型の変更は以前の型から新しい型へ有効なデータである必要がある。加えて、クラスタカラムでは、セカンダリインデックスが定義されているため、新しい型も以前の型と同様にソートされる必要がある。型の競合は以降を参照すること。</li>
-<li>ADD命令で、テーブルへ新しいカラムを追加できる。PRIMARYキーは変更できないので、新しく追加したカラムをその一部に組み込むことはできない。同様にCOMPACT STORAGEオプションを付与しているテーブルはカラムの追加は制限される。</li>
-<li>REMOVE命令でテーブル内のカラムを削除できる。定義とデータ両方削除されるが、定義は即時で利用不能になるのに対して、データはコンパクション後に削除される。</li>
-<li>WITH句でテーブルオプションを変更できる。サポートオプションはCREATE時と同様だが、前述の通り、COMAPACT STORAGEオプションと、CLUSTERING ORDERは変更できない。コンパクションのオプションは以前のコンパクションを削除する影響があるので注意。コンプレッションオプションも同様。</li>
-</ul>
-<table border="1" class="docutils" id="id13">
-<caption><span class="caption-text">ALTER TABLE時の型の競合</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="50%" />
-<col width="50%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">変換前の型</th>
-<th class="head">変更可能な型</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>timestamp</td>
-<td>bigint</td>
-</tr>
-<tr class="row-odd"><td>ascii, bigint, boolean, date, decimal, double,  <br/>
-float, inet, int, smallint, text, time, timestamp,  <br/>
-timeuuid, tinyint, uuid, varchar, varint</td>
-<td>blob</td>
-</tr>
-<tr class="row-even"><td>int</td>
-<td>date</td>
-</tr>
-<tr class="row-odd"><td>ascii, varchar</td>
-<td>text</td>
-</tr>
-<tr class="row-even"><td>bigint</td>
-<td>time, timestamp</td>
-</tr>
-<tr class="row-odd"><td>timeuuid</td>
-<td>uuid</td>
-</tr>
-<tr class="row-even"><td>ascii, text</td>
-<td>varchar</td>
-</tr>
-<tr class="row-odd"><td>bigint, int, timestamp</td>
-<td>varint</td>
-</tr>
-</tbody>
-</table>
-<p>クラスタカラムにおいては、以下の変更のみが許容される。</p>
-<table border="1" class="docutils" id="id14">
-<caption><span class="caption-text">クラスタカラム変更時の制約</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="50%" />
-<col width="50%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">変換前の型</th>
-<th class="head">変更可能な型</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>ascii, text, varchar</td>
-<td>blob</td>
-</tr>
-<tr class="row-odd"><td>ascii, varchar</td>
-<td>text</td>
-</tr>
-<tr class="row-even"><td>ascii, text</td>
-<td>varchar</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="drop-table">
-<span id="section3-2-7-cassandra-drop-table-label"></span><h3>DROP TABLE ステートメント<a class="headerlink" href="#drop-table" title="Permalink to this headline">¶</a></h3>
-<p>存在済みのテーブルを削除するには、以下のDROP TABLEステートメントを利用する。</p>
-<div class="highlight-html"><div class="highlight"><pre>drop_table_statement ::=  DROP TABLE [ IF EXISTS ] table_name
-</pre></div>
-</div>
-<p>テーブルの削除に伴い、データも同時に削除される。</p>
-</div>
-<div class="section" id="truncate">
-<span id="section3-2-8-cassandra-drop-table-label"></span><h3>TRUNCATEステートメント<a class="headerlink" href="#truncate" title="Permalink to this headline">¶</a></h3>
-<p>存在済みのテーブル内のデータを削除するには、以下のDROP TABLEステートメントを利用する。</p>
-<div class="highlight-html"><div class="highlight"><pre>truncate_statement ::=  TRUNCATE [ TABLE ] table_name
-</pre></div>
-</div>
-</div>
-<div class="section" id="describe">
-<span id="section3-2-x-cassandra-describe-label"></span><h3>DESCRIBE ステートメント<a class="headerlink" href="#describe" title="Permalink to this headline">¶</a></h3>
-<p>describeステートメントの構文及びオプションである。</p>
-<div class="highlight-sql"><div class="highlight"><pre><span class="k">DESCRIBE</span> <span class="k">FULL</span><span class="p">(</span> <span class="k">CLUSTER</span> <span class="o">|</span> <span class="k">SCHEMA</span> <span class="p">)</span>
+       <span class="k">AND</span> <span class="n">read_repair_chance</span> <span class="o">=</span> <span
+                                                    class="mi">0</span><span class="p">.</span><span class="mi">2</span><span
+                                                    class="p">;</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>ALTER TABLE構文では、以下が可能である。</p>
+                                    <ul class="simple">
+                                        <li>
+                                            ALTER命令で、テーブル内のカラムの型を変更できる。カラムの型は簡単に変更できるものではない。型の変更は以前の型から新しい型へ有効なデータである必要がある。加えて、クラスタカラムでは、セカンダリインデックスが定義されているため、新しい型も以前の型と同様にソートされる必要がある。型の競合は以降を参照すること。
+                                        </li>
+                                        <li>
+                                            ADD命令で、テーブルへ新しいカラムを追加できる。PRIMARYキーは変更できないので、新しく追加したカラムをその一部に組み込むことはできない。同様にCOMPACT
+                                            STORAGEオプションを付与しているテーブルはカラムの追加は制限される。
+                                        </li>
+                                        <li>
+                                            REMOVE命令でテーブル内のカラムを削除できる。定義とデータ両方削除されるが、定義は即時で利用不能になるのに対して、データはコンパクション後に削除される。
+                                        </li>
+                                        <li>WITH句でテーブルオプションを変更できる。サポートオプションはCREATE時と同様だが、前述の通り、COMAPACT
+                                            STORAGEオプションと、CLUSTERING
+                                            ORDERは変更できない。コンパクションのオプションは以前のコンパクションを削除する影響があるので注意。コンプレッションオプションも同様。
+                                        </li>
+                                    </ul>
+                                    <table border="1" class="docutils" id="id13">
+                                        <caption><span class="caption-text">ALTER TABLE時の型の競合</span><a
+                                                class="headerlink" href="#id13" title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="50%"/>
+                                            <col width="50%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">変換前の型</th>
+                                            <th class="head">変更可能な型</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>timestamp</td>
+                                            <td>bigint</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>ascii, bigint, boolean, date, decimal, double, <br/>
+                                                float, inet, int, smallint, text, time, timestamp, <br/>
+                                                timeuuid, tinyint, uuid, varchar, varint
+                                            </td>
+                                            <td>blob</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>int</td>
+                                            <td>date</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>ascii, varchar</td>
+                                            <td>text</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>bigint</td>
+                                            <td>time, timestamp</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>timeuuid</td>
+                                            <td>uuid</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>ascii, text</td>
+                                            <td>varchar</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>bigint, int, timestamp</td>
+                                            <td>varint</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>クラスタカラムにおいては、以下の変更のみが許容される。</p>
+                                    <table border="1" class="docutils" id="id14">
+                                        <caption><span class="caption-text">クラスタカラム変更時の制約</span><a class="headerlink"
+                                                                                                   href="#id14"
+                                                                                                   title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="50%"/>
+                                            <col width="50%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">変換前の型</th>
+                                            <th class="head">変更可能な型</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>ascii, text, varchar</td>
+                                            <td>blob</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>ascii, varchar</td>
+                                            <td>text</td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td>ascii, text</td>
+                                            <td>varchar</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="section" id="drop-table">
+                                    <span id="section3-2-7-cassandra-drop-table-label"></span>
+                                    <h3>DROP TABLE ステートメント<a class="headerlink" href="#drop-table"
+                                                             title="Permalink to this headline">¶</a></h3>
+                                    <p>存在済みのテーブルを削除するには、以下のDROP TABLEステートメントを利用する。</p>
+                                    <div class="highlight-html">
+                                        <div class="highlight"><pre>drop_table_statement ::=  DROP TABLE [ IF EXISTS ] table_name
+</pre>
+                                        </div>
+                                    </div>
+                                    <p>テーブルの削除に伴い、データも同時に削除される。</p>
+                                </div>
+                                <div class="section" id="truncate">
+                                    <span id="section3-2-8-cassandra-drop-table-label"></span>
+                                    <h3>TRUNCATEステートメント<a class="headerlink" href="#truncate"
+                                                          title="Permalink to this headline">¶</a></h3>
+                                    <p>存在済みのテーブル内のデータを削除するには、以下のDROP TABLEステートメントを利用する。</p>
+                                    <div class="highlight-html">
+                                        <div class="highlight"><pre>truncate_statement ::=  TRUNCATE [ TABLE ] table_name
+</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section" id="describe">
+                                    <span id="section3-2-x-cassandra-describe-label"></span>
+                                    <h3>DESCRIBE ステートメント<a class="headerlink" href="#describe"
+                                                           title="Permalink to this headline">¶</a></h3>
+                                    <p>describeステートメントの構文及びオプションである。</p>
+                                    <div class="highlight-sql">
+                                        <div class="highlight"><pre><span class="k">DESCRIBE</span> <span
+                                                class="k">FULL</span><span class="p">(</span> <span
+                                                class="k">CLUSTER</span> <span class="o">|</span> <span
+                                                class="k">SCHEMA</span> <span class="p">)</span>
 <span class="o">|</span> <span class="n">KEYSPACES</span>
-<span class="o">|</span> <span class="p">(</span> <span class="n">KEYSPACE</span> <span class="n">keyspace_name</span> <span class="p">)</span>
+<span class="o">|</span> <span class="p">(</span> <span class="n">KEYSPACE</span> <span
+                                                    class="n">keyspace_name</span> <span class="p">)</span>
 <span class="o">|</span> <span class="n">TABLES</span>
-<span class="o">|</span> <span class="p">(</span> <span class="k">TABLE</span> <span class="k">table_name</span> <span class="p">)</span>
+<span class="o">|</span> <span class="p">(</span> <span class="k">TABLE</span> <span class="k">table_name</span> <span
+                                                    class="p">)</span>
 <span class="o">|</span> <span class="n">TYPES</span>
-<span class="o">|</span> <span class="p">(</span> <span class="n">TYPES</span> <span class="n">user_defined_type</span> <span class="p">)</span>
-</pre></div>
-</div>
-<table border="1" class="docutils" id="id15">
-<caption><span class="caption-text">describeコマンドの利用例</span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="30%" />
-<col width="70%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">コマンド</th>
-<th class="head">実行結果</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>cqlsh&gt; describe cluster;</td>
-<td>Cluster: Test Cluster <br/> Partitioner: Murmur3Partitioner</td>
-</tr>
-<tr class="row-odd"><td>cqlsh&gt; describe keyspaces;</td>
-<td>system_schema  system_auth  system  sample  system_distributed  system_traces</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+<span class="o">|</span> <span class="p">(</span> <span class="n">TYPES</span> <span class="n">user_defined_type</span> <span
+                                                    class="p">)</span>
+</pre>
+                                        </div>
+                                    </div>
+                                    <table border="1" class="docutils" id="id15">
+                                        <caption><span class="caption-text">describeコマンドの利用例</span><a class="headerlink"
+                                                                                                      href="#id15"
+                                                                                                      title="Permalink to this table">¶</a>
+                                        </caption>
+                                        <colgroup>
+                                            <col width="30%"/>
+                                            <col width="70%"/>
+                                        </colgroup>
+                                        <thead valign="bottom">
+                                        <tr class="row-odd">
+                                            <th class="head">コマンド</th>
+                                            <th class="head">実行結果</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody valign="top">
+                                        <tr class="row-even">
+                                            <td>cqlsh&gt; describe cluster;</td>
+                                            <td>Cluster: Test Cluster <br/> Partitioner: Murmur3Partitioner</td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td>cqlsh&gt; describe keyspaces;</td>
+                                            <td>system_schema system_auth system sample system_distributed
+                                                system_traces
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
 
-           </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="manipulate.html" class="btn btn-neutral float-right" title="データベースの操作" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="launch.html" class="btn btn-neutral" title="Cassandraの起動" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
+                    </div>
+                </div>
+                <footer>
 
-  <hr/>
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, org.debugroom.
+                        <a href="manipulate.html" class="btn btn-neutral float-right" title="データベースの操作" accesskey="n">Next
+                            <span class="fa fa-arrow-circle-right"></span></a>
 
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-</footer>
+                        <a href="launch.html" class="btn btn-neutral" title="Cassandraの起動" accesskey="p"><span
+                                class="fa fa-arrow-circle-left"></span> Previous</a>
 
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2016, org.debugroom.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
         </div>
-      </div>
 
     </section>
 
-  </div>
-  
+</div>
 
 
-  
+<script type="text/javascript">
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT: '../../',
+        VERSION: '0.1-SNAPSHOTS',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE: true
+    };
+</script>
+<script type="text/javascript" src="../../_static/jquery.js"></script>
+<script type="text/javascript" src="../../_static/underscore.js"></script>
+<script type="text/javascript" src="../../_static/doctools.js"></script>
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.1-SNAPSHOTS',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
 
-  
+<script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
 
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
+<script type="text/javascript">
+    jQuery(function () {
+        SphinxRtdTheme.StickyNav.enable();
+    });
+</script>
+
 
 </body>
 </html>
