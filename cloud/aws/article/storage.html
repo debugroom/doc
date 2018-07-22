@@ -1,0 +1,492 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Storage Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="DataStore Category" href="datastore.html" />
+    <link rel="prev" title="Computing Category" href="computing.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Storage Category</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simple-storage-service-s3">Simple Storage Service(S3)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section5-1-2-s3-create-bucket-label">バケットの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section5-1-2-s3-create-folder-and-object-label">フォルダの作成・オブジェクトのアップロード</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cors-cross-origin-resource-sharing">CORS(Cross-Origin Resource Sharing)の設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#s3">S3オブジェクトに対する操作</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#glacier">Glacier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#storage-gateway">Storage Gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amazon-cloud-front">Amazon Cloud Front</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+        
+      <li>Storage Category</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/aws/article/storage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="storage-category">
+<span id="section5-storage-label"></span><h1>Storage Category<a class="headerlink" href="#storage-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simple-storage-service-s3">
+<span id="section5-1-s3-label"></span><h2>Simple Storage Service(S3)<a class="headerlink" href="#simple-storage-service-s3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="section5-1-1-s3-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>S3はWebベースのデータストレージサービスであり、ユーザはどこからもデータの保存や取出しができ、使用量に応じた従量課金性である。保存できるファイル数に限界はないが1ファイルあたり最大5TBに制限される。加えて、</p>
+<ul class="simple">
+<li>信頼性</li>
+<li>セキュリティ</li>
+<li>Webサーバ</li>
+</ul>
+<p>としての動作が主な特徴として挙げられる。データセンター内の複数のデバイスに必ず3箇所以上に複製されることにより、
+きわめて高い信頼性を確保する(イレブン9のオーダー)とともにバージョン管理によるユーザの誤操作からの復元が可能である。
+データは「バケット」と呼ばれる保存場所に「オブジェクト」として、アップロードする。
+全ての通信はSSLによって暗号化され、バケットごとにポリシーを設定でき、アクセスを詳細に制御できる。
+アップロードデータの自動暗号化機能もあり、情報漏えい時に参照はできない。また、S3はWebサーバとしても動作するため、
+アップロードされたデータをそのままコンテンツとして保存できる。
+ただしスクリプト言語やデータベースの導入はできないため、動的なコンテンツは利用できないがHTMLや画像ファイルで構成される
+静的なコンテンツならば、信頼性が高いWebサイトをそのまま構築することが可能である。</p>
+<p>オブジェクトを保存するときは、オプションでスタンダード、低冗長化、標準IA、Glacierが選択できる。
+信頼性とアクセス頻度に応じて料金はそれぞれ以下の目安となる。</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="30%" />
+<col width="30%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">オプション</th>
+<th class="head">信頼性</th>
+<th class="head">料金</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>スタンダード</td>
+<td>99.999999999%</td>
+<td>1GBあたり３円程度</td>
+</tr>
+<tr class="row-odd"><td>低冗長化</td>
+<td>99.99%</td>
+<td>スタンダードの2/3</td>
+</tr>
+<tr class="row-even"><td>標準IA</td>
+<td>99.999999999%</td>
+<td>スタンダードの2/3 <br /> ただし、アクセス料金が高い</td>
+</tr>
+<tr class="row-odd"><td>Glacier</td>
+<td>99.999999999%</td>
+<td>スタンダードの1/3 <br /> データの取り出しに数時間必要。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">S3のデータは同一リージョンの専用のデータ領域に保存される。</p>
+</div>
+</div>
+<div class="section" id="section5-1-2-s3-create-bucket-label">
+<span id="id1"></span><h3>バケットの作成<a class="headerlink" href="#section5-1-2-s3-create-bucket-label" title="Permalink to this headline">¶</a></h3>
+<p>Amazon S3にデータを保存するには、最初にルートフォルダに相当する「バケット」を作成する必要がある。バケットを作成すると次のURLでアクセスできるようになる。</p>
+<ul class="simple">
+<li><a class="reference external" href="http:/">http:/</a>/バケット名.s3.amazonaws.com/</li>
+</ul>
+<p>■S3コンソールでバケットの作成を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-portal-1.png"><img alt="../../../_images/management-console-s3-portal-1.png" src="../../../_images/management-console-s3-portal-1.png" style="width: 1233.0px; height: 820.0px;" /></a>
+</div>
+<p>■バケットを作成するリージョンとバケット名を入力し、次へを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-1.png"><img alt="../../../_images/management-console-s3-create-bucket-1.png" src="../../../_images/management-console-s3-create-bucket-1.png" style="width: 694.0px; height: 794.0px;" /></a>
+</div>
+<p>■プロパティやアクセス権限はそのままの設定で次へを押下していき、バケットを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-2.png"><img alt="../../../_images/management-console-s3-create-bucket-2.png" src="../../../_images/management-console-s3-create-bucket-2.png" style="width: 692.0px; height: 796.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-3.png"><img alt="../../../_images/management-console-s3-create-bucket-3.png" src="../../../_images/management-console-s3-create-bucket-3.png" style="width: 684.0px; height: 795.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-4.png"><img alt="../../../_images/management-console-s3-create-bucket-4.png" src="../../../_images/management-console-s3-create-bucket-4.png" style="width: 692.0px; height: 794.0px;" /></a>
+</div>
+<p>なお、バケットの作成は無料で行えるが、バケット内にオブジェクトを保存・転送した場合に費用が発生する。料金は <a class="reference external" href="https://aws.amazon.com/jp/s3/pricing/">こちら</a> を参照のこと。</p>
+</div>
+<div class="section" id="section5-1-2-s3-create-folder-and-object-label">
+<span id="id3"></span><h3>フォルダの作成・オブジェクトのアップロード<a class="headerlink" href="#section5-1-2-s3-create-folder-and-object-label" title="Permalink to this headline">¶</a></h3>
+<p>■S3コンソールでバケットを選択し、フォルダの作成ボタンを押下し、フォルダ名を入力してフォルダを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-folder-1.png"><img alt="../../../_images/management-console-s3-create-folder-1.png" src="../../../_images/management-console-s3-create-folder-1.png" style="width: 1135.0px; height: 729.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-folder-2.png"><img alt="../../../_images/management-console-s3-create-folder-2.png" src="../../../_images/management-console-s3-create-folder-2.png" style="width: 1082.0px; height: 576.0px;" /></a>
+</div>
+<p>■S3コンソールでバケットを選択し、アップロードボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-1.png"><img alt="../../../_images/management-console-s3-upload-1.png" src="../../../_images/management-console-s3-upload-1.png" style="width: 696.0px; height: 697.0px;" /></a>
+</div>
+<p>■アップロード対象のファイルを選択したのち、ファイルの閲覧権限を設定してアップロードする。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-2.png"><img alt="../../../_images/management-console-s3-upload-2.png" src="../../../_images/management-console-s3-upload-2.png" style="width: 685.0px; height: 687.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-3.png"><img alt="../../../_images/management-console-s3-upload-3.png" src="../../../_images/management-console-s3-upload-3.png" style="width: 687.0px; height: 685.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-4.png"><img alt="../../../_images/management-console-s3-upload-4.png" src="../../../_images/management-console-s3-upload-4.png" style="width: 694.0px; height: 694.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Amazon S3 では、オブジェクトのキー名に基づきバケットが仕切られるため、タイムスタンプやアルファベット順など、順次的なプレフィックスを使用すると、Amazon S3 では大量のキーが保存される特定のパーティションが使用される確率が高くなる。S3のリクエストのワークロードが1秒につき、100を超えるPUT、LIST、DELETE、あるいは300を超えるGETが見込まれるとき、<a class="reference external" href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">ガイドライン</a> に従い、パフォーマンスの向上のためにバケット名の先頭に異なる英数字の使用を検討すること。</p>
+</div>
+</div>
+<div class="section" id="cors-cross-origin-resource-sharing">
+<span id="section5-1-3-s3-setting-cors-label"></span><h3>CORS(Cross-Origin Resource Sharing)の設定<a class="headerlink" href="#cors-cross-origin-resource-sharing" title="Permalink to this headline">¶</a></h3>
+<p>EC2上に構築したアプリケーションがS3上に配置した、画像やCSSといった静的リソースにアクセスしたい場合等は、S3のバケットに対しCORS設定を行う。
+CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy制約に対し、追加の HTTP ヘッダを使用して、ブラウザが現在のサイトとは別のオリジン（ドメイン）のサーバーから
+選択されたリソースにアクセスする権限を得られるようにする仕組みである。
+簡単に言えば、S3上のバケットにクロスドメインを許可するアプリケーションのスキーム(http or https)、ホスト(www.xxxx.com等)、ポートを設定する。</p>
+<p>■コンソールのS3から、対象のバケットを選択し、「アクセス制限」タブの「CORS設定」を選択し、アクセス設定を加える。開発環境(localhost)でダイレクトファイルアップロード(POST)を行う場合は、以下のような設定である。</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CORSRule&gt;</span>
+    <span class="nt">&lt;AllowedOrigin&gt;</span>http://localhost:8081<span class="nt">&lt;/AllowedOrigin&gt;</span>
+    <span class="nt">&lt;AllowedMethod&gt;</span>POST<span class="nt">&lt;/AllowedMethod&gt;</span>
+    <span class="nt">&lt;AllowedHeader&gt;</span>*<span class="nt">&lt;/AllowedHeader&gt;</span>
+<span class="nt">&lt;/CORSRule&gt;</span>
+</pre></div>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-s3-setting-cors-1.png"><img alt="../../../_images/management-console-s3-setting-cors-1.png" src="../../../_images/management-console-s3-setting-cors-1.png" style="width: 915.0px; height: 729.0px;" /></a>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>S3ではオブジェクトにアクセスするURLを２種類サポートしている。</p>
+<table border="1" class="colwidths-given docutils" id="id5">
+<caption><span class="caption-text">S3のサポートするURLの形式</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">サポートする形式</th>
+<th class="head">構造</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>パス形式</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;リージョン固有のエンドポイント&gt;/&lt;バケット名&gt;/&lt;オブジェクト名&gt;</td>
+</tr>
+<tr class="row-odd"><td>仮想ホスト形式のURL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;バケット名&gt;.s3.amazonawscom/&lt;オブジェクトキー&gt;</td>
+</tr>
+</tbody>
+</table>
+<p class="last">Webページ内にCORSした、バケット内に保存した静的リソース(HTMLやJavaScript)で、更にバケット内のリソースを取得しようとすると、パス形式のURLが使われることにより、クロスドメイン制約に引っかかりエラーとなる場合があるので注意。</p>
+</div>
+</div>
+<div class="section" id="s3">
+<span id="section5-1-4-s3-operation-label"></span><h3>S3オブジェクトに対する操作<a class="headerlink" href="#s3" title="Permalink to this headline">¶</a></h3>
+<p>S3オブジェクトは、以下のような操作がサポートされている。</p>
+<table border="1" class="colwidths-given docutils" id="id6">
+<caption><span class="caption-text">S3のサポートする操作</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">操作</th>
+<th class="head">詳細</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>オブジェクト全体もしくはオブジェクトの一部を取得する。バイトレンジの指定が可能。</td>
+</tr>
+<tr class="row-odd"><td>List Key</td>
+<td>プレフィックスと区切り記号でオブジェクトキーを一覧表示する。</td>
+</tr>
+<tr class="row-even"><td>PUT</td>
+<td>オブジェクトのアップロード及び更新を行う。</td>
+</tr>
+<tr class="row-odd"><td>DELETE</td>
+<td>オブジェクトの削除を行う。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">オブジェクトキーの一覧は、内部的には最大１０００件の取得となるので大量データの取得には注意すること。</p>
+</div>
+</div>
+</div>
+<div class="section" id="glacier">
+<span id="section5-2-glacier-label"></span><h2>Glacier<a class="headerlink" href="#glacier" title="Permalink to this headline">¶</a></h2>
+<p>Glacierはアクセス頻度は少ないが、必要なときに確実にアクセスしたいデータを低価格で長期保存することに向いた
+データストレージサービスである。システムのバックアップや一定期間保存しなければならないデータの保存に向いている。
+オンプレミスで言えば、DAT(Digital Audio Tape)やLTO(Linear Tape Open)などの外部媒体に相当する。
+GlacierもS3同様、高い堅牢性をもち、保存できるデータ容量に上限はない。通信は全てSSL/TLSによって暗号化され、
+自動暗号化機能によりデータは必ず暗号化されるが、料金はS3の1/3程度である。ただし、S3のようにリアルタイムなデータアクセスはできず、
+データの取り出しに時間がかかる。主な用途としてはS3のバックアップで、アップロードから指定した期間が経過したデータを
+Glacierに自動的に移動させる機能を持っている。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">データ取り出しでは緊急、標準、一括の３つのオプションが用意されている。それぞれ、緊急：１～５分程度、標準：３～５時間、一括：５～１２時間である。</p>
+</div>
+</div>
+<div class="section" id="storage-gateway">
+<span id="section5-3-storage-gateway-label"></span><h2>Storage Gateway<a class="headerlink" href="#storage-gateway" title="Permalink to this headline">¶</a></h2>
+<p>Storage Gatewayはオンプレミス環境やEC2からS3やGlacierを直接使用するためのサービスである。当初はオンプレミス環境と連携するサービスとしてリリースされ、オンプレミス環境のバックアップサーバとして利用されてきたが、EC2から利用可能になったことでAWSの大容量オンラインストレージ環境として利用されている。前述の通り、S3はWebベースのデータストレージサービスであるが、SSLによって暗号化されたWeb通信のみファイルのアップロード・ダウンロードができる。そのため、直接サーバから接続できないが、安価で堅牢性が高いS3をサーバから直接操作できれば、より簡単にデータの共有やバックアップが可能になる。これを実現するのがStorage Gatewayである。
+オンプレミス環境にStorage Gatewayを導入する場合、利用している仮想サーバのハイパーバイザにあわせた仮想サーバイメージをダウンロードしてインストールすれば利用できる。AWS上では「EC2 Storage Gateway」というAMI(Amazon Machine Image)が提供されるので、そのAMIをEC2上から起動する。Storage Gatewayは主に以下の3種類のタイプがある。</p>
+<ul class="simple">
+<li>ゲートウェイ保管型ボリューム</li>
+<li>ゲートウェイキャッシュ型ボリューム</li>
+<li>ゲートウェイVTL(Virtual Tape Library:仮想テープライブラリ)</li>
+</ul>
+<p>ゲートウェイ保管型ボリュームは、オンプレミス環境のバックアップをAWSに移すために利用するタイプである。データをオンプレミス環境のローカルストレージに保存し、そのローカルストレージのスナップショットをS3に保管する。スナップショットはAmazon EBS形式で作成されるので、そのままAWS上のEBSボリュームとしてリストアしたり、Storage Gatewayを経由してオンプレミスのローカルストレージにリストアできる。主な利用方法は災害復旧対策としてのオンプレミス環境のデータバックアップである。</p>
+<p>ゲートウェイキャッシュ型ボリュームは、S3をサーバから直接利用する際に、Storage Gatewayでキャッシュを持つことでS3をオンラインストレージとして使用するための利用タイプである。データ自体はS3に保管するが、頻繁にアクセスするデータをStorage Gatewayにキャッシュすることで、高速なデータアクセスを実現する。オンプレミスのサーバもしくはEC2からiSCSIプロトコルによって、Storage Gatewayをファイルシステムとして接続する。S3を仮想的なデータボリュームストレージとして扱うので、データボリュームストレージごとにAmazon EBS形式のスナップショットとして取得し、バックアップをとることができる。主な用途としては大容量のファイルサーバである。仮想データボリュームストレージは最大32TBまで指定でき、1つのStorage Gatewayで最大20個、最大合計150TBのストレージ容量を持てる。</p>
+<p>ゲートウェイVTLは物理テープライブラリの代替として、Storage Gatewayを仮想テープライブラリ装置として利用するタイプである。一般的なバックアップソフトウェアから物理テープにデータを書き込むようにS3にデータをバックアップできる。ゲートウェイVTLの大きなメリットは、物理テープで発生するコストの削減である。仮想テープが作成されるS3及びGlacierは冗長化構成によって信頼性を確保し、またAWSのデータセンター上に保管されるため災害対策の目的として有効である。</p>
+<p>ただし、いずれのサービスもオンプレミスとの大量のデータ通信が発生する可能性があるため、必要に応じて「AWS Direct Connect」との併用を検討したほうがよい。</p>
+</div>
+<div class="section" id="amazon-cloud-front">
+<span id="section5-5-cloud-front-label"></span><h2>Amazon Cloud Front<a class="headerlink" href="#amazon-cloud-front" title="Permalink to this headline">¶</a></h2>
+<p>Amazon Cloud FrontはAmazonが提供するコンテンツ配信ネットワーク(Contents Distribution Network:CDN)サービスである。
+CDNでは、世界各地に分散して配置したサーバのうち、ユーザに近いロケーション(エッジロケーション)にコンテンツを配置し、
+ユーザに高速にデータ配信する仕組みである。Cloud Frontは静的コンテンツおよび、エンドユーザごとに変化する動的なコンテンツ両方に対応する。</p>
+<p>エッジロケーションにコンテンツのキャッシュを配置することで高速化を図るわけであるが、Cloud Frontでは以下のような機能をもつ。</p>
+<ul class="simple">
+<li>キャッシュ動作をどのパスパターンに適用するか</li>
+<li>Cloud Frontでどのオリジンにリクエストを転送するか</li>
+<li>クエリ文字列をオリジンに転送するかどうか</li>
+<li>指定したファイルへのアクセスに署名つきURLを必要とするかどうか</li>
+<li>HTTPSの使用有無</li>
+<li>キャッシュを保持する最小時間</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CloudFrontはデフォルトでは、<a class="reference external" href="https://dxxxx.cloudfront.net">https://dxxxx.cloudfront.net</a>/xxxxのようなディストリビューションドメインで行われるが、独自SSL証明書サポート機能により、独自のドメイン名とSSL証明書を使用できる。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datastore.html" class="btn btn-neutral float-right" title="DataStore Category" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="computing.html" class="btn btn-neutral" title="Computing Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

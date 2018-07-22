@@ -1,0 +1,628 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Network Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Computing Category" href="computing.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Network Category</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-private-network-vpc">Virtual Private Network(VPC)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic-ip-address">Elastic IP Address</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#direct-connect">Direct Connect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elastic-load-balancing-elb">Elastic Load Balancing(ELB)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section3-3-1-elb-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#classic-load-barancing-application-load-barancingnetwork-load-barancing">Classic Load Barancing と Application Load Barancing、Network Load Barancing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alb">ALBの設定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#route53">Route53</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section3-4-1-route53-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-4-2-route53-registration-label">ドメインの登録</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elastic-ip">登録したドメインとElastic IPアドレスの紐付け設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-4-3-route53-healthcheck-label">ヘルスチェックの設定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#amazon-cloudfront">Amazon CloudFront</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+        
+      <li>Network Category</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/aws/article/network.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="network-category">
+<span id="section3-network-label"></span><h1>Network Category<a class="headerlink" href="#network-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="virtual-private-network-vpc">
+<span id="section3-1-vpc-label"></span><h2>Virtual Private Network(VPC)<a class="headerlink" href="#virtual-private-network-vpc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="section3-1-1-vpc-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>Aamazon VPCはAWS上に占有可能なプライベートネットワークを構築するためのサービスである。
+AWSパブリッククラウド上に利用者独自の仮想プライベートネットワークを構築し、
+仮想サーバの「EC2」やデータベース「RDS」といったAWSのリソースを配置する。Amazon VPCはVPNを通じてオンプレミスとの接続も可能である。
+外部通信する際は、ネットワークゲートウェイをVPCに設置するが、</p>
+<ul class="simple">
+<li>インターネットゲートウェイ</li>
+<li>仮想プライベートゲートウェイ</li>
+<li>VPCピア接続</li>
+</ul>
+<p>の3種類がある。</p>
+<p>インターネットゲートウェイは文字通りインターネットとの通信であるが、通信元のAWSリソースがパブリックIPアドレスを持っている必要がある。
+パブリックアドレスは動的に割り当てられるものと、固定的に割り当てられるものがある。後者を「Elastic IP Address」と呼ぶ。
+インターネットゲートウェイは定義としては1つの機器のように扱われるが、内部的に冗長化されており、
+通信が増加した際には自動的にスケーリングされる。またシステムの保守作業で最新のミドルウェアやセキュリティパッチを入手する際も
+インターネットゲートウェイの設置が必須になるので、閉塞したネットワークの際は考慮が必要である。</p>
+<p>仮想プライベートゲートウェイはVPCとオンプレミス環境をVPN接続するためのネットワークゲートウェイである。
+オンプレミス環境では、VPN通信が行えるルーターと、接続を許可するIPアドレスの設定のために、固定的なパブリックIPアドレスが必要になる。
+インターネットゲートウェイ同様、冗長化構成をとる。</p>
+<p>VPCピア接続はそれぞれ独立した仮想プライベートネットワークである2つのVPCを接続し、
+プライベートアドレスで相互に通信する。こちらもインターネットゲートウェイ、仮想プライベートゲートウェイと同様、
+冗長化構成をとる。自分が所有しているVPCだけではなく、同じリージョンの別アカウントのVPCとも接続ができる。
+ただし、接続できるのはVPCの範囲内に限られ、接続先のVPCとVPN接続されているネットワークには接続できない。
+VPC接続の主な用途としては、複数システムでのデータ共有や監視システムの統合があげられる。</p>
+<p>AmazonVPCは「セキュリティグループ」と「ネットワークACL」の2つのフィルタリング機構によって不要な通信をブロックし、
+セキュリティを強化できる。</p>
+<p>セキュリティグループは、EC2やRDSなどのAWSリソースに関連付けることで、ファイアウォールとして動作する。
+受信と送信の両方をリソースレベルで制御でき、リソースをグループ化し、共通のセキュリティグループを関連付けることもできる。
+一般的なファイアウォール同様、ステートフルに動作し、発生した通信に対する応答通信は自動的に許可される。</p>
+<p>ネットワークACLはIPサブネットに関連付けられ、受信と送信の両方をIPサブネットレベルで制御する。
+関連付けられたIPサブネット全てに適用されるのでセキュリティグループより広範囲な制御設定が可能であるが、
+セキュリティグループとは異なりステートレスに動作するため、応答通信にも許可の設定が必要
+(戻り宛先のIPとポートが必要：ポートは特定できないので事実上任意設定)となることに注意が必要である。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EC2、RDS、ELBはVPC内のサービスであるが、S3や DynamoDB、SQS等のサービスはリージョンで提供されるサービスである。そのため、リージョンサービスに接続が必要なEC2は、通常VPC外への接続口を確保する必要があるが、S3とDynamoDBは接続のためのVPCエンドポイントが提供されている。</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>VPC内のアドレスはCIDRが/16か/28の間で使用できる。ただし、以下の通り、各サブネットの最初の４アドレス、最後の1アドレスは使用不可のため注意。</p>
+<ul class="last simple">
+<li>XXX.XXX.XXX.0 (ネットワークアドレス用)</li>
+<li>XXX.XXX.XXX.1 (VPCルータ)</li>
+<li>XXX.XXX.XXX.2 (Amazon Provided DNS)</li>
+<li>XXX.XXX.XXX.3 (予備)</li>
+<li>XXX.XXX.XXX.255 (ブロードキャストはサポートしていないが予約)</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">セキュリティグループは許可設定しかできないので、特定のクライアントのアクセスをブロックしたいときはネットワークACLを使う。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VPC内のトラフィックログを収集する場合は、VPCフローログ機能(コンソール&gt;VPC&gt;フローログタブ)を利用すること。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VPCは１リージョン内に構築される。リージョンをまたいで別のVPCと通信したい場合は、インターリージョンVPCを使うと、一部のリージョン同士でVPC間の相互接続が可能である。</p>
+</div>
+</div>
+<div class="section" id="elastic-ip-address">
+<span id="section3-1-2-elastic-ip-address-label"></span><h3>Elastic IP Address<a class="headerlink" href="#elastic-ip-address" title="Permalink to this headline">¶</a></h3>
+<p>前節「 <a class="reference internal" href="#section3-1-1-vpc-overview-label"><span class="std std-ref">Overview</span></a> 」でも述べた通り、IPアドレスは動的に割り当てられるものと固定で割り当てられるElastic IP Addressがあり、EC2インスタンスではデフォルトで動的なIPアドレスが割り当てられるが、稼働中のEC2インスタンス１つにつき、１つのElastic IP Addressを割り当てることができる。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Elastic IP Addressは最大５つまで確保でき、別途申請することでそれ以上のIPアドレスを確保することができる。ただし、EC2インスタンスやネットワークインターフェースと１つも紐づけていないIPは課金対象となるので注意すること。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Elastic IPアドレスの設定</p>
+<p>Elastic IP Addressを割り当てるにはコンソール画面のElastic IPメニューから、「新しいIPアドレスの割り当て」を選択すると、新しく固定IPアドレスが獲得できる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-1.png"><img alt="../../../_images/management-console-elastic-ip-address-1.png" src="../../../_images/management-console-elastic-ip-address-1.png" style="width: 1102.0px; height: 627.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-2.png"><img alt="../../../_images/management-console-elastic-ip-address-2.png" src="../../../_images/management-console-elastic-ip-address-2.png" style="width: 1053.0px; height: 755.0px;" /></a>
+</div>
+<p>獲得した固定IPアドレスを稼働中のEC2インスタンスに割り当てる場合は、「アクション」ボタンからアドレスの関連付けを選択し、割り当てるEC2インスタンスIDを指定する。</p>
+<div class="last figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-3.png"><img alt="../../../_images/management-console-elastic-ip-address-3.png" src="../../../_images/management-console-elastic-ip-address-3.png" style="width: 1153.0px; height: 589.0px;" /></a>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="direct-connect">
+<span id="section3-2-direct-connect-label"></span><h2>Direct Connect<a class="headerlink" href="#direct-connect" title="Permalink to this headline">¶</a></h2>
+<p>Direct ConnectはVPCとオンプレミス環境をプライベートに接続するためのサービスであるが、より高速で安定的な通信が特徴になっている。
+同様のサービスとしてはVPC内の仮想プライベートゲートウェイが利用できるが、通常のインターネット回線を用いるため、
+帯域幅の制限があり、そうした問題をクリアするためのサービスと捉えてよい。Data Connetは「Direct Connectロケーション」と呼ばれる
+AWSの各リージョンに対する接続ポイントを提供する。オンプレミス環境と接続ポイントを経由したVPCの間は、
+IEEEによって標準化されたネットワーク規格である「802.1Q VLANタンキング」を用いて、論理的な接続経路を構築する。
+接続ポイントとオンプレミス環境は通信キャリアが提供している閉域網サービスが必要なため、通信キャリアとの契約が必要である。
+通信キャリアのサービスには、接続ポイント内の物理接続を占有して提供する「占有プラン」と、物理接続を複数のユーザで共有し、
+その物理接続を通る論理接続を払い出して提供する「共有プラン」の2パターンが存在する。</p>
+<p>占有プランは高価だが、論理接続を自由に作成できるので、多数のVPCをオンプレミス環境に接続したい場合は有用である。
+共有プランは安価だが論理接続ごとに費用が発生する。</p>
+</div>
+<div class="section" id="elastic-load-balancing-elb">
+<span id="section3-3-elastic-load-balancing-label"></span><h2>Elastic Load Balancing(ELB)<a class="headerlink" href="#elastic-load-balancing-elb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-3-1-elb-overview-label">
+<span id="id1"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>Elastic Load BalancingはAWS内で利用できる仮想ロードバランサーで以下の様な特徴を持つ。</p>
+<ul class="simple">
+<li>ELB自体のスケーリング</li>
+<li>従量課金性</li>
+<li>運用管理の容易性</li>
+</ul>
+<p>ELBはアプリケーショントラフィックの増減にあわせて自動的にスケーリングを行う。定義上ELBは1つの機器のように扱われるが、内部的には複数のリソースで構成されており、負荷に合わせて自動的にELBを構成する。負荷が増えるとELBリソースを追加してスケールアウトしたり、ELBリソースの性能を向上させてスケールアップするが、逆に負荷が減少するとELBのリソースを削除したり、スケールダウンを行う。ELBは従量課金性で、使用時間と処理データ量の組み合わせで料金が決定する。そのためスケールの状況によって変化しない。また、ファームウェアの更新はAWSにより行われるため、容易に運用管理を行える。その他、ELBはSSLターミネーションとアクセスログ取得機能を持つ。SSLターミネーションは通信の暗号化処理を行い、サーバ側のパフォーマンス向上に寄与する。アクセスログはロードバランサーで一括して収集を行うことでEC2インスタンスに分散してログ収集を行わずにすむ。</p>
+</div>
+<div class="section" id="classic-load-barancing-application-load-barancingnetwork-load-barancing">
+<span id="section3-3-2-clb-and-alb-label"></span><h3>Classic Load Barancing と Application Load Barancing、Network Load Barancing<a class="headerlink" href="#classic-load-barancing-application-load-barancingnetwork-load-barancing" title="Permalink to this headline">¶</a></h3>
+<p>ELBでは、ロードバランシングサービスの１つとして「Application Load Balancer（ALB）」が提供されている。
+代表的な機能としては、パケットの内容に応じたコンテントベースのルーティングで、レイヤー7（L7）スイッチが備える機能を持つ。
+従来のロードバランシングサービスELBは「Classic Load Balancer（CLB）」という名称に変更された。
+ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロードバランシングサービスの総称として表現される。</p>
+<p>ALBでは、その他にも、以下の特徴をもつ。</p>
+<ul class="simple">
+<li>パスベースルーティング</li>
+<li>コンテナ化されたアプリケーションのサポート</li>
+<li>HTTP/2サポート</li>
+<li>WebSocketサポート</li>
+<li>StickySessionの強化</li>
+<li>ヘルスチェックの強化</li>
+<li>インスタンスのヘルスチェックは従来通りHTTP/HTTPSでping</li>
+<li>レスポンスコードの指定（200〜299複数）</li>
+<li>CloudWatchのメトリクス強化（ターゲットグループ単位とか）</li>
+</ul>
+<p>ALB、ELBはリバースプロキシ型の負荷分散サービスを提供する一方、もっとも最新のNLBはL4 NATロードバランサである。特徴としては、</p>
+<ul class="simple">
+<li>固定IPアドレス</li>
+<li>Pre-warming申請不要</li>
+<li>ゾーナリティ</li>
+<li>Source Address Preservation</li>
+<li>フェイルオーバーに対応</li>
+</ul>
+<p>などがある。各ロードバランシングサービスの比較は <a class="reference external" href="https://aws.amazon.com/jp/elasticloadbalancing/details/#compare">Elastic Load Balancing 製品の詳細</a> に詳細がまとめられている。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ロードバランサーはマルチリージョンで負荷分散を行えるが、実態としては各アベイラブルゾーンに配置され、各々IPが設定される。そのため、ELBエンドポイントというパブリックなDNS名を持ち、各IPは同一のELBエンドポイントに紐付けられる形になる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VPCサブネットではロードバランサ用にプライベートIPを複数確保（余裕を持ってサブネットをきっておく）しておくこと。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">従来のロードバランサのDNSに割り振られるグローバルIPは動的に変更されるので、IPアドレスを直接指定してロードバランサに振り分けることは難しかったが、NLBでは固定のIPとなる。</p>
+</div>
+</div>
+<div class="section" id="alb">
+<span id="section3-3-3-alb-setting-label"></span><h3>ALBの設定<a class="headerlink" href="#alb" title="Permalink to this headline">¶</a></h3>
+<p>ここでは、ロードバランシングサービス利用の一例として、ALBの設定を行う。</p>
+<ol class="arabic simple">
+<li>EC2コンソールメニューから、ロードバランサを選択し、「ロードバランサの作成」をクリックする。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-1.png"><img alt="../../../_images/management-console-application-load-balancing-setting-1.png" src="../../../_images/management-console-application-load-balancing-setting-1.png" style="width: 938.0px; height: 635.0px;" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>「アプリケーションロードバランサ」を選択する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-2.png"><img alt="../../../_images/management-console-application-load-balancing-setting-2.png" src="../../../_images/management-console-application-load-balancing-setting-2.png" style="width: 1359.0px; height: 540.0px;" /></a>
+</div>
+<ol class="arabic simple" start="3">
+<li>ロードバランサの以下の設定項目を入力する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-3.png"><img alt="../../../_images/management-console-application-load-balancing-setting-3.png" src="../../../_images/management-console-application-load-balancing-setting-3.png" style="width: 1369.0px; height: 796.0px;" /></a>
+</div>
+<ul class="simple">
+<li>名前：ALBの名称</li>
+<li>スキーム：ロードバランサーのタイプを選択する。外部からのアクセスかAPサーバ等の内部ネットワークからのアクセスか。</li>
+<li>リスナー：プロトコルを指定する。http or HTTPS</li>
+<li>アベイラビリティゾーン：ALBを配置するアベイラビティゾーンを選択。２箇所以上が必須。</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li>証明書・セキュリティポリシーの設定。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-4.png"><img alt="../../../_images/management-console-application-load-balancing-setting-4.png" src="../../../_images/management-console-application-load-balancing-setting-4.png" style="width: 1384.0px; height: 819.0px;" /></a>
+</div>
+<ul class="simple">
+<li>証明書タイプ：設定する証明書のタイプを指定する。 <a class="reference internal" href="security.html#section7-2-2-acm-request-certication-label"><span class="std std-ref">証明書のリクエスト</span></a> にて作成した証明書を使用</li>
+<li>証明書の名前：証明書をプルダウンから選択</li>
+<li>セキュリティポリシー： <a class="reference external" href="http://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/create-https-listener.html">フロントエンド接続に使用するセキュリティポリシー</a> を選択</li>
+</ul>
+<ol class="arabic simple" start="5">
+<li>セキュリティグループの設定</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-5.png"><img alt="../../../_images/management-console-application-load-balancing-setting-5.png" src="../../../_images/management-console-application-load-balancing-setting-5.png" style="width: 1192.0px; height: 819.0px;" /></a>
+</div>
+<ol class="arabic simple" start="6">
+<li>ルーティングの設定</li>
+</ol>
+<p>ロードバランサーからディスパッチするサーバのインスタンスグループを指定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-6.png"><img alt="../../../_images/management-console-application-load-balancing-setting-6.png" src="../../../_images/management-console-application-load-balancing-setting-6.png" style="width: 1386.0px; height: 821.0px;" /></a>
+</div>
+<ul class="simple">
+<li>名前：任意のターゲットグループ名(xxx-app-alb等)</li>
+<li>プロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)</li>
+<li>ヘルスチェックプロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)</li>
+<li>ヘルスチェックパス：ヘルスチェックを行うURLでドメイン名以下のパス</li>
+<li>ヘルスチェックの詳細設定：任意</li>
+</ul>
+<ol class="arabic simple" start="7">
+<li>ターゲットの登録</li>
+</ol>
+<p>インスタンスグループに登録するターゲットを指定。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-7.png"><img alt="../../../_images/management-console-application-load-balancing-setting-7.png" src="../../../_images/management-console-application-load-balancing-setting-7.png" style="width: 1187.0px; height: 820.0px;" /></a>
+</div>
+<p>確認ボタンを押下し、ALBを作成する。</p>
+<ol class="arabic simple" start="8">
+<li>スティッキーセッションの設定</li>
+</ol>
+<p>セッションがサーバ固有のものを使用しているアプリケーションやWebSocketアプリケーションなど、
+スティッキーセッションを維持する必要があるものは、ターゲットグループからスティッキーセッションの設定を行う。</p>
+<p>EC2コンソールから、メニュー「ターゲットグループ」を選び、「属性」オプションを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-8.png"><img alt="../../../_images/management-console-application-load-balancing-setting-8.png" src="../../../_images/management-console-application-load-balancing-setting-8.png" style="width: 1388.0px; height: 829.0px;" /></a>
+</div>
+<p>「ロードバランサーによって生成されたCookieの維持を有効化」にチェックを入れ、維持期間を設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-9.png"><img alt="../../../_images/management-console-application-load-balancing-setting-9.png" src="../../../_images/management-console-application-load-balancing-setting-9.png" style="width: 953.0px; height: 349.0px;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="route53">
+<span id="section3-4-route53-label"></span><h2>Route53<a class="headerlink" href="#route53" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-4-1-route53-overview-label">
+<span id="id3"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。
+また、他のAWS同様、REST APIによるサポートがあり、ドメインやホストの追加・削除、設定内容の変更がプログラムからも実行可能である。
+また、マルチリージョンで複数のホストへバランシングする際、レイテンシー（より物理的に距離が近いほうのホスト）ルーティングする機能や、
+ホストサイトへヘルスチェックして、応答がない場合、S3等セカンダリサイトへ フェイルオーバーできる機能を持つ。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Route53では、AWSマネジメントコンソール及びAPIからドメインの購入・登録ができる。既に登録済みのドメインを登録しても、レジストラ(ドメインの登録業者)から購入してRoute53へ登録しても良いが、Route53経由で登録した場合、ドメインの詳細情報をAWSマネジメントコンソールから一括で確認できる。</p>
+</div>
+</div>
+<div class="section" id="section3-4-2-route53-registration-label">
+<span id="id4"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
+<p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-1.png"><img alt="../../../_images/management-console-route53-registration-1.png" src="../../../_images/management-console-route53-registration-1.png" style="width: 1144.0px; height: 717.0px;" /></a>
+</div>
+<p>登録したいドメインが利用可能かチェックを行う。カートに追加すると、どのくらいの期間ドメインを利用するか選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-2.png"><img alt="../../../_images/management-console-route53-registration-2.png" src="../../../_images/management-console-route53-registration-2.png" style="width: 1021.0px; height: 697.0px;" /></a>
+</div>
+<p>ドメインの管理者の連絡先情報を入力する。入力したメールアドレス宛に認証のためのメールが届くため、メール記載のリンクを押下して認証を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-3.png"><img alt="../../../_images/management-console-route53-registration-3.png" src="../../../_images/management-console-route53-registration-3.png" style="width: 1105.0px; height: 706.0px;" /></a>
+</div>
+<p>登録依頼が完了すると、下記の画面が表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-4.png"><img alt="../../../_images/management-console-route53-registration-4.png" src="../../../_images/management-console-route53-registration-4.png" style="width: 811.0px; height: 281.0px;" /></a>
+</div>
+<p>Route53ダッシュボードに移動すると、申請したドメインの登録情報に関するステータスが表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-5.png"><img alt="../../../_images/management-console-route53-registration-5.png" src="../../../_images/management-console-route53-registration-5.png" style="width: 1137.0px; height: 551.0px;" /></a>
+</div>
+<p>登録が完了(完了画面では最大3日程度と書かれているが、今回は1時間程度で完了した)すると、管理者宛のメールアドレスに登録完了のメールが送付され、ダッシュボードの表示が切り替わる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-6.png"><img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" style="width: 1160.0px; height: 563.0px;" /></a>
+</div>
+</div>
+<div class="section" id="elastic-ip">
+<span id="section3-4-3-route53-domain-setting-label"></span><h3>登録したドメインとElastic IPアドレスの紐付け設定<a class="headerlink" href="#elastic-ip" title="Permalink to this headline">¶</a></h3>
+<p>前節「 <a class="reference internal" href="#section3-4-2-route53-registration-label"><span class="std std-ref">ドメインの登録</span></a> 」に続き、登録したドメインを「 <a class="reference internal" href="#section3-1-2-elastic-ip-address-label"><span class="std std-ref">Elastic IP Address</span></a> 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-6.png"><img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" style="width: 1160.0px; height: 563.0px;" /></a>
+</div>
+<p>対象のドメインにチェックを入れ、「Go to Record Sets」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-setting-domain-1.png"><img alt="../../../_images/management-console-route53-setting-domain-1.png" src="../../../_images/management-console-route53-setting-domain-1.png" style="width: 1175.0px; height: 491.0px;" /></a>
+</div>
+<p>以下の要領で、Create Record SetにドメインとIPアドレスを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-route53-setting-domain-2.png"><img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" style="width: 1177.0px; height: 764.0px;" /></a>
+</div>
+<table border="1" class="colwidths-given docutils" id="id6">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="23%" />
+<col width="54%" />
+<col width="23%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>設定値</td>
+<td>説明</td>
+<td>IPv4設定値サンプル</td>
+</tr>
+<tr class="row-even"><td>Name</td>
+<td>ドメイン名の接頭辞となるホスト名を指定</td>
+<td>www</td>
+</tr>
+<tr class="row-odd"><td>Type</td>
+<td>レコードタイプを指定する。 <br /> Aレコード：ドメインとIPアドレスを指定 <br /> AAAAレコード：ドメインとIPv6アドレスを設定 <br /> PTRレコード：ドメインとIPアドレスの逆引き設定 <br /> MXレコード：メールサーバの設定 <br /> NSレコード：DNSレコードを設定</td>
+<td>A IPv4アドレス</td>
+</tr>
+<tr class="row-even"><td>Alias</td>
+<td>他のレコードの設定を参照する場合Yes</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>TTL</td>
+<td>キャッシュの有効期間を設定</td>
+<td>300</td>
+</tr>
+<tr class="row-even"><td>Value</td>
+<td>Aレコードの場合IPアドレス</td>
+<td>XXX.XXX.XXX.XXX</td>
+</tr>
+<tr class="row-odd"><td>Routing Policy</td>
+<td>複数のIPアドレスを同一のホスト名で指定する場合、 <br /> 優先対象を指定</td>
+<td>Simple</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">既に登録されている２つのレコードのうち、「NSレコード」はゾーンを担当するDNSサーバー群（Route53サービスで「Name Servers」として表示されているものと同じ）を、 「SOAレコード」はゾーンを設定する管理者やキャッシュのデフォルト有効期限などを設定するものである。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TTLの設定はキャッシュの更新時間であるため、間隔が長ければ長いほど、パフォーマンスは良くなるが、変更時の反映時間が長くなることがトレードオフとなる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">マルチリージョンで同一のドメイン名で異なるサイト・アプリケーションをホストする場合は、Route53でそれぞれのロードバランサー等登録しておけば、低レイテンシー(より早くアクセス可能)な方を選択し、解決してくれる。</p>
+</div>
+<p>Createボタンを押下すると、設定が反映される。しばらく時間が経過したのち、指定したドメイン名でサーバにアクセス可能か確認を行う。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh -i /Users/username/.ssh/キー名.pem ec2-user@設定したドメイン名
+</pre></div>
+</div>
+</div>
+<div class="section" id="section3-4-3-route53-healthcheck-label">
+<span id="id5"></span><h3>ヘルスチェックの設定<a class="headerlink" href="#section3-4-3-route53-healthcheck-label" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">マルチリージョンフェイルオーバーの設定を記述。</p>
+</div>
+</div>
+</div>
+<div class="section" id="amazon-cloudfront">
+<span id="section3-5-amazon-cloudfront-label"></span><h2>Amazon CloudFront<a class="headerlink" href="#amazon-cloudfront" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Cloud Frontについて記述する。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CloudFrontでS3の静的コンテンツをキャッシュする場合は、必要に応じてCORSの設定が必要である。１回設定を行えば、全てのエッジロケーションで反映される。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="computing.html" class="btn btn-neutral float-right" title="Computing Category" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

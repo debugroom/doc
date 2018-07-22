@@ -1,374 +1,315 @@
+
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spring Data JPA &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  
 
-    <title>Spring Data JPA &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
+  
+  
+    
 
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css"/>
+  
 
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Usage" href="../spring-boot/usage.html" /> 
 
-    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../index.html"/>
-    <link rel="next" title="Introduction" href="introduction.html"/>
-    <link rel="prev" title="Usage" href="../spring-boot/usage.html"/>
-
-
-    <script src="../../../_static/js/modernizr.min.js"></script>
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
-<div class="wy-grid-for-nav">
+   
+  <div class="wy-grid-for-nav">
 
-
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-        <div class="wy-side-scroll">
-            <div class="wy-side-nav-search">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
 
-                <a href="../../../index.html" class="icon icon-home"> document
+          
+          </a>
 
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
 
-                </a>
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
 
-
-                <div class="version">
-                    0.1-SNAPSHOTS
-                </div>
-
-
-                <div role="search">
-                    <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-                        <input type="text" name="q" placeholder="Search docs"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-
-
-            </div>
-
-            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-
-
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../../jBatch/index.html">jBatch</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../spring-boot/index.html">Spring
-                        Boot</a></li>
-                    <li class="toctree-l1 current"><a class="current reference internal" href="">Spring Data JPA</a>
-                        <ul>
-                            <li class="toctree-l2"><a class="reference internal"
-                                                      href="introduction.html">Introduction</a></li>
-                            <li class="toctree-l2"><a class="reference internal" href="usage.html">Usage</a></li>
-                        </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../spring-cloud-aws/index.html">Spring
-                        Boot</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../spring-cloud-function/index.html">Spring
-                        Boot</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work
-                        guideline</a></li>
-                </ul>
-
-
-            </div>
+          
         </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spring Data JPA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-
-        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-            <a href="../../../index.html">document</a>
-        </nav>
-
-
-        <div class="wy-nav-content">
-            <div class="rst-content">
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
 
 
-                <div role="navigation" aria-label="breadcrumbs navigation">
-                    <ul class="wy-breadcrumbs">
-                        <li><a href="../../../index.html">Docs</a> &raquo;</li>
-
-                        <li>Spring Data JPA</li>
-                        <li class="wy-breadcrumbs-aside">
-
-
-                            <a href="../../../_sources/java/spring/spring-data-jpa/index.txt" rel="nofollow"> View page
-                                source</a>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
 
 
-                        </li>
-                    </ul>
-                    <hr/>
-                </div>
-                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-                    <div itemprop="articleBody">
-
-                        <div class="section" id="spring-data-jpa">
-                            <h1>Spring Data JPA<a class="headerlink" href="#spring-data-jpa"
-                                                  title="Permalink to this headline">¶</a></h1>
-                            <p>Contents:</p>
-                            <div class="toctree-wrapper compound">
-                                <ul>
-                                    <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a>
-                                        <ul>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="introduction.html#section1-1-springdata-jpa-environment-label">動作環境</a>
-                                            </li>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="introduction.html#section1-2-springdata-jpa-settings-label">事前準備</a>
-                                                <ul>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="introduction.html#pom-xml">pom.xmlの設定</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="introduction.html#section1-2-1-springdata-jpa-settings-database-label">テーブルの構築</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a>
-                                        <ul>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="usage.html#section2-1-spring-data-jpa-usage-simple-access-label">シンプルなデータベースアクセス</a>
-                                                <ul>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-1-1-spring-data-jpa-usage-simple-access-entity-label">エンティティクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-1-2-spring-data-jpa-usage-simple-access-repository-label">レポジトリクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-1-3-spring-data-jpa-usage-simple-access-service-label">サービスクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label">コンフィグレーションクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-1-6-spring-data-jpa-usage-simple-access-result-label">アプリケーション実行の結果</a>
-                                                        <ul>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-1-spring-data-jpa-usage-simple-access-get-users-label">全てのユーザを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-2-spring-data-jpa-usage-simple-access-get-addresslist-label">全ての住所を検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-3-spring-data-jpa-usage-simple-access-get-emails-label">全てのメールアドレスを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-4-spring-data-jpa-usage-simple-access-get-groups-label">全てのグループを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-5-spring-data-jpa-usage-simple-access-get-user-label">特定のユーザを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-6-spring-data-jpa-usage-simple-access-get-address-label">特定のユーザのアドレスを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#email">特定のユーザがもつEmailアドレスを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-1-6-8-spring-data-jpa-usage-simple-access-get-group-label">指定したグループ名を元にグループを検索する。</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="usage.html#section2-2-spring-data-jpa-usage-one-to-one-label">1対1関連テーブルにおけるデータ操作</a>
-                                                <ul>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-2-1-spring-data-jpa-usage-one-to-one-service-label">サービスインターフェースの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">コンフィグレーションクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">サービス実装クラスの作成</a>
-                                                        <ul>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-1-spring-data-jpa-usage-one-to-one-get-address-label">指定されたユーザの住所を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label">特定の郵便番号を持つユーザ一覧を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label">特定の郵便番号を持たないユーザ一覧を取得する</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-4-spring-data-jpa-usage-one-to-one-add-address-label">指定されたユーザの住所を追加する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-5-spring-data-jpa-usage-one-to-one-update-address-label">指定されたユーザの住所を更新する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-6-spring-data-jpa-usage-one-to-one-delete-address-label">指定されたユーザの住所を削除する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-2-3-7-spring-data-jpa-usage-one-to-one-delete-user-label">指定されたユーザの情報を住所を含めて削除する。</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="usage.html#section2-3-spring-data-jpa-usage-one-to-many-label">1対多関連テーブルにおけるデータ操作</a>
-                                                <ul>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-3-1-spring-data-jpa-usage-one-to-many-service-label">サービスインターフェースの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label">コンフィグレーションクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label">サービス実装クラスの作成</a>
-                                                        <ul>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-1-spring-data-jpa-usage-one-to-many-get-emails-label">指定されたユーザのEmailの一覧を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-2-spring-data-jpa-usage-one-to-many-get-user-label">特定のメールアドレスを持つユーザを検索する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-3-spring-data-jpa-usage-one-to-many-add-email-label">指定されたユーザのメールアドレスを追加する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-4-spring-data-jpa-usage-one-to-many-add-user-label">指定されたユーザをメールアドレスを含めて追加する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-5-spring-data-jpa-usage-one-to-many-update-email-label">指定されたユーザのメールアドレスを更新する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-6-spring-data-jpa-usage-one-to-many-delete-email-label">指定されたユーザのメールアドレスを1件削除する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-7-spring-data-jpa-usage-one-to-many-delete-emails-label">指定されたユーザのメールアドレスを全件削除する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-3-3-8-spring-data-jpa-usage-one-to-many-delete-user-label">指定されたユーザの情報をメールアドレスを含めて削除する。</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="toctree-l2"><a class="reference internal"
-                                                                      href="usage.html#section2-4-spring-data-jpa-usage-many-to-many-label">多対多関連テーブルにおけるデータ操作</a>
-                                                <ul>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-4-1-spring-data-jpa-usage-many-to-many-service-label">サービスインターフェースの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label">コンフィグレーションクラスの作成</a>
-                                                    </li>
-                                                    <li class="toctree-l3"><a class="reference internal"
-                                                                              href="usage.html#section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label">サービス実装クラスの作成</a>
-                                                        <ul>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-1-spring-data-jpa-usage-manny-to-many-get-groups-label">指定したユーザが属するグループの一覧を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-2-spring-data-jpa-usage-manny-to-many-get-users-with-label">指定したグループに所属する全てのユーザ一覧を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-3-spring-data-jpa-usage-manny-to-many-get-users-without-label">指定したグループに所属しない全てのユーザ一覧を取得する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-4-spring-data-jpa-usage-manny-to-many-add-user-to-label">指定したユーザを指定したグループに追加する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-5-spring-data-jpa-usage-manny-to-many-delete-user-from-label">指定したユーザをグループから除外する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-6-spring-data-jpa-usage-manny-to-many-delete-group-label">指定したグループを削除し、ユーザが所属するグループの情報を更新する。</a>
-                                                            </li>
-                                                            <li class="toctree-l4"><a class="reference internal"
-                                                                                      href="usage.html#section2-4-3-7-spring-data-jpa-usage-manny-to-many-delete-user-label">指定されたユーザを削除し、グループのユーザ一覧を更新する。</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
 
-                    </div>
-                </div>
-                <footer>
-
-                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-
-                        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction"
-                           accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
 
 
-                        <a href="../spring-boot/usage.html" class="btn btn-neutral" title="Usage" accesskey="p"><span
-                                class="fa fa-arrow-circle-left"></span> Previous</a>
-
-                    </div>
 
 
-                    <hr/>
 
-                    <div role="contentinfo">
-                        <p>
-                            &copy; Copyright 2016, org.debugroom.
 
-                        </p>
-                    </div>
-                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
-                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
-                        href="https://readthedocs.org">Read the Docs</a>.
 
-                </footer>
 
-            </div>
-        </div>
 
-    </section>
 
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spring Data JPA</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/spring/spring-data-jpa/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spring-data-jpa">
+<h1>Spring Data JPA<a class="headerlink" href="#spring-data-jpa" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#section1-1-springdata-jpa-environment-label">動作環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#section1-2-springdata-jpa-settings-label">事前準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#pom-xml">pom.xmlの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#section1-2-1-springdata-jpa-settings-database-label">テーブルの構築</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#section2-1-spring-data-jpa-usage-simple-access-label">シンプルなデータベースアクセス</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-1-1-spring-data-jpa-usage-simple-access-entity-label">エンティティクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-1-2-spring-data-jpa-usage-simple-access-repository-label">レポジトリクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-1-3-spring-data-jpa-usage-simple-access-service-label">サービスクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-1-5-spring-data-jpa-usage-simple-access-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-1-6-spring-data-jpa-usage-simple-access-result-label">アプリケーション実行の結果</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-1-spring-data-jpa-usage-simple-access-get-users-label">全てのユーザを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-2-spring-data-jpa-usage-simple-access-get-addresslist-label">全ての住所を検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-3-spring-data-jpa-usage-simple-access-get-emails-label">全てのメールアドレスを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-4-spring-data-jpa-usage-simple-access-get-groups-label">全てのグループを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-5-spring-data-jpa-usage-simple-access-get-user-label">特定のユーザを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-6-spring-data-jpa-usage-simple-access-get-address-label">特定のユーザのアドレスを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#email">特定のユーザがもつEmailアドレスを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-1-6-8-spring-data-jpa-usage-simple-access-get-group-label">指定したグループ名を元にグループを検索する。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#section2-2-spring-data-jpa-usage-one-to-one-label">1対1関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-2-1-spring-data-jpa-usage-one-to-one-service-label">サービスインターフェースの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-2-2-spring-data-jpa-usage-one-to-one-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-2-3-spring-data-jpa-usage-one-to-one-service-impl-label">サービス実装クラスの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-1-spring-data-jpa-usage-one-to-one-get-address-label">指定されたユーザの住所を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-2-spring-data-jpa-usage-one-to-one-get-users-with-label">特定の郵便番号を持つユーザ一覧を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-3-spring-data-jpa-usage-one-to-one-get-users-without-label">特定の郵便番号を持たないユーザ一覧を取得する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-4-spring-data-jpa-usage-one-to-one-add-address-label">指定されたユーザの住所を追加する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-5-spring-data-jpa-usage-one-to-one-update-address-label">指定されたユーザの住所を更新する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-6-spring-data-jpa-usage-one-to-one-delete-address-label">指定されたユーザの住所を削除する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-2-3-7-spring-data-jpa-usage-one-to-one-delete-user-label">指定されたユーザの情報を住所を含めて削除する。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#section2-3-spring-data-jpa-usage-one-to-many-label">1対多関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-3-1-spring-data-jpa-usage-one-to-many-service-label">サービスインターフェースの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-3-2-spring-data-jpa-usage-one-to-many-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-3-3-spring-data-jpa-usage-one-to-many-service-impl-label">サービス実装クラスの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-1-spring-data-jpa-usage-one-to-many-get-emails-label">指定されたユーザのEmailの一覧を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-2-spring-data-jpa-usage-one-to-many-get-user-label">特定のメールアドレスを持つユーザを検索する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-3-spring-data-jpa-usage-one-to-many-add-email-label">指定されたユーザのメールアドレスを追加する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-4-spring-data-jpa-usage-one-to-many-add-user-label">指定されたユーザをメールアドレスを含めて追加する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-5-spring-data-jpa-usage-one-to-many-update-email-label">指定されたユーザのメールアドレスを更新する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-6-spring-data-jpa-usage-one-to-many-delete-email-label">指定されたユーザのメールアドレスを1件削除する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-7-spring-data-jpa-usage-one-to-many-delete-emails-label">指定されたユーザのメールアドレスを全件削除する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-3-3-8-spring-data-jpa-usage-one-to-many-delete-user-label">指定されたユーザの情報をメールアドレスを含めて削除する。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#section2-4-spring-data-jpa-usage-many-to-many-label">多対多関連テーブルにおけるデータ操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-4-1-spring-data-jpa-usage-many-to-many-service-label">サービスインターフェースの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-4-2-spring-data-jpa-usage-many-to-many-configuration-label">コンフィグレーションクラスの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#section2-4-3-spring-data-jpa-usage-many-to-many-service-impl-label">サービス実装クラスの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-1-spring-data-jpa-usage-manny-to-many-get-groups-label">指定したユーザが属するグループの一覧を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-2-spring-data-jpa-usage-manny-to-many-get-users-with-label">指定したグループに所属する全てのユーザ一覧を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-3-spring-data-jpa-usage-manny-to-many-get-users-without-label">指定したグループに所属しない全てのユーザ一覧を取得する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-4-spring-data-jpa-usage-manny-to-many-add-user-to-label">指定したユーザを指定したグループに追加する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-5-spring-data-jpa-usage-manny-to-many-delete-user-from-label">指定したユーザをグループから除外する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-6-spring-data-jpa-usage-manny-to-many-delete-group-label">指定したグループを削除し、ユーザが所属するグループの情報を更新する。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#section2-4-3-7-spring-data-jpa-usage-manny-to-many-delete-user-label">指定されたユーザを削除し、グループのユーザ一覧を更新する。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 
 
-<script type="text/javascript">
-    var DOCUMENTATION_OPTIONS = {
-        URL_ROOT: '../../../',
-        VERSION: '0.1-SNAPSHOTS',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE: true
-    };
-</script>
-<script type="text/javascript" src="../../../_static/jquery.js"></script>
-<script type="text/javascript" src="../../../_static/underscore.js"></script>
-<script type="text/javascript" src="../../../_static/doctools.js"></script>
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../spring-boot/usage.html" class="btn btn-neutral" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
 
 
-<script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
 
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
 
-<script type="text/javascript">
-    jQuery(function () {
-        SphinxRtdTheme.StickyNav.enable();
-    });
-</script>
+  
 
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>

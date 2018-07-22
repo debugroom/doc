@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>単テーブルにおけるデータ更新 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>単テーブルにおけるデータ更新</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/javaee/jpa/simple-update.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-jpa-usage-update-label">
+<span id="id1"></span><h1>単テーブルにおけるデータ更新<a class="headerlink" href="#section-jpa-usage-update-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>実装方針<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>単テーブルにおいてデータ更新する場合は、JPAのCriteria APIを使用して実装する。各エンティティクラスにより更新する対象のデータ項目は異なるので、GerericDaoを継承したクラス内で実装する。
+Criteria APIにおけるデータ更新では、EntityManager経由で取得した、永続化コンテキストに管理されているManaged状態のオブジェクトのプロパティを変更することで実現する。
+エンティティの管理状態に関して、意図せぬ更新が発生する可能性があるので、以下の内容を必ず理解しておくこと。
+<a class="reference external" href="http://terasolunaorg.github.io/guideline/5.1.0.RELEASE/ja/ArchitectureInDetail/DataAccessJpa.html#entity">http://terasolunaorg.github.io/guideline/5.1.0.RELEASE/ja/ArchitectureInDetail/DataAccessJpa.html#entity</a></p>
+<p>実際のUPDATE文はトランザクションがコミットされるタイミングで実行されるので注意すること。</p>
+<p>例) ユーザデータを更新する場合</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryImpl</span> <span class="kd">extends</span> <span class="n">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">UserRepository</span><span class="o">{</span>
+
+    <span class="nd">@Override</span>
+   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">update</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//EntityManagerを経由して、永続化コンテキスト管理下にあるオブジェクトを取得する。</span>
+        <span class="c1">//※GenericDaoのFind()メソッドで取得するのと同じこと。</span>
+        <span class="n">User</span> <span class="n">updateUser</span> <span class="o">=</span> <span class="n">find</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="k">if</span><span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">updateUser</span><span class="o">){</span>
+             <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 取得したオブジェクトのプロパティを変更する。</span>
+        <span class="n">updateUser</span><span class="o">.</span><span class="na">setUserName</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserName</span><span class="o">());</span>
+        <span class="n">updateUser</span><span class="o">.</span><span class="na">setLogin</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">isLogin</span><span class="o">());</span>
+        <span class="n">updateUser</span><span class="o">.</span><span class="na">setLastUpdatedDateAndTime</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>なお、JPAの楽観ロック機能を使用する場合は、&#64;Versionが付与されたLong型のプロパティを作成しておく必要があるが、自動で更新してくれるので、ユーザが明示的に変更する必要はない。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

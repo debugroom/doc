@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/bluemix/article/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<span id="section1-overview-label"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="region-and-available-zone">
+<span id="section1-1-overview-region-availablezone-label"></span><h2>Region and available zone<a class="headerlink" href="#region-and-available-zone" title="Permalink to this headline">¶</a></h2>
+<p>Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。各エリアのデータセンターとコード名は以下の通りである。</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">AWSのリージョン</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="30%" />
+<col width="40%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>地域</td>
+<td>設置都市</td>
+<td>リージョンコード</td>
+</tr>
+<tr class="row-even"><td>米国東部</td>
+<td>バージニア州</td>
+<td><code class="docutils literal notranslate"><span class="pre">us-east-1</span></code></td>
+</tr>
+<tr class="row-odd"><td>米国東部</td>
+<td>モントリオール(今後予定)</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-even"><td>米国東部</td>
+<td>オハイオ(今後予定)</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-odd"><td>米国西部</td>
+<td>カリフォルニア州</td>
+<td><code class="docutils literal notranslate"><span class="pre">us-west-1</span></code></td>
+</tr>
+<tr class="row-even"><td>米国西部</td>
+<td>オレゴン州</td>
+<td><code class="docutils literal notranslate"><span class="pre">us-west-2</span></code></td>
+</tr>
+<tr class="row-odd"><td>米国西部</td>
+<td>GOVCloud</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-even"><td>南米東部</td>
+<td>サンパウロ</td>
+<td><code class="docutils literal notranslate"><span class="pre">sa-east-1</span></code></td>
+</tr>
+<tr class="row-odd"><td>欧州中央</td>
+<td>フランクフルト</td>
+<td><code class="docutils literal notranslate"><span class="pre">eu-central-1</span></code></td>
+</tr>
+<tr class="row-even"><td>欧州</td>
+<td>英国(今後予定)</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-odd"><td>欧州西部</td>
+<td>アイルランド</td>
+<td><code class="docutils literal notranslate"><span class="pre">eu-west-1</span></code></td>
+</tr>
+<tr class="row-even"><td>アジア北東</td>
+<td>東京</td>
+<td><code class="docutils literal notranslate"><span class="pre">ap-northeast-1</span></code></td>
+</tr>
+<tr class="row-odd"><td>アジア北東</td>
+<td>ソウル</td>
+<td><code class="docutils literal notranslate"><span class="pre">ap-northeast-2</span></code></td>
+</tr>
+<tr class="row-even"><td>アジア北東</td>
+<td>北京</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-odd"><td>アジア北東</td>
+<td>寧夏(今後予定)</td>
+<td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
+</tr>
+<tr class="row-even"><td>アジア南</td>
+<td>ムンバイ</td>
+<td><code class="docutils literal notranslate"><span class="pre">ap-south-1</span></code></td>
+</tr>
+<tr class="row-odd"><td>東南アジア</td>
+<td>シンガポール</td>
+<td><code class="docutils literal notranslate"><span class="pre">ap-southeast-1</span></code></td>
+</tr>
+<tr class="row-even"><td>オセアニア</td>
+<td>シドニー</td>
+<td><code class="docutils literal notranslate"><span class="pre">ap-southeast-2</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="service">
+<span id="section1-2-overview-service-label"></span><h2>Service<a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h2>
+<p>AWSでサービスを提供されているサービスは以下の通りである。</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">AWSの提供するサービス</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">カテゴリ</th>
+<th class="head">サービス名</th>
+<th class="head">概要</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>コンピューティング</td>
+<td>Elastic Compute Cloud <br /> (EC2)</td>
+<td>仮想インスタンス</td>
+</tr>
+<tr class="row-odd"><td>コンピューティング</td>
+<td>EC2　Container Service <br /> (ECS)</td>
+<td>コンテナ管理</td>
+</tr>
+<tr class="row-even"><td>コンピューティング</td>
+<td>EC2　Container Registry <br /> (ECR)</td>
+<td>完全マネージドDockerコンテナイメージ管理</td>
+</tr>
+<tr class="row-odd"><td>コンピューティング</td>
+<td>Lambda</td>
+<td>予め定義したコードのイベントを契機とした実行</td>
+</tr>
+<tr class="row-even"><td>コンピューティング</td>
+<td>Elastic Beanstalk</td>
+<td>アプリケーションオートデプロイサービス</td>
+</tr>
+<tr class="row-odd"><td>ストレージ</td>
+<td>Simple Storage Service <br /> (S3)</td>
+<td>オンラインストレージ。ログ保存・バックアップ</td>
+</tr>
+<tr class="row-even"><td>ストレージ</td>
+<td>Cloud Front</td>
+<td>コンテンツ配信ネットワーク。 <br /> エッヂロケーションからのコンテンツ配信</td>
+</tr>
+<tr class="row-odd"><td>ストレージ</td>
+<td>Elastic Block Store <br /> (EBS)</td>
+<td>EC2マウント用ストレージ</td>
+</tr>
+<tr class="row-even"><td>ストレージ</td>
+<td>Elastic File System <br /> (EFS)</td>
+<td>マルチアベイラブルゾーン利用型 <br /> マルチEC2マウント用ストレージ</td>
+</tr>
+<tr class="row-odd"><td>ストレージ</td>
+<td>Glacler</td>
+<td>低コストオンラインストレージ <br /> s3アーカイブ向け</td>
+</tr>
+<tr class="row-even"><td>ストレージ</td>
+<td>Import/Export Snowball</td>
+<td>オンプレミスからクラウドへデータ移行する <br /> マイグレーションサポートサービス</td>
+</tr>
+<tr class="row-odd"><td>ストレージ</td>
+<td>Storage Gateway</td>
+<td>オンプレミス向けストレージ</td>
+</tr>
+<tr class="row-even"><td>データストア</td>
+<td>Relational Database Service <br /> (RDS)</td>
+<td>リレーショナルデータベース</td>
+</tr>
+<tr class="row-odd"><td>データストア</td>
+<td>Database Migration Service</td>
+<td>オンプレミス向けデータベース移行</td>
+</tr>
+<tr class="row-even"><td>データストア</td>
+<td>DynamoDB</td>
+<td>NoSQLデータベース</td>
+</tr>
+<tr class="row-odd"><td>データストア</td>
+<td>SimpleDB</td>
+<td>データ保存制限つきNoSQLデータベース</td>
+</tr>
+<tr class="row-even"><td>データストア</td>
+<td>ElastiCache</td>
+<td>インメモリキャッシュ <br /> MemcachedとRedisをサポート</td>
+</tr>
+<tr class="row-odd"><td>データストア</td>
+<td>Redshift</td>
+<td>ビッグデータ解析用データウェアハウス(DWH)</td>
+</tr>
+<tr class="row-even"><td>ネットワーク</td>
+<td>Virtual Private Cloud(VPC)</td>
+<td>VPNの構築</td>
+</tr>
+<tr class="row-odd"><td>ネットワーク</td>
+<td>Direct Connect</td>
+<td>AWSとオンプレミスの専用接続</td>
+</tr>
+<tr class="row-even"><td>ネットワーク</td>
+<td>Elastic Load Balancing</td>
+<td>ロードバランシング</td>
+</tr>
+<tr class="row-odd"><td>ネットワーク</td>
+<td>Route53</td>
+<td>DNSサービス</td>
+</tr>
+<tr class="row-even"><td>アナリティクス</td>
+<td>Elastic MapReduce(EMR)</td>
+<td>Apache Hadoopを使用した <br /> MapReduceデータ分析</td>
+</tr>
+<tr class="row-odd"><td>アナリティクス</td>
+<td>Data Pipeline</td>
+<td>AWS内のサービスやオンプレミス <br /> データ連携処理</td>
+</tr>
+<tr class="row-even"><td>アナリティクス</td>
+<td>Elasticsearch Service</td>
+<td>検索エンジンプラットフォーム</td>
+</tr>
+<tr class="row-odd"><td>アナリティクス</td>
+<td>Kinesis</td>
+<td>ストリーミングデータリアルタイム処理</td>
+</tr>
+<tr class="row-even"><td>アナリティクス</td>
+<td>Machine Learning</td>
+<td>機械学習用プラットフォーム</td>
+</tr>
+<tr class="row-odd"><td>アナリティクス</td>
+<td>QuickSight</td>
+<td>セルフサービスBIと高速分析データベースエンジン</td>
+</tr>
+<tr class="row-even"><td>エンタープライズ</td>
+<td>WorkSpaces</td>
+<td>クラウド上仮想デスクトップサービス</td>
+</tr>
+<tr class="row-odd"><td>エンタープライズ</td>
+<td>WorkDocs</td>
+<td>ファイル管理サービス</td>
+</tr>
+<tr class="row-even"><td>エンタープライズ</td>
+<td>WorkMail</td>
+<td>Webメールサービス</td>
+</tr>
+<tr class="row-odd"><td>IoT</td>
+<td>AWS IoT</td>
+<td>IoTデバイスとの接続プラットフォーム、開発ツール <br /> ルールエンジン</td>
+</tr>
+<tr class="row-even"><td>モバイル</td>
+<td>Mobile Hub</td>
+<td>モバイルアプリケーション構築、テスト、モニタリング</td>
+</tr>
+<tr class="row-odd"><td>モバイル</td>
+<td>Cognito</td>
+<td>マルチデバイス間におけるユーザ認証・データ同期</td>
+</tr>
+<tr class="row-even"><td>モバイル</td>
+<td>Device Farm</td>
+<td>実際のモバイルデバイスをシミュレーションして <br /> モバイルアプリをクラウドでテストするためのサービス</td>
+</tr>
+<tr class="row-odd"><td>モバイル</td>
+<td>Mobile Analytics</td>
+<td>モバイルアプリケーションの使用状況 <br /> データ収集と可視化</td>
+</tr>
+<tr class="row-even"><td>モバイル</td>
+<td>Mobile SDK</td>
+<td>モバイルアプリケーション開発ツール</td>
+</tr>
+<tr class="row-odd"><td>モバイル</td>
+<td>Simple Notification Service <br /> (SNS)</td>
+<td>プッシュ配信型メッセージ送信。</td>
+</tr>
+<tr class="row-even"><td>開発者用ツール</td>
+<td>CodeCommit</td>
+<td>Gitベースのバージョン管理レポジトリ</td>
+</tr>
+<tr class="row-odd"><td>開発者用ツール</td>
+<td>CodeDeploy</td>
+<td>EC2インスタンスへのコードデプロイを自動化</td>
+</tr>
+<tr class="row-even"><td>開発者用ツール</td>
+<td>CodePipeline</td>
+<td>コードのビルド、テスト、ビルド、デプロイまでの <br /> ワークフローを定義できるCIサービス</td>
+</tr>
+<tr class="row-odd"><td>開発者用ツール</td>
+<td>Command Line Tool <br /> (CLI)</td>
+<td>ターミナルからAWSサービスを実行するための <br /> コマンド群</td>
+</tr>
+<tr class="row-even"><td>管理ツール</td>
+<td>CloudWath</td>
+<td>AWSの各リソースのモニタリング、閾値、 <br /> アラーム設定サービス</td>
+</tr>
+<tr class="row-odd"><td>管理ツール</td>
+<td>CloudFormation</td>
+<td>テンプレートに従った、AWSリソースの構築</td>
+</tr>
+<tr class="row-even"><td>管理ツール</td>
+<td>CloudTrail</td>
+<td>APIの呼出記録とログファイル送信サービス</td>
+</tr>
+<tr class="row-odd"><td>管理ツール</td>
+<td>Config</td>
+<td>AWS構成変更履歴の管理</td>
+</tr>
+<tr class="row-even"><td>管理ツール</td>
+<td>Management Console</td>
+<td>Webアプリケーションベースでの管理コンソール</td>
+</tr>
+<tr class="row-odd"><td>管理ツール</td>
+<td>OpsWorks</td>
+<td>DevOpsアプリケーションの管理・自動化</td>
+</tr>
+<tr class="row-even"><td>管理ツール</td>
+<td>Service Catalog</td>
+<td>リソースカタログの作成・管理</td>
+</tr>
+<tr class="row-odd"><td>管理ツール</td>
+<td>Trasted Advisor</td>
+<td>AWS環境を自動精査し、パフォーマンス、 <br /> セキュリティリスク、コストなど <br /> 推奨設定を通知するサービス</td>
+</tr>
+<tr class="row-even"><td>セキュリティ</td>
+<td>Itentity and Access <br /> Management(iAM)</td>
+<td>AWSの各サービスやリソースに対するアクセス管理</td>
+</tr>
+<tr class="row-odd"><td>セキュリティ</td>
+<td>Certificate Manager</td>
+<td>SSL、TLS証明書のプロビジョニング、管理、 <br /> デプロイを行うサービス</td>
+</tr>
+<tr class="row-even"><td>セキュリティ</td>
+<td>CloudHSM</td>
+<td>秘密鍵を安全に管理するためのサービス</td>
+</tr>
+<tr class="row-odd"><td>セキュリティ</td>
+<td>Directory Service</td>
+<td>クラウド上の管理ディレクトリ</td>
+</tr>
+<tr class="row-even"><td>セキュリティ</td>
+<td>Inspector</td>
+<td>セキュリティ監査状況を診断するサービス</td>
+</tr>
+<tr class="row-odd"><td>セキュリティ</td>
+<td>Key Management Service</td>
+<td>暗号化キーの作成、管理サービス</td>
+</tr>
+<tr class="row-even"><td>セキュリティ</td>
+<td>Web Application Firewall <br /> (WAF)</td>
+<td>アプリケーション用ファイアウォール</td>
+</tr>
+<tr class="row-odd"><td>アプリケーション</td>
+<td>API Gateway</td>
+<td>APIの作成、管理ソリューション</td>
+</tr>
+<tr class="row-even"><td>アプリケーション</td>
+<td>AppStream(SES)</td>
+<td>クラウド上のレンダリング結果の様々な <br /> デバイスに対するストリーミング</td>
+</tr>
+<tr class="row-odd"><td>アプリケーション</td>
+<td>Simple Workflow Service <br /> (SWF)</td>
+<td>ワークフロー実行基盤</td>
+</tr>
+<tr class="row-even"><td>アプリケーション</td>
+<td>Cloud Search</td>
+<td>全文検索</td>
+</tr>
+<tr class="row-odd"><td>アプリケーション</td>
+<td>Elastic Transcoder</td>
+<td>メディア変換。動画をエンコードし <br /> 別形式ファイルで出力</td>
+</tr>
+<tr class="row-even"><td>アプリケーション</td>
+<td>Simple Email Service(SES)</td>
+<td>メール配信</td>
+</tr>
+<tr class="row-odd"><td>アプリケーション</td>
+<td>Flexible Payment Service(FPS)</td>
+<td>2者間の送金やクレジット・銀行口座の <br /> 電子送金</td>
+</tr>
+<tr class="row-even"><td>アプリケーション</td>
+<td>Simple Queue Service(SQS)</td>
+<td>メッセージキューサービス</td>
+</tr>
+</tbody>
+</table>
+<p>AWSのサービス全ては、HTTP/HTTPSを通じWebAPIによって操作できる。サービスはそれぞれにSLAが定められており、その範囲内でのサービスレベルが保障される。また、地域が分散したリージョンによる災害対策、電源や空調、物理セキュリティ、ネットワークが分離されたアベイラブルゾーンによる概念により、サービスレベルのコントロールを図ることが可能になっている。</p>
+</div>
+<div class="section" id="management-console">
+<span id="section1-3-overview-management-console-label"></span><h2>Management console<a class="headerlink" href="#management-console" title="Permalink to this headline">¶</a></h2>
+<p>Management consoleは、Amazon web serviceを管理するためのWebアプリケーションである。インスタンスの起動や、S3への接続といった、多くのAWSサービスの処理、操作をGUIを通じて行える。また、使用料金の情報も得る事が出来る。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="cloud/bluemix/article/img/management-console-top.png"><img alt="cloud/bluemix/article/img/management-console-top.png" src="cloud/bluemix/article/img/management-console-top.png" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="cloud/bluemix/article/img/management-console-biling-dashboad.png"><img alt="cloud/bluemix/article/img/management-console-biling-dashboad.png" src="cloud/bluemix/article/img/management-console-biling-dashboad.png" /></a>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

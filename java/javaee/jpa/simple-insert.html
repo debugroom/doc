@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>単テーブルにおけるデータ追加 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>単テーブルにおけるデータ追加</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/javaee/jpa/simple-insert.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-jpa-usage-insert-label">
+<span id="id1"></span><h1>単テーブルにおけるデータ追加<a class="headerlink" href="#section-jpa-usage-insert-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>実装方針<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>単テーブルにおいてINSERTを実施する場合は、JPAのCriteria APIを使用して実装する。
+GenericDaoの様に共通化したメソッドを経由して実行するとよい。</p>
+<p>例) ユーザデータのみを追加する場合</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.SimpleInsertService</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.service.impl.ejb.dbaccess</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.EJB</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.common.exception.BusinessException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.service.dbaccess.SimpleInsertService</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleInsertServiceImpl</span> <span class="kd">implements</span> <span class="n">SimpleInsertService</span><span class="o">{</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">saveUser</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">BusinessException</span> <span class="o">{</span>
+
+        <span class="c1">//新規追加するユーザのデータを作成する。IDは現在のデータ件数に+1して、8桁に0パディングして作成する。</span>
+        <span class="n">Long</span> <span class="n">numberOfUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">();</span>
+
+        <span class="n">String</span> <span class="n">idFormat</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">()</span>
+                                 <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;00000000&quot;</span><span class="o">)</span>
+                                 <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">numberOfUser</span><span class="o">)</span>
+                                 <span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+
+        <span class="n">user</span><span class="o">.</span><span class="na">setUserId</span><span class="o">(</span><span class="n">idFormat</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">idFormat</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">8</span><span class="o">,</span> <span class="n">idFormat</span><span class="o">.</span><span class="na">length</span><span class="o">()));</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">setLastUpdatedDateAndTime</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+
+        <span class="c1">// 既にユーザが存在している場合は、業務例外の仕様とする。(いったん対象のユーザを削除させる)</span>
+        <span class="k">if</span><span class="o">(!</span><span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">)){</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">BusinessException</span><span class="o">(</span><span class="s">&quot;E-0001&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+ <span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+ <span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+ <span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+
+ <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+ <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+
+ <span class="c1">// トランザクションの管理はEJBに任せて、Stateless Session Beanとして実装する。</span>
+ <span class="c1">// Serviceから呼ばれるため、トランザクションの伝播属性を一応、REQUIREDにしておく。(デフォルトも多分REQUIREDだと思うが)</span>
+ <span class="nd">@Stateless</span>
+ <span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryImpl</span> <span class="kd">extends</span> <span class="n">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">UserRepository</span><span class="o">{</span>
+
+ <span class="nd">@Override</span>
+ <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">save</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span><span class="o">(</span><span class="n">entityManager</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">user</span><span class="o">)){</span>
+         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+     <span class="o">}</span>
+     <span class="c1">//</span>
+     <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+     <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+ <span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.GenericDaoImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+ <span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+ <span class="kn">import</span> <span class="nn">java.lang.reflect.ParameterizedType</span><span class="o">;</span>
+
+ <span class="kn">import</span> <span class="nn">javax.persistence.EntityManager</span><span class="o">;</span>
+ <span class="kn">import</span> <span class="nn">javax.persistence.PersistenceContext</span><span class="o">;</span>
+
+ <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.GenericDao</span><span class="o">;</span>
+
+ <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+ <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Serializable</span><span class="o">,</span> <span class="n">ID</span> <span class="kd">extends</span> <span class="n">Serializable</span><span class="o">&gt;</span>
+                             <span class="kd">implements</span> <span class="n">GenericDao</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">ID</span><span class="o">&gt;{</span>
+
+     <span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">clazz</span><span class="o">;</span>
+
+     <span class="nd">@PersistenceContext</span>
+     <span class="n">EntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
+
+     <span class="kd">public</span> <span class="nf">GenericDaoImpl</span><span class="o">(){</span>
+         <span class="n">ParameterizedType</span> <span class="n">parameterizedType</span> <span class="o">=</span> <span class="o">(</span><span class="n">ParameterizedType</span><span class="o">)</span><span class="n">getClass</span><span class="o">().</span><span class="na">getGenericSuperclass</span><span class="o">();</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">clazz</span> <span class="o">=</span> <span class="o">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;)</span> <span class="n">parameterizedType</span><span class="o">.</span><span class="na">getActualTypeArguments</span><span class="o">()[</span><span class="mi">0</span><span class="o">];</span>
+     <span class="o">}</span>
+
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="n">T</span> <span class="nf">find</span><span class="o">(</span><span class="n">ID</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span><span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">clazz</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="c1">// Criteria APIのpersit()メソッドで実現する。</span>
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">persist</span><span class="o">(</span><span class="n">T</span> <span class="n">entity</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">entity</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="n">T</span> <span class="n">entity</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">entityManager</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">entity</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">(</span><span class="n">T</span> <span class="n">entity</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">entityManager</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">entity</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

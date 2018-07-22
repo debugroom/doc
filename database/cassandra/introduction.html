@@ -1,307 +1,299 @@
+
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  
 
-    <title>Introduction &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
+  
+  
+    
 
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
+  
 
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Cassandraのインストール" href="install.html" />
+    <link rel="prev" title="Cassandra" href="index.html" /> 
 
-    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../index.html"/>
-    <link rel="up" title="Cassandra" href="index.html"/>
-    <link rel="next" title="Cassandraの起動" href="launch.html"/>
-    <link rel="prev" title="Cassandra" href="index.html"/>
-
-
-    <script src="../../_static/js/modernizr.min.js"></script>
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
-<div class="wy-grid-for-nav">
+   
+  <div class="wy-grid-for-nav">
 
-
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-        <div class="wy-side-scroll">
-            <div class="wy-side-nav-search">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
+          
+            <a href="../../index.html" class="icon icon-home"> document
+          
 
-                <a href="../../index.html" class="icon icon-home"> document
+          
+          </a>
 
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
 
-                </a>
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
 
-
-                <div class="version">
-                    0.1-SNAPSHOTS
-                </div>
-
-
-                <div role="search">
-                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-                        <input type="text" name="q" placeholder="Search docs"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-
-
-            </div>
-
-            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-
-
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../../java/jBatch/index.html">jBatch</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../java/spring/springboot/index.html">Spring
-                        Boot</a></li>
-                    <li class="toctree-l1"><a class="reference internal"
-                                              href="../../java/spring/springdatajpa/index.html">Spring Data JPA</a></li>
-                    <li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a>
-                        <ul class="current">
-                            <li class="toctree-l2 current"><a class="current reference internal"
-                                                              href="">Introduction</a>
-                                <ul>
-                                    <li class="toctree-l3"><a class="reference internal"
-                                                              href="#cassandra">Cassandraの特徴</a>
-                                        <ul>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-1-1-cassandra-feature-label">非中央集権型分散データベース</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-1-2-cassandra-feature-label">伸縮自在なスケール</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-1-3-cassandra-feature-label">高可用性及び耐障害性</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-1-4-cassandra-feature-label">設定可能な一貫性</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal" href="#row">Row指向型データベース</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="toctree-l3"><a class="reference internal"
-                                                              href="#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a>
-                                        <ul>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-2-1-cassandra-effective-usecase-label">多数のコモディティサーバで構成されるアプリケーション</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal"
-                                                                      href="#section1-2-2-cassandra-effective-usecase-label">大量の書き込み、統計、解析</a>
-                                            </li>
-                                            <li class="toctree-l4"><a class="reference internal" href="#id9">地域分散</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a>
-                            </li>
-                            <li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a>
-                            </li>
-                            <li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a>
-                            </li>
-                            <li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra
-                                - SpringFrameworkアプリケーション</a></li>
-                            <li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work
-                        guideline</a></li>
-                </ul>
-
-
-            </div>
+          
         </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cassandra</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cassandra">Cassandraの特徴</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section1-1-1-cassandra-feature-label">非中央集権型分散データベース</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section1-1-2-cassandra-feature-label">伸縮自在なスケール</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section1-1-3-cassandra-feature-label">高可用性及び耐障害性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section1-1-4-cassandra-feature-label">設定可能な一貫性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#row">Row指向型データベース</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#section1-2-cassandra-effective-usecase-label">Cassandraのメリットが活かせるユースケース</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section1-2-1-cassandra-effective-usecase-label">多数のコモディティサーバで構成されるアプリケーション</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section1-2-2-cassandra-effective-usecase-label">大量の書き込み、統計、解析</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">地域分散</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cassandraのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launch.html">Cassandraの起動</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">データベースの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manipulate.html">データベースの操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spring-integration.html">Cassandra - SpringFrameworkアプリケーション</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datamodeling.html">データモデリング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trouble-shooting.html">トラブルシューティング</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-
-        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-            <a href="../../index.html">document</a>
-        </nav>
-
-
-        <div class="wy-nav-content">
-            <div class="rst-content">
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">document</a>
+        
+      </nav>
 
 
-                <div role="navigation" aria-label="breadcrumbs navigation">
-                    <ul class="wy-breadcrumbs">
-                        <li><a href="../../index.html">Docs</a> &raquo;</li>
-
-                        <li><a href="index.html">Cassandra</a> &raquo;</li>
-
-                        <li>Introduction</li>
-                        <li class="wy-breadcrumbs-aside">
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
 
 
-                            <a href="../../_sources/database/cassandra/introduction.txt" rel="nofollow"> View page
-                                source</a>
 
 
-                        </li>
-                    </ul>
-                    <hr/>
-                </div>
-                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-                    <div itemprop="articleBody">
-
-                        <div class="section" id="introduction">
-                            <span id="section1-cassandra-introduction-label"></span>
-                            <h1>Introduction<a class="headerlink" href="#introduction"
-                                               title="Permalink to this headline">¶</a></h1>
-                            <p>Cassandraは Amazon Dynamoの分散デザインと、Google
-                                Bigtableのデータモデルを併せ持つ非中央集権型で、伸縮自在なスケール、高可用性、耐障害性、設定可能な一貫性を備えたカラム指向型データベースである。</p>
-                            <div class="section" id="cassandra">
-                                <span id="section1-1-cassandra-feature-label"></span>
-                                <h2>Cassandraの特徴<a class="headerlink" href="#cassandra"
-                                                   title="Permalink to this headline">¶</a></h2>
-                                <div class="section" id="section1-1-1-cassandra-feature-label">
-                                    <span id="id1"></span>
-                                    <h3>非中央集権型分散データベース<a class="headerlink" href="#section1-1-1-cassandra-feature-label"
-                                                         title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        多くのデータストアでは、マスター/スレーブ構成をとり、信頼できるリソースとしてのマスターをもとにスレーブ上にマスターのコピーを配置することになるが、Cassandraはいかなるノードも他のノードへの管理操作を持たず、全てのノードが同一のものとして扱われ、任意の特定のノードへの更新は同時に別のノードへも行われる。Cassandraはピアツーピアプロトコルを実装しており、ノード間でゴシッププロトコルを用いて、互いの生死を確認しながら分散システムを構築している。基本的にはデータセンターを跨がることを前提に設計されており、クラスタ間のいかなるノードにもデータを書き込める。こうしたアーキテクチャはマスター/スレーブ構成をもつデータストアとは異なり、単一障害点が存在しないことを意味する。</p>
-                                </div>
-                                <div class="section" id="section1-1-2-cassandra-feature-label">
-                                    <span id="id2"></span>
-                                    <h3>伸縮自在なスケール<a class="headerlink" href="#section1-1-2-cassandra-feature-label"
-                                                    title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        伸縮自在なスケーラビリティとは、クラスタがシームレスにスケールアウトとシュリンクを行うことが出来るということで、新しく参加するノードは全てのデータコピーを保持してクラスタ内に組み込まれる。新規ノードを追加する際も、Cassandraはクラスタ全体の再設定や、プロセスの再起動、データのリバランス等、これらの問題を回避してサービスを継続可能である。</p>
-                                </div>
-                                <div class="section" id="section1-1-3-cassandra-feature-label">
-                                    <span id="id3"></span>
-                                    <h3>高可用性及び耐障害性<a class="headerlink" href="#section1-1-3-cassandra-feature-label"
-                                                     title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        Cassandraはダウンタイムなしで、クラスタ内の障害のあったノードを交換することが出来、ローカルでのパフォーマンスを向上させたり、データセンタが被災した場合に備え、複数のデータセンタでデータをレプリケートすることを前提に設計されている。</p>
-                                </div>
-                                <div class="section" id="section1-1-4-cassandra-feature-label">
-                                    <span id="id4"></span>
-                                    <h3>設定可能な一貫性<a class="headerlink" href="#section1-1-4-cassandra-feature-label"
-                                                   title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        Cassandraは結果整合性をもつデータベースとよく呼ばれるが、ただしくは、設定可能な一貫性を持つデータベースである。正確ではない。一貫性はACID属性で言えば、読み手がお互いに矛盾したことなる値を参照することなく、データの状態がある状態へと正しく遷移することであるが、一貫性にはレベルがあり、Cassandraではクライアントが全ての更新においてブロックするレプリカ数をレプリケーションファクタによって制御可能である。</p>
-                                </div>
-                                <div class="section" id="row">
-                                    <span id="section1-1-5-cassandra-feature-label"></span>
-                                    <h3>Row指向型データベース<a class="headerlink" href="#row"
-                                                       title="Permalink to this headline">¶</a></h3>
-                                    <p>Cassandraのデータ構造はバージョンによって異なる。
-                                        Cassandraはキーバリュー型のデータ(カラム)を一連にまとめたRowのまとまりであるカラムファミリ及び、それらをノード単位でまとめるキースペースををもつ多次元ハッシュテーブルのデータ構造を持つ。v0.7より前では、どのRowも１つかそれ以上のカラムを持ちながら、他のRowと全く同じカラムを持つ必要がないスキーマフリーな構造をとっていたが、v0.7以降オプションでスキーマ定義が可能となり、v1.1以降は、<a
-                                                class="reference external"
-                                                href="http://www.datastax.com/dev/blog/schema-in-cassandra-1-1">スキーマ定義が必須</a>
-                                        となった。</p>
-                                </div>
-                            </div>
-                            <div class="section" id="section1-2-cassandra-effective-usecase-label">
-                                <span id="id6"></span>
-                                <h2>Cassandraのメリットが活かせるユースケース<a class="headerlink"
-                                                                href="#section1-2-cassandra-effective-usecase-label"
-                                                                title="Permalink to this headline">¶</a></h2>
-                                <p>前述したCassandraのメリットを最大限生かすユースケースを列挙する。</p>
-                                <div class="section" id="section1-2-1-cassandra-effective-usecase-label">
-                                    <span id="id7"></span>
-                                    <h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink"
-                                                                     href="#section1-2-1-cassandra-effective-usecase-label"
-                                                                     title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        単一ノードのリレーショナルデータベースで賄える状況でCassandraを導入するのは適切ではない。最低でも複数ノードが必要な状況ではCassandraはよりよい選択肢となりえる。</p>
-                                </div>
-                                <div class="section" id="section1-2-2-cassandra-effective-usecase-label">
-                                    <span id="id8"></span>
-                                    <h3>大量の書き込み、統計、解析<a class="headerlink"
-                                                        href="#section1-2-2-cassandra-effective-usecase-label"
-                                                        title="Permalink to this headline">¶</a></h3>
-                                    <p>
-                                        Cassandraは特に書き込みのスループットが高速になるよう最適化されている。初期から使用する多くの企業がユーザのアクティビティ更新、ソーシャルネットワーク、リコメンド/レビュー、アプリケーションの統計といったデータの保存に使用している。これらの利用例は大量の書き込みがある上に予測可能な読み込みが少ない点、更新も不均等に発生するためのノードの追加が容易なCassandraがフィットする案件と言える。近年では、IoTの代表格であるM2Mを用いたセンサーをクライアントにもつサーバ側のデータストアの選択肢として候補に挙げられるだろう。</p>
-                                </div>
-                                <div class="section" id="id9">
-                                    <span id="id10"></span>
-                                    <h3>地域分散<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a>
-                                    </h3>
-                                    <p>
-                                        Cassandraはデータの地域分散を標準でサポートする。複数のデータセンターに跨がってデータをレプリケートすることを簡単に行える。ユーザの近くでデータを置くことでパフォーマンスの上の利点があるグローバルな環境にデプロイするアプリケーションがフィットする。</p>
-                                </div>
-                            </div>
-                        </div>
 
 
-                    </div>
-                </div>
-                <footer>
-
-                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-
-                        <a href="launch.html" class="btn btn-neutral float-right" title="Cassandraの起動" accesskey="n">Next
-                            <span class="fa fa-arrow-circle-right"></span></a>
 
 
-                        <a href="index.html" class="btn btn-neutral" title="Cassandra" accesskey="p"><span
-                                class="fa fa-arrow-circle-left"></span> Previous</a>
-
-                    </div>
 
 
-                    <hr/>
 
-                    <div role="contentinfo">
-                        <p>
-                            &copy; Copyright 2016, org.debugroom.
 
-                        </p>
-                    </div>
-                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
-                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
-                        href="https://readthedocs.org">Read the Docs</a>.
 
-                </footer>
 
-            </div>
-        </div>
 
-    </section>
+<div role="navigation" aria-label="breadcrumbs navigation">
 
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Cassandra</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/database/cassandra/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<span id="section1-cassandra-introduction-label"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Cassandraは Amazon Dynamoの分散デザインと、Google Bigtableのデータモデルを併せ持つ非中央集権型で、伸縮自在なスケール、高可用性、耐障害性、設定可能な一貫性を備えたカラム指向型データベースである。</p>
+<div class="section" id="cassandra">
+<span id="section1-1-cassandra-feature-label"></span><h2>Cassandraの特徴<a class="headerlink" href="#cassandra" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section1-1-1-cassandra-feature-label">
+<span id="id1"></span><h3>非中央集権型分散データベース<a class="headerlink" href="#section1-1-1-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<p>多くのデータストアでは、マスター/スレーブ構成をとり、信頼できるリソースとしてのマスターをもとにスレーブ上にマスターのコピーを配置することになるが、Cassandraはいかなるノードも他のノードへの管理操作を持たず、全てのノードが同一のものとして扱われ、任意の特定のノードへの更新は同時に別のノードへも行われる。Cassandraはピアツーピアプロトコルを実装しており、ノード間でゴシッププロトコルを用いて、互いの生死を確認しながら分散システムを構築している。基本的にはデータセンターを跨がることを前提に設計されており、クラスタ間のいかなるノードにもデータを書き込める。こうしたアーキテクチャはマスター/スレーブ構成をもつデータストアとは異なり、単一障害点が存在しないことを意味する。</p>
+</div>
+<div class="section" id="section1-1-2-cassandra-feature-label">
+<span id="id2"></span><h3>伸縮自在なスケール<a class="headerlink" href="#section1-1-2-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<p>伸縮自在なスケーラビリティとは、クラスタがシームレスにスケールアウトとシュリンクを行うことが出来るということで、新しく参加するノードは全てのデータコピーを保持してクラスタ内に組み込まれる。新規ノードを追加する際も、Cassandraはクラスタ全体の再設定や、プロセスの再起動、データのリバランス等、これらの問題を回避してサービスを継続可能である。</p>
+</div>
+<div class="section" id="section1-1-3-cassandra-feature-label">
+<span id="id3"></span><h3>高可用性及び耐障害性<a class="headerlink" href="#section1-1-3-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<p>Cassandraはダウンタイムなしで、クラスタ内の障害のあったノードを交換することが出来、ローカルでのパフォーマンスを向上させたり、データセンタが被災した場合に備え、複数のデータセンタでデータをレプリケートすることを前提に設計されている。</p>
+</div>
+<div class="section" id="section1-1-4-cassandra-feature-label">
+<span id="id4"></span><h3>設定可能な一貫性<a class="headerlink" href="#section1-1-4-cassandra-feature-label" title="Permalink to this headline">¶</a></h3>
+<p>Cassandraは結果整合性をもつデータベースとよく呼ばれるが、ただしくは、設定可能な一貫性を持つデータベースである。正確ではない。一貫性はACID属性で言えば、読み手がお互いに矛盾したことなる値を参照することなく、データの状態がある状態へと正しく遷移することであるが、一貫性にはレベルがあり、Cassandraではクライアントが全ての更新においてブロックするレプリカ数をレプリケーションファクタによって制御可能である。</p>
+</div>
+<div class="section" id="row">
+<span id="section1-1-5-cassandra-feature-label"></span><h3>Row指向型データベース<a class="headerlink" href="#row" title="Permalink to this headline">¶</a></h3>
+<p>Cassandraのデータ構造はバージョンによって異なる。
+Cassandraはキーバリュー型のデータ(カラム)を一連にまとめたRowのまとまりであるカラムファミリ及び、それらをノード単位でまとめるキースペースををもつ多次元ハッシュテーブルのデータ構造を持つ。v0.7より前では、どのRowも１つかそれ以上のカラムを持ちながら、他のRowと全く同じカラムを持つ必要がないスキーマフリーな構造をとっていたが、v0.7以降オプションでスキーマ定義が可能となり、v1.1以降は、<a class="reference external" href="http://www.datastax.com/dev/blog/schema-in-cassandra-1-1">スキーマ定義が必須</a> となった。</p>
+</div>
+</div>
+<div class="section" id="section1-2-cassandra-effective-usecase-label">
+<span id="id6"></span><h2>Cassandraのメリットが活かせるユースケース<a class="headerlink" href="#section1-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h2>
+<p>前述したCassandraのメリットを最大限生かすユースケースを列挙する。</p>
+<div class="section" id="section1-2-1-cassandra-effective-usecase-label">
+<span id="id7"></span><h3>多数のコモディティサーバで構成されるアプリケーション<a class="headerlink" href="#section1-2-1-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<p>単一ノードのリレーショナルデータベースで賄える状況でCassandraを導入するのは適切ではない。最低でも複数ノードが必要な状況ではCassandraはよりよい選択肢となりえる。</p>
+</div>
+<div class="section" id="section1-2-2-cassandra-effective-usecase-label">
+<span id="id8"></span><h3>大量の書き込み、統計、解析<a class="headerlink" href="#section1-2-2-cassandra-effective-usecase-label" title="Permalink to this headline">¶</a></h3>
+<p>Cassandraは特に書き込みのスループットが高速になるよう最適化されている。初期から使用する多くの企業がユーザのアクティビティ更新、ソーシャルネットワーク、リコメンド/レビュー、アプリケーションの統計といったデータの保存に使用している。これらの利用例は大量の書き込みがある上に予測可能な読み込みが少ない点、更新も不均等に発生するためのノードの追加が容易なCassandraがフィットする案件と言える。近年では、IoTの代表格であるM2Mを用いたセンサーをクライアントにもつサーバ側のデータストアの選択肢として候補に挙げられるだろう。</p>
+</div>
+<div class="section" id="id9">
+<span id="id10"></span><h3>地域分散<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Cassandraはデータの地域分散を標準でサポートする。複数のデータセンターに跨がってデータをレプリケートすることを簡単に行える。ユーザの近くでデータを置くことでパフォーマンスの上の利点があるグローバルな環境にデプロイするアプリケーションがフィットする。</p>
+</div>
+</div>
 </div>
 
 
-<script type="text/javascript">
-    var DOCUMENTATION_OPTIONS = {
-        URL_ROOT: '../../',
-        VERSION: '0.1-SNAPSHOTS',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE: true
-    };
-</script>
-<script type="text/javascript" src="../../_static/jquery.js"></script>
-<script type="text/javascript" src="../../_static/underscore.js"></script>
-<script type="text/javascript" src="../../_static/doctools.js"></script>
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install.html" class="btn btn-neutral float-right" title="Cassandraのインストール" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Cassandra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
 
 
-<script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
 
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
 
-<script type="text/javascript">
-    jQuery(function () {
-        SphinxRtdTheme.StickyNav.enable();
-    });
-</script>
+  
 
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>

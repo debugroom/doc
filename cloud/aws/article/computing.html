@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Computing Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Storage Category" href="storage.html" />
+    <link rel="prev" title="Network Category" href="network.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network Category</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Computing Category</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#elastic-compute-cloud-ec2">Elastic Compute Cloud(EC2)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ec2">EC2インスタンスの設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-2-x-ec2-settings-reserved-instance-label">リザーブドインスタンスの購入</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-2-x-ec2-create-instance-label">インスタンスの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ec2ssh">EC2インスタンスへのSSH接続</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-3-x-ec2-autoscaling-label">EC2のオートスケール設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ec2iam">EC2のIAMロールの設定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#elastic-container-service">Elastic Container Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section3-2-1-ecs-overview-label">Overview</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+        
+      <li>Computing Category</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/aws/article/computing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="computing-category">
+<span id="section4-computing-label"></span><h1>Computing Category<a class="headerlink" href="#computing-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="elastic-compute-cloud-ec2">
+<span id="section3-1-ec2-label"></span><h2>Elastic Compute Cloud(EC2)<a class="headerlink" href="#elastic-compute-cloud-ec2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="section3-1-1-ec2-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>Elastic Compute Cloud(EC2)は仮想サーバサービスである。それぞれの仮想サーバを「インスタンス」と呼び、OS、CPUやメモリーといった性能、ストレージ、購入オプションを選択して、サービスを利用する。選択可能な可能なOSはAWSの <a class="reference external" href="https://aws.amazon.com/marketplace/b/2649367011">マーケットプレイス</a> から確認できる。</p>
+<p>CPUやメモリ、ストレージといったリソースキャパシティを定義したものをインスタンスタイプと呼ぶ。インスタンスタイプはAmazonのインスタンス選択の <a class="reference external" href="https://aws.amazon.com/jp/ec2/instance-types/">ガイドライン</a> に沿って、選択するとよい。インスタンスタイプにはカテゴリがあり、それぞれ以下のようなアプリケーション特性に従い、インスタンスタイプを選択する。</p>
+<table border="1" class="colwidths-given docutils" id="id7">
+<caption><span class="caption-text">インスタンスタイプ</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>タイプ</td>
+<td>種別</td>
+<td>用途</td>
+</tr>
+<tr class="row-even"><td>T2</td>
+<td>汎用</td>
+<td>最も低コスト。開発環境や小規模なデータベース</td>
+</tr>
+<tr class="row-odd"><td>M3</td>
+<td>汎用</td>
+<td>バランス型。小規模及び中規模データベース、 <br /> キャッシュ、SAP、MicrosoftSharePoint、 <br /> その他企業アプリケーション</td>
+</tr>
+<tr class="row-even"><td>M4</td>
+<td>汎用</td>
+<td>M3と同様のバランス型だが、最新世代の <br /> 汎用インスタンスを利用</td>
+</tr>
+<tr class="row-odd"><td>C3</td>
+<td>コンピューティング <br /> 最適化</td>
+<td>高速なプロセッサを使用。高パフォーマンスの <br /> フロントエンド群、バッチ処理、分散分析、 <br /> 高パフォーマンスな科学・工学への応用 <br /> 濃くサービス、MMOゲーム、ビデオエンコーディング</td>
+</tr>
+<tr class="row-even"><td>C4</td>
+<td>コンピューティング <br /> 最適化</td>
+<td>C3と同様のハイパフォーマンス型だが、 <br /> 最新世代インスタンスを利用。</td>
+</tr>
+<tr class="row-odd"><td>F1</td>
+<td>コンピューティング <br /> 最適化</td>
+<td>FPGA(フィールドプログラマブルゲートアレイ)を <br /> 搭載したインスタンス。</td>
+</tr>
+<tr class="row-even"><td>X1</td>
+<td>メモリ最適化</td>
+<td>RAM1GiBの料金が最も低コスト。インメモリ <br /> データベース、ビッグデータ処理エンジン、 <br /> ハイパフォーマンスコンピューティング(HPC)</td>
+</tr>
+<tr class="row-odd"><td>R3</td>
+<td>メモリ最適化</td>
+<td>RAM1GiBの料金が安価。ハイパフォーマンス <br /> データベース。分散型メモリキャッシュ、 <br /> インメモリ分析、その他エンタープライズ <br /> アプリケーション</td>
+</tr>
+<tr class="row-even"><td>R4</td>
+<td>メモリ最適化</td>
+<td>R3と同様、大量のメモリを使用するアプリケーション向け <br /> 最新世代インスタンス。</td>
+</tr>
+<tr class="row-odd"><td>G2</td>
+<td>GPU最適化</td>
+<td>グラフィック向け。3Dアプリケーション <br /> ストリーミング、 機械学習、<br /> 動画エンコーディング</td>
+</tr>
+<tr class="row-even"><td>I2</td>
+<td>ストレージ最適化</td>
+<td>高速ランダムIOパフォーマンス最適化。 <br /> NoSQLデータベース、トランザクションデータベース <br /> データウェアハウス、Hadoop <br /> クラスターファイルシステム</td>
+</tr>
+<tr class="row-odd"><td>I3</td>
+<td>ストレージ最適化</td>
+<td>I2と同様のストレージアクセス最適化 <br /> 最新世代インスタンス。</td>
+</tr>
+<tr class="row-even"><td>D2</td>
+<td>ストレージ最適化</td>
+<td>最も低コストでディスクを提供。超並列処理 <br /> (MPP)、データウェアハウス、 <br /> MapReduceとHadoop分散処理、 <br /> 分散ファイルシステム</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インスタンスタイプの数字は世代を表す。世代ごとにCPUなどのハードが異なり、数字が高いほど最新である。価格は必ずしも世代が新しいからといって高くはないので、検討のうえ世代を選択すること。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EC2のインスタンスタイプを変更すると、ハイパーバイザを実行している物理ホストを変更することになり、EC2の停止が必要になる。</p>
+</div>
+<p>ストレージはEC2にアタッチされるElastic Block Store(EBS)というブロックレベルのストレージボリュームで、以下の通り4種類を選択できる。</p>
+<table border="1" class="colwidths-given docutils" id="id8">
+<caption><span class="caption-text">EBSの種類</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="14%" />
+<col width="14%" />
+<col width="21%" />
+<col width="29%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>種類</td>
+<td>最大サイズ</td>
+<td>費用</td>
+<td>IOPS・ <br /> スループット</td>
+<td>推奨用途</td>
+</tr>
+<tr class="row-even"><td>マグネティック <br /> ボリューム</td>
+<td>16TiB</td>
+<td>安い</td>
+<td>ー</td>
+<td>アクセス頻度が低いシステム <br /> 下位互換のためで基本使用しない</td>
+</tr>
+<tr class="row-odd"><td>汎用SSD</td>
+<td>16TiB</td>
+<td>普通</td>
+<td>10000,  <br /> 160MiB/s</td>
+<td>汎用インスタンス用ボリューム</td>
+</tr>
+<tr class="row-even"><td>プロビジョンド <br /> IOPSボリューム</td>
+<td>16TiB</td>
+<td>高</td>
+<td>20000,  <br /> 320MiB/s</td>
+<td>ランダムなデータのアクセス頻度が高い <br /> システム。RDB等。</td>
+</tr>
+<tr class="row-odd"><td>スループット <br /> 最適化HDD</td>
+<td>16TiB</td>
+<td>安い</td>
+<td>500,  <br /> 500MiB/s</td>
+<td>連続した大量データのシステム</td>
+</tr>
+<tr class="row-even"><td>コールドHDD</td>
+<td>16TiB</td>
+<td>安い</td>
+<td>250,  <br /> 250MiB/s</td>
+<td>アクセス頻度の低い大量データのシステム</td>
+</tr>
+</tbody>
+</table>
+<p>購入オプションは、</p>
+<ul class="simple">
+<li>オンデマンドインスタンス</li>
+<li>リザーブドインスタンス</li>
+<li>スポットインスタンス</li>
+</ul>
+<p>の3種類を選択できる。オンデマンドインスタンスは時間単位の固定単価で料金が計算され、使った時間分だけ料金が発生する。
+AWS管理コンソールからEC2インスタンスを起動した場合は、オンデマンドインスタンスになる。
+リザーブドインスタンスは予約期間1年か3年かの長期オプションを選択できる代わりに、最大75%のディスカウントが得られる。
+スポットインスタンスは入札の様な仕組みで提供されるインスタンスで、時間単位の料金が発生するという点においては、
+オンデマンドインスタンスと同じだが、固定単価でなく、利用者が最大時間料金を入札形式で指定し、最大額で落札できた場合利用可能である。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">その他、ハードウェア占有インスタンス(ランダムにホストを占有し、インスタンスに課金され、他のユーザの使用がないタイプ)や物理ホスト自体を提供するDedicated Host(ホスト利用料金となり、インスタンス自体には課金されない)というインスタンスオプションがある。</p>
+</div>
+</div>
+<div class="section" id="ec2">
+<span id="section3-1-2-ec2-settings-label"></span><h3>EC2インスタンスの設定<a class="headerlink" href="#ec2" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="section3-1-2-x-ec2-settings-reserved-instance-label">
+<span id="id3"></span><h3>リザーブドインスタンスの購入<a class="headerlink" href="#section3-1-2-x-ec2-settings-reserved-instance-label" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">リザーブドインスタンスの購入は「指定した条件のインスタンスを無料で利用できる権利を買う」イメージである。実際のインスタンスの起動はオンデマンドインスタンスと同様の操作で行い、リザーブドインスタンスを購入していれば料金がかからないといった形になる。</p>
+</div>
+<p>■東京リージョンにて、リザーブドインスタンスを購入する。Mangement ConsoleからEC2を選択し、グローバルメニュー”リザーブドインスタンス”を選択すると、リザーブドインスタンス購入ボタンが表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-buy-reserved-instance-1.png"><img alt="../../../_images/management-console-ec2-buy-reserved-instance-1.png" src="../../../_images/management-console-ec2-buy-reserved-instance-1.png" style="width: 849.0px; height: 828.0px;" /></a>
+</div>
+<p>■リザーブドインスタンスの以下の通り、購入オプションを選択し、検索ボタンを押下する。</p>
+<ul class="simple">
+<li>プラットフォーム：Linux/UNIX</li>
+<li>テナンシー：デフォルト</li>
+<li>提供クラス：すべて</li>
+<li>インスタンスタイプ：m3.medium</li>
+<li>期間：1ヶ月 - 12ヶ月</li>
+<li>お支払い方法：全前払い</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-buy-reserved-instance-2.png"><img alt="../../../_images/management-console-ec2-buy-reserved-instance-2.png" src="../../../_images/management-console-ec2-buy-reserved-instance-2.png" style="width: 842.0px; height: 636.0px;" /></a>
+</div>
+<p>■購入数量を記入し、”カートに入れる”ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-buy-reserved-instance-3.png"><img alt="../../../_images/management-console-ec2-buy-reserved-instance-3.png" src="../../../_images/management-console-ec2-buy-reserved-instance-3.png" style="width: 840.0px; height: 569.0px;" /></a>
+</div>
+<p>■ショッピングカートで購入するを押下すると、購入したインスタンスのステータスが一覧化して表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-buy-reserved-instance-4.png"><img alt="../../../_images/management-console-ec2-buy-reserved-instance-4.png" src="../../../_images/management-console-ec2-buy-reserved-instance-4.png" style="width: 1170.0px; height: 930.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">アベイラビリティゾーンを指定してリザーブドインスタンスを購入すると、リソース予約となり、随時インスタンスの起動が可能である。リソース予約がないとインスタンスが枯渇している場合立ち上げできない場合がある。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">事前に定められた時間帯に限定するスケジュールリザーブドインスタンスもあり、通常5-10%程度安価に購入できる。</p>
+</div>
+</div>
+<div class="section" id="section3-1-2-x-ec2-create-instance-label">
+<span id="id4"></span><h3>インスタンスの作成<a class="headerlink" href="#section3-1-2-x-ec2-create-instance-label" title="Permalink to this headline">¶</a></h3>
+<p>■東京リージョンに、インスタンスを作成する。Management ConsoleからEC2を選択し、グローバルメニュー”インスタンス”を選択すると、”インスタンスの作成”ボタンが表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-1.png"><img alt="../../../_images/management-console-ec2-create-instance-1.png" src="../../../_images/management-console-ec2-create-instance-1.png" style="width: 1060.0px; height: 830.0px;" /></a>
+</div>
+<p>■マシンイメージを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-2.png"><img alt="../../../_images/management-console-ec2-create-instance-2.png" src="../../../_images/management-console-ec2-create-instance-2.png" style="width: 1047.0px; height: 926.0px;" /></a>
+</div>
+<p>■インスタンスタイプを選択する。リザーブドインスタンスで購入しているのであれば、無料枠のインスタンスタイプが表示される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-3.png"><img alt="../../../_images/management-console-ec2-create-instance-3.png" src="../../../_images/management-console-ec2-create-instance-3.png" style="width: 1060.0px; height: 957.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EC2のストレージは、物理ホストに接続されている高性能なインスタンスストレージと、ネットワークに接続されているEBSベースのストレージがある。インスタンスストレージでは無料で利用できるが、シャットダウンするとEBSではないインスタンスストレージのデータは失われる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インスタンスのAMIはインスタンスストレージにOSを格納しているものと、EBSストレージにOSを格納しているタイプ(EBS-basedと呼ぶ)がある。インスタンスストレージは高速になるが、EBSでないものはバックアップ(スナップショット)の作成が難しいので注意。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EBS最適化はネットワークに接続されたEBSストレージがI/Oする際に、専用のチャネルでデータ入出力しているものである。</p>
+</div>
+<p>■インスタンスの起動オプションを設定する。ここではデフォルトで設定。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-4.png"><img alt="../../../_images/management-console-ec2-create-instance-4.png" src="../../../_images/management-console-ec2-create-instance-4.png" style="width: 1051.0px; height: 954.0px;" /></a>
+</div>
+<p>■インスタンスにアタッチするストレージのオプションを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-5.png"><img alt="../../../_images/management-console-ec2-create-instance-5.png" src="../../../_images/management-console-ec2-create-instance-5.png" style="width: 1057.0px; height: 957.0px;" /></a>
+</div>
+<p>■インスタンスのタグを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-6.png"><img alt="../../../_images/management-console-ec2-create-instance-6.png" src="../../../_images/management-console-ec2-create-instance-6.png" style="width: 1052.0px; height: 955.0px;" /></a>
+</div>
+<p>■セキュリティグループの設定を行う。ここでは新規にセキュリティグループを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-7.png"><img alt="../../../_images/management-console-ec2-create-instance-7.png" src="../../../_images/management-console-ec2-create-instance-7.png" style="width: 1054.0px; height: 958.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">後述するSSH接続のために、セキュリティグループのインバウンドルールにSSH（送信元：0.0.0.0/0）が設定しておくこと。</p>
+</div>
+<p>■設定したインスタンスオプションの内容を確認し、”作成”ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-8.png"><img alt="../../../_images/management-console-ec2-create-instance-8.png" src="../../../_images/management-console-ec2-create-instance-8.png" style="width: 1052.0px; height: 956.0px;" /></a>
+</div>
+<p>■新規でキーペアを作成する場合、サーバへ接続するためのキーペアとなるpemファイルをダウンロードしておく。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-9.png"><img alt="../../../_images/management-console-ec2-create-instance-9.png" src="../../../_images/management-console-ec2-create-instance-9.png" style="width: 579.0px; height: 444.0px;" /></a>
+</div>
+<p>■作成ボタンを押下すると、インスタンスが作成される。実行中のステータスになるまで少々待つ。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-10.png"><img alt="../../../_images/management-console-ec2-create-instance-10.png" src="../../../_images/management-console-ec2-create-instance-10.png" style="width: 1054.0px; height: 722.0px;" /></a>
+</div>
+<p>◇インスタンスが実行中になると、以下の通り、起動中のインスタンスの情報が一覧化できる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-instance-11.png"><img alt="../../../_images/management-console-ec2-create-instance-11.png" src="../../../_images/management-console-ec2-create-instance-11.png" style="width: 1398.0px; height: 943.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インスタンスを指定する際にマルチアベイラブルゾーン構成にしたい場合は、異なるアベライブルゾーンで作成したサブネットを指定してインスタンス起動すること。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EC2インスタンス起動時には1つのNIC(ネットワークインターフェース)が割り当てられる。対応するMACアドレスはEC2インスタンスを起動するたび動的に変わっていくため、MACアドレスを指定したい場合は、EC2メニューからネットワークインターフェースを選んで作成し、ElasticIP(固定IP)を紐付けて、インスタンス起動時にアタッチするとよい。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>EC2インスタンス起動した場合のステータスチェックでは、以下２種類行われる。</p>
+<ul class="simple">
+<li>システムステータスチェック：ハイパーバイザからのVMのチェック</li>
+<li>インスタンスステータスチェック：OSのチェック</li>
+</ul>
+<p class="last">EC2コンソールのダッシュボード&gt;ステータスチェックタブにより、チェック状況に応じてインスタンスの再起動(AutoRecoverry)を行うか設定が可能である。</p>
+</div>
+</div>
+<div class="section" id="ec2ssh">
+<span id="section3-1-2-x-ec2-ssh-connect-instance-label"></span><h3>EC2インスタンスへのSSH接続<a class="headerlink" href="#ec2ssh" title="Permalink to this headline">¶</a></h3>
+<p>■ターミナルを開き、キーペアとなるpemファイルを~/.ssh以下に配置し、アクセス権限をUserReadOnlyに変更する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod <span class="m">400</span> ~/.ssh/*
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">秘密鍵ファイルに744など不必要に権限を与えるとエラーとなるため注意。</p>
+</div>
+<p>■SSH接続を行う。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh -i /Users/username/.ssh/キー名.pem ec2-user@ec2-XX-XXX-XXX-XX.compute-1.amazonaws.com
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>DNSはインスタンス情報の「パブリックDNS」を参照</li>
+<li>Amazon Linuxインスタンスにおけるユーザ名はデフォルトでec2-user</li>
+<li>鍵の指定を絶対パスですること。相対パスや「~/.ssh/」などで指定するとErrorになる</li>
+</ul>
+</div>
+</div>
+<div class="section" id="section3-1-3-x-ec2-autoscaling-label">
+<span id="id5"></span><h3>EC2のオートスケール設定<a class="headerlink" href="#section3-1-3-x-ec2-autoscaling-label" title="Permalink to this headline">¶</a></h3>
+<p>AutoScaleでは、指定された条件(スケーリングポリシー)に基づき、インスタンスを起動または終了する。ロードバランサーを使用している場合は、
+追加したインスタンスを自動的にターゲットグループへ登録する。複数のアベイラビリティゾーンで起動可能である。</p>
+<p>■起動設定(立ち上げるEC2インスタンスの設定)</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">オートスケール設定の画像イメージを添付。</p>
+</div>
+<p>起動設定では、以下を定義する。</p>
+<ul class="simple">
+<li>名前</li>
+<li>起動するAMI(Amazon Machine Image：OS)とインスタンスタイプ</li>
+<li>ユーザデータ(起動カスタムスクリプト)</li>
+<li>セキュリティグループ、IAMロール</li>
+</ul>
+<p>■AutoScalingグループの設定(スケール・縮退する条件)</p>
+<ul class="simple">
+<li>名前</li>
+<li>適用する起動設定</li>
+<li>最大・最小値</li>
+<li>実行する環境のサブネット・対象</li>
+<li>スケーリングポリシー<ul>
+<li>アラーム設定</li>
+<li>メトリクス閾値</li>
+<li>台数</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インスタンス起動時にAP設定などでIPなどの情報を取得したい場合は、「起動設定」の3.詳細設定&gt;「高度な詳細」にて、ユーザデータでスクリプトを設定する。また、<a class="reference external" href="http://169.254.169.254/latest/meta-data">http://169.254.169.254/latest/meta-data</a>/でインスタンスのメタデータを取得できる。</p>
+</div>
+</div>
+<div class="section" id="ec2iam">
+<span id="section3-1-3-x-ec2-iam-role-setting-label"></span><h3>EC2のIAMロールの設定<a class="headerlink" href="#ec2iam" title="Permalink to this headline">¶</a></h3>
+<p>EC2には起動時にそのインスタンスが実行するIAM Roleを設定できる。重要なポイントはEC2上で実行しているアプリケーションが
+AmazonSDKを通して、S3などのAWSリソースへアクセスするのに必要な認証情報(AccessKeyやSecretKey)を
+インスタンスに設定したIAMロールから取得できることである。詳細は <a class="reference external" href="https://docs.aws.amazon.com/ja_jp/sdk-for-java/v1/developer-guide/java-dg-roles.html">Amazon EC2 での IAM ロールを使用した AWS リソースへのアクセス権限の付与</a> を参照のこと。
+ここでは、EC2インスタンス上で実行するアプリケーションに必要なロールとそれにアタッチするポリシーを以下の通り作成する。</p>
+<p>■S3へアクセス可能なポリシーの作成</p>
+<p>IAMサービスを選択し、ポリシーメニューから「ポリシーの作成」ボタンを押下する。
+サービスはS3、実行するアクション、アクセス対象のバケットなどを指定し、ポリシー名を設定して作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-4.png"><img alt="../../../_images/management-console-iam-create-policy-4.png" src="../../../_images/management-console-iam-create-policy-4.png" style="width: 1079.0px; height: 747.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-5.png"><img alt="../../../_images/management-console-iam-create-policy-5.png" src="../../../_images/management-console-iam-create-policy-5.png" style="width: 1218.0px; height: 829.0px;" /></a>
+</div>
+<p>■S3へアクセスするIAMロールの作成</p>
+<p>後述するAssumeRoleで権限委譲するために、S3へアクセスするポリシーをアタッチしたIAMロールを作成しておく。</p>
+<p>IAMサービスを選択し、ロールメニューから「ロールの作成」ボタンを押下する。
+ここでは、AssumeRole(権限を引き受ける = その権限与える許可をだす)の設定であるため、信頼されたエンティティとして、自身のアカウントを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-6.png"><img alt="../../../_images/management-console-iam-create-role-6.png" src="../../../_images/management-console-iam-create-role-6.png" style="width: 989.0px; height: 822.0px;" /></a>
+</div>
+<p>上記で作成したS3へのアクセスポリシーをアタッチし、ロール名を設定して、ロールを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-7.png"><img alt="../../../_images/management-console-iam-create-role-7.png" src="../../../_images/management-console-iam-create-role-7.png" style="width: 1016.0px; height: 852.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-8.png"><img alt="../../../_images/management-console-iam-create-role-8.png" src="../../../_images/management-console-iam-create-role-8.png" style="width: 1021.0px; height: 846.0px;" /></a>
+</div>
+<p>■S3へアクセス可能な権限を引き受けるAssumeRoleポリシーの作成</p>
+<p>IAMサービスを選択し、ポリシーメニューから「ポリシーの作成」ボタンを押下し、
+同様にAssumeRoleポリシーを作成する。権限委譲するIAMロールとして、上記で作成したS3へアクセスするIAMロールを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-6.png"><img alt="../../../_images/management-console-iam-create-policy-6.png" src="../../../_images/management-console-iam-create-policy-6.png" style="width: 1151.0px; height: 781.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-7.png"><img alt="../../../_images/management-console-iam-create-policy-7.png" src="../../../_images/management-console-iam-create-policy-7.png" style="width: 1220.0px; height: 824.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AssumeRoleポリシーは、Amazon STSを使用して、AWSリソースに限定的にアクセス許可を与える署名付URLを発行するための権限である。
+ここでは、S3へのアクセス権限に関するAssumeRoleを作成するための権限を設定している。</p>
+</div>
+<p>■EC2インスタンスへ付与するIAMロールを作成</p>
+<p>上記で作成した2つのポリシー(S3へアクセスするポリシーと、S3へアクセスするロールをAssumeRoleするポリシー)をアタッチする。</p>
+<p>IAMサービスを選択し、ロールメニューから「ロールの作成」ボタンを押下する。信頼されたエンティティはEC2を選択する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EC2へIAM Roleを設定する場合は、信頼されたエンティティをEC2に設定しておく必要がある。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-for-ec2-1.png"><img alt="../../../_images/management-console-iam-create-role-for-ec2-1.png" src="../../../_images/management-console-iam-create-role-for-ec2-1.png" style="width: 993.0px; height: 550.0px;" /></a>
+</div>
+<p>ポリシーをアタッチして、ロール名を設定し、ロールを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-for-ec2-2.png"><img alt="../../../_images/management-console-iam-create-role-for-ec2-2.png" src="../../../_images/management-console-iam-create-role-for-ec2-2.png" style="width: 986.0px; height: 553.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-for-ec2-3.png"><img alt="../../../_images/management-console-iam-create-role-for-ec2-3.png" src="../../../_images/management-console-iam-create-role-for-ec2-3.png" style="width: 978.0px; height: 548.0px;" /></a>
+</div>
+<p>■EC2インスタンスへIAMロールをアタッチする。</p>
+<p>EC2サービスを選択し、インスタンスメニューからアタッチ対象のインスタンスを選択し、「アクション」ボタンを押下し、
+「インスタンスの設定」&gt;「IAM ロールの割り当て/置換」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-iam-role-1.png"><img alt="../../../_images/management-console-ec2-setting-iam-role-1.png" src="../../../_images/management-console-ec2-setting-iam-role-1.png" style="width: 786.0px; height: 492.0px;" /></a>
+</div>
+<p>上記で作成したIAMロールを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-iam-role-2.png"><img alt="../../../_images/management-console-ec2-setting-iam-role-2.png" src="../../../_images/management-console-ec2-setting-iam-role-2.png" style="width: 1011.0px; height: 409.0px;" /></a>
+</div>
+<p>なお、アプリケーションの作成及びAWSリソースのアクセス方法はXXXを参照のこと。</p>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Spring Clous AWSにおけるアプリケーション作成のリンクを設定。</p>
+</div>
+</div>
+</div>
+<div class="section" id="elastic-container-service">
+<span id="section3-2-ecs-label"></span><h2>Elastic Container Service<a class="headerlink" href="#elastic-container-service" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-2-1-ecs-overview-label">
+<span id="id6"></span><h3>Overview<a class="headerlink" href="#section3-2-1-ecs-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>Amazon Elastic Container Service (Amazon ECS) は、クラスターで Docker コンテナを
+簡単に実行、停止、管理できる非常にスケーラブルで高速なコンテナ管理サービスである。
+Dockerの詳細については、<a class="reference internal" href="../../docker/article/overview.html#section1-docker-overview-label"><span class="std std-ref">Docker Overview</span></a> を参照のこと。</p>
+<p>ECSではリージョン内の複数のアベイラビリティーゾーンを跨いでアプリケーションコンテナを実行できる。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="storage.html" class="btn btn-neutral float-right" title="Storage Category" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="network.html" class="btn btn-neutral" title="Network Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

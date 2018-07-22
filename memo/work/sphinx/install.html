@@ -1,276 +1,230 @@
+
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sphinxの導入とGitHubページの作成 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  
 
-    <title>Sphinxの導入とGitHubページの作成 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
 
+  
+  
+    
 
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css"/>
+  
 
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="work guideline" href="../index.html" /> 
 
-    <link rel="top" title="document 0.1-SNAPSHOTS documentation" href="../../../index.html"/>
-    <link rel="up" title="work guideline" href="../index.html"/>
-    <link rel="prev" title="Cassandraのインストール" href="../cassandra/install.html"/>
-
-
-    <script src="../../../_static/js/modernizr.min.js"></script>
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
-<div class="wy-grid-for-nav">
+   
+  <div class="wy-grid-for-nav">
 
-
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-        <div class="wy-side-scroll">
-            <div class="wy-side-nav-search">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
 
-                <a href="../../../index.html" class="icon icon-home"> document
+          
+          </a>
 
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
 
-                </a>
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
 
-
-                <div class="version">
-                    0.1-SNAPSHOTS
-                </div>
-
-
-                <div role="search">
-                    <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-                        <input type="text" name="q" placeholder="Search docs"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-
-
-            </div>
-
-            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-
-
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal"
-                                              href="../../../java/jBatch/index.html">jBatch</a></li>
-                    <li class="toctree-l1"><a class="reference internal"
-                                              href="../../../java/spring/springboot/index.html">Spring Boot</a></li>
-                    <li class="toctree-l1"><a class="reference internal"
-                                              href="../../../java/spring/springdatajpa/index.html">Spring Data JPA</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a>
-                    </li>
-                    <li class="toctree-l1 current"><a class="reference internal" href="../index.html">work guideline</a>
-                        <ul class="current">
-                            <li class="toctree-l2"><a class="reference internal" href="../aws/index.html">Amazon web
-                                service</a></li>
-                            <li class="toctree-l2"><a class="reference internal" href="../docker/index.html">Docker</a>
-                            </li>
-                            <li class="toctree-l2"><a class="reference internal" href="../cassandra/install.html">Cassandraのインストール</a>
-                            </li>
-                            <li class="toctree-l2 current"><a class="current reference internal" href="">Sphinxの導入とGitHubページの作成</a>
-                                <ul>
-                                    <li class="toctree-l3"><a class="reference internal" href="#sphinx-macos-x">Sphinxのインストール(MacOS
-                                        X)</a></li>
-                                    <li class="toctree-l3"><a class="reference internal"
-                                                              href="#sphinx">Sphinxプロジェクトの作成</a></li>
-                                    <li class="toctree-l3"><a class="reference internal" href="#github-page">GitHub
-                                        Pageの作成</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-
-            </div>
+          
         </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">work guideline</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sphinxの導入とGitHubページの作成</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sphinx-macos-x">Sphinxのインストール(MacOS X)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sphinx">Sphinxプロジェクトの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#github-page">GitHub Pageの作成</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-
-        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-            <a href="../../../index.html">document</a>
-        </nav>
-
-
-        <div class="wy-nav-content">
-            <div class="rst-content">
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
 
 
-                <div role="navigation" aria-label="breadcrumbs navigation">
-                    <ul class="wy-breadcrumbs">
-                        <li><a href="../../../index.html">Docs</a> &raquo;</li>
-
-                        <li><a href="../index.html">work guideline</a> &raquo;</li>
-
-                        <li>Sphinxの導入とGitHubページの作成</li>
-                        <li class="wy-breadcrumbs-aside">
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
 
 
-                            <a href="../../../_sources/memo/work/sphinx/install.txt" rel="nofollow"> View page
-                                source</a>
 
 
-                        </li>
-                    </ul>
-                    <hr/>
-                </div>
-                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-                    <div itemprop="articleBody">
 
-                        <div class="section" id="sphinxgithub">
-                            <h1>Sphinxの導入とGitHubページの作成<a class="headerlink" href="#sphinxgithub"
-                                                         title="Permalink to this headline">¶</a></h1>
-                            <div class="section" id="sphinx-macos-x">
-                                <h2>Sphinxのインストール(MacOS X)<a class="headerlink" href="#sphinx-macos-x"
-                                                             title="Permalink to this headline">¶</a></h2>
-                                <p>1.portを使用して、Sphinxのインストールを行う。</p>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sudo port install py27-sphinx
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <ol class="arabic simple" start="2">
-                                    <li>pythonコマンドの切り替え</li>
-                                </ol>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv"><pre>1
-2</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sudo port <span class="k">select</span> --set python python27
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">work guideline</a> &raquo;</li>
+        
+      <li>Sphinxの導入とGitHubページの作成</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/memo/work/sphinx/install.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sphinxgithub">
+<h1>Sphinxの導入とGitHubページの作成<a class="headerlink" href="#sphinxgithub" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sphinx-macos-x">
+<h2>Sphinxのインストール(MacOS X)<a class="headerlink" href="#sphinx-macos-x" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Mac High Sierraでは以下の手順でインストールを実行</p>
+<div class="last highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo easy_install pip
+sudo pip install sphinx --upgrade --ignore-installed six
+sudo pip install sphinx_rtd_theme
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>1.portを使用して、Sphinxのインストールを行う。</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo port install py27-sphinx
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>pythonコマンドの切り替え</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo port <span class="k">select</span> --set python python27
 sudo port <span class="k">select</span> --set sphinx py27-sphinx
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <ol class="arabic simple" start="3">
-                                    <li>pipのインストール</li>
-                                </ol>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py <span
-                                                        class="p">|</span> python
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <p>何故か効かなかったので、easy_installにて再インストール</p>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sudo easy_install pip
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <ol class="arabic simple" start="4">
-                                    <li>Sphinxの拡張テーマ(sphinx_rtd_theme)をインストール</li>
-                                </ol>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sudo pip install sphinx_rtd_theme
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <p>
-                                    上記のコマンドでは、portでインストールしたpython(/opt/local/Library/Frameworks/Python.framework/Versions/Current/bin/pip)ではなく、MacOSデフォルトで用意されているpyhtonの方(/opt/local/bin/pip)へインストールされる模様。portでインストールした方のpythonの方に適用する。</p>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sudo /opt/local/Library/Frameworks/Python.framework/Versions/Current/bin/pip install sphinx_rtd_theme
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="section" id="sphinx">
-                                <h2>Sphinxプロジェクトの作成<a class="headerlink" href="#sphinx"
-                                                      title="Permalink to this headline">¶</a></h2>
-                                <ol class="arabic simple">
-                                    <li>sphinx-quickstartコマンドでプロジェクトを作成する。</li>
-                                </ol>
-                                <div class="highlight-bash">
-                                    <table class="highlighttable">
-                                        <tr>
-                                            <td class="linenos">
-                                                <div class="linenodiv">
-                                                    <pre>1</pre>
-                                                </div>
-                                            </td>
-                                            <td class="code">
-                                                <div class="highlight"><pre>sphinx-quickstart
-</pre>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <p>以下の要領で設定を行う。</p>
-                                <div class="highlight-python">
-                                    <div class="highlight"><pre>Welcome to the Sphinx 1.2.3 quickstart utility.
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li>pipのインストール</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py <span class="p">|</span> python
+</pre></div>
+</td></tr></table></div>
+<p>何故か効かなかったので、easy_installにて再インストール</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo easy_install pip
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="4">
+<li>Sphinxの拡張テーマ(sphinx_rtd_theme)をインストール</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo pip install sphinx_rtd_theme
+</pre></div>
+</td></tr></table></div>
+<p>上記のコマンドでは、portでインストールしたpython(/opt/local/Library/Frameworks/Python.framework/Versions/Current/bin/pip)ではなく、MacOSデフォルトで用意されているpyhtonの方(/opt/local/bin/pip)へインストールされる模様。portでインストールした方のpythonの方に適用する。</p>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo /opt/local/Library/Frameworks/Python.framework/Versions/Current/bin/pip install sphinx_rtd_theme
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="sphinx">
+<h2>Sphinxプロジェクトの作成<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>sphinx-quickstartコマンドでプロジェクトを作成する。</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sphinx-quickstart
+</pre></div>
+</td></tr></table></div>
+<p>以下の要領で設定を行う。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Welcome to the Sphinx 1.2.3 quickstart utility.
 
 Please enter values for the following settings (just press Enter to
 accept a default value, if one is given in brackets).
@@ -341,142 +295,122 @@ You should now populate your master file ./index.rst and create other documentat
 source files. Use the Makefile to build the docs, like so:
    make builder
 where &quot;builder&quot; is one of the supported builders, e.g. html, latex or linkcheck.
-</pre>
-                                    </div>
-                                </div>
-                                <ol class="arabic simple" start="2">
-                                    <li>拡張テーマの適用のため、copy.pyに以下を追記・書き換えする。</li>
-                                </ol>
-                                <div class="highlight-bash">
-                                    <div class="highlight"><pre>import sphinx_rtd_theme
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>拡張テーマの適用のため、copy.pyに以下を追記・書き換えする。</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>import sphinx_rtd_theme
 
 <span class="nv">html_theme</span> <span class="o">=</span> <span class="s1">&#39;sphinx_rtd_theme&#39;</span>
-<span class="nv">html_theme_path</span> <span class="o">=</span> <span class="o">[</span>sphinx_rtd_theme.get_html_theme_path<span
-                                                class="o">()]</span>
-</pre>
-                                    </div>
-                                </div>
-                                <ol class="arabic" start="3">
-                                    <li><p class="first">後述するGithubページへの適用のため、ビルドのディレクトリ構成を変更する。以下の通りMakeFileを変更する。</p>
-                                        <ol class="arabic simple">
-                                            <li>L8行目の_buildをカレントディレクトリに変更。</li>
-                                        </ol>
-                                        <div class="highlight-bash">
-                                            <div class="highlight"><pre><span class="nv">BUILDDIR</span> <span
-                                                    class="o">=</span> .
-</pre>
-                                            </div>
-                                        </div>
-                                        <ol class="arabic simple" start="2">
-                                            <li>L53行目のHTMLをビルドするためのコマンドの出力先の末尾のhtmlを削除し、カレントディレクトリに出力するよう修正</li>
-                                        </ol>
-                                        <div class="highlight-bash">
-                                            <div class="highlight"><pre><span class="k">$(</span>SPHINXBUILD<span
-                                                    class="k">)</span> -b html <span
-                                                    class="k">$(</span>ALLSPHINXOPTS<span class="k">)</span> <span
-                                                    class="k">$(</span>BUILDDIR<span class="k">)</span>/
-</pre>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ol>
-                            </div>
-                            <div class="section" id="github-page">
-                                <h2>GitHub Pageの作成<a class="headerlink" href="#github-page"
-                                                     title="Permalink to this headline">¶</a></h2>
-                                <ol class="arabic">
-                                    <li><p class="first">Github上でレポジトリ(doc)を作成した後、masterと gh-pagesという名前のブランチを作成する。</p>
-                                        <div class="highlight-bash">
-                                            <div class="highlight"><pre>git clone https://github.com/debugroom/doc.git
-<span class="nb">cd </span>doc
+<span class="nv">html_theme_path</span> <span class="o">=</span> <span class="o">[</span>sphinx_rtd_theme.get_html_theme_path<span class="o">()]</span>
+</pre></div>
+</div>
+<ol class="arabic" start="3">
+<li><p class="first">後述するGithubページへの適用のため、ビルドのディレクトリ構成を変更する。以下の通りMakeFileを変更する。</p>
+<ol class="arabic simple">
+<li>L8行目の_buildをカレントディレクトリに変更。</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">BUILDDIR</span> <span class="o">=</span> .
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>L53行目のHTMLをビルドするためのコマンドの出力先の末尾のhtmlを削除し、カレントディレクトリに出力するよう修正</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span>SPHINXBUILD<span class="k">)</span> -b html <span class="k">$(</span>ALLSPHINXOPTS<span class="k">)</span> <span class="k">$(</span>BUILDDIR<span class="k">)</span>/
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="github-page">
+<h2>GitHub Pageの作成<a class="headerlink" href="#github-page" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Github上でレポジトリ(doc)を作成した後、masterと gh-pagesという名前のブランチを作成する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/debugroom/doc.git
+<span class="nb">cd</span> doc
 git branch master
 git branch gh-pages
-</pre>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li><p class="first">
-                                        作成したgh-pagesブランチに切り替え、sphinxsプロジェクトコピーし、htmlでビルドする。(index.htmlがルートに来るようにする。)</p>
-                                        <div class="highlight-bash">
-                                            <div class="highlight"><pre>git checkout gh-pages
+</pre></div>
+</div>
+</li>
+<li><p class="first">作成したgh-pagesブランチに切り替え、sphinxsプロジェクトコピーし、htmlでビルドする。(index.htmlがルートに来るようにする。)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout gh-pages
 cp somepath/test_sphinx .
 make html
-</pre>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li><p class="first">ビルドして出来たHTMLをプッシュし、<a class="reference external"
-                                                                               href="http://xxxxxx.github.io">http://xxxxxx.github.io</a>/projectへアクセスする。
-                                    </p>
-                                        <div class="highlight-bash">
-                                            <div class="highlight"><pre>git push origin gh-pages
-</pre>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <footer>
-
-                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-
-
-                        <a href="../cassandra/install.html" class="btn btn-neutral" title="Cassandraのインストール"
-                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-
-                    </div>
-
-
-                    <hr/>
-
-                    <div role="contentinfo">
-                        <p>
-                            &copy; Copyright 2016, org.debugroom.
-
-                        </p>
-                    </div>
-                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
-                        href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a
-                        href="https://readthedocs.org">Read the Docs</a>.
-
-                </footer>
-
-            </div>
-        </div>
-
-    </section>
-
+</pre></div>
+</div>
+</li>
+<li><p class="first">ビルドして出来たHTMLをプッシュし、<a class="reference external" href="http://xxxxxx.github.io">http://xxxxxx.github.io</a>/projectへアクセスする。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git push origin gh-pages
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
 </div>
 
 
-<script type="text/javascript">
-    var DOCUMENTATION_OPTIONS = {
-        URL_ROOT: '../../../',
-        VERSION: '0.1-SNAPSHOTS',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE: true
-    };
-</script>
-<script type="text/javascript" src="../../../_static/jquery.js"></script>
-<script type="text/javascript" src="../../../_static/underscore.js"></script>
-<script type="text/javascript" src="../../../_static/doctools.js"></script>
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="work guideline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
 
 
-<script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
 
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
 
-<script type="text/javascript">
-    jQuery(function () {
-        SphinxRtdTheme.StickyNav.enable();
-    });
-</script>
+  
 
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>
