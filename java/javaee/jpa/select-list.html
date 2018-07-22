@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="単テーブルにおけるデータ追加" href="insert.html" />
@@ -87,7 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">Introdcution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simple-select.html">単テーブルにおける検索</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">複数件データを取得するSELECT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jpqlcriteriabuilder">JPQL・CriteriaBuilderを利用したデータ検索</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="insert.html">単テーブルにおけるデータ追加</a></li>
@@ -104,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
 
@@ -172,9 +174,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="select">
-<span id="section-jpa-usage-simple-select-list-label"></span><h1>複数件データを取得するSELECT<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>実装方針<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span id="section-jpa-usage-select-list-label"></span><h1>複数件データを取得するSELECT<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="jpqlcriteriabuilder">
+<h2>JPQL・CriteriaBuilderを利用したデータ検索<a class="headerlink" href="#jpqlcriteriabuilder" title="Permalink to this headline">¶</a></h2>
 <p>結果が複数件のデータとなるSELECTを実施する場合は、JPQLを使用して実装する。実行結果のソートや条件指定がある場合は、適宜CriteriaBuilderで組み立ててもよい。</p>
 <p>例)ユーザの全件検索、条件指定検索、CriteriaBuilderを使用した検索</p>
 <p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepository</p>
@@ -294,7 +296,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, org.debugroom.
+        &copy; Copyright 2018, org.debugroom.
 
     </p>
   </div>

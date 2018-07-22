@@ -1,3 +1,6 @@
+
+.. _section-spring-data-jpa-label:
+
 Spring Data JPA
 ====================================
 
@@ -8,4 +11,3 @@ Contents:
 
    introduction.rst
    usage.rst
-

@@ -1,19 +1,19 @@
 .. include:: ../../../module.txt
 
-.. _section-jpa-usage-simple-select-list-label:
+.. _section-jpa-usage-select-list-label:
 
 複数件データを取得するSELECT
-============================================
+====================================================
 
-実装方針
---------------------------------------------
+JPQL・CriteriaBuilderを利用したデータ検索
+-----------------------------------------------------
 
 結果が複数件のデータとなるSELECTを実施する場合は、JPQLを使用して実装する。実行結果のソートや条件指定がある場合は、適宜CriteriaBuilderで組み立ててもよい。
 
 例)ユーザの全件検索、条件指定検索、CriteriaBuilderを使用した検索
 
 test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepository
- 
+
 .. sourcecode:: java
    :linenos:
 

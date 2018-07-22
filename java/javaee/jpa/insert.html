@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="単テーブルにおけるデータ更新" href="update.html" />
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="simple-select.html">単テーブルにおける検索</a></li>
 <li class="toctree-l2"><a class="reference internal" href="select-list.html">複数件データを取得するSELECT</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">単テーブルにおけるデータ追加</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#criteriaapi">CriteriaAPIを使用したデータ追加</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="update.html">単テーブルにおけるデータ更新</a></li>
@@ -104,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
 
@@ -173,8 +175,8 @@
             
   <div class="section" id="section-jpa-usage-insert-label">
 <span id="id1"></span><h1>単テーブルにおけるデータ追加<a class="headerlink" href="#section-jpa-usage-insert-label" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>実装方針<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="criteriaapi">
+<h2>CriteriaAPIを使用したデータ追加<a class="headerlink" href="#criteriaapi" title="Permalink to this headline">¶</a></h2>
 <p>単テーブルにおいてINSERTを実施する場合は、JPAのCriteria APIを使用して実装する。
 GenericDaoの様に共通化したメソッドを経由して実行するとよい。</p>
 <p>例) ユーザデータのみを追加する場合</p>
@@ -229,7 +231,7 @@ GenericDaoの様に共通化したメソッドを経由して実行するとよ�
 <span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
 
-<span class="kn">import</span> <span class="nn">org.debugroom.test.common.exception.BusinessException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.framework.common.exception.BusinessException</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.debugroom.test.domain.service.dbaccess.SimpleInsertService</span><span class="o">;</span>
@@ -429,7 +431,7 @@ GenericDaoの様に共通化したメソッドを経由して実行するとよ�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, org.debugroom.
+        &copy; Copyright 2018, org.debugroom.
 
     </p>
   </div>

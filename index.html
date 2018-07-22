@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Java 開発メモ &mdash; document 0.1-SNAPSHOTS documentation</title>
+  <title>設計・実装メモ &mdash; document 0.1-SNAPSHOTS documentation</title>
   
 
   
@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="JavaEE JPA" href="java/javaee/jpa/index.html" /> 
@@ -92,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cloud/aws/index.html">Amazon web service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud/docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memo/work/index.html">work guideline</a></li>
 </ul>
 
@@ -138,7 +140,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Java 開発メモ</li>
+      <li>設計・実装メモ</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,8 +159,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="java">
-<h1>Java 開発メモ<a class="headerlink" href="#java" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="id1">
+<h1>設計・実装メモ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -170,23 +172,23 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="java/javaee/jpa/simple-select.html">単テーブルにおける検索</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/simple-select.html#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/simple-select.html#criteriaapi">CriteriaAPIを使ったデータ検索</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="java/javaee/jpa/select-list.html">複数件データを取得するSELECT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/select-list.html#id1">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/select-list.html#jpqlcriteriabuilder">JPQL・CriteriaBuilderを利用したデータ検索</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="java/javaee/jpa/insert.html">単テーブルにおけるデータ追加</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/insert.html#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/insert.html#criteriaapi">CriteriaAPIを使用したデータ追加</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="java/javaee/jpa/update.html">単テーブルにおけるデータ更新</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/update.html#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/update.html#criteriaapi">CriteriaAPIを使用したデータ更新</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="java/javaee/jpa/delete.html">単テーブルに対するデータ削除</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/delete.html#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java/javaee/jpa/delete.html#criteriaapi">CriteriaAPIを使用したデータ削除</a></li>
 </ul>
 </li>
 </ul>
@@ -404,6 +406,24 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="convention/app-infra/index.html">AP基盤処理方式・実装規約</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="convention/app-infra/overview.html">AP処理方式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/overview.html#section-app-infra-function-list-label">AP基盤機能一覧</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/overview.html#section-cloud-native-app-function-label">クラウドネイティブアプリケーションの処理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="convention/app-infra/session-management.html">セッション管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/session-management.html#section-app-infra-session-management-pre-condition-label">セッション管理の前提知識</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/session-management.html#section-app-infra-session-management-app-processing-label">セッション管理方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/session-management.html#ap">AP層の脆弱性対策</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="convention/app-infra/logging.html">ログ処理方式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="convention/app-infra/logging.html#section-app-infra-logging-format-label">出力ログの種類とフォーマット</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="memo/work/index.html">work guideline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="memo/work/sphinx/install.html">Sphinxの導入とGitHubページの作成</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="memo/work/sphinx/install.html#sphinx-macos-x">Sphinxのインストール(MacOS X)</a></li>
@@ -443,7 +463,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, org.debugroom.
+        &copy; Copyright 2018, org.debugroom.
 
     </p>
   </div>

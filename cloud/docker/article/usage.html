@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Kubernetes" href="../../kubernetes/index.html" />
@@ -138,6 +139,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
 
@@ -275,7 +277,7 @@ Digest: sha256:bba1de7c9d900a898e3cadbae040dfe8a633c06bc104a0df76ae24483e03c077
 <span id="section3-1-3-docker-run-label"></span><h3>Docker run<a class="headerlink" href="#docker-run" title="Permalink to this headline">¶</a></h3>
 <p>Docker runはコンテナを起動するコマンドである。</p>
 <p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Options:
            --add-host value              Add a custom host-to-IP mapping (host:ip) (default [])
        -a, --attach value                Attach to STDIN, STDOUT or STDERR (default [])
            --blkio-weight value          Block IO (relative weight), between 10 and 1000
@@ -506,7 +508,7 @@ Filesystem                                                                      
 <span id="section3-1-4-docker-ps-label"></span><h3>Docker ps<a class="headerlink" href="#docker-ps" title="Permalink to this headline">¶</a></h3>
 <p>Docker psは実行中のコンテナを表示するコマンドである。</p>
 <p>docker ps [OPTIONS]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> Options:
   -a, --all             Show all containers (default shows just running)
   -f, --filter value    Filter output based on conditions provided (default [])
       --format string   Pretty-print containers using a Go template
@@ -560,7 +562,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <span id="section3-1-7-docker-start-label"></span><h3>Docker start<a class="headerlink" href="#docker-start" title="Permalink to this headline">¶</a></h3>
 <p>Docker stopは停止している1つ、もしくはそれ以上のコンテナに起動するコマンドである。</p>
 <p>docker start [OPTIONS] CONTAINER [CONTAINER…]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
       -a, --attach               Attach STDOUT/STDERR and forward signals
           --detach-keys string   Override the key sequence for detaching a container
           --help                 Print usage
@@ -581,7 +583,7 @@ be8d9c7eff66        centos:latest       &quot;/bin/bash&quot;         3 days ago
 <span id="section3-1-8-docker-commit-label"></span><h3>Docker commit<a class="headerlink" href="#docker-commit" title="Permalink to this headline">¶</a></h3>
 <p>Docker commitは既存のコンテナイメージから新たなイメージを作成するコマンドである。</p>
 <p>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Options:
        -a, --author string    Author <span class="o">(</span>e.g., <span class="s2">&quot;John Hannibal Smith &lt;hannibal@a-team.com&gt;&quot;</span><span class="o">)</span>
        -c, --change value     Apply Dockerfile instruction to the created image <span class="o">(</span>default <span class="o">[])</span>
            --help             Print usage
@@ -601,7 +603,7 @@ docker.io/centos    latest              8140d0c64310        <span class="m">2</s
 <span id="section3-1-9-docker-rm-label"></span><h3>Docker rm<a class="headerlink" href="#docker-rm" title="Permalink to this headline">¶</a></h3>
 <p>Docker rmは１つ、もしくはそれ以上のコンテナを削除するコマンドである。</p>
 <p>docker rm [OPTIONS] CONTAINER [CONTAINER…]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Options:
        -f, --force     Force the removal of a running container <span class="o">(</span>uses SIGKILL<span class="o">)</span>
            --help      Print usage
        -l, --link      Remove the specified link
@@ -647,7 +649,7 @@ docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH</p>
 <span id="section3-1-12-docker-login-label"></span><h3>Docker login<a class="headerlink" href="#docker-login" title="Permalink to this headline">¶</a></h3>
 <p>Docker login はDockerレジストリにログインするためのコマンドである。</p>
 <p>docker login [OPTIONS] [SERVER]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Options:
            --help              Print usage
        -p, --password string   Password
        -u, --username string   Username
@@ -664,7 +666,7 @@ Login Succeeded
 <span id="section3-1-13-docker-push-label"></span><h3>Docker push<a class="headerlink" href="#docker-push" title="Permalink to this headline">¶</a></h3>
 <p>Docker pushはコンテナイメージやレポジトリを、レジストリにプッシュするコマンドである。</p>
 <p>docker push [OPTIONS] NAME[:TAG]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> Options:
       --disable-content-trust   Skip image verification <span class="o">(</span>default <span class="nb">true</span><span class="o">)</span>
       --help                    Print usage
 
@@ -680,7 +682,7 @@ ver1.0: digest: sha256:c462439235fc131b4caacab2f8b71094bc096473762da6fd2841ec4d0
 <span id="section3-1-14-docker-build-label"></span><h3>Docker build<a class="headerlink" href="#docker-build" title="Permalink to this headline">¶</a></h3>
 <p>Docker buildはDockerfileからイメージを作成するコマンドである。</p>
 <p>docker build [OPTIONS] PATH | URL | -</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Options:
            --build-arg value         Set build-time variables <span class="o">(</span>default <span class="o">[])</span>
            --cgroup-parent string    Optional parent cgroup <span class="k">for</span> the container
            --cpu-period int          Limit the CPU CFS <span class="o">(</span>Completely Fair Scheduler<span class="o">)</span> period
@@ -732,7 +734,7 @@ Deleted: sha256:a40107948975217080bff86dba927314ea4ae6ebe4b967b06ad2d1269f74c277
 <span id="section3-1-16-docker-top-label"></span><h3>Docker top<a class="headerlink" href="#docker-top" title="Permalink to this headline">¶</a></h3>
 <p>Docker topはコンテナ内の実行プロセスを表示するコマンドである。</p>
 <p>docker top CONTAINER [ps OPTIONS]</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Options:
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> Options:
       --help   Print usage
 
 <span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ docker top webserver2
@@ -756,9 +758,9 @@ root                <span class="m">17423</span>               <span class="m">1
 <span id="section3-1-17-docker-logs-label"></span><h3>Docker logs<a class="headerlink" href="#docker-logs" title="Permalink to this headline">¶</a></h3>
 <p>Docker logsは指定したコンテナの標準出力を表示させるコマンドである。</p>
 <p>docker logs [OPTIONS] CONTAINER</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>     Fetch the logs of a container
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>      Fetch the logs of a container
 
-     Options:
+      Options:
            --details        Show extra details provided to logs
        -f, --follow         Follow log output
            --help           Print usage
@@ -2117,7 +2119,7 @@ abedde75c6a1f5497bc16e9ff1b9962d61b012c3e4c9f942a160bb40f8f33030
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, org.debugroom.
+        &copy; Copyright 2018, org.debugroom.
 
     </p>
   </div>

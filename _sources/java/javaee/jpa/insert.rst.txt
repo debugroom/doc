@@ -5,7 +5,7 @@
 単テーブルにおけるデータ追加
 ===========================================
 
-実装方針
+CriteriaAPIを使用したデータ追加
 -------------------------------------------
 
 単テーブルにおいてINSERTを実施する場合は、JPAのCriteria APIを使用して実装する。
@@ -27,7 +27,7 @@ test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.SimpleInser
   import javax.ejb.TransactionAttribute;
   import javax.ejb.TransactionAttributeType;
 
-  import org.debugroom.test.common.exception.BusinessException;
+  import org.debugroom.framework.common.exception.BusinessException;
   import org.debugroom.test.domain.model.User;
   import org.debugroom.test.domain.repository.UserRepository;
   import org.debugroom.test.domain.service.dbaccess.SimpleInsertService;

@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="JavaEE jBatch" href="../jBatch/index.html" />
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="insert.html">単テーブルにおけるデータ追加</a></li>
 <li class="toctree-l2"><a class="reference internal" href="update.html">単テーブルにおけるデータ更新</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">単テーブルに対するデータ削除</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">実装方針</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#criteriaapi">CriteriaAPIを使用したデータ削除</a></li>
 </ul>
 </li>
 </ul>
@@ -104,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
 
@@ -173,8 +175,8 @@
             
   <div class="section" id="section-jpa-usage-delete-label">
 <span id="id1"></span><h1>単テーブルに対するデータ削除<a class="headerlink" href="#section-jpa-usage-delete-label" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>実装方針<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="criteriaapi">
+<h2>CriteriaAPIを使用したデータ削除<a class="headerlink" href="#criteriaapi" title="Permalink to this headline">¶</a></h2>
 <p>単テーブルにおいてデータ更新する場合は、JPAのCriteria APIを使用して実装する。</p>
 <p>Criteria APIにおけるデータ削除では、EntityManager経由で取得した、永続化コンテキストに管理されているManaged状態のオブジェクトをremoveすることで実現する。
 エンティティの管理状態に関して、意図せぬ更新が発生する可能性があるので、以下の内容を必ず理解しておくこと。
@@ -256,7 +258,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, org.debugroom.
+        &copy; Copyright 2018, org.debugroom.
 
     </p>
   </div>

@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'document'
-copyright = u'2016, org.debugroom'
+copyright = u'2018, org.debugroom'
 author = u'org.debugroom'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -356,3 +356,6 @@ epub_exclude_files = ['search.html']
 
 # If false, no index is generated.
 #epub_use_index = True
+
+def setup(app):
+    app.add_stylesheet('custom.css')

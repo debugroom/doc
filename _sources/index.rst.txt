@@ -1,9 +1,5 @@
-.. document documentation master file, created by
-   sphinx-quickstart on Fri Mar 18 00:29:04 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
-Java 開発メモ
+設計・実装メモ
 ====================================
 
 Contents:
@@ -21,6 +17,7 @@ Contents:
    cloud/aws/index.rst
    cloud/docker/index.rst
    cloud/kubernetes/index.rst
+   convention/app-infra/index.rst
    memo/work/index.rst
 
 Indices and tables

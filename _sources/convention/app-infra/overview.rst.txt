@@ -1,0 +1,1184 @@
+.. include:: ../module.txt
+
+.. _section-app-infra-overview-label:
+
+AP処理方式
+======================================================
+
+.. _section-app-infra-function-list-label:
+
+AP基盤機能一覧
+--------------------------------------------------------------
+
+Web・バッチアプリケーションを設計・実装を行う場合、AP処理方式・AP基盤機能として、
+以下の事項を検討する必要がある。プロジェクト要件に応じて、各項目の検討の要否を決定すること。
+
+.. raw:: html
+
+   <table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 10px;">
+     <tr bgcolor="#33CCFF">
+		   <th>No</th>
+		   <th width="130px">検討事項</th>
+		   <th width="200px">詳細</th>
+		   <th width="220px">処理方式概要(例)</th>
+		   <th width="150px">備考</th>
+     </tr>
+     <tr>
+       <td>
+       1
+       </td>
+       <td>
+       業務ロジック実行方式
+       </td>
+       <td>
+       業務ロジックの実行方式及びトランザクション境界、各コンポーネントの責務を検討する。
+       </td>
+       <td>
+       コンポーネントの責務やトランザクション境界の設定は <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ImplementationAtEachLayer/DomainLayer.html">TERASOLUNA FW5ドメイン層の実装</a>に従い、イベントごとにServiceを実装する。
+       </td>
+       <td>
+       ビジネスロジックの業務例外発生時のリトライ等要件があれば別途方式を検討。
+       </td>
+    </tr>
+
+
+     <tr>
+       <td>
+       2
+       </td>
+       <td>
+       業務ロジック入出力データマッピング方式
+       </td>
+       <td>
+       リクエストパラメータから業務ロジックインプットデータ、アプトプットデータからレスポンスへのデータマッピング方式を検討する。
+       </td>
+       <td>
+       Controllerクラス内で <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/Dozer.html">Dozer</a>をベースとしたマッピング処理にて行う。必要に応じてマッピング設定ファイルを作成する。
+       </td>
+       <td>
+       その他、ModelMapperやCommonsBeanUtilsなども検討
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       3
+       </td>
+       <td>
+       純バッチ実行方式
+       </td>
+       <td>
+       時刻起動やイベント契機で起動するジョブ及びシェルスクリプト、バッチ処理プログラムの実行方式を検討する。
+       </td>
+       <td>
+       コンポーネントの責務やトランザクション境界の設定は <a href="https://terasoluna-batch.github.io/guideline/5.1.1.RELEASE/ja/Ch02_TerasolunaBatchArchitecture.html#Ch02_TerasolunaBatchArch">TERASOLUNA FW5のアーキテクチャ</a>に従い、実装する。
+       </td>
+       <td>
+       バッチ実行時の業務例外発生時のリトライ・リラン等要件があれば別途方式を検討。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       4
+       </td>
+       <td>
+       非同期実行方式(ディレードバッチ処理)
+       </td>
+       <td>
+       オンラインから非同期で別処理(別スレッド)を実行する方式を検討する。
+       </td>
+       <td>
+       <a href="https://terasoluna-batch.github.io/guideline/5.1.1.RELEASE/ja/Ch04_AsyncJobWithDB.html#Ch04_AsyncJobWithDB">TERASOLUNA Batch5 におけるDBポーリング型のディレードバッチ実行方式</a>に準ずる。バッチ実行完了の通知は要件に応じてプッシュ型もしくはポーリング型か処理方式を検討し、決定する。
+       </td>
+       <td>
+       通知をプッシュ型にするのであれば、WebSocketsやCometの採用を検討
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       5
+       </td>
+       <td>
+       データベースアクセス方式
+       </td>
+       <td>
+       データベースへアクセスし、 データの参照、更新、挿入、削除を行う方式を検討する。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/DataAccessDetail/DataAccessJPA.html">FW5におけるデータベースアクセス(JPA)</a>に準拠し、SpringDataJPAを利用して実装する。
+       </td>
+       <td>
+       各ユースケースの例は、を参照のこと。
+       </td>
+    </tr>
+
+
+    <tr>
+       <td>
+       6
+       </td>
+       <td>
+       入力チェック方式
+       </td>
+       <td>
+       単項目、相関項目、業務処理チェック行う方式を検討する。
+       </td>
+       <td>
+       単項目、相関項目チェック方式に関しては、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Validation.html">TERASOLUNA FW5における入力チェック</a>に準拠し、Bean Validation及びSpringValidatorを用いて実装する。 DBアクセスを伴う業務チェック処理については、フィルタもしくは、Serviceにて実装するロジック内で業務個別に実装する。
+       </td>
+       <td>
+       外字が含まれる文字列をチェックする場合はコードポイントを利用したチェックロジック部品の作成を検討。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       7
+       </td>
+       <td>
+       <a href="logging.html">ログ出力方式</a><br /> - 業務ログ<br /> - 操作(監査ログ)<br /> - トレース(デバッグログ)
+       </td>
+       <td>
+       システムとしてのログ要件を決定し、出力ログの項目、出力方式、出力場所、出力タイミングを検討する
+       </td>
+       <td>
+       一般的なログ要件と出力フォーマット仕様は<a href="logging.html">こちら</a>を参照のこと。
+       画面遷移の情報を含むログについてはSpringのAOPを用いて、Controller実行時にAP基盤機能が出力する。
+       </td>
+       <td>
+       アプリケーションサーバで物理サーバ数が多くなる場合やMicroService構成で複数のサービスを跨ぐ場合はMDCの利用を検討
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       8
+       </td>
+       <td>
+       排他制御機能 (ACIDトランザクション)
+       </td>
+       <td>
+       データベースアクセス時の排他制御の方式を検討する
+       </td>
+       <td>
+       排他制御はDBMSの排他制御機能を利用する。 制御レベルはSpringのデフォルトに従う。
+       </td>
+       <td>
+       オンライン時間帯にバッチが実行される場合など、1トランザクション内での複数テーブル更新時のデッドロック回避のため、更新テーブルの更新順序を検討すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       9
+       </td>
+       <td>
+       排他制御機能 (ロングトランザクション)
+       </td>
+       <td>
+       画面を跨ぐ業務トランザクションの排他制御 (楽観ロック、悲観ロック)の方式を検討する。
+       </td>
+       <td>
+       楽観ロック方式で制御する。JPAのデフォルトに従い、DBの各テーブルにバージョンカラムを設け、 データ挿入・更新・削除時にカラムバージョンを比較し、 異なれば業務エラーとする。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       10
+       </td>
+       <td>
+       例外ハンドリング方式
+       </td>
+       <td>
+       業務例外やシステム例外、入力値例外に関する方式を検討する。
+       </td>
+       <td>
+       基本的な考え方は<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/ExceptionHandling.html#exception-handling-basic-flow-label">TERASOLUNA FW5 標準の例外ハンドリング方式</a>に従う。Spring　Frameworkの例外ハンドリング機能を利用して処理する。 非同期通信による入力値エラーはExceptionHandlerにて共通的に例外処理を行いBadRequestを返却する方針とする
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       11
+       </td>
+       <td>
+       	<a href="session-management.html">セッション管理方式</a>
+       </td>
+       <td>
+       セッションに格納する対象のデータ選定や ステートフル・スレートレス処理に関する内容を検討する
+       </td>
+       <td>
+       詳細は<a href="session-management.html">こちら</a>を参照すること。
+       ユーザ情報以外のデータはセッションに保持せず、業務データは基本リクエストパラメータで持ちまわる(ステートレス)方針とする。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       12
+       </td>
+       <td>
+       	メッセージ管理方式
+       </td>
+       <td>
+       業務メッセージ、画面メッセージ、 エラーメッセージを保持・利用する方式について検討する。
+       </td>
+       <td>
+       	プロパティファイルにて管理する。
+       </td>
+       <td>
+       メッセージのオン中変更を実現するのであれば、DBテーブル管理を検討すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       13
+       </td>
+       <td>
+       プロパティ管理方式
+       </td>
+       <td>
+       プロパティとして保持する対象について選定、 管理方式について検討する。
+       </td>
+       <td>
+       Springのプロパティファイル管理機能を用いる
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       14
+       </td>
+       <td>
+       定数・列挙型管理方式
+       </td>
+       <td>
+       列挙型・定数として保持する対象について選定、 管理方式について検討する。
+       </td>
+       <td>
+       列挙型クラス、定数クラスを共通ライブラリとして作成し、保存する。
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       15
+       </td>
+       <td>
+       文字コード・ロケール
+       </td>
+       <td>
+       文字コードとロケールについて検討する
+       </td>
+       <td>
+       デフォルトUTF8で対応。ロケールはja_JP前提で実装を行う
+       </td>
+       <td>
+       国際化対応が必要な場合、ロケールに依存しない実装を行うこと。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       16
+       </td>
+       <td>
+       国際化機能
+       </td>
+       <td>
+       他言語表示の方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Internationalization.html">TERASOLUNA FW5の国際化方式</a>に従う。
+       </td>
+       <td>
+       国際化対応が必要な場合、静的文言はメッセージプロパティで切り替え、 コードリストは他言語表示でも問題ない内容を検討すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       17
+       </td>
+       <td>
+       ページネーション機能
+       </td>
+       <td>
+       ページネーションの方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Pagination.html">TERASSOLUNA FW5のガイドライン「ページネーション」</a>に従い、 Pagableオブジェクトを利用する形で実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       18
+       </td>
+       <td>
+       2重送信防止
+       </td>
+       <td>
+       2度押し防止のための方式を決定する。
+       </td>
+       <td>
+       更新系処理については、JavaScriptでボタンの２度押しを抑止することに加えて、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection.html">TERASOLUNA FW5のガイドライン「2重送信防止」</a>の実装に従い、 トランザクショントークンの実装を行うことで実現する。 なお、更新系処理はPRGパターンに沿って、画面遷移を設定する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       19
+       </td>
+       <td>
+       コードリスト機能
+       </td>
+       <td>
+       静的・動的コードリスト対象選定・実装方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Codelist.html">TERASOLUNA FW5のガイドライン「コードリスト」</a> に従い、利用する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       20
+       </td>
+       <td>
+       非同期通信(Ajax)機能
+       </td>
+       <td>
+       非同期通信要件の有無について確認、通信処理方式などの検討を行う。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Ajax.html">TERASOLUNA FW5のガイドライン Ajax</a>　に添う形で実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       21
+       </td>
+       <td>
+       ファイルアップロード機能
+       </td>
+       <td>
+       ファイルアップロード処理方式に関する検討を行う。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/FileUpload.html">TERASOLUNA FW5のファイルアップロード</a> に従う形で実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       22
+       </td>
+       <td>
+       ファイルダウンロード機能
+       </td>
+       <td>
+       ファイルダウンロード処理方式に関する検討を行う。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/FileDownload.html">TERASOLUNA FW5のファイルダウンロード</a> に従う形で実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       23
+       </td>
+       <td>
+       リクエストフィルタリング<br/>
+        - エンコーディング機能 <br />
+        - IPアクセス制御機能 <br />
+        - サニタイズ機能
+       </td>
+       <td>
+       リクエストフィルタリング対象の機能要件を確定し、方式を検討する。
+       </td>
+       <td>
+       サーブレットフィルタを利用してAP基盤部品として実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       24
+       </td>
+       <td>
+       サーバ閉塞チェック機能
+       </td>
+       <td>
+       サーバが停止している場合のアクセス制御についてを検討する。
+       </td>
+       <td>
+       Sorryサーバにて対応するため、APの考慮は不要
+       </td>
+       <td>
+       ビジネスロジックの業務例外発生時のリトライ等要件があれば別途方式を検討。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       25
+       </td>
+       <td>
+       業務閉塞チェック機能
+       </td>
+       <td>
+       一部業務や、機能を停止する場合のアクセス制御についてを検討する。
+       </td>
+       <td>
+       機能ごとの時間制御情報テーブルをデータベースに作成し、 サーブレットフィルタにてチェックを行うAP基盤処理を追加する
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       26
+       </td>
+       <td>
+       日付・時刻制御機能
+       </td>
+       <td>
+       システム日付や時刻、業務日付や時刻の概念を整理し、 業務・機能の時刻制御方式有無を確認。取得や制御方式を検討する。
+       </td>
+       <td>
+       営業日日付テーブル等をデータベースに作成し、チェック処理など必要に応じてAP基盤部品として実装する。
+       </td>
+       <td>
+       営業日やサマータイムなどシステム時間とは別の業務概念の日付・時刻について留意。<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/SystemDate.html">TERASOLUNA FW5のガイドライン「システム時刻」</a>も合わせて参照すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       27
+       </td>
+       <td>
+       帳票出力方式
+       </td>
+       <td>
+       帳票の形式や要件を整理し、帳票作成・出力のオンライン処理・バッチ処理方式を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       28
+       </td>
+       <td>
+       メール送信機能
+       </td>
+       <td>
+       メール送信の要件有無を確認し、実装方式を検討する。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/MessagingDetail/Email.html">TERASOLUNA FW5のガイドライン「Email送信」</a>に従い、実装を行う。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       29
+       </td>
+       <td>
+       ヘルスチェック機能
+       </td>
+       <td>
+       サーバの死活状況監視の要件の必要性を確認し、方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/HealthCheck.html">TERASOLUNA FW5のガイドライン「ヘルスチェック」</a> に従い、 AP基盤部品として実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       30
+       </td>
+       <td>
+       XMLマーシャル・アンマーシャル機能
+       </td>
+       <td>
+       XMLとJavaオブジェクトのマーシャル、アンマーシャルの処理要件の有無を確認し、方式について検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+       JAXB、SAX、StAX等のXML処理を Java標準クラスライブラリのものを利用するか、 オープンソースのライブラリを使用するか、 XML処理内容・性能に応じて適切な方法を検討すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       31
+       </td>
+       <td>
+       ワークフロー機能
+       </td>
+       <td>
+       ビジネスユースケースにおいて、システム処理でワークフロー制御が必要な場合、処理方式を検討する。
+       </td>
+       <td>
+       DBテーブルにステータス管理テーブルを作成し、業務チェックの中で制御する。
+       </td>
+       <td>
+       ワークフロー機能をもつミドルウェアの採用も必要に応じて検討する。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       32
+       </td>
+       <td>
+       ファイル転送機能
+       </td>
+       <td>
+       外部システムへのファイル転送有無に関する要件を確認し、処理方式を検討する
+       </td>
+       <td>
+       </td>
+       <td>
+       HULFTといったミドルウェア、FTP、rsyncなどのファイル転送処理方式を検討すること。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       33
+       </td>
+       <td>
+       共有ファイル・キャッシュ接続方式
+       </td>
+       <td>
+       NFSや、キャッシュ、共用ストレージの利用有無を確認し、処理方式を検討する
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       34
+       </td>
+       <td>
+       メッセージ通信方式<br /> - MQ <br> - CORBA <br> - RPC
+       </td>
+       <td>
+       外部システムとのメッセージ通信(メッセージキュー)や、CORBA通信、RPC利用有無を確認し、処理方式を検討する
+       </td>
+       <td>
+       MQの通信については、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/MessagingDetail/JMS.html">TERASOLUNA FW5ガイドライン「JMS 」</a>に準拠した実装を行う。
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       35
+       </td>
+       <td>
+       WebServeice <br /> - JAX-RS <br> - JAX-WS <br> - JSON-HTTP
+       </td>
+       <td>
+       外部システムとのXML、JSON形式のHTTP通信やSOAPプロトコルの利用有無を確認し、処理方式を検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebServiceDetail/RestClient.html">TERASOLUNA FW5ガイドライン「Restクライアント」</a>、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebServiceDetail/REST.html">TERASOLUNA FW5ガイドライン「RESTful WebService」</a>、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebServiceDetail/SOAP.html">TERASOLUNA FW5ガイドライン「SOAP WebService」</a>に準拠する。
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       36
+       </td>
+       <td>
+       文字列操作機能
+       </td>
+       <td>
+       文字列を操作するユーティリティの要否について確認し、処理方式を検討する。
+       </td>
+       <td>
+       部品の実装は <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/StringProcessing.html">TERASOLUNA FW5のガイドライン 「文字列操作」</a> も参考のこと。
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       37
+       </td>
+       <td>
+       日付操作機能
+       </td>
+       <td>
+       ビジネスユースケースにおいて、システム処理でワークフロー制御が必要な場合、処理方式を検討する。
+       </td>
+       <td>
+       部品の実装は<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/DateAndTime.html">TERASOLUNA FW5のガイドライン 「日付操作(JSR-310 Date and Time API)」</a> 、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/JodaTime.html">TERASOLUNA FW5のガイドライン 「日付操作(JODA Time)」</a> も参考のこと。
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       38
+       </td>
+       <td>
+       集合演算機能
+       </td>
+       <td>
+       演算処理ユーティリティの要否について確認し、処理方式を検討する。
+       </td>
+       <td>
+
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       39
+       </td>
+       <td>
+       ZIP圧縮・解凍機能
+       </td>
+       <td>
+       ZIP圧縮・解凍を行うユーティリティの要否について確認し、処理方式を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       40
+       </td>
+       <td>
+       暗号化・複合化機能
+       </td>
+       <td>
+       個人情報データなど暗号化処理する必要のあるデータの有無について確認し、 暗号化・複合化の処理方式を検討する
+       </td>
+       <td>
+
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       41
+       </td>
+       <td>
+       認証機能
+       </td>
+       <td>
+       リクエスト認証処理方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/Security/Authentication.html">TERASOLUNA FW5のガイドライン 「認証」</a> に記載されている内容に基づき、リクエスト認証はSpring Securityを使用する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       42
+       </td>
+       <td>
+       認可機能
+       </td>
+       <td>
+       リクエスト認可処理方式について検討する
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/Security/Authorization.html">TERASOLUNA FW5のガイドライン 「認可」</a> に記載されている内容に基づき、認可はSpring Securityで実現する。
+       </td>
+       <td>
+       画面コンテンツの表示制御はNo39を参照。
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       43
+       </td>
+       <td>
+       画面遷移制御方式
+       </td>
+       <td>
+       画面遷移に関するアクセス制御が必要な場合、方式について検討する
+       </td>
+       <td>
+       トークンによる画面アクセス制御をAP基盤機能として実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       44
+       </td>
+       <td>
+       	画面表示制御方式
+       </td>
+       <td>
+       画面コンテンツの表示制御方式について検討する
+       </td>
+       <td>
+
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       45
+       </td>
+       <td>
+       セキュアパスワード機能<br />セキュアパスワード生成 <br />パスワードチェック <br/>パスワードハッシュ化方式
+       </td>
+       <td>
+       パスワード要件を整理し、生成・チェック機能の要否、処理方式を検討する。
+       </td>
+       <td>
+       <a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/Security/Authentication.html#springsecurityauthenticationpasswordhashing">TERASOLUNA FW5ガイドライン 「認証」</a>に記載されている内容に基づき、Spring Securityの拡張として実装する。
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       46
+       </td>
+       <td>
+       パスワード変更通知 <br>強制変更機能
+       </td>
+       <td>
+       パスワード要件を整理し、変更通知、強制変更機能の要否、処理方式を検討する。
+       </td>
+       <td>
+
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       47
+       </td>
+       <td>
+       マスキング機能
+       </td>
+       <td>
+       画面にマスキングして表示する要件について確認し、処理方式について検討する
+       </td>
+       <td>
+
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       48
+       </td>
+       <td>
+       セキュアコマンド実行機能
+       </td>
+       <td>
+       ディレクトリトラバーサル・OSコマンドインジェクションに対する防止策の要否について確認し、処理方式を検討する
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       49
+       </td>
+       <td>
+       なりすまし防止機能<br /> - セキュアセッションID生成<br /> - セキュアCookie発行
+       </td>
+       <td>
+       なりすましに対する防止策の要否について確認し、処理方式を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       50
+       </td>
+       <td>
+       プロジェクト・パッケージ構成の検討
+       </td>
+       <td>
+       アプリケーションのプロジェクト・パッケージ構成を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+  </table>
+
+|
+
+.. _section-cloud-native-app-function-label:
+
+クラウドネイティブアプリケーションの処理方式
+--------------------------------------------------------------
+
+クラウド環境でアプリケーションを構築した場合、主な処理方式で差分が発生しやすい処理方式・機能は以下の通りである。
+
+.. raw:: html
+
+   <table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 10px;">
+     <tr bgcolor="#33CCFF">
+		   <th>No</th>
+		   <th width="130px">検討事項</th>
+		   <th width="200px">詳細</th>
+		   <th width="220px">処理方式概要(例)</th>
+		   <th width="150px">備考</th>
+     </tr>
+
+     <tr>
+        <td>
+        5
+        </td>
+        <td>
+        データベースアクセス方式
+        </td>
+        <td>
+        AWS DynamoDBやMongoDB、Apache Cassandraといった、NoSQL型のデータストアを利用するケースが増え、RDBとは大小方式が異なるデータベースアクセス方式が必要になる。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        8
+        </td>
+        <td>
+        排他制御機能 (ACIDトランザクション)
+        </td>
+        <td>
+        NoSQL DBの多くは完全な一貫性や原子性が担保されないため。排他制御に関するポリシーを決定しておく必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        10
+        </td>
+        <td>
+        例外ハンドリング方式
+        </td>
+        <td>
+        クラウドベンダが提供するサービス(AmazonS3やAmazonLambdaなど)を利用した場合の例外ハンドリング方法を検討しておく必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        11
+        </td>
+        <td>
+          <a href="session-management.html">セッション管理方式</a>
+        </td>
+        <td>
+        セッションに格納する対象のデータ選定や ステートフル・スレートレス処理に関する内容を検討する
+        クラウド環境下でスケールアウト・スケールインする環境下でセッション情報を共有し、サーバ間で擬似的なステートレス方式を実現する必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        15
+        </td>
+        <td>
+        文字コード・ロケール
+        </td>
+        <td>
+        クラウド環境下では実行されるロケールが変動する場合があるので、ロケーションを考慮したアプリケーション設計を検討する必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        21
+        </td>
+        <td>
+        ファイルアップロード機能
+        </td>
+        <td>
+        アプリケーションサーバ環境がスケーラブルあり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
+        ファイルアップロード時のデータ保存のポリシーや共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        22
+        </td>
+        <td>
+        ファイルダウンロード機能
+        </td>
+        <td>
+        アプリケーションサーバ環境がスケーラブルであり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
+        共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        24
+        </td>
+        <td>
+        サーバ閉塞チェック機能
+        </td>
+        <td>
+        サーバが停止している場合のアクセス制御についてを検討する。
+        ブルーグリーンデプロイメントなどのクラウドが推奨する方式に基づき、サーバ閉塞ポリシーを決定する必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        28
+        </td>
+        <td>
+        メール送信機能
+        </td>
+        <td>
+        クラウドベンダが提供するメール配信サービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        29
+        </td>
+        <td>
+        ヘルスチェック機能
+        </td>
+        <td>
+        クラウドベンダが提供するヘルスチェックサービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+     </tr>
+     <tr>
+        <td>
+        32
+        </td>
+        <td>
+        ファイル転送機能
+        </td>
+        <td>
+        クラウドベンダが提供するサービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        33
+        </td>
+        <td>
+        共有ファイル・キャッシュ接続方式
+        </td>
+        <td>
+        アプリケーションサーバ環境がスケーラブルであり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
+        共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        34
+        </td>
+        <td>
+        メッセージ通信方式<br /> - MQ <br> - CORBA <br> - RPC
+        </td>
+        <td>
+        クラウドベンダが提供するサービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
+        50
+        </td>
+        <td>
+        プロジェクト・パッケージ構成の検討
+        </td>
+        <td>
+        クラウドベンダに依存しない疎結合なプロジェクト構成を検討する必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+   </table>
+
+|

@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>セッション管理 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="work guideline" href="../../memo/work/index.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">AP基盤処理方式・実装規約</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">セッション管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-app-infra-session-management-pre-condition-label">セッション管理の前提知識</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-app-infra-session-management-app-processing-label">セッション管理方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ap">AP層の脆弱性対策</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">AP基盤処理方式・実装規約</a> &raquo;</li>
+        
+      <li>セッション管理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/convention/app-infra/session-management.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-app-infra-session-management-label">
+<span id="id1"></span><h1>セッション管理<a class="headerlink" href="#section-app-infra-session-management-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="section-app-infra-session-management-pre-condition-label">
+<span id="id2"></span><h2>セッション管理の前提知識<a class="headerlink" href="#section-app-infra-session-management-pre-condition-label" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>セッション管理とは</li>
+</ul>
+<p>ブラウザはWebサーバ間で発生する任意のHTTPリクエスト／レスポンスのアクセスを一つの集合体として管理・制御する仕組みを指す。
+HTTP通信では、クライアントがリクエストを投げて(コネクションを確立し)サーバがレスポンスを返す，</p>
+<p>このキャッチボールを1往復したところで通信は切れるという、ステートレスなプロトコルであり、前回通信の状態を持たない。
+一方で、電子商取引サイトのような、ログインからログアウトまでの一連のリクエストに状態を持たせる必要がある場合、
+このままでは実現できない。</p>
+<p>HTTPにはセッションという仕様はないが、JavaEEにはセッション管理機能がサポートされているため、サーブレットのHttpServletRequestから
+セッションIDという識別情報を取得し、ブラウザとWebサーバで交互にセッションIDをやりとりすることで、リクエストが同一セッションか否か、判別可能となる。
+同一セッションと判別されたリクエストにセッション情報を紐付けることで、前回リクエスト時の状態を持たせることが可能となる。</p>
+<ul class="simple">
+<li>セッション管理の仕組み</li>
+</ul>
+<p>セッション管理を実現するには、一般には以下のような方法が利用される。</p>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text">セッション管理方法</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>方法</strong></td>
+<td><strong>詳細</strong></td>
+</tr>
+<tr class="row-even"><td>URLを利用</td>
+<td>基本的な方式 <br/> (セッション・ハイジャック等のセキュリティ上の問題が多い)</td>
+</tr>
+<tr class="row-odd"><td>Cookieを利用</td>
+<td>最もポピュラーで基本的な方式 <br/> (マルチウィンドウ・マルチセッションは使用するブラウザによって不可)</td>
+</tr>
+<tr class="row-even"><td>hiddenフィールドを利用</td>
+<td>画面単位にセッションIDを持たせる <br/> （マルチウィンドウ・マルチセッション*1を実現、セキュリティ上の問題が多い）</td>
+</tr>
+<tr class="row-odd"><td>ワンタイムセッション</td>
+<td>画面単位にセッションIDを持たせる <br/> （マルチウィンドウ・マルチセッション*1を実現）</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>マルチウィンドウ・マルチセッション</dt>
+<dd><div class="first last line-block">
+<div class="line">複数の画面が起動している状態で、起動画面別にHTTPセッションも別で管理されて動作していること</div>
+</div>
+</dd>
+<dt>多重ログイン</dt>
+<dd><div class="first last line-block">
+<div class="line">既にログイン済みでセッションが有効な画面が起動している状態で、新たに別の画面から同じユーザーでログインを行うこと</div>
+</div>
+</dd>
+</dl>
+</div>
+<ol class="arabic simple">
+<li>Cookieを利用</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image72.JPG"><img alt="../../_images/Image72.JPG" src="../../_images/Image72.JPG" style="width: 100%;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image73.JPG"><img alt="../../_images/Image73.JPG" src="../../_images/Image73.JPG" style="width: 100%;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image74.JPG"><img alt="../../_images/Image74.JPG" src="../../_images/Image74.JPG" style="width: 100%;" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>hiddenフィールドを利用</li>
+<li>ワンタイムセッション</li>
+</ol>
+<ul class="simple">
+<li>セッション管理の注意点</li>
+</ul>
+<p>Cookieを利用したセッション管理の場合、注意する点はいくつかあるが、一般に考慮が必要となりそうな前提の技術情報を記載する。</p>
+<ol class="arabic">
+<li><p class="first">ブラウザ種別によって、複数画面間でCookieのセッション情報(JSESSIONID)の共有・非共有状態が異なる</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>＜IE以外のブラウザの場合＞</dt>
+<dd><p class="first last">Chormeは、画面単位でCookieを管理しているため、同じ端末上で別々のウィンドウ間でセッション情報が共有化されることはない。（マルチウィンドウ・マルチセッション可能）
+FireFoxも、設定によりマルチウィンドウ・マルチセッションが可能</p>
+</dd>
+<dt>＜IEの場合＞</dt>
+<dd><p class="first last">Microsoftのセキュリティ上の方針により、IE8以降は同じ端末上の複数の画面間でCookieのセッション情報(JSESSIONID)を共有する仕様となっている。
+(IE6,7はプロセス単位でCookie情報を管理しているため、マルチウィンドウ・マルチセッションが可能だった)</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<blockquote>
+<div>IEのセッション情報共有については以下も参照のこと。</div></blockquote>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://blogs.technet.microsoft.com/jpieblog/2010/05/10/ie8-3/#DLTS02">IE8 で別々のウィンドウでセッション情報が共有されてしまう問題</a></div>
+</div>
+<blockquote class="last">
+<div><p>使用するプロセスの数</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image75.JPG"><img alt="../../_images/Image75.JPG" src="../../_images/Image75.JPG" style="width: 100%;" /></a>
+</div>
+</div></blockquote>
+</div>
+<ol class="arabic simple" start="2">
+<li>画面起動方法別、JSESSIONID共有化タイミングのパターン</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image76.JPG"><img alt="../../_images/Image76.JPG" src="../../_images/Image76.JPG" style="width: 100%;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image77.JPG"><img alt="../../_images/Image77.JPG" src="../../_images/Image77.JPG" style="width: 100%;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image78.JPG"><img alt="../../_images/Image78.JPG" src="../../_images/Image78.JPG" style="width: 100%;" /></a>
+</div>
+<ol class="arabic simple" start="3">
+<li><dl class="first docutils">
+<dt>複数画面のセッションオブジェクト(*)共有による、不整合が発生する(操作の辻褄が合わなくなる)パターン</dt>
+<dd>(*) HttpSessionオブジェクトでセッション情報を管理する場合</dd>
+</dl>
+</li>
+</ol>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image79.JPG"><img alt="../../_images/Image79.JPG" src="../../_images/Image79.JPG" style="width: 100%;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image80.JPG"><img alt="../../_images/Image80.JPG" src="../../_images/Image80.JPG" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="section-app-infra-session-management-app-processing-label">
+<span id="id3"></span><h2>セッション管理方式<a class="headerlink" href="#section-app-infra-session-management-app-processing-label" title="Permalink to this headline">¶</a></h2>
+<p>ベースとするセッション管理方式は、Cookieを利用した一般的なセッション管理方式を採用する。
+セッション利用については、下記のセッション利用におけるメリット・デメリットを踏まえ、マルチタブによる操作性向上などのユーザビリティを考慮し、
+認証などで利用するユーザ情報のみをセッション共有し、画面遷移時にデータをリクエストパラメータで持ち回る方式とする。</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image81.JPG"><img alt="../../_images/Image81.JPG" src="../../_images/Image81.JPG" style="width: 70%;" /></a>
+</div>
+<ul class="simple">
+<li>セッション利用時のメリット・デメリットについて</li>
+</ul>
+<p>＜メリット＞
+複数の画面(複数のリクエスト)をまたいで、データを持ち回ることができるため、ウィザード画面のような複数の画面で、1つ処理を構成する場合に、簡単にデータが持ち回れる等</p>
+<dl class="docutils">
+<dt>＜デメリット＞</dt>
+<dd><ul class="first last simple">
+<li>同一処理の画面を、複数のブラウザやタブで立ち上げた場合、互いの操作がセッション上に格納しているデータに干渉しあうため、データの整合性を保つことができなくなる。</li>
+<li>データの整合性を保つためには、同一処理の画面を複数立ち上げることができないように、制御する必要がある。</li>
+<li>データの整合性を保つための制御は、トランザクショントークンチェックを使用することで実現する事ができるが、ユーザビリティの低いアプリケーションとなってしまう。</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">セッション管理のメリット・デメリットについては <a class="reference external" href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/SessionManagement.html#id10">TERASOLUNA Guideline 「セッションの利用時のメリット・デメリット」</a> も参照のこと。</p>
+</div>
+<p>また、セッションのライフサイクル管理は、イベントごとに以下の要領で、Spring Securityをベースとして、生成・破棄までを管理する。</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;">
+<tr bgcolor="#33CCFF">
+        <th>No</th>
+        <th width="150px">イベント</th>
+        <th >詳細</th>
+        <th width="100px">備考</th>
+</tr>
+<tr>
+        <td>1</td>
+        <td>セッションの作成</td>
+        <td>spring-security.xml へセッション生成方法のオプションを指定する。 ※オプションは 6.5.2.4.1. セッションの作成 「セッションの作成方針¶」方針を参照</td>
+        <td>脆弱性対策A、Dを参照</td>
+</tr>
+<tr>
+        <td>2</td>
+        <td>セッションの破棄</td>
+        <td>Spring Securityは以下のタイミングでセッションを破棄する。<br>
+                ・ログアウト<br>
+                ・認証処理が成功したタイミング（セッション固定攻撃対策として）
+        </td>
+        <td>脆弱性対策B、E、Fを参照</td>
+</tr>
+<tr>
+        <td>3</td>
+        <td>セッションタイムアウトの指定</td>
+        <td>アプリケーションサーバーのサーブレットコンテナに対して行う。Servlet標準仕様で定められた指定方法(web.xml) か、アプリケーションサーバの機能を使ってセッションタイムアウトを検知する。</td>
+        <td>脆弱性対策E、Gを参照</td>
+</tr>
+<tr>
+        <td>4</td>
+        <td>無効なセッションを使ったリクエストの検知</td>
+        <td>SpringSecurityは無効なセッションを使ったリクエストを検知する機能を提供している。 無効なセッションとして扱われるリクエストの大部分は、セッションタイムアウト後のリクエストである。</td>
+        <td>脆弱性対策Cを参照</td>
+</tr>
+<tr>
+        <td>5</td>
+        <td>多重ログインの制御</td>
+        <td>同じユーザー名(ログインID)を使った多重ログインを制御する機能を提供している。 先勝ち、後勝ちの両方を選択できる。デフォルトは多重ログインの制御なし。</td>
+        <td><td/>
+</tr>
+<tr>
+        <td>6</td>
+        <td>セッション利用時のセキュリティ対策（セッションハイジャック攻撃への対策）</td>
+        <td>推測困難なセッションIDの生成HTTPSを使って通信し、セッションIDはCookieを使って連携。CookieのHttpOnly属性指定（JavaScriptからCookieにアクセスできないように）CookieにSecure属性を指定 (HTTPS通信の時だけCookieをサーバーに送信する)</td>
+        <td>脆弱性対策Cを参照</td>
+</tr>
+<tr>
+        <td>7</td>
+        <td>セッション固定攻撃への対策</td>
+        <td>URL Rewriting 機能を無効可(デフォルト)有効可させると、Cookieが使用できないブラウザでURL内にJSESSIONIDが露出してしまう。ログイン後にセッションIDを変更する</td>
+        <td>脆弱性対策Bを参照</td>
+</tr>
+<tr>
+        <td>8</td>
+        <td>セッション情報の格納先</td>
+        <td>Spring Securityが用意しているデフォルト実装ではHTTPセッションを使用する。クラウド環境など複数のAPサーバからセッション情報を共有した場合は、SpringSessionを利用する。</td>
+        <td></td>
+</tr>
+</table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="ap">
+<span id="section-app-infra-session-management-security-label"></span><h2>AP層の脆弱性対策<a class="headerlink" href="#ap" title="Permalink to this headline">¶</a></h2>
+<p>セッションの利用にあたり、アプリケーションでは以下のような脆弱性対策を講じる。</p>
+    <table border=1 cellpadding=3 cellspacing=0 style="font-size:10px;">
+     <tr bgcolor="#33CCFF">
+      <td width="20px">No</td>
+      <td>タイトル</td>
+      <td width="300px">対策</td>
+      <td width="300px">解説</td>
+     </tr>
+
+     <tr>
+      <td>A</td>
+      <td>推測困難なセッションID</td>
+      <td>セッションIDの推測に伴うなりすましを防ぐため、他者に容易に推測されないよう、認証用セッションIDは次を満たした値を生成すること。<br>
+        ・十分な長さの桁数<br>
+        ・ユーザ毎かつセッション毎に異なるランダムな値<br>
+</td>
+      <td >・十分な長さの桁数とは128bit以上。</td>
+     </tr>
+
+     <tr>
+      <td>B</td>
+      <td>セッション固定化攻撃対策</td>
+      <td>セッションIDの固定化攻撃に伴うなりすましを防ぐため、認証用セッションIDは、ログイン成功後に発行すること。<br></td>
+      <td>・ユーザがログインする前の段階で認証用セッションIDを発行し、その認証用セッションIDをログイン後も継続して使用する場合、セッションIDの固定化攻撃によって、他者になりすまされる可能性がある。<br>
+            ・ログイン後にログイン前のセッションを引き継ぐ必要がある場合には、ログイン成功後に新たなセッションIDを発行し、ログイン前のセッションIDは無効化すること。<br>
+      </td>
+     </tr>
+
+     <tr>
+      <td>C</td>
+      <td>セッションIDの格納先</td>
+      <td>認証用セッションIDは、CookieもしくはPOSTメソッドのhiddenパラメータに格納して受け渡すこと。</td>
+      <td>認証用セッションIDをURLパラメータに格納した場合、ブラウザのReferer送信機能や、ファイアウォールやproxyサーバのログ等によって、認証用セッションIDが他者に漏えいし、セッション・ハイジャックによって他者になりすまされる可能性がある。
+      </td>
+     </tr>
+
+     <tr>
+      <td>D</td>
+      <td>Cookieの設定</td>
+      <td>
+            Cookieの盗用に伴うなりすましを防ぐため、認証用セッションIDを格納したCookieは、以下を満たすように設定すること。<br>
+        ・有効期限はセッション限りとする。<br>
+        ・パスとドメインは、Cookieを発行したURL（パス、ドメイン）と等しいか、より狭い範囲に制限する。<br>
+        ・HTTPS通信で発行するCookieにはsecure属性を付与する。
+       </td>
+      <td>Cookieのexpire/Max-Age属性を省略すると、Cookieの有効期限はセッション限りとなる。</td>
+     </tr>
+
+
+     <tr>
+      <td>E</td>
+      <td>セッションの破棄</td>
+      <td>セッションIDの推測に伴うなりすましを防ぐため、ユーザの連続無操作時間が一定時間続いた場合、認証用セッションをサーバ側で破棄すること。<br>
+        </td>
+      <td>
+            一定時間の長さは、業務要件やアクセシビリティを考慮して決定すること。<br>
+        例えば、決済システムの場合は15分（PCIDSS 3.0より）。
+      </td>
+     </tr>
+
+     <tr>
+      <td>F</td>
+      <td>セッションの終了</td>
+      <td>ユーザに対して、ユーザ自身がセッション終了できる機能（ログアウト機能）を提供すること</td>
+      <td>・ユーザが離席した際に、第三者に悪用されるリスクを低減するための対策。システム提供者の責務として実装すべきである。<br>
+      </td>
+     </tr>
+     <tr>
+      <td>G</td>
+      <td>システム管理者によるアクセスの終了/ロック</td>
+      <td>システム管理者の連続無操作時間が一定時間続いた場合、システム管理者との接続を終了もしくはロックすること</td>
+      <td>・一定時間は5分間以下とすることが望ましい。システムの業務要件に合わせて適切な時間を設定すること。<br>
+      ・ロックは、セッションロック（アカウントロック）もしくは画面ロック（復帰時にパスワードの入力が必要なタイプ）を指している。システム管理者の操作環境（入退室管理の実施状況、リモート接続有無等）等に応じて、方法を検討すること。
+      </td>
+     </tr>
+    </table><p><br/></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="work guideline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
