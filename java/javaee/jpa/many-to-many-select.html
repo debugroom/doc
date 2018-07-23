@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>多対多の関係テーブルにおけるデータ取得 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="多対多の関係テーブルにおけるデータ追加" href="many-to-many-insert.html" />
+    <link rel="prev" title="1対多の関係テーブルにおけるデータ削除" href="one-to-many-delete.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaEE JPA</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introdcution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple-select.html">単テーブルにおける検索</a></li>
+<li class="toctree-l2"><a class="reference internal" href="select-list.html">複数件データを取得するSELECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="insert.html">単テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">単テーブルにおけるデータ更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="delete.html">単テーブルに対するデータ削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-select.html">1対多の関係テーブルにおけるデータ取得</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-insert.html">1対多の関係テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-update.html">1対多の関係テーブルにおけるデータ更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-delete.html">1対多の関係テーブルにおけるデータ削除</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">多対多の関係テーブルにおけるデータ取得</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#criteriaapijpqlnativesql">CriteriaAPI・JPQL・NativeSQLを利用した検索</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">各パターンにおけるメリットデメリット</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">副問合せを用いたデータ取得</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="many-to-many-insert.html">多対多の関係テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="many-to-many-update.html">多対多の関係テーブルにおけるデータ変更</a></li>
+<li class="toctree-l2"><a class="reference internal" href="many-to-many-delete.html">多対多の関係テーブルにおけるデータ削除</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">JavaEE JPA</a> &raquo;</li>
+        
+      <li>多対多の関係テーブルにおけるデータ取得</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/javaee/jpa/many-to-many-select.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-jpa-usage-many-to-many-select-label">
+<span id="id1"></span><h1>多対多の関係テーブルにおけるデータ取得<a class="headerlink" href="#section-jpa-usage-many-to-many-select-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="criteriaapijpqlnativesql">
+<h2>CriteriaAPI・JPQL・NativeSQLを利用した検索<a class="headerlink" href="#criteriaapijpqlnativesql" title="Permalink to this headline">¶</a></h2>
+<p>ユーザとグループなど、モデル間の関連実体として、「所属」という関係性を挟んで、多対多の関連を持つデータが存在する。
+こうしたエンティティは、Javaオブジェクト上ではお互いをリストで保持するような形で相互のオブジェクト参照を保持するが、
+リレーショナルデータベース上では、相互の関連を多対1、1対多の構成となるように所属テーブルを作成することが一般的である。</p>
+<img alt="../../../_images/many_to_many_relation.png" src="../../../_images/many_to_many_relation.png" />
+<p>こうしたデータに対して、SELECTを実施する場合は、単体テーブルにおけるデータ取得とは異なり、検索条件が色々なテーブルに跨るケースが多くなる。
+JPAでは、それぞれCriteria API、JPQL、NativeSQLによる実装オプションを提供しているが、それぞれメリットデメリットがあり、
+データ取得する対象や、検索条件などによっても適切な方法が異なる。処理の内容を鑑みて適切な手法を選択すること。</p>
+<p>典型的なパターンとして、以下の通り、グループIDをキーにして、そのグループに所属するユーザデータを取得する場合で、
+Criteria API、JPQL、NativeSQLで実装する場合のパターンを示す。</p>
+<p>例) 特定のグループに所属するユーザを検索する場合</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.OneToManySelectServiceImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.service.impl.ejb.dbaccess</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.EJB</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.GroupRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.service.dbaccess.ManyToManySelectService</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManyToManySelectServiceImpl</span> <span class="kd">implements</span> <span class="n">ManyToManySelectService</span><span class="o">{</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">getUsers</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findByGroupId</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Query</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Affiliation_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryImpl</span> <span class="kd">extends</span> <span class="n">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">UserRepository</span><span class="o">{</span>
+
+    <span class="c1">// Native Queryを使用してデータ取得するパターン</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByGroupIdUsingNativeQuery</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+        <span class="c1">// 可読性のため、文字列を+で連結しているが、実装する際はStringBuilderで組み立てること。</span>
+        <span class="c1">// entityManager.createNativeQuery()メソッドでは戻り値の型を指定しておくこと。</span>
+        <span class="c1">// 指定しない場合は、返却値のオブジェクトがObject[]型で返されるため、JSF上で、NumberFormatExceptionが発生する可能性がある。</span>
+        <span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createNativeQuery</span><span class="o">(</span>
+             <span class="s">&quot;SELECT u.user_id, u.is_login, u.last_updated_date_and_time, u.user_name, u.ver &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;FROM ( DUSER u &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;INNER JOIN AFFILIATION a ON u.user_id = a.user_id ) &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;INNER JOIN GRP g ON a.group_id = g.group_id &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;WHERE g.group_id = ?1 &quot;</span><span class="o">,</span> <span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <span class="c1">// &lt;= 戻り値の型を必ず指定しておくこと。</span>
+        <span class="c1">// パラメータをセットする。キーワード指定はできないので注意。</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span><span class="n">query</span><span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Criteria APIを使用してデータ取得するパターン</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByGroupIdUsingCriteriaAPI</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+        <span class="c1">// CriteriaBuilderでクエリを組み立てる。</span>
+        <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span>
+        <span class="c1">// 戻り値の型を指定してQueryオブジェクトを生成する。</span>
+        <span class="n">CriteriaQuery</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="c1">// 結合の基点となるテーブルを指定する</span>
+        <span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="c1">// 結合するテーブルと、結合時のキーとなる参照を指定する。指定は、Canonical Metamodelクラスの属性を利用する※1</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">joinAffiliation</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">affiliations</span><span class="o">);</span>
+        <span class="c1">// 結合するテーブルと、結合時のキーとなる参照を指定する。指定は、Canonical Metamodelクラスの属性を利用する※1</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">,</span> <span class="n">Group</span><span class="o">&gt;</span> <span class="n">joinGroup</span> <span class="o">=</span> <span class="n">joinAffiliation</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Affiliation_</span><span class="o">.</span><span class="na">grp</span><span class="o">);</span>
+        <span class="c1">// データ取得する条件を指定する。4.</span>
+        <span class="n">Predicate</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">joinGroup</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;groupId&quot;</span><span class="o">),</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="c1">// クエリに結合条件とデータ取得条件をセットして実行する。</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">predicate</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">query</span><span class="o">).</span><span class="na">getResultList</span><span class="o">();</span>
+   <span class="o">}</span>
+
+    <span class="c1">// JPQLを使用してデータ取得するパターン</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findByGroupIdUsingJPQL</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+        <span class="c1">// 可読性のため、文字列を+で連結しているが、実装する際はStringBuilderで組み立てること。</span>
+        <span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span>
+             <span class="s">&quot;SELECT u FROM User u &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;JOIN u.affiliations a &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;JOIN a.grp g &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;WHERE g.groupId = :groupId&quot;</span><span class="o">);</span>
+        <span class="c1">// パラメータ指定する。</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="s">&quot;groupId&quot;</span><span class="o">,</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span><span class="n">query</span><span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このとき、発行するSQLは、基本的にはいずれも同じで以下のようになる。</p>
+<div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span>/* JPQLとCriteriaAPIで発行されるSQL */
+select
+    user0_.user_id as user_id1_5_,
+    user0_.is_login as is_login2_5_,
+    user0_.last_updated_date_and_time as last_upd3_5_,
+    user0_.user_name as user_nam4_5_,
+    user0_.ver as ver5_5_
+from duser user0_
+inner join Affiliation affiliatio1_
+      on user0_.user_id=affiliatio1_.user_id
+inner join grp group2_
+      on affiliatio1_.group_id=group2_.group_id
+where group2_.group_id=?
+
+/* Nativeで発行されるSQL(基本そのまま) */
+SELECT
+   u.user_id,
+   u.is_login,
+   u.last_updated_date_and_time,
+   u.user_name,
+   u.ver
+FROM ( DUSER u
+INNER JOIN AFFILIATION a
+   ON u.user_id = a.user_id )
+INNER JOIN GRP g
+   ON a.group_id = g.group_id
+WHERE g.group_id = ?
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id2">
+<h2>各パターンにおけるメリットデメリット<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>それぞれのメリットデメリットは以下の通りである。</p>
+<table border="1" class="docutils" id="id4">
+<caption><span class="caption-text">Pros &amp; Cons</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>Pros</td>
+<td>Cons</td>
+</tr>
+<tr class="row-even"><td>Native SQL</td>
+<td><ul class="first last simple">
+<li>性能を出すためのカスタマイズがしやすい。</li>
+<li>RDBに依存した機能が使える。</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>RDBに依存するSQLを記載することになり移植性がなくなる。</li>
+<li>マッピングやカラム、別名など記述量が増える。記載漏れなど人的エラーが余計に発生する。</li>
+<li>楽観ロックにおけるバージョン比較をAP実装する必要がある。</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>Criteria API</td>
+<td><ul class="first last simple">
+<li>型安全性が保証される(誤った記述はコンパイルエラーとなり実行時エラーを抑制)。</li>
+<li>JPAが機械的に組み立てるので、SQL文法エラーが発生することはない。</li>
+<li>JPAの機能で&#64;Versionアノテーションを付与することにより、楽観ロックを実現できる。</li>
+<li>RDBに依存しないので原理上移植性が保たれる。</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>クエリの組み立てロジックが複雑で難しい</li>
+<li>文法上のエラーは発生しなくても、意図したとおり組み立てられているかが確認が必要</li>
+<li>使用方法やエンティティの管理を誤ると気づかないところで意図せぬSQLが実行される。</li>
+<li>条件によってはMetaModelのクラスを作成し※1、管理する必要がある。</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>JPQL</td>
+<td><ul class="first last simple">
+<li>RDBに依存しないので原理上移植性が保たれる。</li>
+<li>記述がSQLに比べて楽で、直感的に理解しやすい。</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li>NamedQueryでなければ、SQLのプリコンパイルが発生するので性能懸念が発生する。</li>
+<li>Native由来の、複雑なSQLの組み立てはサポートしていない。</li>
+<li>楽観ロックにおけるバージョン比較をAP実装する必要がある。</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>※1 Criteria APIでは、検索条件の指定には、Canonical MetaModelによるクラスの作成が必要な場合がある。必要に応じて参照すること。</dt>
+<dd><a class="reference external" href="https://docs.oracle.com/javaee/6/tutorial/doc/gjiup.html">https://docs.oracle.com/javaee/6/tutorial/doc/gjiup.html</a>
+<a class="reference external" href="https://docs.jboss.org/hibernate/orm/5.0/topical/html/metamodelgen/MetamodelGenerator.html">https://docs.jboss.org/hibernate/orm/5.0/topical/html/metamodelgen/MetamodelGenerator.html</a>
+<a class="reference external" href="http://www.slideshare.net/OracleMiddleJP/the-detail-of-jpa-20?ref=http://yoshio3.com/2011/12/19/java-persistence-api-for-begineers/">http://www.slideshare.net/OracleMiddleJP/the-detail-of-jpa-20?ref=http://yoshio3.com/2011/12/19/java-persistence-api-for-begineers/</a></dd>
+</dl>
+<p>Userクラスにおける、Canonical MetaModelクラスは以下の通りである。</p>
+<p>test-javaee6-domain org.debugroom.test.domain.model.User_</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.annotation.Generated</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.ListAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.SingularAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.metamodel.StaticMetamodel</span><span class="o">;</span>
+
+<span class="nd">@Generated</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;Dali&quot;</span><span class="o">,</span> <span class="n">date</span><span class="o">=</span><span class="s">&quot;2016-03-28T16:08:39.270+0900&quot;</span><span class="o">)</span>
+<span class="nd">@StaticMetamodel</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User_</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">userId</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span> <span class="n">isLogin</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Date</span><span class="o">&gt;</span> <span class="n">lastUpdatedDateAndTime</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">userName</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">SingularAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ver</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">ListAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Address</span><span class="o">&gt;</span> <span class="n">addresses</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">ListAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">ListAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Credential</span><span class="o">&gt;</span> <span class="n">credentials</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">ListAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Email</span><span class="o">&gt;</span> <span class="n">emails</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">ListAttribute</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Phone</span><span class="o">&gt;</span> <span class="n">phones</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>なお、Eclipseでは以下の通りの設定を変更することで、Canonical MetaModelクラスを自動生成することができる。</p>
+<img alt="../../../_images/settings_canonical_metamodel.png" src="../../../_images/settings_canonical_metamodel.png" />
+</div>
+<div class="section" id="id3">
+<h2>副問合せを用いたデータ取得<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>以下の通り、グループIDをキーにして、そのグループに所属しないユーザデータを取得する場合で、副問合せを使用して
+Criteria API、JPQL、NativeSQLで実装する場合のパターンを示す。</p>
+<p>例) 指定したグループに所属しないユーザを、副問合せを使用して検索する場合</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Query</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Join</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Predicate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Subquery</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Affiliation_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User_</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryImpl</span> <span class="kd">extends</span> <span class="n">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">UserRepository</span><span class="o">{</span>
+
+
+    <span class="c1">// Native Queryを使用してデータ取得するパターン</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findNotIncludingGroupUsingNativeSQL</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+        <span class="c1">// 可読性のため、文字列を+で連結しているが、実装する際はStringBuilderで組み立てること。</span>
+        <span class="c1">// entityManager.createNativeQuery()メソッドでは戻り値の型を指定しておくこと。</span>
+        <span class="c1">// 指定しない場合は、返却値のオブジェクトがObject[]型で返されるため、JSF上で、NumberFormatExceptionが発生する可能性がある。</span>
+        <span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createNativeQuery</span><span class="o">(</span>
+                <span class="s">&quot;SELECT u.* FROM DUSER u &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;WHERE u.user_id NOT IN ( &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;SELECT u.user_id &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;FROM ( DUSER u &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;INNER JOIN AFFILIATION a ON u.user_id = a.user_id ) &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;INNER JOIN GRP g ON a.group_id = g.group_id &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;WHERE g.group_id = ?1 )&quot;</span><span class="o">,</span> <span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span><span class="n">query</span><span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Criteria APIを使用してデータ取得するパターン</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findNotIncludingGroupUsingCriteriaAPI</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+
+        <span class="n">CriteriaBuilder</span> <span class="n">criteriaBuilder</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span>
+        <span class="n">CriteriaQuery</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Path</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">);</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+
+        <span class="c1">// CriteriaBuilderでサブクエリを組み立てる。</span>
+        <span class="c1">// 通常のクエリを組み立てる方法と違いはない。</span>
+        <span class="n">Subquery</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQuery</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">createQuery</span><span class="o">().</span><span class="na">subquery</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">subQueryRoot</span> <span class="o">=</span> <span class="n">subQuery</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">subQueryJoinAffiliation</span> <span class="o">=</span> <span class="n">subQueryRoot</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">User_</span><span class="o">.</span><span class="na">affiliations</span><span class="o">);</span>
+        <span class="n">Join</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">,</span> <span class="n">Group</span><span class="o">&gt;</span> <span class="n">subQueryJoinGroup</span> <span class="o">=</span> <span class="n">subQueryJoinAffiliation</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">Affiliation_</span><span class="o">.</span><span class="na">grp</span><span class="o">);</span>
+        <span class="n">Predicate</span> <span class="n">subQueryPredicate</span> <span class="o">=</span> <span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">subQueryJoinGroup</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;groupId&quot;</span><span class="o">),</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">subQueryRoot</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;userId&quot;</span><span class="o">));</span>
+        <span class="n">subQuery</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">subQueryPredicate</span><span class="o">);</span>
+
+        <span class="c1">//サブクエリを条件として設定する。</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">not</span><span class="o">(</span><span class="n">criteriaBuilder</span><span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">path</span><span class="o">).</span><span class="na">value</span><span class="o">(</span><span class="n">subQuery</span><span class="o">)));</span>
+
+        <span class="k">return</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">query</span><span class="o">).</span><span class="na">getResultList</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// JPQLを使用して、データ取得するパターン</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findNotIncludingGroupUsingJPQL</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">){</span>
+        <span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span>
+                <span class="s">&quot;SELECT u from User u &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;WHERE u.userId not in ( &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;SELECT u.userId FROM User u &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;JOIN u.affiliations a &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;JOIN a.grp g &quot;</span>
+                <span class="o">+</span> <span class="s">&quot;WHERE g.groupId = :groupId )&quot;</span><span class="o">);</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="s">&quot;groupId&quot;</span><span class="o">,</span> <span class="n">groupId</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span><span class="n">query</span><span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このとき、以下のようなSQLが発行される。</p>
+<div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span>select
+    user0_.user_id as user_id1_5_,
+    user0_.is_login as is_login2_5_,
+    user0_.last_updated_date_and_time as last_upd3_5_,
+    user0_.user_name as user_nam4_5_,
+    user0_.ver as ver5_5_
+from duser user0_
+where user0_.user_id not in  (
+    select
+        user1_.user_id
+    from duser user1_
+    inner join Affiliation affiliatio2_
+        on user1_.user_id=affiliatio2_.user_id
+    inner join grp group3_
+        on affiliatio2_.group_id=group3_.group_id
+    where group3_.group_id=?
+)
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="many-to-many-insert.html" class="btn btn-neutral float-right" title="多対多の関係テーブルにおけるデータ追加" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="one-to-many-delete.html" class="btn btn-neutral" title="1対多の関係テーブルにおけるデータ削除" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

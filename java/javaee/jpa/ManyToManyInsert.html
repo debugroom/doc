@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>多対多の関係テーブルにおけるデータ追加 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>多対多の関係テーブルにおけるデータ追加</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/javaee/jpa/ManyToManyInsert.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>多対多の関係テーブルにおけるデータ追加<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>実装方針<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>ユーザとグループなど、モデル間の関連実体として、「所属」という関係性を挟んで、多対多の関連を持つデータが存在する。
+こうしたエンティティは、Javaオブジェクト上ではお互いをリストで保持するような形で相互のオブジェクト参照を保持するが、
+リレーショナルデータベース上では、相互の関連を多対1、1対多の構成となるように所属テーブルを作成することが一般的である。</p>
+<img alt="../../../_images/many_to_many_relation.png" src="../../../_images/many_to_many_relation.png" />
+<p>こうしたテーブルに対して、データ追加を実施する場合は、OneToManyのパターンと同じではあるが、実装のアプローチとしても複数のパターンが考えられる。
+例えば、上記でユーザをグループに追加したいといった場合には以下のパターンに分別できる。</p>
+<p>例) Criteria APIを利用して、所属グループにユーザを追加する場合(2パターン)</p>
+<p>test-javaee6-ejb jp.co.nttdata.rd.test.domain.service.impl.ejb.dbaccess.ManyToManyInsertServiceImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">jp.co.nttdata.rd.test.domain.service.impl.ejb.dbaccess</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.EJB</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.model.Affiliation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.model.AffiliationPK</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.model.Group</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.repository.GroupRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jp.co.nttdata.rd.test.domain.service.dbaccess.ManyToManyInsertService</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManyToManyInsertServiceImpl</span> <span class="kd">implements</span> <span class="n">ManyToManyInsertService</span><span class="o">{</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">GroupRepository</span> <span class="n">groupRepository</span><span class="o">;</span>
+
+    <span class="c1">// UserオブジェクトへAffiliationを追加するパターン</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">addUserToGroupUsingCriteriaAPIPattern1</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">){</span>
+        <span class="n">User</span> <span class="n">targetUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+        <span class="n">Affiliation</span> <span class="n">affiliation</span> <span class="o">=</span> <span class="n">Affiliation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                               <span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="n">AffiliationPK</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                                  <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())</span>
+                                                                  <span class="o">.</span><span class="na">groupId</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">())</span>
+                                                                  <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+                                               <span class="o">.</span><span class="na">ver</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+                                               <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">targetUser</span><span class="o">.</span><span class="na">addAffiliation</span><span class="o">(</span><span class="n">affiliation</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">resultList</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findByGroupId</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">());</span>
+        <span class="n">resultList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">targetUser</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">resultList</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// GroupオブジェクトへAffiliationを追加するパターン</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">addUserToGroupUsingCriteriaAPIPattern2</span><span class="o">(</span><span class="n">Group</span> <span class="n">group</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">){</span>
+        <span class="n">Group</span> <span class="n">targetGroup</span> <span class="o">=</span> <span class="n">groupRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">());</span>
+        <span class="n">Affiliation</span> <span class="n">affiliation</span> <span class="o">=</span> <span class="n">Affiliation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                               <span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="n">AffiliationPK</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                                                                 <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())</span>
+                                                                 <span class="o">.</span><span class="na">groupId</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">())</span>
+                                                                 <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+                                               <span class="o">.</span><span class="na">ver</span><span class="o">(</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+                                               <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="n">targetGroup</span><span class="o">.</span><span class="na">addAffiliation</span><span class="o">(</span><span class="n">affiliation</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">resultList</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findByGroupId</span><span class="o">(</span><span class="n">group</span><span class="o">.</span><span class="na">getGroupId</span><span class="o">());</span>
+        <span class="n">resultList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()));</span>
+        <span class="k">return</span> <span class="n">resultList</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>GroupにはUserと同様、OneToMany属性で、cascade属性をcascadeType.PERSISTもしくはcascadeType.ALLにする必要がある。</p>
+<p>test-javaee6-domain jp.co.nttdata.rd.test.domain.model.Group</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">jp.co.nttdata.rd.test.domain.model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;grp&quot;</span><span class="o">)</span>
+<span class="nd">@NamedQuery</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Group.findAll&quot;</span><span class="o">,</span> <span class="n">query</span><span class="o">=</span><span class="s">&quot;SELECT g FROM Group g&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Group</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;group_id&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">groupId</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;group_name&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">groupName</span><span class="o">;</span>
+
+    <span class="nd">@Version</span>
+    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">ver</span><span class="o">;</span>
+
+    <span class="c1">//bi-directional many-to-one association to Affiliation</span>
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;grp&quot;</span><span class="o">,</span> <span class="n">cascade</span> <span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+
+    <span class="c1">// omit</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このとき、発行するSQLは、基本的にはいずれも同じで以下のようになる。</p>
+<div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>/* JPQLとCriteriaAPIで発行されるSQL */
+insert into Affiliation (ver, group_id, user_id) values (?, ?, ?)
+</pre></div>
+</td></tr></table></div>
+<p>TODO : 多対多関連におけるデータ追加のパターン整理が必要。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

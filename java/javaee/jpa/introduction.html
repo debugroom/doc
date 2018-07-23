@@ -88,7 +88,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Introdcution</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#section-jpa-pre-condition-label">前提事項</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#section-jpa-sample-project-label">各画面とロジックの対応関係</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">データベースアクセスロジックに関する共通事項</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-jpa-generic-dao-label">データベースアクセスロジックに関する共通事項</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="simple-select.html">単テーブルにおける検索</a></li>
@@ -96,6 +96,10 @@
 <li class="toctree-l2"><a class="reference internal" href="insert.html">単テーブルにおけるデータ追加</a></li>
 <li class="toctree-l2"><a class="reference internal" href="update.html">単テーブルにおけるデータ更新</a></li>
 <li class="toctree-l2"><a class="reference internal" href="delete.html">単テーブルに対するデータ削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-select.html">1対多の関係テーブルにおけるデータ取得</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-insert.html">1対多の関係テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-update.html">1対多の関係テーブルにおけるデータ更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-delete.html">1対多の関係テーブルにおけるデータ削除</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
@@ -207,54 +211,397 @@
 <div class="section" id="section-jpa-sample-project-label">
 <span id="id2"></span><h2>各画面とロジックの対応関係<a class="headerlink" href="#section-jpa-sample-project-label" title="Permalink to this headline">¶</a></h2>
 <p>test-javaee6-webプロジェクトには、各テーマごとに、対応するページを作成している。JBossを起動した後、以下のURLを実行すると各機能の実行ページに移る。</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="4%" />
-<col width="21%" />
-<col width="75%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">No</th>
-<th class="head">title</th>
-<th class="head">URL</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>1</td>
-<td>Simple SELECT</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelect.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelect.xhtml</a></td>
-</tr>
-<tr class="row-odd"><td>2</td>
-<td>Simple SELECT List</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelectList.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelectList.xhtml</a></td>
-</tr>
-<tr class="row-even"><td>3</td>
-<td>Simple INSERT</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleInsert.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleInsert.xhtml</a></td>
-</tr>
-<tr class="row-odd"><td>4</td>
-<td>Simple UPDATE</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleUpdate.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleUpdate.xhtml</a></td>
-</tr>
-<tr class="row-even"><td>5</td>
-<td>Simple DELETE</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleDelete.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleDelete.xhtml</a></td>
-</tr>
-<tr class="row-odd"><td>6</td>
-<td>…(working)</td>
-<td><a class="reference external" href="http://localhost:8080/test-javaee6-web/jsf/dbaccess/xxxxxxxxxxxx.xhtml">http://localhost:8080/test-javaee6-web/jsf/dbaccess/xxxxxxxxxxxx.xhtml</a></td>
-</tr>
-</tbody>
-</table>
 <blockquote>
 <div><div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">SampleプロジェクトをGitHubにアップする。</p>
 </div>
 </div></blockquote>
+<blockquote id="section-jpa-database-label">
+<div><p>サンプルで使用するデータベースのテーブル構成は以下の通り。</p>
+<img alt="../../../_images/sample_env.png" src="../../../_images/sample_env.png" />
+<ol class="arabic simple">
+<li>User</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>DUSER</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>User</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>DUSER</td>
+<td>USER_NAME</td>
+<td>VARCHAR</td>
+<td>User</td>
+<td>userName</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>DUSER</td>
+<td>LAST_UPDATED_DATE_AND_TIME</td>
+<td>DATE</td>
+<td>User</td>
+<td>lastUpdatedDateAndTime</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>DUSER</td>
+<td>IS_LOGIN</td>
+<td>BOOLEAN</td>
+<td>User</td>
+<td>lastUpdatedDateAndTime</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>DUSER</td>
+<td>VER</td>
+<td>INT</td>
+<td>User</td>
+<td>ver</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li>Credential</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>CREDENTIAL</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>CredentialPK</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>CREDENTIAL</td>
+<td>CREDENTIAL_ID</td>
+<td>VARCHAR(4)</td>
+<td>CredentialPK</td>
+<td>credentialId</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>CREDENTIAL</td>
+<td>CREDENTIAL_TYPE</td>
+<td>VARCHAR</td>
+<td>Credential</td>
+<td>credentialType</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>CREDENTIAL</td>
+<td>CREDENTIAL_KEY</td>
+<td>VARCHAR</td>
+<td>Credential</td>
+<td>credentialKey</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>CREDENTIAL</td>
+<td>EXPIRED_DATE_AND_TIME</td>
+<td>DATE</td>
+<td>Credential</td>
+<td>expiredDateAndTime</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>CREDENTIAL</td>
+<td>VER</td>
+<td>INT</td>
+<td>Crednetial</td>
+<td>ver</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="3">
+<li>Email</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>EMAIL</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>EmailPK</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>EMAIL</td>
+<td>EMAIL_ID</td>
+<td>INT</td>
+<td>EmailPK</td>
+<td>emailId</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>EMAIL</td>
+<td>EMAIL</td>
+<td>VARCHAR</td>
+<td>Email</td>
+<td>email</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>EMAIL</td>
+<td>VER</td>
+<td>INT</td>
+<td>Email</td>
+<td>ver</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="4">
+<li>Address</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>ADDRESS</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>AddressPK</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>ADDRESS</td>
+<td>ADDRESS_NO</td>
+<td>INT</td>
+<td>AddressPK</td>
+<td>addressNo</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>ADDRESS</td>
+<td>ZIP_CODE</td>
+<td>CHAR(8)</td>
+<td>Address</td>
+<td>zipCode</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>ADDRESS</td>
+<td>ADDRESS</td>
+<td>VARCHAR</td>
+<td>Address</td>
+<td>address</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>ADDRESS</td>
+<td>ADDRESS_DATAILS</td>
+<td>VARCHAR</td>
+<td>Address</td>
+<td>addressDetails</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="5">
+<li>PHONE</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>PHONE</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>PhonePK</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>PHONE</td>
+<td>PHONE_NO</td>
+<td>INT</td>
+<td>PhonePK</td>
+<td>phoneNo</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>PHONE</td>
+<td>PHONE_NUMBER</td>
+<td>VARCHAR(11)</td>
+<td>Phone</td>
+<td>PhoneNumber</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>EMAIL</td>
+<td>VER</td>
+<td>INT</td>
+<td>Phone</td>
+<td>ver</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="5">
+<li>GROUP</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>GROUP</td>
+<td>GROUP_ID</td>
+<td>VARCHAR(10)</td>
+<td>Group</td>
+<td>groupId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>GROUP</td>
+<td>GROUP_NAME</td>
+<td>VARCHAR</td>
+<td>Group</td>
+<td>groupName</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>GROUP</td>
+<td>VER</td>
+<td>INT</td>
+<td>Group</td>
+<td>Ver</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="6">
+<li>AFFILIATION</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="15%" />
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">No</th>
+<th class="head">Table</th>
+<th class="head">Column</th>
+<th class="head">Attribute</th>
+<th class="head">Entity Class</th>
+<th class="head">property</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>AFFILIATION</td>
+<td>USER_ID</td>
+<td>VARCHAR(8)</td>
+<td>Affiliation</td>
+<td>userId</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>AFFILIATION</td>
+<td>GROUP_ID</td>
+<td>VARCHAR(10)</td>
+<td>Affiliation</td>
+<td>groupId</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>AFFILIATION</td>
+<td>VER</td>
+<td>INT</td>
+<td>Affiliation</td>
+<td>Ver</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 </div>
-<div class="section" id="id3">
-<h2>データベースアクセスロジックに関する共通事項<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section-jpa-generic-dao-label">
+<span id="id3"></span><h2>データベースアクセスロジックに関する共通事項<a class="headerlink" href="#section-jpa-generic-dao-label" title="Permalink to this headline">¶</a></h2>
 <p>各エンティティごとに重複した実装を省略するために、本実装サンプルではGenericDAOパターンを採用する。
 GenericDAOパターンとは、JPAエンティティクラスとそのキーとなるクラスを型パラメータにもつ、
 データベースアクセスに関わる振る舞いを実装したクラスである。</p>

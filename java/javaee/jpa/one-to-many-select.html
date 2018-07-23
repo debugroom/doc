@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1対多の関係テーブルにおけるデータ取得 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="1対多の関係テーブルにおけるデータ追加" href="one-to-many-insert.html" />
+    <link rel="prev" title="単テーブルに対するデータ削除" href="delete.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaEE JPA</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introdcution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple-select.html">単テーブルにおける検索</a></li>
+<li class="toctree-l2"><a class="reference internal" href="select-list.html">複数件データを取得するSELECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="insert.html">単テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="update.html">単テーブルにおけるデータ更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="delete.html">単テーブルに対するデータ削除</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1対多の関係テーブルにおけるデータ取得</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lazyroadeagerfetchcriteriaapi">LazyRoadとEagerFetchでのCriteriaAPIデータ検索</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-insert.html">1対多の関係テーブルにおけるデータ追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-update.html">1対多の関係テーブルにおけるデータ更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one-to-many-delete.html">1対多の関係テーブルにおけるデータ削除</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">JavaEE JPA</a> &raquo;</li>
+        
+      <li>1対多の関係テーブルにおけるデータ取得</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/java/javaee/jpa/one-to-many-select.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-jpa-one-to-many-label">
+<span id="id1"></span><h1>1対多の関係テーブルにおけるデータ取得<a class="headerlink" href="#section-jpa-one-to-many-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lazyroadeagerfetchcriteriaapi">
+<h2>LazyRoadとEagerFetchでのCriteriaAPIデータ検索<a class="headerlink" href="#lazyroadeagerfetchcriteriaapi" title="Permalink to this headline">¶</a></h2>
+<p>注文と注文明細のように、1対多の関連を持つテーブルにおけるSELECTを実施する場合は、単テーブルにおける検索と同様、
+JPAのCriteria APIを使用して実装する。GenericDaoの様に共通化したメソッドを経由して実行するとよい。</p>
+<p>ただし、ネストしたエンティティの参照が発生する場合、デフォルトでは、遅延ロード(Lazy-load)として、
+アクセスしたプロパティのデータ取得するためのSQLが発生する。プロパティへのアクセスの有無やデータ件数に応じてLazy-loadか
+テーブル結合してデータ取得するオプション(Eager-Fetch)がよいかは異なる。必要に応じて、オプションを切り替えること。</p>
+<p>なお、Lazy-Loadか、Eager-Fetchとするか、フェッチ戦略はデフォルトではエンティティ固定となる。
+ある状況下でのみ、Eager-Fetchとする場合などは、JPQLを使用したデータ取得を検討すること。
+また、関連するエンティティのデータをキーにしてデータ取得する場合も、JPQLを使用してデータ取得する。</p>
+<p>例) Emailをレイジーロードで、addressをイーガーフェッチを使用して、ユーザを検索する場合</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.OneToManySelectServiceImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.service.impl.ejb.dbaccess</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.EJB</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Email</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.service.dbaccess.OneToManySelectService</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OneToManySelectServiceImpl</span> <span class="kd">implements</span> <span class="n">OneToManySelectService</span><span class="o">{</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">getUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Lazy load start.&quot;</span><span class="o">);</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Email</span> <span class="n">email</span> <span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">getEmails</span><span class="o">()){</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">email</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span> <span class="c1">// &lt;--プロパティアクセスのタイミングでSQLが再発行</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+
+ <span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>データ取得の方法をEager-Fetchに変更する場合は、エンティティクラスの&#64;OneToManyアノテーションにおけるfetch属性を変更する。</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * The persistent class for the duser database table.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+<span class="nd">@NamedQuery</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;User.findAll&quot;</span><span class="o">,</span> <span class="n">query</span><span class="o">=</span><span class="s">&quot;SELECT u FROM User u&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;user_id&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">userId</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;is_login&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Boolean</span> <span class="n">isLogin</span><span class="o">;</span>
+
+    <span class="nd">@Temporal</span><span class="o">(</span><span class="n">TemporalType</span><span class="o">.</span><span class="na">DATE</span><span class="o">)</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;last_updated_date_and_time&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">lastUpdatedDateAndTime</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;user_name&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">ver</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">,</span> <span class="n">fetch</span><span class="o">=</span><span class="n">FetchType</span><span class="o">.</span><span class="na">EAGER</span><span class="o">)</span> <span class="c1">//&lt;- fetch戦略を変更</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Address</span><span class="o">&gt;</span> <span class="n">addresses</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Credential</span><span class="o">&gt;</span> <span class="n">credentials</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>　　<span class="c1">// &lt;- デフォルトではLazy-Loadのため、</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Email</span><span class="o">&gt;</span> <span class="n">emails</span><span class="o">;</span>   <span class="c1">//    プロパティアクセスが発生したタイミングでSQL発行する。</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Phone</span><span class="o">&gt;</span> <span class="n">phones</span><span class="o">;</span>
+
+    <span class="c1">//omitted</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このとき、発行されるSQLは以下のようになる。</p>
+<div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span> select
+     user0_.user_id as user_id1_5_1_,
+     user0_.is_login as is_login2_5_1_,
+     user0_.last_updated_date_and_time as last_upd3_5_1_,
+     user0_.user_name as user_nam4_5_1_,
+     user0_.ver as ver5_5_1_,
+     addresses1_.user_id as user_id2_5_3_,
+     addresses1_.address_no as address_1_0_3_,
+     addresses1_.user_id as user_id2_0_3_,
+     addresses1_.address_no as address_1_0_0_,
+     addresses1_.user_id as user_id2_0_0_,
+     addresses1_.address as address3_0_0_,
+     addresses1_.address_details as address_4_0_0_,
+     addresses1_.ver as ver5_0_0_,
+     addresses1_.zip_code as zip_code6_0_0_
+ from duser user0_
+ left outer join Address addresses1_
+ 　　　　on user0_.user_id=addresses1_.user_id
+ where user0_.user_id=?
+
+ [stdout] Lazy load start.
+
+ select
+      emails0_.user_id as user_id2_5_1_,
+      emails0_.email_no as email_no1_3_1_,
+      emails0_.user_id as user_id2_3_1_,
+      emails0_.email_no as email_no1_3_0_,
+      emails0_.user_id as user_id2_3_0_,
+      emails0_.email as email3_3_0_,
+      emails0_.ver as ver4_3_0_
+ from
+ 　　　　Email emails0_ where emails0_.user_id=?
+
+ [stdout] debugroom@nttdata.co.jp
+
+ [stdout] debugroom2@nttdata.co.jp
+</pre></div>
+</td></tr></table></div>
+<p>EagerFetchした関連テーブルのデータも常に取得されるようになるため、常にアクセスされるわけではないデータはLazyLoadとしておくほうが望ましい。</p>
+<p>例) 関連エンティティのデータをキーにして、データ取得を行う場合。</p>
+<p>test-javaee6-ejb org.debugroom.test.domain.service.impl.OneToManyServiceImpl</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.service.impl.ejb.dbaccess</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.EJB</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.Email</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.service.dbaccess.OneToManySelectService</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OneToManySelectServiceImpl</span> <span class="kd">implements</span> <span class="n">OneToManySelectService</span><span class="o">{</span>
+
+    <span class="nd">@EJB</span>
+    <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">getUser</span><span class="o">(</span><span class="n">Email</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findOneByEmail</span><span class="o">(</span><span class="n">email</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>test-javaee6-ejb org.debugroom.test.domain.repository.impl.jpa.UserRepository</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.repository.impl.jpa</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.ejb.Stateless</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttribute</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.ejb.TransactionAttributeType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Query</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.model.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.debugroom.test.domain.repository.UserRepository</span><span class="o">;</span>
+
+<span class="nd">@Stateless</span>
+<span class="nd">@TransactionAttribute</span><span class="o">(</span><span class="n">TransactionAttributeType</span><span class="o">.</span><span class="na">REQUIRED</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryImpl</span> <span class="kd">extends</span> <span class="n">GenericDaoImpl</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">UserRepository</span><span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">findOneByEmail</span><span class="o">(</span><span class="n">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="s">&quot;&quot;</span>
+             <span class="o">+</span> <span class="s">&quot;SELECT u FROM User u, Email e &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;WHERE &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;e.email = :email &quot;</span>
+             <span class="o">+</span> <span class="s">&quot;and e.id.userId = u.userId&quot;</span><span class="o">);</span>
+        <span class="n">query</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="s">&quot;email&quot;</span><span class="o">,</span> <span class="n">email</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">User</span><span class="o">)</span><span class="n">query</span><span class="o">.</span><span class="na">getSingleResult</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このとき、発行するSQLは以下のようになる。</p>
+<div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span>select
+   user0_.user_id as user_id1_5_,
+   user0_.is_login as is_login2_5_,
+   user0_.last_updated_date_and_time as last_upd3_5_,
+   user0_.user_name as user_nam4_5_,
+   user0_.ver as ver5_5_
+from duser user0_
+cross join Email email1_
+where email1_.email=?
+  and email1_.user_id=user0_.user_id
+
+select
+  addresses0_.user_id as user_id2_5_1_,
+  addresses0_.address_no as address_1_0_1_,
+  addresses0_.user_id as user_id2_0_1_,
+  addresses0_.address_no as address_1_0_0_,
+  addresses0_.user_id as user_id2_0_0_,
+  addresses0_.address as address3_0_0_,
+  addresses0_.address_details as address_4_0_0_,
+  addresses0_.ver as ver5_0_0_,
+  addresses0_.zip_code as zip_code6_0_0_
+from Address addresses0_
+where addresses0_.user_id=?
+</pre></div>
+</td></tr></table></div>
+<p>上記では、addressに対するデータアクセスが生じていないにも関わらず、SQLが余分に発行されている。
+これは、Entityクラスにデフォルトの指定でFetch.Eagerを設定しているためである。</p>
+<div class="highlight-java notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">org.debugroom.test.domain.model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Builder</span><span class="o">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * The persistent class for the duser database table.</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@Builder</span>
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+<span class="nd">@NamedQuery</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;User.findAll&quot;</span><span class="o">,</span> <span class="n">query</span><span class="o">=</span><span class="s">&quot;SELECT u FROM User u&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;user_id&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">userId</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;is_login&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Boolean</span> <span class="n">isLogin</span><span class="o">;</span>
+
+    <span class="nd">@Temporal</span><span class="o">(</span><span class="n">TemporalType</span><span class="o">.</span><span class="na">DATE</span><span class="o">)</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;last_updated_date_and_time&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">lastUpdatedDateAndTime</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;user_name&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">ver</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">,</span> <span class="n">fetch</span><span class="o">=</span><span class="n">FetchType</span><span class="o">.</span><span class="na">EAGER</span><span class="o">)</span> <span class="c1">//&lt;- fetchTypeがEagerが指定されているため。</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Address</span><span class="o">&gt;</span> <span class="n">addresses</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Affiliation</span><span class="o">&gt;</span> <span class="n">affiliations</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Credential</span><span class="o">&gt;</span> <span class="n">credentials</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Email</span><span class="o">&gt;</span> <span class="n">emails</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">&quot;duser&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Phone</span><span class="o">&gt;</span> <span class="n">phones</span><span class="o">;</span>
+
+    <span class="c1">//omitted</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>このように、状況によっては、不要なSQLが実行される可能性があるので、エンティティクラスのフェッチ戦略を変更する場合は、よく検討を行うこと。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="one-to-many-insert.html" class="btn btn-neutral float-right" title="1対多の関係テーブルにおけるデータ追加" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="delete.html" class="btn btn-neutral" title="単テーブルに対するデータ削除" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

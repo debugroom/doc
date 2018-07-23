@@ -1,0 +1,238 @@
+.. include:: ../../../module.txt
+
+.. _section-jpa-usage-many-to-many-update-label:
+
+多対多の関係テーブルにおけるデータ変更
+========================================================
+
+CriteriaAPI・JPQLを使用したデータ更新
+----------------------------------------------------------------------------------------------
+
+ユーザとグループなど、モデル間の関連実体として、「所属」という関係性を挟んで、多対多の関連を持つデータが存在する。
+こうしたエンティティは、Javaオブジェクト上ではお互いをリストで保持するような形で相互のオブジェクト参照を保持するが、
+リレーショナルデータベース上では、相互の関連を多対1、1対多の構成となるように所属テーブルを作成することが一般的である。
+
+
+.. image:: img/many_to_many_relation.png
+
+
+こうしたテーブルに対して、データ変更を実施する場合は、更新対象となるデータの検索条件が色々なテーブルに跨るケースが多くなる。
+例えば、上記で特定のグループに属するデータを変更したいといった場合には以下の通り、「多対多の関係テーブルにおけるデータ取得」にて
+説明した要領で変更対象のデータを取得し、変更対象のプロパティを変更する方法が簡易である。ただし、データ件数が複数件になる場合は、
+データが1件に対し、SQLが発行されることになるので、件数が大量になる場合はJPQLによる一括更新を検討すること。
+
+
+例) 特定グループに属するユーザのプロパティを変更する場合
+
+
+test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.ManyToManyUpdateServiceImpl
+
+.. sourcecode:: java
+   :linenos:
+
+   package org.debugroom.test.domain.service.impl.ejb.dbaccess;
+
+   import java.util.List;
+
+   import javax.ejb.EJB;
+   import javax.ejb.Stateless;
+
+   import org.debugroom.test.domain.model.Group;
+   import org.debugroom.test.domain.model.User;
+   import org.debugroom.test.domain.repository.UserRepository;
+   import org.debugroom.test.domain.repository.GroupRepository;
+   import org.debugroom.test.domain.service.dbaccess.ManyToManyUpdateService;
+
+   @Stateless
+   public class ManyToManyUpdateServiceImpl implements ManyToManyUpdateService{
+
+       @EJB
+       GroupRepository groupRepository;
+
+       @EJB
+       UserRepository userRepository;
+
+       @Override
+       public List<User> updateUsers(Group group) {
+           // 複数のテーブルを跨って、更新対象となるデータを取得する。
+           List<User> updateTargetUsers = userRepository.findByGroupId(group.getGroupId());
+           // 取得したデータのプロパティを変更する。ここでは、プロパティとしてboolean型の変数を切り替える例をサンプルで示している。
+           for(User user : updateTargetUsers){
+               if(user.getIsLogin() == false){
+                   user.setIsLogin(true);
+               }else{
+                   user.setIsLogin(false);
+               }
+            }
+            return updateTargetUsers;
+       }
+   }
+
+更新対象となるデータは、「多対多関連におけるデータ取得」のやり方と同様の方法で取得する。
+
+test-javaee6-domain org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl
+
+.. sourcecode:: java
+   :linenos:
+
+   package org.debugroom.test.domain.repository.impl.jpa;
+
+   import java.util.List;
+
+   import javax.ejb.Stateless;
+   import javax.ejb.TransactionAttribute;
+   import javax.ejb.TransactionAttributeType;
+   import javax.persistence.Query;
+   import javax.persistence.criteria.CriteriaBuilder;
+   import javax.persistence.criteria.CriteriaQuery;
+   import javax.persistence.criteria.Join;
+   import javax.persistence.criteria.Predicate;
+   import javax.persistence.criteria.Root;
+
+   import org.debugroom.test.domain.model.Affiliation;
+   import org.debugroom.test.domain.model.Affiliation_;
+   import org.debugroom.test.domain.model.User;
+   import org.debugroom.test.domain.model.Group;
+   import org.debugroom.test.domain.model.User_;
+   import org.debugroom.test.domain.repository.UserRepository;
+
+   @Stateless
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   public class UserRepositoryImpl extends GenericDaoImpl<User, String> implements UserRepository{
+
+       @Override
+       public List<User> findByGroupId(String groupId) {
+           CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+           CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+           Root<User> root = query.from(User.class);
+           Join<User, Affiliation> joinAffiliation = root.join(User_.affiliations);
+           Join<Affiliation, Group> joinGroup = joinAffiliation.join(Affiliation_.grp);
+           Predicate predicate = criteriaBuilder.equal(joinGroup.get("groupId"), groupId);
+           query.select(root);
+           query.where(predicate);
+           return entityManager.createQuery(query).getResultList();
+       }
+
+       // omit
+    }
+
+上記の例では、取得したデータ件数(ユーザ数)分ループを回してプロパティを変更しているので、SQLはデータ件数分発行される。
+
+
+.. sourcecode:: html
+   :linenos:
+
+   /* データ件数分だけ発行されるSQL */
+   update duser set is_login=?, last_updated_date_and_time=?, user_name=?, ver=? where user_id=? and ver=?
+   update duser set is_login=?, last_updated_date_and_time=?, user_name=?, ver=? where user_id=? and ver=?
+   update duser set is_login=?, last_updated_date_and_time=?, user_name=?, ver=? where user_id=? and ver=?
+   update duser set is_login=?, last_updated_date_and_time=?, user_name=?, ver=? where user_id=? and ver=?
+
+
+副問合せを用いた一括更新
+-----------------------------------------------------------------------------------------------
+
+
+データ件数が多く、パフォーマンスに支障が出る場合は、副問合せで対象データを取得して、JPQLなどで一括更新するとよい。
+
+test-javaee6-ejb org.debugroom.test.domain.service.impl.ejb.dbaccess.ManyToManyUpdateServiceImpl
+
+.. sourcecode:: java
+   :linenos:
+
+   package org.debugroom.test.domain.service.impl.ejb.dbaccess;
+
+   import java.util.List;
+
+   import javax.ejb.EJB;
+   import javax.ejb.Stateless;
+
+   import org.debugroom.test.domain.model.Group;
+   import org.debugroom.test.domain.model.User;
+   import org.debugroom.test.domain.repository.UserRepository;
+   import org.debugroom.test.domain.repository.GroupRepository;
+   import org.debugroom.test.domain.service.dbaccess.ManyToManyUpdateService;
+
+   @Stateless
+   public class ManyToManyUpdateServiceImpl implements ManyToManyUpdateService{
+
+       @EJB
+       GroupRepository groupRepository;
+
+       @EJB
+       UserRepository userRepository;
+
+       @Override
+       public List<User> updateUsers(Group group) {
+           // JPQLで実装したRepositoryのメソッドを呼び出す。
+           // JPQLを使用すると、楽観ロックによる排他制御の確認ロジックが別途必要になるので注意が必要。
+           if(!userRepository.updateIsLoginByGroup(group)){
+                throw new BusinessException("E0006");
+           }
+           return userRepository.findByGroupId(group.getGroupId());
+       }
+   }
+
+test-javaee6-domain org.debugroom.test.domain.repository.impl.jpa.UserRepositoryImpl
+
+.. sourcecode:: java
+   :linenos:
+
+   package org.debugroom.test.domain.repository.impl.jpa;
+
+   import java.util.List;
+
+   import javax.ejb.Stateless;
+   import javax.ejb.TransactionAttribute;
+   import javax.ejb.TransactionAttributeType;
+   import javax.persistence.Query;
+
+   import org.debugroom.test.domain.model.User;
+   import org.debugroom.test.domain.model.Group;
+   import org.debugroom.test.domain.repository.UserRepository;
+
+   @Stateless
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   public class UserRepositoryImpl extends GenericDaoImpl<User, String> implements UserRepository{
+
+       // JPQLを使用して、副問合せした結果を元に一括アップデートを行うパターン。
+       // JPA2.0はCriteriaUpdateがサポートされないので、CriteriaAPIでUPDATE文は作れない。
+       // JPQLもしくはNativeSQLでUPDATE文を作成するしかない。
+       @Override
+       public boolean updateIsLoginByGroup(Group group) {
+           // 実際はStringBuilderでSQL文を組み立てること。
+           // また、@Versionによる楽観ロックの排他制御が効かなくなるため、独自にバージョン確認を実装すること。
+           Query query = entityManager.createQuery(
+                           "UPDATE User u SET "
+                           + "u.isLogin = 'true' "
+                           + "WHERE u.userId in ( "
+                           + "SELECT u.userId FROM User u "
+                           + "JOIN u.affiliations a "
+                           + "JOIN a.grp g "
+                           + "WHERE g.groupId = :groupId )");
+           query.setParameter("groupId", group.getGroupId());
+           query.executeUpdate();
+           return true;
+       }
+       // omit
+    }
+
+上記の例では、SQLは1回だけ発行される。
+
+.. sourcecode:: html
+   :linenos:
+
+   update duser set
+     is_login='true'
+   where user_id in (
+     select
+       user1_.user_id
+     from duser user1_
+     inner join Affiliation affiliatio2_
+           on user1_.user_id=affiliatio2_.user_id
+     inner join grp group3_
+           on affiliatio2_.group_id=group3_.group_id
+     where group3_.group_id=?
+   )
+
+TODO : 多対多関連におけるデータ変更のパターン整理や排他制御に関する考慮が必要。
