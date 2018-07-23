@@ -1,0 +1,966 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>文字コード &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="work guideline" href="../../memo/work/index.html" />
+    <link rel="prev" title="ログ処理方式" href="logging.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">AP基盤処理方式・実装規約</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">AP処理方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="session-management.html">セッション管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">ログ処理方式</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">文字コード</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#section-app-infra-character-code-pre-condition-label">文字コード前提知識</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-app-infra-character-code-translation-label">一般的に文字コード変換を考慮するポイント</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section-app-infra-character-code-translation-example-label">適切なエンコード指定が必要な箇所の例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ap-java7">AP:Java7で使用可能なエンコード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#db-oracle">DB:Oracleの日本語環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client-windows">Client: Windowsの日本語環境</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">AP基盤処理方式・実装規約</a> &raquo;</li>
+        
+      <li>文字コード</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/convention/app-infra/character-code.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="section-app-infra-character-code-label">
+<span id="id1"></span><h1>文字コード<a class="headerlink" href="#section-app-infra-character-code-label" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="section-app-infra-character-code-pre-condition-label">
+<span id="id2"></span><h2>文字コード前提知識<a class="headerlink" href="#section-app-infra-character-code-pre-condition-label" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>文字コードはコンピュータ上で文字を利用するために各文字に割り当てられるバイト表現。</li>
+<li>文字コードは、以下の3つの概念が含まれる。</li>
+</ul>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="30%" />
+<col width="50%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>文字集合(Character Set)</td>
+<td>どのような文字が含まれているか</td>
+<td>文字集合</td>
+</tr>
+<tr class="row-even"><td>コード番号(Character Code)</td>
+<td>各文字に対して付与されているコード番号</td>
+<td>例) 0x41</td>
+</tr>
+<tr class="row-odd"><td>エンコーディング(Encoding)</td>
+<td>どのように文字コード番号を文字に変換するか</td>
+<td>文字符号化方式</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>ASCIIとは</li>
+</ul>
+<p>アメリカの標準化組織であるANSIが1963年に制定した文字コードで、半角英数字、記号、制御文字で構成され合計128種類(7bit)の文字で構成される。</p>
+<ul class="simple">
+<li>Unicodeとは</li>
+</ul>
+<p>世界中の言語の文字・記号を1つのコード体系に納めた世界統一文字コード</p>
+<ul>
+<li><p class="first">日本の文字コードとは</p>
+<blockquote>
+<div><ul class="simple">
+<li>日本では、JIS(日本工業規格)が定める日本の文字コードの規格</li>
+<li>日本の文字コードは平仮名、片仮名、漢字が含まれる</li>
+<li>現在、JISで定められている文字コード一覧（新JIS標準）</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="18%" />
+<col width="29%" />
+<col width="18%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">規格番号</th>
+<th class="head">通称</th>
+<th class="head">内容</th>
+<th class="head">制定年</th>
+<th class="head">収録文字数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>JIS X 0201</td>
+<td>ANK</td>
+<td>半角英数、半角片仮名</td>
+<td>1969年</td>
+<td>191字</td>
+</tr>
+<tr class="row-odd"><td>JIS X 0208</td>
+<td>JIS基本漢字</td>
+<td>平仮名、片仮名、漢字、全角記号などの2バイト文字</td>
+<td>1978年</td>
+<td>6,879字</td>
+</tr>
+<tr class="row-even"><td>JIS X 0212</td>
+<td>JIS補助漢字</td>
+<td>第3水準の漢字および非漢字（使用頻度が低い）</td>
+<td>1990年</td>
+<td>6,067字</td>
+</tr>
+<tr class="row-odd"><td>JIS X 0221</td>
+<td>UCS</td>
+<td>ISO/IEC 10646に対応するJIS規格(Unicode)</td>
+<td>1995年</td>
+<td>96,447字</td>
+</tr>
+<tr class="row-even"><td>JIS X 0213</td>
+<td>JIS拡張漢字</td>
+<td>JIS X 0208の6,879字に加え、第3,4水準の漢字、非漢字を追加</td>
+<td>2000年</td>
+<td>11,233字</td>
+</tr>
+</tbody>
+</table>
+<p>JIS規格は基本的に5年ごとに見直されることになっており、JISの同規格番号の中にも幾つかの版がある。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td rowspan="5">JIS X 0208</td>
+<td>JIS X 0208:1978</td>
+</tr>
+<tr class="row-even"><td>JIS X 0208:1983</td>
+</tr>
+<tr class="row-odd"><td>JIS X 0208:1990</td>
+</tr>
+<tr class="row-even"><td>JIS X 0208:1997</td>
+</tr>
+<tr class="row-odd"><td>JIS X 0208:2012</td>
+</tr>
+<tr class="row-even"><td rowspan="3">JIS X 0213</td>
+<td>JIS X 0213:2000</td>
+</tr>
+<tr class="row-odd"><td>JIS X 0213:2004</td>
+</tr>
+<tr class="row-even"><td>JIS X 0213:2012</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>主な文字集合と符号化方式</li>
+</ul>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th width="150px">(符号化)文字集合</th>
+    <th>(文字)符号化方式</th>
+    <th>主な使われ方</th>
+  </tr>
+  <tr >
+    <td rowspan="5">JIS X 0208 <br>(日本語の文字集合)</td>
+    <td>ISO-2022-JP</td>
+    <td>主にメールの世界で使用 (JISコードと呼ばれる)</td>
+  </tr>
+  <tr>
+    <td>EUC-JP</td>
+    <td>主にUNIX/Linuxの世界で使用</td>
+  </tr>
+  <tr>
+    <td>Shift_JIS</td>
+    <td>パソコンにおいて圧倒的な普及度がある</td>
+  </tr>
+  <tr>
+    <td>MS932 (Windowsー31J、CP932)</td>
+    <td>主にWindowsで使用(Shift-JIS ＋ Windows機種依存文字)</td>
+  </tr>
+  <tr>
+    <td>…etc</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td  rowspan="4">JIS X 0213 <br> (日本語の文字集合)</td>
+    <td>ISO-2022-JP-3</td>
+    <td>※ 上記、JIS X 0208 同様</td>
+  </tr>
+  <tr>
+    <td>EUCーJISX0213</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Shift_JISX0213</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>…etc</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="4">Unicode文字集合 <br> (世界統一文字集合)</td>
+    <td>UTF-8</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>UTF-16</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>UTF-32</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>…etc</td>
+    <td></td>
+  </tr>
+</table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li>文字符号化方式と対応する文字集合の詳細</li>
+</ul>
+<p>■JISコード</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+<tr bgcolor="#33CCFF">
+        <th>（文字）符号化方式</th>
+        <th>文字集合</th>
+</tr>
+<tr >
+        <td >ISO-2022-JP</td>
+        <td>ASCII(ISO/IEC 646 IRV)</td>
+</tr>
+<tr >
+        <td></td>
+        <td>JIS X 0201:1976(ローマ字部分)</td>
+</tr>
+<tr >
+        <td></td>
+        <td>JIS X 0208:1978(JIS C 6226-1978)</td>
+</tr>
+<tr >
+        <td></td>
+        <td>JIS X 0208:1983</td>
+</tr>
+<tr >
+        <td>ISO-2022-JP-1</td>
+        <td>JIS X 0212:1990</td>
+</tr>
+<tr >
+        <td rowspan="2">ISO-2022-JP-2004</td>
+        <td>JIS X 0213:2004 第1面</td>
+</tr>
+<tr >
+        <td>JIS X 0213:2004 第2面</td>
+</tr>
+</table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>■EUC</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>（文字）符号化方式</th>
+    <th>文字集合</th>
+  </tr>
+  <tr >
+    <td>EUC-JP</td>
+    <td>ASCII、JIS X 0208、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+  </tr>
+  <tr >
+    <td>EUC-JIS-2000</td>
+    <td>ASCII、JIS X 0213:2000、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+  </tr>
+  <tr >
+    <td>EUC-JIS-2004</td>
+    <td>ASCII、JIS X 0213：2004、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+  </tr>
+</table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>■Shift JIS</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>（文字）符号化方式</th>
+    <th>文字集合</th>
+  </tr>
+  <tr >
+    <td>Shift_JIS</td>
+    <td>ASCII、JIS X 0208：1990、半角カナ (JIS X 0201:1997)</td>
+  </tr>
+  <tr >
+    <td>Shift_JIS-2000</td>
+    <td>ASCII、JIS X 0213:2000、半角カナ (JIS X 0201)</td>
+  </tr>
+  <tr >
+    <td>Shift_JIS-2004</td>
+    <td>ASCII、JIS X 0213：2004、半角カナ (JIS X 0201)</td>
+  </tr>
+</table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>■CP932、Windows-31J，MS932(IS X 0208にWindowsの機種依存文字を加えた文字コード)</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>（文字）符号化方式</th>
+    <th>文字集合</th>
+  </tr>
+  <tr >
+    <td>Windows-31J</td>
+    <td>Windows機種依存文字、ASCII、JIS X 0208、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+  </tr>
+</table><div class="line-block">
+<div class="line">※Windows-31J のWindows機種依存文字はUnicodeにマッピングされている</div>
+</div>
+<p>■UTF8</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>（文字）符号化方式</th>
+    <th>文字集合</th>
+  </tr>
+  <tr >
+    <td>UTF8</td>
+    <td>
+      Unicode　(ISO/IEC 10646（UCS）)<br>
+      日本語のJIS規格「JIS X 0201、JIS X 0208、JIS X 0212、JIS X 0213」に対応
+    </td>
+   </tr>
+ </table><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>各文字コードの詳細については以下も参考のこと。</p>
+<div class="last line-block">
+<div class="line"><a class="reference external" href="https://ja.wikipedia.org/wiki/Extended_Unix_Code">EUCについて</a></div>
+<div class="line"><a class="reference external" href="https://ja.wikipedia.org/wiki/Shift_JIS">Shift JISについて</a></div>
+<div class="line"><a class="reference external" href="https://ja.wikipedia.org/wiki/UTF-8">UTF8について</a></div>
+</div>
+</div>
+<ul class="simple">
+<li>機種依存文字<ul>
+<li>ある特定の環境・機種(MacやPC/AT、PC-98やUNIXなど)でしか正しく表示されない文字のこと(Windows機種依存、IBM機種依存、NEC機種依存…)</li>
+<li>機種依存文字問題とは、日本語環境においてはJIS規格に規定されていないために発生する問題</li>
+<li>機種依存文字のほとんどが、Unicodeに含まれる文字のため、Unicodeを採用した環境では基本的に機種依存文字問題は発生しない</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">過去、機種依存文字とされていたJIS規格文字以外の文字のほとんどが、「JIS X 2013」においてはJIS規定文字として組み込まれており、JIS標準文字となる。例えば、下記の文字は過去のJIS規格には含まれていなかったが、一部は「JIS X 2008」、残り全ては「JIS X 2013」でJIS規格文字として組み込まれている。</p>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/Image82.JPG"><img alt="../../_images/Image82.JPG" src="../../_images/Image82.JPG" style="width: 100%;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>JIS X 0208、JIS X 0213については、以下も参考のこと。</p>
+<ul class="last simple">
+<li><a class="reference external" href="http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0208.html">JIS基本漢字(JIS X 0208)コード表　のサイト</a></li>
+<li><a class="reference external" href="http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0213/index.html">JIS拡張漢字(JIS X 0213)全コード表　のサイト</a></li>
+</ul>
+</div>
+<ul>
+<li><p class="first">インターネット上で利用することのできる文字コード(キャラクタセット)</p>
+<ul>
+<li><p class="first">IANA(「Internet Assigned Numbers Authority」の略)とは</p>
+<p>ドメイン名、 IPアドレス、 プロトコル番号、インターネット上で利用することのできる文字コード　などインターネット資源のグローバルな標準化および
+管理を行っている機関(現在は、各種資源のグローバルな管理の役割をICANNが引き継がれている）</p>
+</li>
+<li><p class="first">現在、インターネット上で利用することができる主な文字コード</p>
+<ul class="simple">
+<li>Shift_JIS</li>
+<li>EUC-JP</li>
+<li>ISO-2022-JP</li>
+<li>JIS_X0212-1990</li>
+<li>UTF-8</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="section-app-infra-character-code-translation-label">
+<span id="id3"></span><h2>一般的に文字コード変換を考慮するポイント<a class="headerlink" href="#section-app-infra-character-code-translation-label" title="Permalink to this headline">¶</a></h2>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>クライアント</th>
+    <th>アプリケーション(画面)</th>
+    <th>アプリケーション</th>
+    <th>サーバ</th>
+    <th>DB</th>
+    <th>帳票</th>
+    <th>他システム連携</th>
+  </tr>
+  <tr>
+    <td>JIS X 0213 </td>
+    <td>UTF-8 </td>
+    <td>UTF-16 </td>
+    <td>UTF-8 </td>
+    <td>UTF-8 </td>
+    <td>Shift-JIS </td>
+    <td>EUC-JP</td>
+  </tr>
+  <tr>
+     <td>(Windows7)</td>
+     <td colspan=5>CentOS</td>
+     <td>Soralis</td>
+  <tr>
+</table>
+      <br/></div>
+<div class="section" id="section-app-infra-character-code-translation-example-label">
+<span id="id4"></span><h2>適切なエンコード指定が必要な箇所の例<a class="headerlink" href="#section-app-infra-character-code-translation-example-label" title="Permalink to this headline">¶</a></h2>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+      <tr bgcolor="#33CCFF">
+              <th width="150px">変換ポイント</th>
+              <th>エンコード方法の例</th>
+      </tr>
+  <tr>
+    <td>クライアント⇔WebサーバHTTP通信</td>
+    <td>
+      JSPのタグでcharasetを「UTF-8」を指定<br/>
+     <'%@ page contentType="text/html;charset=UTF-8"pageEncoding="UTF-8" %><br/>
+     request.setCharacterEncoding(UTF-8);<br/>
+     response.setContentType("text/html; charset=UTF-8");<br/>
+    </td>
+  </tr>
+  <tr>
+    <td>APサーバ⇔DB</td>
+    <td>JDBCが Java VMで使用されるUnicode16 とDBの文字コードの差異を吸収するため、アプリ側は何もしなくていい※但し、DBの文字コードに存在しない文字でDBを更新した場合、文字消失する。</td>
+  </tr>
+  <tr>
+    <td>APサーバ⇔帳票</td>
+    <td>帳票のフォームファイルのエンコード指定がSJISの場合、帳票ミドルウェアの文字コード変換機能を使用</td>
+  </tr>
+  <tr>
+    <td>APサーバ⇔ファイルアップロード/ファイルダウンロード</td>
+    <td>
+      アップロード（Windows端末 ⇒ Webサーバー）は　ShiftJIS から UTF-8<br>
+      ダウンロード(APサーバー　⇒ Widndows端末)は、UTF-8 から Shift-JIS
+    </td>
+  </tr>
+  <tr>
+    <td>DPサーバ⇔外部接続システム連携</td>
+    <td>UTF-8⇔EUC-JP変換<br>※HULFT等のミドルウェアで文字コード変換して電文を送受信</td>
+  </tr>
+  <tr>
+    <td>メッセージ（ログなど）</td>
+    <td>
+      ＜メッセージプロパティを使用する場合＞<br>
+      1. application-messages.propertiesをUTF8で生成、日本語などのメッセージを直接記入<br>
+         (native2asciiでISO-8859-1に変換しなくてよい)<br>
+      2. applicationContext.xmlで、ResourceBundleMessageSource に読み込む文字コード<br>
+         メッセージファイル(application-messages.properties)を指定する<br/><br/>
+       <SLF4J + Logback でログを出力する場合><br/>
+       logback.xmlのログの文字コード指定等
+    </td>
+  </tr>
+  <tr>
+    <td>メール</td>
+    <td>文字コードを指定して、MimeMessageHelper インスタンスを生成</td>
+  </tr>
+</table>
+      <br /></div>
+<div class="section" id="ap-java7">
+<span id="section-app-infra-character-code-java7-label"></span><h2>AP:Java7で使用可能なエンコード<a class="headerlink" href="#ap-java7" title="Permalink to this headline">¶</a></h2>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 14px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th width="150px">Canonical Name</th>
+    <th>Description </th>
+  </tr>
+  <tr >
+    <td>Shift_JIS</td>
+    <td>Shift-JIS, Japanese</td>
+  </tr>
+  <tr >
+    <td>x-SJIS_0213</td>
+    <td>Shift_JISX0213</td>
+  </tr>
+  <tr >
+     <td>EUC-JP</td>
+     <td>JISX 0201, 0208 and 0212, EUC encoding Japanese</td>
+  </tr>
+  <tr >
+     <td>ISO-2022-JP</td>
+     <td>JIS X 0201, 0208, in ISO 2022 form, Japanese</td>
+  </tr>
+  <tr >
+     <td>UTF-8</td>
+     <td>8-bit Unicode (or UCS) Transformation Format</td>
+  </tr>
+  <tr >
+     <td>ISO-8859-1</td>
+     <td>ISO-8859-1, Latin Alphabet No. 1<br>
+         ※古いバージョンのServlet仕様（Servlet 2.3）では、エンコードの指定がなかった場合、デフォルトで選択される文字コード
+     </td>
+  </tr>
+</table>
+<br/><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>公式サイトも参照のこと。</p>
+<p class="last"><a class="reference external" href="http://docs.oracle.com/javase/7/docs/technotes/guides/intl/encoding.doc.html">OracleのJava7のサイト (Supported Encodings)</a></p>
+</div>
+</div>
+<div class="section" id="db-oracle">
+<span id="section-app-infra-character-code-oracle-label"></span><h2>DB:Oracleの日本語環境<a class="headerlink" href="#db-oracle" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>データベースのキャラクタ・セット一覧</div></blockquote>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+<tr bgcolor="#33CCFF">
+        <th>キャラクタ・セット</th>
+        <th>説明</th>
+</tr>
+<tr >
+        <td>JA16EUC</td>
+        <td>EUC 24ビット日本語</td>
+</tr>
+<tr >
+        <td>JA16EUCTILDE</td>
+        <td>JA16EUCの波形のダッシュとチルドの文字化け対応版</td>
+</tr>
+<tr >
+        <td>JA16SJIS</td>
+        <td>シフトJIS 16ビット日本語</td>
+</tr>
+<tr >
+        <td>JA16SJISTILDE</td>
+        <td>シフトJIS 16ビット日本語のダッシュとチルドの文字化け対応版</td>
+</tr>
+<tr >
+        <td>AL32UTF8</td>
+        <td>Unicode 5.0 UTF-8ユニバーサル・キャラクタ・セット</td>
+</tr>
+</table><p>JIS X 0213 に対応させたい場合、データベースの文字コードセット（NLS_CHARACTERSET）をAL32UTF8に設定すること.</p>
+<table border=1 border-collapse="collapse" style="font-size : 12px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th rowspan="2">キャラクタ・セット</th>
+    <th colspan="5">DBのバージョン</th>
+  </tr>
+  <tr bgcolor="#33CCFF">
+    <th>9.2.0</th>
+    <th>10.1.0</th>
+    <th>10.2.0</th>
+    <th>11.2.0</th>
+    <th>11.2.0</th>
+  </tr>
+  <tr>
+    <td >UTF8</td>
+    <td colspan="5">3.0</td>
+  </tr>
+  <tr>
+    <td>AL32UTF8</td>
+    <td>3.1</td>
+    <td>3.2</td>
+    <td>4.0</td>
+    <td colspan="2">5.0</td>
+  </tr>
+</table>
+<br/><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://www.oracle.com/technetwork/jp/content/20100617-charcterset-255086-ja.pdf#search='JIS+X+2013++++Oracle+DB'">Oracleのキャラクタ・セットについて</a></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>IBMのAIX機の文字コード</p>
+<ul class="simple">
+<li>各国語サポートのコード・セット（文字集合）を提供する。</li>
+<li>AIXのコード・セット設定はロケールに依存する。</li>
+</ul>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+        <tr bgcolor="#33CCFF">
+    <th>コード・セット(文字集合)</th>
+    <th>言語</th>
+    <th>国またはカテゴリー </th>
+    <th>ロケール</th>
+  </tr>
+  <tr>
+    <td>IBM-eucJP</td>
+    <td>日本語</td>
+    <td>EUC</td>
+    <td>ja_JP</td>
+  </tr>
+  <tr >
+    <td>IBM-932<br>(ibm - SJIS)</td>
+    <td>日本語</td>
+    <td>PC</td>
+    <td>ja_JP</td>
+  </tr>
+  <tr >
+    <td>IBM-943 <br>(ibm - SJIS)</td>
+    <td>日本語</td>
+    <td>日本</td>
+    <td>ja_JP<br></td>
+  </tr>
+</table><ul class="simple">
+<li>各文字コード構成</li>
+</ul>
+<p>＜IBM-eucJP ＞</p>
+ <table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+   <tr bgcolor="#33CCFF">
+     <th>対応する文字コード</th>
+     <th></th>
+   </tr>
+   <tr >
+     <td>JISCII</td>
+     <td>JISX0201 グラフィック左文字セット </td>
+   </tr>
+   <tr >
+     <td>JISX0201:1976</td>
+     <td>カタカナ/ひらがなグラフィック右文字セット </td>
+   </tr>
+   <tr >
+      <td>JISX0208:1983</td>
+      <td>漢字レベル 1 および 2 文字セット </td>
+   </tr>
+   <tr >
+      <td>IBM-udcJP</td>
+      <td>IBM ユーザー定義可能文字 </td>
+   </tr>
+   <tr >
+     <td>JISX0212.1990</td>
+     <td>JIS補助漢字 </td>
+   </tr>
+</table>
+            <br/>
+
+＜IBM-932＞<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>対応する文字コード</th>
+    <th></th>
+  </tr>
+  <tr >
+    <td>JISCII</td>
+    <td>JISX0201 グラフィック左文字セット </td>
+  </tr>
+  <tr >
+    <td>JISX0201:1976</td>
+    <td>カタカナ/ひらがなグラフィック右文字セット </td>
+  </tr>
+  <tr >
+    <td>JISX0208:1983</td>
+    <td>漢字レベル 1 および 2 文字セット </td>
+  </tr>
+  <tr >
+    <td>IBM-udcJP</td>
+    <td>ユーザー定義可能文字と、NEC の IBM 選択文字および NEC 選択文字  </td>
+  </tr>
+</table>
+            <br/><p>&lt;IBM-943&gt;</p>
+<table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>対応する文字コード</th>
+    <th></th>
+  </tr>
+  <tr >
+    <td>JISCII</td>
+    <td>JISX0201 グラフィック左文字セット </td>
+  </tr>
+  <tr >
+    <td>JISX0201:1976</td>
+    <td>カタカナ/ひらがなグラフィック右文字セット </td>
+  </tr>
+  <tr >
+       <td>JISX0208:1990</td>
+       <td>漢字レベル 1 および 2 文字セット </td>
+  </tr>
+  <tr >
+       <td>IBM-udcJP</td>
+       <td>ユーザー定義可能文字と、NEC の IBM 選択文字および NEC 選択文字  </td>
+  </tr>
+</table>
+            <br/><p>＜UTF-8＞</p>
+<div class="last"><table border=1 cellpadding=3 border-collapse="collapse" style="font-size : 12px; width:100%">
+   <tr bgcolor="#33CCFF">
+     <th>対応する文字コード</th>
+     <th></th>
+   </tr>
+   <tr >
+     <td>UTF8</td>
+     <td>
+       Unicode　(ISO/IEC 10646（UCS）)<br>
+       日本語のJIS規格「JIS X 0201、JIS X 0208、JIS X 0212、JIS X 0213」に対応
+     </td>
+   </tr>
+ </table>
+                   <br></div></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>AIXの文字コードについては下記も参照のこと。</p>
+<div class="last line-block">
+<div class="line"><a class="reference external" href="http://publib16.boulder.ibm.com/doc_link/Ja_JP/a_doc_lib/aixprggd/nlsgdrf/codeset_over.htm#uhz1300dan">IBMのAIX機の文字コード</a></div>
+<div class="line"><a class="reference external" href="http://publib16.boulder.ibm.com/doc_link/Ja_JP/a_doc_lib/aixprggd/nlsgdrf/codeset_over.htm#uhz1300dan">各文字コードの構成</a></div>
+</div>
+</div>
+</div>
+<div class="section" id="client-windows">
+<span id="section-app-infra-character-code-client-label"></span><h2>Client: Windowsの日本語環境<a class="headerlink" href="#client-windows" title="Permalink to this headline">¶</a></h2>
+<p>各Windows Ver 標準の日本語キャラクタセット一覧</p>
+<table border=1 border-collapse="collapse" style="font-size : 12px;width:100%">
+  <tr bgcolor="#33CCFF">
+    <th>Windows 各バージョン</th>
+    <th>標準キャラクタセット </th>
+  </tr>
+  <tr >
+    <td>Windows 95</td>
+    <td>JIX X 0208 - ?</td>
+  </tr>
+  <tr >
+    <td>Windows 98</td>
+    <td>JIX X 0208 - ?，JIS X 0212</td>
+  </tr>
+  <tr >
+    <td>Windows Me</td>
+    <td>JIX X 0208 - ?</td>
+  </tr>
+  <tr >
+    <td>Windows NT WS</td>
+    <td>JIX X 0208 - ?，JIS X 0212</td>
+  </tr>
+  <tr >
+    <td>Windows NT SV</td>
+    <td>JIX X 0208 - ?，JIS X 0212</td>
+  </tr>
+  <tr >
+    <td>Windows 2000 Professional</td>
+    <td>JIS X 0221-1995</td>
+  </tr>
+  <tr >
+    <td>Windows 2000 Server ファミリー</td>
+    <td>JIS X 0221-1995</td>
+  </tr>
+  <tr >
+    <td>Windows XP</td>
+    <td>JIS X 0208　および　JIS X 0212</td>
+  </tr>
+  <tr >
+    <td>Windows Vista</td>
+    <td>JIS X 0213:2004</td>
+  </tr>
+  <tr >
+    <td>Windows 7</td>
+    <td>JIS X 0213:2004(通称：JIS2004)</td>
+  </tr>
+</table>
+      <br/><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Windowsの文字コードは以下を参照のこと。</p>
+<p class="last"><a class="reference external" href="https://www.microsoft.com/ja-jp/windows/windows-7/jp_font/default.aspx#ET">Microsoft のWindowsの日本語環境について</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../memo/work/index.html" class="btn btn-neutral float-right" title="work guideline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="logging.html" class="btn btn-neutral" title="ログ処理方式" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -10,3 +10,4 @@ Contents:
    overview.rst
    session-management.rst
    logging.rst
+   character-code.rst

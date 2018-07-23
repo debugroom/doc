@@ -1,0 +1,919 @@
+.. include:: ../module.txt
+
+.. _section-app-infra-character-code-label:
+
+文字コード
+===========================================
+
+
+.. _section-app-infra-character-code-pre-condition-label:
+
+文字コード前提知識
+-------------------------------------------
+
+* 文字コードはコンピュータ上で文字を利用するために各文字に割り当てられるバイト表現。
+* 文字コードは、以下の3つの概念が含まれる。
+
+
+.. list-table::
+	:widths: 30, 50, 20
+
+	* - 1.文字集合(Character Set)
+	  - どのような文字が含まれているか
+	  - 文字集合
+	* - 2.コード番号(Character Code)
+	  - 各文字に対して付与されているコード番号
+	  - 例) 0x41
+	* - 3.エンコーディング(Encoding)
+	  - どのように文字コード番号を文字に変換するか
+	  - 文字符号化方式
+
+|
+
+* ASCIIとは
+アメリカの標準化組織であるANSIが1963年に制定した文字コードで、半角英数字、記号、制御文字で構成され合計128種類(7bit)の文字で構成される。
+
+* Unicodeとは
+世界中の言語の文字・記号を1つのコード体系に納めた世界統一文字コード
+
+
+* 日本の文字コードとは
+  * 日本では、JIS(日本工業規格)が日本の文字コードの規格を定めています。
+  * 日本の文字コードは平仮名、片仮名、漢字が含まれます。
+  * 現在、JISで定められている文字コード一覧（新JIS標準）
+
+.. list-table::
+	:widths: 30, 50,30,30,30
+	:header-rows: 1
+
+	* - 規格番号
+	  - 通称
+	  - 内容
+	  - 制定年
+	  - 収録文字数
+	* - JIS X 0201
+	  - ANK
+	  - 半角英数、半角片仮名
+	  - 1969年
+	  - 191字
+	* - JIS X 0208
+	  - JIS基本漢字
+	  - 平仮名、片仮名、漢字、全角記号などの2バイト文字
+	  - 1978年
+	  - 6,879字
+	* - JIS X 0212
+	  - JIS補助漢字
+	  - 第3水準の漢字および非漢字（使用頻度が低い）
+	  - 1990年
+	  - 6,067字
+	* - JIS X 0221
+	  - UCS
+	  - ISO/IEC 10646に対応するJIS規格(Unicode)
+	  - 1995年
+	  - 96,447字
+	* - JIS X 0213
+	  - JIS拡張漢字
+	  - JIS X 0208の6,879字に加え、第3,4水準の漢字、非漢字を追加
+	  - 2000年
+	  - 11,233字
+
+JIS規格は基本的に5年ごとに見なおされることになっており、JISの同規格番号の中にも幾つかの版があります
+
++------------+-----------------+
+| JIS X 0208 | JIS X 0208:1978 |
+|            +-----------------+
+|            | JIS X 0208:1983 |
+|            +-----------------+
+|            | JIS X 0208:1990 |
+|            +-----------------+
+|            | JIS X 0208:1997 |
+|            +-----------------+
+|            | JIS X 0208:2012 |
++------------+-----------------+
+| JIS X 0213 | JIS X 0213:2000 |
+|            +-----------------+
+|            | JIS X 0213:2004 |
+|            +-----------------+
+|            | JIS X 0213:2012 |
++------------+-----------------+
+
+主な文字集合と符号化方式
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>(符号化)文字集合</th>
+		<th>(文字)符号化方式</th>
+		<th>主な使われ方</th>
+	</tr>
+	<tr >
+		<td rowspan="5">JIS X 0208 <br>(日本語の文字集合)</td>
+		<td>ISO-2022-JP</td>
+		<td>主にメールの世界で使用 (JISコードと呼ばれる)</td>
+	</tr>
+	<tr>
+		<td>EUC-JP</td>
+		<td>主にUNIX/Linuxの世界で使用</td>
+	</tr>
+	<tr>
+		<td>Shift_JIS</td>
+		<td>パソコンにおいて圧倒的な普及度がある</td>
+	</tr>
+	<tr>
+		<td>MS932 (Windowsー31J、CP932)</td>
+		<td>主にWindowsで使用(Shift-JIS ＋ Windows機種依存文字)</td>
+	</tr>
+	<tr>
+		<td>…etc</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td  rowspan="4">JIS X 0213 <br> (日本語の文字集合)</td>
+		<td>ISO-2022-JP-3</td>
+		<td>※ 上記、JIS X 0208 同様</td>
+	</tr>
+	<tr>
+		<td>EUCーJISX0213</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Shift_JISX0213</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>…etc</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td rowspan="4">Unicode文字集合 <br> (世界統一文字集合)</td>
+		<td>UTF-8</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>UTF-16</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>UTF-32</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>…etc</td>
+		<td></td>
+	</tr>
+	</table>
+
+
+* 文字符号化方式と対応する文字集合の詳細
+
+|
+
+<JISコード>
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>（文字）符号化方式</th>
+		<th>文字集合</th>
+	</tr>
+	<tr >
+		<td >ISO-2022-JP</td>
+		<td>ASCII(ISO/IEC 646 IRV)</td>
+	</tr>
+	<tr >
+		<td></td>
+		<td>JIS X 0201:1976(ローマ字部分)</td>
+	</tr>
+	<tr >
+		<td></td>
+		<td>JIS X 0208:1978(JIS C 6226-1978)</td>
+	</tr>
+	<tr >
+		<td></td>
+		<td>JIS X 0208:1983</td>
+	</tr>
+	<tr >
+		<td>ISO-2022-JP-1</td>
+		<td>JIS X 0212:1990</td>
+	</tr>
+	<tr >
+		<td rowspan="2">ISO-2022-JP-2004</td>
+		<td>JIS X 0213:2004 第1面</td>
+	</tr>
+	<tr >
+		<td>JIS X 0213:2004 第2面</td>
+	</tr>
+	</table>
+
+|
+
+<EUC>
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>（文字）符号化方式</th>
+		<th>文字集合</th>
+	</tr>
+	<tr >
+		<td>EUC-JP</td>
+		<td>ASCII、JIS X 0208、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+	</tr>
+	<tr >
+		<td>EUC-JIS-2000</td>
+		<td>ASCII、JIS X 0213:2000、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+	</tr>
+	<tr >
+		<td>EUC-JIS-2004</td>
+		<td>ASCII、JIS X 0213：2004、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+	</tr>
+	</table>
+
+|
+
+＜Shift JIS＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>（文字）符号化方式</th>
+		<th>文字集合</th>
+	</tr>
+	<tr >
+		<td>Shift_JIS</td>
+		<td>ASCII、JIS X 0208：1990、半角カナ (JIS X 0201:1997)</td>
+	</tr>
+	<tr >
+		<td>Shift_JIS-2000</td>
+		<td>ASCII、JIS X 0213:2000、半角カナ (JIS X 0201)</td>
+	</tr>
+	<tr >
+		<td>Shift_JIS-2004</td>
+		<td>ASCII、JIS X 0213：2004、半角カナ (JIS X 0201)</td>
+	</tr>
+	</table>
+
+|
+
+
+＜CP932、Windows-31J，MS932＞
+ | ※JIS X 0208 に「Windowsの機種依存文字」を加えた文字コードをいいます。
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>（文字）符号化方式</th>
+		<th>文字集合</th>
+	</tr>
+	<tr >
+		<td>Windows-31J</td>
+		<td>Windows機種依存文字、ASCII、JIS X 0208、半角カナ (JIS X 0201)、JIS補助漢字 (JIS X 0212)</td>
+	</tr>
+	</table>
+
+※Windows-31J のWindows機種依存文字はUnicodeにマッピングされている
+
+|
+
+＜UTF8＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>（文字）符号化方式</th>
+		<th>文字集合</th>
+	</tr>
+	<tr >
+		<td>UTF8</td>
+		<td>
+			Unicode　(ISO/IEC 10646（UCS）)<br>
+			日本語のJIS規格「JIS X 0201、JIS X 0208、JIS X 0212、JIS X 0213」に対応
+		</td>
+	</tr>
+	</table>
+
+|
+
+.. note::
+
+	| `EUCについて <https://ja.wikipedia.org/wiki/Extended_Unix_Code>`_
+	| `Shift JISについて <https://ja.wikipedia.org/wiki/Shift_JIS>`_
+	| `UTF8について <https://ja.wikipedia.org/wiki/UTF-8>`_
+
+
+機種依存文字
+------------------
+
+* ある特定の環境・機種(MacやPC/AT、PC-98やUNIXなど)でしか正しく表示されない文字のこと。　(Windows機種依存、IBM機種依存、NEC機種依存…)
+* 機種依存文字問題とは、日本語環境においてはJIS規格に規定されていないために発生する問題。
+* 機種依存文字のほとんどが、Unicodeに含まれる文字のため、Unicodeを採用した環境では基本的に機種依存文字問題は発生しません。
+
+＜ポイント＞
+ | 過去、機種依存文字とされていたJIS規格文字以外の文字のほとんどが、「JIS X 2013」においてはJIS規定文字として組み込まれており、JIS標準文字となります。
+ | 例えば、下記の文字は過去のJIS規格には含まれていなかったが、一部は「JIS X 2008」、残り全ては「JIS X 2013」でJIS規格文字として組み込まれています。
+
+
+.. figure:: img/Image82.JPG
+	:align: center
+	:width: 100%
+
+.. note::
+
+	| `JIS基本漢字(JIS X 0208)コード表　のサイト <http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0208.html>`_
+	| `JIS拡張漢字(JIS X 0213)全コード表　のサイト <http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0213/index.html>`_
+
+
+インターネット上で利用することのできる文字コード(キャラクタセット)
+--------------------------------------------------------------------------
+
+* IANA(「Internet Assigned Numbers Authority」の略)とは
+	ドメイン名、 IPアドレス、 プロトコル番号、インターネット上で利用することのできる文字コード　などインターネット資源のグローバルな標準化および
+	管理を行っている機関(現在は、各種資源のグローバルな管理の役割をICANNが引き継がれている）
+
+* 現在、インターネット上で利用することができる主な文字コード（最終更新日：2013-12-20）
+
+	| Shift_JIS
+	| EUC-JP
+	| ISO-2022-JP
+	| JIS_X0212-1990
+	| UTF-8
+
+
+.. note::
+
+	| `IBMのサイト (もしも、文字化けで困ったら) <https://www.ibm.com/developerworks/jp/websphere/library/was/mojibake/>`_
+	| `IANAで公開されている、インターネットで使用可能な文字コード一覧 <http://www.iana.org/assignments/character-sets/character-sets.xhtml>`_
+
+
+Java7で使用できるエンコード種類
+-----------------------------------
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>Canonical Name</th>
+		<th>Description </th>
+	</tr>
+	<tr >
+		<td>Shift_JIS</td>
+		<td>
+			Shift-JIS, Japanese
+		</td>
+	</tr>
+	<tr >
+		<td>x-SJIS_0213</td>
+		<td>
+			Shift_JISX0213
+		</td>
+	</tr>
+	<tr >
+		<td>EUC-JP</td>
+		<td>
+			JISX 0201, 0208 and 0212, EUC encoding Japanese
+		</td>
+	</tr>
+	<tr >
+		<td>ISO-2022-JP</td>
+		<td>
+			JIS X 0201, 0208, in ISO 2022 form, Japanese
+		</td>
+	</tr>
+	<tr >
+		<td>UTF-8</td>
+		<td>
+			8-bit Unicode (or UCS) Transformation Format
+		</td>
+	</tr>
+	<tr >
+		<td>ISO-8859-1</td>
+		<td>
+			ISO-8859-1, Latin Alphabet No. 1<br>
+			※古いバージョンのServlet仕様（Servlet 2.3）では、エンコードの指定がなかった場合、デフォルトで選択される文字コード
+		</td>
+	</tr>
+	</table>
+
+|
+
+.. note::
+
+	`OracleのJava7のサイト (Supported Encodings) <http://docs.oracle.com/javase/7/docs/technotes/guides/intl/encoding.doc.html>`_
+
+Windowsの日本語環境について
+-------------------------------
+各Windows Ver 標準の日本語キャラクタセット一覧
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>Windows 各バージョン</th>
+		<th>標準キャラクタセット </th>
+	</tr>
+	<tr >
+		<td>Windows 95</td>
+		<td>
+			JIX X 0208 - ?
+		</td>
+	</tr>
+	<tr >
+		<td>Windows 98</td>
+		<td>
+			JIX X 0208 - ?，JIS X 0212
+		</td>
+	</tr>
+	<tr >
+		<td>Windows Me</td>
+		<td>
+			JIX X 0208 - ?
+		</td>
+	</tr>
+	<tr >
+		<td>Windows NT WS</td>
+		<td>
+			JIX X 0208 - ?，JIS X 0212
+		</td>
+	</tr>
+	<tr >
+		<td>Windows NT SV</td>
+		<td>
+			JIX X 0208 - ?，JIS X 0212
+		</td>
+	</tr>
+	<tr >
+		<td>Windows 2000 Professional</td>
+		<td>
+			JIS X 0221-1995
+		</td>
+	</tr>
+	<tr >
+		<td>Windows 2000 Server ファミリー</td>
+		<td>
+			JIS X 0221-1995
+		</td>
+	</tr>
+	<tr >
+		<td>Windows XP</td>
+		<td>
+			JIS X 0208　および　JIS X 0212
+		</td>
+	</tr>
+	<tr >
+		<td>Windows Vista</td>
+		<td>
+			JIS X 0213:2004
+		</td>
+	</tr>
+	<tr >
+		<td>Windows 7</td>
+		<td>
+			JIS X 0213:2004(通称：JIS2004)
+		</td>
+	</tr>
+	</table>
+
+|
+
+.. note::
+
+	`Microsoft のWindowsの日本語環境について <https://www.microsoft.com/ja-jp/windows/windows-7/jp_font/default.aspx#ET>`_
+
+
+IBMのAIX機の文字コード　(次期システムのAPサーバー)
+--------------------------------------------------
+* 各国語サポートのコード・セット（文字集合）を提供する。
+* AIXのコード・セット設定はロケールに依存する。
+
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>コード・セット(文字集合)</th>
+		<th>言語 </th>
+		<th>国またはカテゴリー </th>
+		<th>ロケール</th>
+	</tr>
+	<tr >
+		<td>IBM-eucJP</td>
+		<td>日本語</td>
+		<td>EUC</td>
+		<td>ja_JP</td>
+	</tr>
+	<tr >
+		<td>IBM-932<br>(ibm - SJIS)</td>
+		<td>日本語</td>
+		<td>PC</td>
+		<td>ja_JP</td>
+	</tr>
+	<tr >
+		<td>IBM-943 <br>(ibm - SJIS)</td>
+		<td>日本語</td>
+		<td>日本</td>
+		<td>
+			ja_JP<br>
+			※AIX でサポートされているすべて の言語と地域で、UTF-8 コード・セットによって、 ユニコードが完全にサポートされています。
+		</td>
+	</tr>
+	</table>
+
+
+* 各文字コード構成
+
+＜IBM-eucJP ＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>対応する文字コード</th>
+		<th></th>
+	</tr>
+	<tr >
+		<td>JISCII</td>
+		<td>JISX0201 グラフィック左文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0201:1976</td>
+		<td>カタカナ/ひらがなグラフィック右文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0208:1983</td>
+		<td>漢字レベル 1 および 2 文字セット </td>
+	</tr>
+	<tr >
+		<td>IBM-udcJP</td>
+		<td>IBM ユーザー定義可能文字 </td>
+	</tr>
+	<tr >
+		<td>JISX0212.1990</td>
+		<td>JIS補助漢字 </td>
+	</tr>
+	</table>
+
+※機種依存文字は含まれない
+
+
+＜IBM-932＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>対応する文字コード</th>
+		<th></th>
+	</tr>
+	<tr >
+		<td>JISCII</td>
+		<td>JISX0201 グラフィック左文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0201:1976</td>
+		<td>カタカナ/ひらがなグラフィック右文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0208:1983</td>
+		<td>漢字レベル 1 および 2 文字セット </td>
+	</tr>
+	<tr >
+		<td>IBM-udcJP</td>
+		<td>ユーザー定義可能文字と、NEC の IBM 選択文字および NEC 選択文字  </td>
+	</tr>
+	</table>
+
+※機種依存文字は含まれない
+
+
+＜IBM-943＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>対応する文字コード</th>
+		<th></th>
+	</tr>
+	<tr >
+		<td>JISCII</td>
+		<td>JISX0201 グラフィック左文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0201:1976</td>
+		<td>カタカナ/ひらがなグラフィック右文字セット </td>
+	</tr>
+	<tr >
+		<td>JISX0208:1990</td>
+		<td>漢字レベル 1 および 2 文字セット </td>
+	</tr>
+	<tr >
+		<td>IBM-udcJP</td>
+		<td>ユーザー定義可能文字と、NEC の IBM 選択文字および NEC 選択文字  </td>
+	</tr>
+	</table>
+
+※機種依存文字は含まれない
+
+＜UTF-8＞
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>対応する文字コード</th>
+		<th></th>
+	</tr>
+	<tr >
+		<td>UTF8</td>
+		<td>
+			Unicode　(ISO/IEC 10646（UCS）)<br>
+			日本語のJIS規格「JIS X 0201、JIS X 0208、JIS X 0212、JIS X 0213」に対応
+		</td>
+	</tr>
+	</table>
+
+※機種依存文字は含まれない
+
+|
+
+.. note::
+
+	 | `IBMのAIX機の文字コード <http://publib16.boulder.ibm.com/doc_link/Ja_JP/a_doc_lib/aixprggd/nlsgdrf/codeset_over.htm#uhz1300dan>`_
+	 | `各文字コードの構成 <http://publib16.boulder.ibm.com/doc_link/Ja_JP/a_doc_lib/aixprggd/nlsgdrf/codeset_over.htm#uhz1300dan>`_
+
+
+Oracleの日本語環境について
+---------------------------
+
+	データベースのキャラクタ・セット一覧
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>キャラクタ・セット</th>
+		<th>説明</th>
+	</tr>
+	<tr >
+		<td>JA16EUC</td>
+		<td>EUC 24ビット日本語</td>
+	</tr>
+	<tr >
+		<td>JA16EUCTILDE</td>
+		<td>JA16EUCの波形のダッシュとチルドの文字化け対応版</td>
+	</tr>
+	<tr >
+		<td>JA16SJIS</td>
+		<td>シフトJIS 16ビット日本語</td>
+	</tr>
+	<tr >
+		<td>JA16SJISTILDE</td>
+		<td>シフトJIS 16ビット日本語のダッシュとチルドの文字化け対応版</td>
+	</tr>
+	<tr >
+		<td>AL32UTF8</td>
+		<td>Unicode 5.0 UTF-8ユニバーサル・キャラクタ・セット</td>
+	</tr>
+	</table>
+
+JIS X 0213 に対応させたい場合、データベースの文字コードセット（NLS_CHARACTERSET）をAL32UTF8に設定すること.
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th rowspan="2">キャラクタ・セット</th>
+		<th colspan="5">DBのバージョン</th>
+	</tr>
+	<tr bgcolor="#33CCFF">
+		<th>9.2.0</th>
+		<th>10.1.0</th>
+		<th>10.2.0</th>
+		<th>11.2.0</th>
+		<th>11.2.0</th>
+	</tr>
+	<tr>
+		<td >UTF8</td>
+		<td colspan="5">3.0</td>
+	</tr>
+	<tr>
+		<td>AL32UTF8</td>
+		<td>3.1</td>
+		<td>3.2</td>
+		<td>4.0</td>
+		<td colspan="2">5.0</td>
+	</tr>
+	</table>
+
+|
+
+.. note::
+
+	`Oracleのキャラクタ・セットについて <http://www.oracle.com/technetwork/jp/content/20100617-charcterset-255086-ja.pdf#search='JIS+X+2013++++Oracle+DB'>`_
+
+
+|
+
+
+適切なエンコード指定が必要な箇所
+-------------------------------------------------------------------------
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr>
+		<td>
+			クライアント ⇔ WebサーバHTTP通信
+		</td>
+		<td>
+			JSPのタグでcharasetを「？」を指定
+			<'%@ page contentType="text/html;charset=UTF-8"pageEncoding="UTF-8" %>
+					↓
+			request.setCharacterEncoding(UTF-8);
+			response.setContentType("text/html; charset=UTF-8");
+		</td>
+	</tr>
+	<tr>
+		<td>
+			APサーバ　⇔ DB
+		</td>
+		<td>
+			JDBCが Java VMで使用されるUnicode16 とDBの文字コードの差異を吸収する。
+			→ アプリ側は何もしなくていい
+			※但し、DBの文字コードに存在しない文字でDBを更新した場合、文字消失する。
+		</td>
+	</tr>
+	<tr>
+		<td>
+			APサーバ　⇔ 帳票
+		</td>
+		<td>
+			帳票のフォームファイルのエンコード指定をSJIS
+		</td>
+	</tr>
+	<tr>
+		<td>
+			APサーバ　⇔　Fileアップロード/Fileダウンロード
+		</td>
+		<td>
+			アップロード（Windows端末 ⇒ Webサーバー）の時は　ShiftJIS から EUC<br>
+			ダウンロード(APサーバー　⇒ Widndows端末)の時は、EUC から Shift-JIS
+		</td>
+	</tr>
+	<tr>
+		<td>
+			DPサーバ　⇔各地シス連携
+		</td>
+		<td>
+			EUC-JP<br>
+			※現行Hulftで電文を送受信している
+		</td>
+	</tr>
+	<tr>
+		<td>
+			メッセージ（ログなど）
+		</td>
+		<td>
+			5.9.2 How to use　プロパティファイルに設定したメッセージの表示　より<br>
+			<br>
+			＜メッセージプロパティを使用する場合＞
+			1. application-messages.propertiesをUTF8で生成、日本語などのメッセージを直接記入<br>
+			(native2asciiでISO-8859-1に変換しなくてよい)<br>
+			<br>
+			2. applicationContext.xmlで、ResourceBundleMessageSource に読み込む文字コード<br>
+			とメッセージファイル(application-messages.properties)を指定する<br>
+			<br>
+			5.6.2 How to use<br>
+			SLF4J + Logback でログを出力する場合<br>
+			→ logback.xmlのログの文字コード等
+		</td>
+	</tr>
+	<tr>
+		<td>メール</td>
+		<td>
+			5.21. E-mail 送信　MimeMessage によるメール送信方法 より<br>
+			文字コードを指定して、MimeMessageHelper のインスタンスを生成する。<br>
+		</td>
+	</tr>
+	</table>
+
+
+|
+
+文字コード変換が必要になる可能性がある箇所
+-------------------------------------------------------------------------
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th>クライアント</th>
+		<th>アプリ（画面）</th>
+		<th>サーバ</th>
+		<th>DB</th>
+		<th>帳票</th>
+		<th>他シス連携</th>
+	</tr>
+	<tr>
+		<td>JIS X 0213 </td>
+		<td>UTF-8 </td>
+		<td>IBM-eucJP </td>
+		<td>JA16EUC </td>
+		<td>Shift-JIS </td>
+		<td>EUC-JP </td>
+	</tr>
+	<tr>
+		<td>(Windows7)</td>
+		<td colspan=6>EUC ?</td>
+	<tr>
+	</table>
+
+|
+
+* 使用可能文字の範囲
+	DBの文字コードがUTF8だとしても、使用可能文字をUTF8の全文字とした場合、帳票やDB、各連携システムへの影響がある可能性があるため、使用可能文字のUTF8対応は対象外とする。
+
+.. raw:: html
+
+	<table border=1 border-collapse="collapse" style="font-size : 12px;">
+	<tr bgcolor="#33CCFF">
+		<th colspan=2>現行の入力チェックの文字種別チェック</th>
+		<th>対応するTERASOLUNA.xで提供の入力チェックの存在</th>
+	</tr>
+	<tr>
+		<td>属性なし</td>
+		<td>機種依存文字以外</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>半角記号チェック</td>
+		<td> !#%&,-/;:<=>@_`}*</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>半角英小文字</td>
+		<td>abcdefghijklmnopqrstuvwxyz</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>半角英大文字</td>
+		<td>ABCDEFGHIJKLMNOPQRSTUVWXYZ</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>半角カナ</td>
+		<td>ｧｱｨｲｩｳｪｴｫｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂｯﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔｬﾕｭﾖｮﾗﾘﾙﾚﾛﾜｦﾝｳｰ､｡ﾟﾞ</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>半角数字</td>
+		<td>1234567890</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角英大文字</td>
+		<td>ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹ</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角英小文字</td>
+		<td>ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角カナ</td>
+		<td>
+			ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾ
+			タダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポ
+			マミムメモャヤュユョヨラリルレロヮワヲンヴヵヶー。、
+		</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角数字</td>
+		<td>１２３４５６７８９０</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角記号</td>
+		<td>　！”＃＄％＆’（）＊＋，－．／；：＜＝＞？＠［￥］＾＿｀｛｜｝</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	<tr>
+		<td>全角許可</td>
+		<td>全角、半角の両方（機種依存文字以外）</td>
+		<td>×	(この単位での文字種チェックはない)</td>
+	</tr>
+	</table>
+
+|
+
+.. note::
+
+	 | Shift-JIS(ASCII、JIS X 0208：1990、JIS X 020文字コード表を下記にて参照
+	 | `文字コード表 <http://charset.uic.jp/show/shift_jis/>`_
