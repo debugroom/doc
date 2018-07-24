@@ -675,7 +675,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
        日付操作機能
        </td>
        <td>
-       ビジネスユースケースにおいて、システム処理でワークフロー制御が必要な場合、処理方式を検討する。
+       日付を操作するユーティリティの要否について確認し、処理方式を検討する。
        </td>
        <td>
        部品の実装は<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/DateAndTime.html">TERASOLUNA FW5のガイドライン 「日付操作(JSR-310 Date and Time API)」</a> 、<a href="http://terasolunaorg.github.io/guideline/5.4.1.RELEASE/ja/ArchitectureInDetail/GeneralFuncDetail/JodaTime.html">TERASOLUNA FW5のガイドライン 「日付操作(JODA Time)」</a> も参考のこと。
@@ -724,6 +724,38 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
        40
        </td>
        <td>
+       ファイル生成機能
+       </td>
+       <td>
+       CSVやテキスト、PDFといったファイル生成機能の要否を検討し、処理方式を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+
+       </td>
+    </tr>
+
+    <tr>
+       <td>
+       41
+       </td>
+       <td>
+       BASE64エンコード機能
+       </td>
+       <td>
+       BASE64エンコード処理方式を検討する。
+       </td>
+       <td>
+       </td>
+       <td>
+       </td>
+    </tr>
+    <tr>
+       <td>
+       42
+       </td>
+       <td>
        暗号化・複合化機能
        </td>
        <td>
@@ -739,7 +771,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       41
+       43
        </td>
        <td>
        認証機能
@@ -757,7 +789,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       42
+       44
        </td>
        <td>
        認可機能
@@ -775,7 +807,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       43
+       45
        </td>
        <td>
        画面遷移制御方式
@@ -793,7 +825,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       44
+       46
        </td>
        <td>
        	画面表示制御方式
@@ -811,7 +843,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       45
+       47
        </td>
        <td>
        セキュアパスワード機能<br />セキュアパスワード生成 <br />パスワードチェック <br/>パスワードハッシュ化方式
@@ -829,7 +861,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       46
+       48
        </td>
        <td>
        パスワード変更通知 <br>強制変更機能
@@ -847,7 +879,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       47
+       49
        </td>
        <td>
        マスキング機能
@@ -865,7 +897,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       48
+       50
        </td>
        <td>
        セキュアコマンド実行機能
@@ -881,7 +913,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       49
+       51
        </td>
        <td>
        なりすまし防止機能<br /> - セキュアセッションID生成<br /> - セキュアCookie発行
@@ -897,7 +929,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
     <tr>
        <td>
-       50
+       52
        </td>
        <td>
        プロジェクト・パッケージ構成の検討
@@ -933,6 +965,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 --------------------------------------------------------------
 
 クラウド環境でアプリケーションを構築した場合、主な処理方式で差分が発生しやすい処理方式・機能は以下の通りである。
+また、処理方式概要には、AWSを利用した場合の処理方式概要例を記載する。
 
 .. raw:: html
 
@@ -947,13 +980,29 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
 
      <tr>
         <td>
+        3
+        </td>
+        <td>
+        純バッチ実行方式
+        </td>
+        <td>
+        コンテナ上で実行した場合のジョブ・バッチLaunch方式、多重実行処理や、リラン・リスタートなどの方式について検討する必要がある。
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+     </tr>
+
+     <tr>
+        <td>
         5
         </td>
         <td>
         データベースアクセス方式
         </td>
         <td>
-        AWS DynamoDBやMongoDB、Apache Cassandraといった、NoSQL型のデータストアを利用するケースが増え、RDBと方式が異なるデータベースアクセス方式が必要になる。
+        AWS DynamoDBやMongoDB、Apache Cassandraといった、NoSQL型のデータストアを利用するケースが増え、RDBと方式が異なるデータベースアクセス方式が必要になる。また、サーバスケールを想定したシャーディングなどの方式を検討する必要がある。
         </td>
         <td>
         </td>
@@ -985,12 +1034,11 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         例外ハンドリング方式
         </td>
         <td>
-        クラウドベンダが提供するサービス(AmazonS3やAmazonLambdaなど)を利用した場合の例外ハンドリング方法を検討しておく必要がある。
+        クラウドベンダが提供するサービス(AmazonS3やAmazonLambda、AmazonSQSなど)を利用した場合の例外ハンドリング方法を検討しておく必要がある。
         </td>
         <td>
         </td>
         <td>
-
         </td>
      </tr>
 
@@ -1002,10 +1050,10 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
           <a href="session-management.html">セッション管理方式</a>
         </td>
         <td>
-        セッションに格納する対象のデータ選定や ステートフル・スレートレス処理に関する内容を検討する
         クラウド環境下でスケールアウト・スケールインする環境下でセッション情報を共有し、サーバ間で擬似的なステートレス方式を実現する必要がある。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/SessionManagement.html">Macchinettaガイドライン「セッション外部管理」</a>に従い、セッション情報をElasticCacheへ委譲する方式とする。
         </td>
         <td>
 
@@ -1020,7 +1068,7 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         文字コード・ロケール
         </td>
         <td>
-        クラウド環境下では実行されるロケールが変動する場合があるので、ロケーションを考慮したアプリケーション設計を検討する必要がある。
+        クラウド環境下では実行されるアプリケーションのロケールが異なる場合があるので、ロケーションを考慮したアプリケーション設計を検討する必要がある。
         </td>
         <td>
         </td>
@@ -1036,13 +1084,14 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         ファイルアップロード機能
         </td>
         <td>
-        アプリケーションサーバ環境がスケーラブルあり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
-        ファイルアップロード時のデータ保存のポリシーや共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
+        アプリケーションサーバ環境がスケーラブルであり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
+        ファイルアップロード時のデータ保存のポリシーや共有ストレージへの直接クライアントからのアクセスする方式を検討しておく必要がある。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/FileManagement/UploadFileManagement.html#s3">Macchinettaのガイドライン「ファイルアップロード管理」</a>に基づき、
+        AmazonS3へファイルをアプリケーションサーバ及びクライアントからダイレクトアクセスする方式とする。
         </td>
         <td>
-
         </td>
      </tr>
 
@@ -1058,9 +1107,10 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/FileManagement/DownloadFileManagement.html">Macchinettaのガイドライン「ダウンロードファイル管理」</a>に基づき、
+        AmazonS3からファイルを取得及びクライアントからダイレクトアクセスする方式とする。
         </td>
         <td>
-
         </td>
      </tr>
 
@@ -1092,9 +1142,9 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         クラウドベンダが提供するメール配信サービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/MailSending.html">Machinettaガイドライン「メール送信」</a>に従い、SESを使用したメール送信処理を実装する。
         </td>
         <td>
-
         </td>
      </tr>
 
@@ -1109,9 +1159,9 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         クラウドベンダが提供するヘルスチェックサービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/ImplementationAtEachLayer/HealthCheck.html">Machinettaガイドライン「ヘルスチェック」</a>に従い、ヘルスチェック処理を実装する。
         </td>
         <td>
-
         </td>
      </tr>
      <tr>
@@ -1135,13 +1185,14 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         33
         </td>
         <td>
-        共有ファイル・キャッシュ接続方式
+        共有ファイルシステム・キャッシュ接続方式
         </td>
         <td>
         アプリケーションサーバ環境がスケーラブルであり、また、揮発性(いったん再起動するとストレージのデータが初期化される可能性)があるため、
-        共有ストレージへのクライアントからのダイレクトアクセス方式を検討しておく必要がある。
+        共有ストレージ(AamazonS3やElasticCache)へのアクセス方式を検討しておく必要がある。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/FileManagement/UploadFileManagement.html">Macchinettaガイドライン「ファイルアップロード」</a>に従い、AmazonS3へデータを保存する。
         </td>
         <td>
         </td>
@@ -1155,9 +1206,10 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         メッセージ通信方式<br /> - MQ <br> - CORBA <br> - RPC
         </td>
         <td>
-        クラウドベンダが提供するサービスを利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
+        クラウドベンダが提供するサービス(AmazonSQSなど)を利用した方が効率的な場合があるため、その点を考慮したアプリケーション設計が必要となる。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/Queuing/AsynchronousProcessing.html">Machinettaガイドライン「キューイング活用」</a>に従い、AmazonSQSを利用する。
         </td>
         <td>
         </td>
@@ -1171,9 +1223,10 @@ Web・バッチアプリケーションを設計・実装を行う場合、AP処
         プロジェクト・パッケージ構成の検討
         </td>
         <td>
-        クラウドベンダに依存しない疎結合なプロジェクト構成を検討する必要がある。
+        クラウド環境やサービスへの依存が小さい疎結合なプロジェクト構成を検討する必要がある。
         </td>
         <td>
+        <a href="https://macchinetta.github.io/cloud-guideline/1.0.1.RELEASE/ja/AWSCollaboration/CreateAWSApplicationProject.html">Machinettaガイドライン「AWS向け開発プロジェクトの作成」</a>に従い、プロジェクトを作成する。
         </td>
         <td>
         </td>

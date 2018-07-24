@@ -46,21 +46,21 @@ Introdcution
 
 test-javaee6-webプロジェクトには、各テーマごとに、対応するページを作成している。JBossを起動した後、以下のURLを実行すると各機能の実行ページに移る。
 
-+----+---------------------+----------------------------------------------------------------------------+
-| No | title               | URL                                                                        |
-+====+=====================+============================================================================+
-| 1  | Simple SELECT       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelect.xhtml     |
-+----+---------------------+----------------------------------------------------------------------------+
-| 2  | Simple SELECT List  | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelectList.xhtml |
-+----+---------------------+----------------------------------------------------------------------------+
-| 3  | Simple INSERT       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleInsert.xhtml     |
-+----+---------------------+----------------------------------------------------------------------------+
-| 4  | Simple UPDATE       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleUpdate.xhtml     |
-+----+---------------------+----------------------------------------------------------------------------+
-| 5  | Simple DELETE       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleDelete.xhtml     |
-+----+---------------------+----------------------------------------------------------------------------+
-| 6  | ...(working)        | http://localhost:8080/test-javaee6-web/jsf/dbaccess/xxxxxxxxxxxx.xhtml     |
-+----+---------------------+----------------------------------------------------------------------------+
++----+---------------------+--------------------------------------------------------------------------------+
+| No | title               | URL                                                                            |
++====+=====================+================================================================================+
+| 1  | Simple SELECT       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelect.xhtml         |
++----+---------------------+--------------------------------------------------------------------------------+
+| 2  | Simple SELECT List  | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleSelectList.xhtml     |
++----+---------------------+--------------------------------------------------------------------------------+
+| 3  | Simple INSERT       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleInsert.xhtml         |
++----+---------------------+--------------------------------------------------------------------------------+
+| 4  | Simple UPDATE       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleUpdate.xhtml         |
++----+---------------------+--------------------------------------------------------------------------------+
+| 5  | Simple DELETE       | http://localhost:8080/test-javaee6-web/jsf/dbaccess/simpleDelete.xhtml         |
++----+---------------------+--------------------------------------------------------------------------------+
+| 6  | ...(working)        | http://localhost:8080/test-javaee6-web/jsf/dbaccess/xxxxxxxxxxxx.xhtml         |
++----+---------------------+--------------------------------------------------------------------------------+
 | 7  | One To Many INSERT  | http://localhost:8080/test-javaee6-web/jsf/dbaccess/oneToManyInsert.xhtml      |
 +----+---------------------+--------------------------------------------------------------------------------+
 | 8  | One To Many UPDATE  | http://localhost:8080/test-javaee6-web/jsf/dbaccess/oneToManyUpdateList.xhtml  |
