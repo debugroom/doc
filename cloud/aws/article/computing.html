@@ -109,6 +109,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#section3-2-1-ecs-overview-label">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section3-2-2-ecs-create-cluster-label">EC2起動型-クラスタの作成</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section3-2-3-ecs-create-task-label">EC2起動型-タスクの定義</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-2-4-ecs-create-alb-label">EC2起動型-ロードバランサ作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-2-5-ecs-create-service-label">EC2起動型-サービスの定義</a></li>
 </ul>
 </li>
 </ul>
@@ -200,8 +202,8 @@
 <span id="section3-1-1-ec2-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
 <p>Elastic Compute Cloud(EC2)は仮想サーバサービスである。それぞれの仮想サーバを「インスタンス」と呼び、OS、CPUやメモリーといった性能、ストレージ、購入オプションを選択して、サービスを利用する。選択可能な可能なOSはAWSの <a class="reference external" href="https://aws.amazon.com/marketplace/b/2649367011">マーケットプレイス</a> から確認できる。</p>
 <p>CPUやメモリ、ストレージといったリソースキャパシティを定義したものをインスタンスタイプと呼ぶ。インスタンスタイプはAmazonのインスタンス選択の <a class="reference external" href="https://aws.amazon.com/jp/ec2/instance-types/">ガイドライン</a> に沿って、選択するとよい。インスタンスタイプにはカテゴリがあり、それぞれ以下のようなアプリケーション特性に従い、インスタンスタイプを選択する。</p>
-<table border="1" class="colwidths-given docutils" id="id9">
-<caption><span class="caption-text">インスタンスタイプ</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id11">
+<caption><span class="caption-text">インスタンスタイプ</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="30%" />
@@ -275,8 +277,8 @@
 <p class="last">EC2のインスタンスタイプを変更すると、ハイパーバイザを実行している物理ホストを変更することになり、EC2の停止が必要になる。</p>
 </div>
 <p>ストレージはEC2にアタッチされるElastic Block Store(EBS)というブロックレベルのストレージボリュームで、以下の通り4種類を選択できる。</p>
-<table border="1" class="colwidths-given docutils" id="id10">
-<caption><span class="caption-text">EBSの種類</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id12">
+<caption><span class="caption-text">EBSの種類</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="21%" />
 <col width="14%" />
@@ -610,7 +612,7 @@ ECSでは、2018年8月現在時点では、ひとつまたは複数のEC2上に
 なお、EC2起動型環境の構築は、以下の手順で行う。</p>
 <ol class="arabic simple">
 <li>ECSクラスタ作成</li>
-<li>ECSタスク定義(コンテナイメージの作成)</li>
+<li>ECSタスク定義(コンテナ及びコンテナイメージの定義)</li>
 <li>ロードバランサの作成</li>
 <li>ECSサービスの定義</li>
 </ol>
@@ -743,17 +745,21 @@ S3アクセスポリシーの作成は <a class="reference internal" href="secur
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-4.png"><img alt="../../../_images/management-console-ecs-create-task-4.png" src="../../../_images/management-console-ecs-create-task-4.png" style="width: 752.0px; height: 724.0px;" /></a>
 </div>
-<p>■「コンテナの追加」ボタンを押下し、アプリケーションをLaunchしたコンテナを指定する。</p>
+<p>■「コンテナの追加」ボタンを押下し、アプリケーションをLaunchしたコンテナイメージを指定する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-container-1.png"><img alt="../../../_images/management-console-ecs-create-container-1.png" src="../../../_images/management-console-ecs-create-container-1.png" style="width: 1154.0px; height: 700.0px;" /></a>
 </div>
 <ul class="simple">
-<li>コンテナ名：sample-spring-Cloud</li>
+<li>コンテナ名：sample-spring-cloud</li>
 <li>イメージ：DockerHubにあるイメージURIを指定</li>
 <li>メモリ：コンテナに割り当てるメモリを指定</li>
 <li>ポートマッピング：アプリケーションのポートを指定</li>
 </ul>
 <p>■実行コンテナの詳細な設定を行う。</p>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">コンテナの詳細設定のオプションを整理</p>
+</div>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-container-2.png"><img alt="../../../_images/management-console-ecs-create-container-2.png" src="../../../_images/management-console-ecs-create-container-2.png" style="width: 1153.0px; height: 498.0px;" /></a>
 </div>
@@ -772,6 +778,133 @@ S3アクセスポリシーの作成は <a class="reference internal" href="secur
 </div>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-6.png"><img alt="../../../_images/management-console-ecs-create-task-6.png" src="../../../_images/management-console-ecs-create-task-6.png" style="width: 1050.0px; height: 813.0px;" /></a>
+</div>
+</div>
+<div class="section" id="section3-2-4-ecs-create-alb-label">
+<span id="id9"></span><h3>EC2起動型-ロードバランサ作成<a class="headerlink" href="#section3-2-4-ecs-create-alb-label" title="Permalink to this headline">¶</a></h3>
+<p>各サービスに処理を分散させるためのALBの作成を行う。</p>
+<p>■EC2サービスから、「ロードバランサー」メニューを選択し、「ロードバランサーの作成」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-1.png"><img alt="../../../_images/management-console-ecs-create-alb-1.png" src="../../../_images/management-console-ecs-create-alb-1.png" style="width: 1380.0px; height: 323.0px;" /></a>
+</div>
+<p>■ロードバランサーの種類の選択で、Application Load Balancerを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-2.png"><img alt="../../../_images/management-console-ecs-create-alb-2.png" src="../../../_images/management-console-ecs-create-alb-2.png" style="width: 1368.0px; height: 541.0px;" /></a>
+</div>
+<p>■ロードバランサーの設定を行う。</p>
+<ul class="simple">
+<li>名前：sample-ecs-alb(適当な名前を設定)</li>
+<li>アドレスタイプ：ipv4を選択</li>
+<li>リスナー：httpを選択</li>
+<li>アベイラビリティゾーン：2箇所のアベイラビリティゾーンを選択</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-3.png"><img alt="../../../_images/management-console-ecs-create-alb-3.png" src="../../../_images/management-console-ecs-create-alb-3.png" style="width: 1395.0px; height: 804.0px;" /></a>
+</div>
+<p>■セキュリティ構成の設定では、HTTPなのでそのままスキップ。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-4.png"><img alt="../../../_images/management-console-ecs-create-alb-4.png" src="../../../_images/management-console-ecs-create-alb-4.png" style="width: 1376.0px; height: 792.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">今回はサンプルのためHTTPを設定しているが、本番ではHTTPS及び証明書等の設定を行うこと。</p>
+</div>
+<p>■セキュリティグループの設定で、HTTPポートを開ける設定を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-5.png"><img alt="../../../_images/management-console-ecs-create-alb-5.png" src="../../../_images/management-console-ecs-create-alb-5.png" style="width: 1377.0px; height: 794.0px;" /></a>
+</div>
+<p>■ルーティングの設定で、新しいターゲットグループの設定、及びヘルスチェックの設定を行う。</p>
+<p>[ターゲットグループ]</p>
+<ul class="simple">
+<li>ターゲットグループ：新しいターゲットグループを設定</li>
+<li>名前：sample-ecs-target-group(適当な名前を設定)</li>
+<li>プロトコル：HTTP</li>
+<li>ポート：80</li>
+<li>ターゲットの種類：instance</li>
+</ul>
+<p>[ヘルスチェック]</p>
+<ul class="simple">
+<li>HTTP</li>
+<li>index.html(アプリケーションのトップポータル・ログインに相当するパスを設定)</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-6.png"><img alt="../../../_images/management-console-ecs-create-alb-6.png" src="../../../_images/management-console-ecs-create-alb-6.png" style="width: 1373.0px; height: 794.0px;" /></a>
+</div>
+<p>■ターゲットグループに <a class="reference internal" href="#section3-2-2-ecs-create-cluster-label"><span class="std std-ref">EC2起動型-クラスタの作成</span></a> で作成した、ECSクラスタを設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-alb-7.png"><img alt="../../../_images/management-console-ecs-create-alb-7.png" src="../../../_images/management-console-ecs-create-alb-7.png" style="width: 1395.0px; height: 817.0px;" /></a>
+</div>
+</div>
+<div class="section" id="section3-2-5-ecs-create-service-label">
+<span id="id10"></span><h3>EC2起動型-サービスの定義<a class="headerlink" href="#section3-2-5-ecs-create-service-label" title="Permalink to this headline">¶</a></h3>
+<p>コンテナをLaunchさせる設定をサービスとして定義する。</p>
+<p>■ECSサービスメニューから「クラスター」メニューを選択し、<a class="reference internal" href="#section3-2-2-ecs-create-cluster-label"><span class="std std-ref">EC2起動型-クラスタの作成</span></a> で作成した、ECSクラスタを選択する。「サービス」タブから「作成」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-1.png"><img alt="../../../_images/management-console-ecs-create-service-1.png" src="../../../_images/management-console-ecs-create-service-1.png" style="width: 926.0px; height: 572.0px;" /></a>
+</div>
+<p>■サービスの設定で以下の通り、サービス起動設定を行う。</p>
+<p>[サービスの設定]</p>
+<ul class="simple">
+<li>起動タイプ：EC2</li>
+<li>タスク定義： <a class="reference internal" href="#section3-2-3-ecs-create-task-label"><span class="std std-ref">EC2起動型-タスクの定義</span></a> で定義したタスクを指定</li>
+<li>クラスター：  <a class="reference internal" href="#section3-2-2-ecs-create-cluster-label"><span class="std std-ref">EC2起動型-クラスタの作成</span></a> で作成したクラスタを指定</li>
+<li>サービス名：samaple-ecs-service(適当な名前を設定)</li>
+<li>サービスタイプ： REPLICA</li>
+<li>タスクの数：1(実行するコンテナの数)</li>
+<li>最小ヘルス率：50(デフォルト値)</li>
+<li>最大率：200(デフォルト値)</li>
+</ul>
+<p>[タスクの配置]</p>
+<ul class="simple">
+<li>AZバランススプレッド</li>
+</ul>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">サービス配置のオプションについて整理する。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-2.png"><img alt="../../../_images/management-console-ecs-create-service-2.png" src="../../../_images/management-console-ecs-create-service-2.png" style="width: 1140.0px; height: 783.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-3.png"><img alt="../../../_images/management-console-ecs-create-service-3.png" src="../../../_images/management-console-ecs-create-service-3.png" style="width: 837.0px; height: 378.0px;" /></a>
+</div>
+<p>■ネットワークの構成で、「VPCとセキュリティグループ」、「ヘルスチェックの猶予期間」、「ElasticLoadBalancing」、「負荷分散用のコンテナ」の設定を行う。</p>
+<p>[VPCとセキュリティグループ]</p>
+<ul class="simple">
+<li>設定済みのため省略</li>
+</ul>
+<p>[ヘルスチェックの猶予期間]</p>
+<ul class="simple">
+<li>100(アプリケーションの起動に時間がかかる場合の時間を設定)</li>
+</ul>
+<p>[ElasticLoadBalancing]</p>
+<ul class="simple">
+<li>ELBタイプ： ApplicationLoadBalancerを選択</li>
+<li>サービス用のIAMロールの設定： <a class="reference internal" href="#section3-2-3-ecs-create-task-label"><span class="std std-ref">EC2起動型-タスクの定義</span></a> で作成したECS Task用のIAM ロールを設定。</li>
+<li>ELB名： <a class="reference internal" href="#section3-2-4-ecs-create-alb-label"><span class="std std-ref">EC2起動型-ロードバランサ作成</span></a> で設定したALBを選択</li>
+</ul>
+<p>[負荷分散用のコンテナ]</p>
+<ul class="simple">
+<li><a class="reference internal" href="#section3-2-3-ecs-create-task-label"><span class="std std-ref">EC2起動型-タスクの定義</span></a> で設定したコンテナ定義を選択し、「ELBへの追加」ボタンを押下する。</li>
+<li>ターゲットグループ名： <a class="reference internal" href="#section3-2-4-ecs-create-alb-label"><span class="std std-ref">EC2起動型-ロードバランサ作成</span></a> で作成したターゲットグループ名を指定。</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-4.png"><img alt="../../../_images/management-console-ecs-create-service-4.png" src="../../../_images/management-console-ecs-create-service-4.png" style="width: 892.0px; height: 909.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-5.png"><img alt="../../../_images/management-console-ecs-create-service-5.png" src="../../../_images/management-console-ecs-create-service-5.png" style="width: 666.0px; height: 499.0px;" /></a>
+</div>
+<p>■必要に応じて、AutoScalingオプションの設定を行い、「次のステップへ」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-6.png"><img alt="../../../_images/management-console-ecs-create-service-6.png" src="../../../_images/management-console-ecs-create-service-6.png" style="width: 663.0px; height: 283.0px;" /></a>
+</div>
+<p>■設定内容を確認し、「サービスの作成」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-7.png"><img alt="../../../_images/management-console-ecs-create-service-7.png" src="../../../_images/management-console-ecs-create-service-7.png" style="width: 668.0px; height: 779.0px;" /></a>
+</div>
+<p>■ECSサービスがLaunchする。ECSクラスタ上にコンテナが実行される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-8.png"><img alt="../../../_images/management-console-ecs-create-service-8.png" src="../../../_images/management-console-ecs-create-service-8.png" style="width: 1078.0px; height: 448.0px;" /></a>
 </div>
 </div>
 </div>
