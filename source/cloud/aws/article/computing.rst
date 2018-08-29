@@ -686,9 +686,12 @@ EC2起動型-サービスの定義
 * クラスター：  :ref:`section3-2-2-ecs-create-cluster-label` で作成したクラスタを指定
 * サービス名：samaple-ecs-service(適当な名前を設定)
 * サービスタイプ： REPLICA
-* タスクの数：1(実行するコンテナの数)
+* タスクの数：1(REPLICAを選択した場合、実行するコンテナの数)
 * 最小ヘルス率：50(デフォルト値)
 * 最大率：200(デフォルト値)
+
+.. note:: サービスタイプでREPLICAは、クラスタ全体でタスクの数として指定した数のコンテナを実行するオプションである。DAEMONは、ECSクラスタのインスタンスの増減に合わせて実行コンテナを増減させるオプションである。クラスタインスタンス1台ごとに1つの実行コンテナを維持する。詳細は、 `サービススケジューラの概念<https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/ecs_services.html#service_scheduler>`_ を参照のこと。
+
 
 [タスクの配置]
 
@@ -744,3 +747,7 @@ EC2起動型-サービスの定義
 
 .. figure:: img/management-console-ecs-create-service-8.png
    :scale: 100%
+
+.. note:: ECSクラスタにSSHログインし、docker ps -aすることでコンテナの実行を確認できる。
+
+.. note:: コンテナ実行時のログは/var/log/ecs/ecs-agent.log_XXXXで確認できる。トラブルシューティングはこちらを参照すること。
