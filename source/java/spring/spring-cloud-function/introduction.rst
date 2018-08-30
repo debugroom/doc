@@ -22,6 +22,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.151-b12, mixed mode)
 
 [実行環境及び、SDKライブラリバージョン]
 AWS Lambda
+
   * aws-lambda-java-core : 1.1.0
   * aws-lambda-java-events : 2.0.2
 

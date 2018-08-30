@@ -1,0 +1,139 @@
+演習問題での Java プログラミングのヒント
+
+(詳細は，
+Java API      http://download.oracle.com/javase/6/docs/api/
+Hadoop API    http://hadoop.apache.org/common/docs/current/api/
+を参照すること)
+
+----------------------------------------------------------------------
+空白やタブで区切られた文字列を，要素の配列に分割する方法:
+
+Exc1.java の，div_space を用いる．
+
+     String str = "abc def ghi jk";
+     String[] kv = div_space.split(str);
+
+とすると，kv は，サイズ4 の配列になり，要素はそれぞれ
+"abc", "def", "ghi", "jk"
+
+分割の個数が決まっているときには，splitの第2引数に指定すれば，
+後ろがまとめられる．
+
+     String str = "abc def ghi jk";
+     String[] kv = div_space.split(str, 2);
+
+とすると，kv は，サイズ2 の配列になり，要素はそれぞれ
+"abc", "def ghi jk"．
+
+----------------------------------------------------------------------
+カンマ区切られた文字列を，要素の配列に分割する方法:
+
+Exc1.javaの，div_comma を用いる．
+
+     String str = "   abc,def, ghi  ,   jk ";
+     String[] kv = div_space.split(str);
+
+とすると，kvはサイズ4の配列になり，要素は各々
+"   abc", "def", "ghi", "jk " となる．(間の空白は捨てられるが
+前後の空白は残る．)
+
+----------------------------------------------------------------------
+配列，Set, List などのコレクションをループで回す方法
+
+xs を，クラスAのコレクションとするとき，	
+	for (A x : xs) { ... }
+とすると，... の部分で x に xs の要素が次々に設定されて
+実行される．
+
+----------------------------------------------------------------------
+配列，Set, List などのコレクションに対し，単純なループを回す
+のではないが，ともかく全部の値を一つずつほしい，というときには，
+Iteratorを取得して，hasNext()とnext()を用いる．
+
+上の例は，
+	Iterator it = xs.iterator();
+	while (it.hasNext()) {
+	      A x = it.next();
+	      ....
+	}
+と書ける．
+
+----------------------------------------------------------------------
+集合を扱う方法．
+
+HashSet というクラスを用いるのが簡単．文字列の集合を
+扱う例を示す．
+
+	// 集合ssを作る．ss は空集合．
+	HashSet<String> ss = new HashSet<String>();
+			
+	// ss に，"abc" を追加する．ss = {"abc"}
+        ss.add("abc");
+
+	// ss に，"def" を追加する．ss = {"abc", "def"}
+        ss.add("def");
+
+	// ss に，"abc" を追加する．すでにあるから変わらない．
+	// ss = {"abc", "def"}
+        ss.add("abc");
+
+	// ss に，"abc" は入っているか? x = true
+	bool x = ss.contains("abc");
+
+	// ss に，"xxx" は入っているか? y = false
+	bool y = ss.contains("xxx");
+
+int, bool などの即値は格納できない．Integer, Boolean などを
+用いる．
+
+----------------------------------------------------------------------
+文字列同士が等しいかどうかの比較．== を使ってはいけない．equals() を
+用いる．
+
+	String s1 = "abc";
+	String s2 = "abc";
+	
+	if (s1 == s2) ... // 多分成り立たない．
+
+	if (s1.equlas(s2)) ... // 成り立つ
+
+----------------------------------------------------------------------
+配列のサイズは，*.length で取れる．
+
+	String[] arr = ...;
+	int size_arr = arr.length;   // size_arr は，arrのサイズ
+
+----------------------------------------------------------------------
+出力のフォーマット: C の printf と同様な方法で，
+String.format() が使える．
+
+	String s1 = ....
+	int i1 = ....
+	String p = String.format("%s -- %d\n", s1, i1);		
+	// C の char* p = sprintf("%s -- %d\n", s1, i1); と同じ
+
+----------------------------------------------------------------------
+文字列が表す整数を得る方法．
+
+	String s = "1024";
+	Integer obj_i = Integer.parseInt(s);  // obj_i は 1024 になる．
+	int i = Integer.parseInt(s);  // i も 1024 になる．
+
+----------------------------------------------------------------------
+連想リスト: HashMap クラスが便利．
+
+	HashMap<String, Integer> hm = new HashMap<String, Integer>();
+	hm.put("and", 3);
+	hm.put("happy", 5);
+	Integer i1 = hm.get("and");  // i1 の値は 3
+	Integer i2 = hm.get("or");   // i2 は null
+	Set<String> ks = hm.keySet(); // ks は，{"and", "happy"}
+	if (hm.containsKey("and")) ...  // 成り立つ
+	if (hm.containsKey("or")) ...  // 成り立たない
+		
+----------------------------------------------------------------------
+キーでソートした連想リスト: TreeMap クラスを用いる．
+インタフェースは HashMap と同じ．ループを回したとき (あるいはIteratorで
+要素を取得するとき) に，順序が保証される．
+
+----------------------------------------------------------------------

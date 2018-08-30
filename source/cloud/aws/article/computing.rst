@@ -139,6 +139,7 @@ EC2インスタンスの設定
 
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-1.png
+   :height: 600px
    :scale: 100%
 
 
@@ -414,3 +415,362 @@ Amazon Elastic Container Service (Amazon ECS) は、クラスターで Docker �
 Dockerの詳細については、:ref:`section1-docker-overview-label` を参照のこと。
 
 ECSではリージョン内の複数のアベイラビリティーゾーンを跨いでアプリケーションコンテナを実行できる。
+ECSでは、2018年8月現在時点では、ひとつまたは複数のEC2上にクラスタを構築し、
+その上に任意のレジストリにあるDockerイメージをデプロイするEC2起動型と、
+実行するクラスタ自体をマネージドとして扱い、コンテナだけを意識するFargateに分かれる。
+
+EC2上にクラスタ構築し、アプリケーション環境を構築する方法とFargateを利用する方法各々、次章以降説明する。
+なお、EC2起動型環境の構築は、以下の手順で行う。
+
+#. ECSクラスタ作成
+#. ECSタスク定義(コンテナ及びコンテナイメージの定義)
+#. ロードバランサの作成
+#. ECSサービスの定義
+
+.. _section3-2-2-ecs-create-cluster-label:
+
+EC2起動型-クラスタの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+クラスタはコンテナを起動するためのホストマシン群である。
+
+■AWSのサービスから「Elastic Container Service」を選択し、「クラスタメニュー」> 「クラスタの作成」を押下する。
+
+.. figure:: img/management-console-ecs-create-cluster-1.png
+   :height: 600px
+   :scale: 100%
+
+|
+
+.. figure:: img/management-console-ecs-create-cluster-2.png
+   :scale: 100%
+
+|
+
+■クラスタテンプレートで「EC2 Linux + ネットワーキング」を選択し、「次のステップへ」を押下する。
+
+.. figure:: img/management-console-ecs-create-cluster-3.png
+   :scale: 100%
+
+■クラスタの定義設定を行う。
+
+.. figure:: img/management-console-ecs-create-cluster-4.png
+   :scale: 100%
+
+[クラスタの設定]
+
+* クラスター名：sample-cluster
+* インスタンスの設定：オンデマンドインスタンス
+* EC2インスタンス：m4.large
+* インスタンス数：1
+* EBSストレージ：22GiB
+* キーペア：各自で発行したキーペアファイル
+
+.. note:: EC2同様、指定したタイプのリザーブドインスタンスを購入しておくと、料金は発生しない。
+
+.. note:: Dockerのイメージファイルは大きくなるため、EBSストレージは大きめに確保しておくこと。
+
+.. figure:: img/management-console-ecs-create-cluster-5.png
+   :scale: 100%
+
+[ネットワーキング]
+
+* VPC：既存のVPCネットワークを選択
+* セキュリティグループ：アクセス用にSSH接続ができるセキュリティグループを設定しておく。
+* コンテナインスタンスIAM Role : ecsInstanceRoleが付与されたIAM ロールを設定
+
+.. warning:: ecsInstanceRoleはAmazonEC2ContainerServiceforEC2Roleポリシーが付与されたIAM ロールである。
+
+   .. sourcecode:: java
+
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecs:CreateCluster",
+                "ecs:DeregisterContainerInstance",
+                "ecs:DiscoverPollEndpoint",
+                "ecs:Poll",
+                "ecs:RegisterContainerInstance",
+                "ecs:StartTelemetrySession",
+                "ecs:UpdateContainerInstancesState",
+                "ecs:Submit*",
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+        ]
+      }
+
+   当ポリシーをECSクラスタのIAMロールへアタッチしなければ、Dockerコンテナをサービスとして起動できなくなるため注意。
+
+■クラスタの作成を押下し、クラスタを作成する。
+
+.. figure:: img/management-console-ecs-create-cluster-6.png
+   :scale: 100%
+
+.. _section3-2-3-ecs-create-task-label:
+
+EC2起動型-タスクの定義
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+タスク定義はDockerコンテナ実行定義および、コンテナイメージの定義である。なお、コンテナに設定するIAMロールを事前に作成しておく。
+ここではコンテナ上で実行するアプリケーションからS3へアクセスすることを想定し、前もって作成したS3アクセスポリシーをアタッチした、ECS向けIAMロールを作成する。
+S3アクセスポリシーの作成は :ref:`section7-1-3-iam-create-role-label` を参照のこと。
+
+■IAMサービスから「ロール」メニューを選択し、「ロールを作成」ボタンを押下する。
+
+.. figure:: img/management-console-iam-create-role-for-ecs-1.png
+   :scale: 100%
+
+■このロールを使用するサービスで「Elastic Container Service」からユースケース「Elastic Container Service Task」を選択し、「次のステップ：アクセス権限」を押下する。
+
+.. figure:: img/management-console-iam-create-role-for-ecs-2.png
+   :scale: 100%
+
+■事前に作成指定おいたS3へアクセスするポリシーをアタッチする。ここでは、S3へのアクセスとS3アクセスのAssumeRoleを行うポリシーをアタッチする。
+
+.. figure:: img/management-console-iam-create-role-for-ecs-3.png
+   :scale: 100%
+
+.. note:: S3アクセスのAssumeRoleとは、AmazonSTSに一時的にS3へのアクセス可能署名URLを発行させる権限である。
+
+■ロール名を入力し、「ロールの作成」ボタンを押下する。
+
+.. figure:: img/management-console-iam-create-role-for-ecs-4.png
+   :scale: 100%
+
+
+■ECSサービスを選択し、「タスク定義」メニューから「新しいタスク定義の作成」ボタンを押下する。
+
+.. figure:: img/management-console-ecs-create-task-1.png
+   :scale: 100%
+
+■起動タイプの互換性で「EC2」を選び、「次のステップへ」を押下する。
+
+.. figure:: img/management-console-ecs-create-task-2.png
+   :scale: 100%
+
+■タスク定義名を入力し、タスクのロールには、直前で作成したロールをアタッチする。
+
+.. figure:: img/management-console-ecs-create-task-3.png
+   :scale: 100%
+
+■タスクサイズに、メモリサイズとCPUを割り当てる。
+
+.. figure:: img/management-console-ecs-create-task-4.png
+   :scale: 100%
+
+.. warning:: Spring Boot Applicationで構成する場合は1GB以上のメモリを割り当てておくこと。512MB程度で起動すると、アプリケーションの規模が多くなったときに、起動に時間がかかり、ヘルスチェックでエラー検出し、コンテナの無限ループ起動を誘発してしまうため。
+
+■「コンテナの追加」ボタンを押下し、アプリケーションをLaunchしたコンテナイメージを指定する。
+
+.. figure:: img/management-console-ecs-create-container-1.png
+   :scale: 100%
+
+* コンテナ名：sample-spring-cloud
+* イメージ：DockerHubにあるイメージURIを指定
+* メモリ：コンテナに割り当てるメモリを指定
+* ポートマッピング：アプリケーションのポートを指定
+
+.. warning:: Spring Boot Applicationで構成する場合は1GB以上のメモリを割り当てておくこと。512MB程度で起動すると、アプリケーションの規模が多くなったときに、起動に時間がかかり、ヘルスチェックでエラー検出し、コンテナの無限ループ起動を誘発してしまうため。
+
+.. note:: コンテナのポートを動的に割り当てる場合はホストポートに0を設定しておく。
+
+■実行コンテナの詳細な設定を行う。
+
+.. figure:: img/management-console-ecs-create-container-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-ecs-create-container-3.png
+   :scale: 100%
+
+.. figure:: img/management-console-ecs-create-container-4.png
+   :scale: 100%
+
+.. figure:: img/management-console-ecs-create-container-5.png
+   :scale: 100%
+
+.. note:: 上記ではヘルスチェックの設定を行っているが、ターゲットグループでヘルスチェック設定が行えるので、ここでは設定しなくても問題ない。
+
+.. todo:: コンテナの詳細なオプション設定を整理する。
+
+■コンテナ定義後、「作成」を押下する。
+
+.. figure:: img/management-console-ecs-create-task-5.png
+   :scale: 100%
+
+.. figure:: img/management-console-ecs-create-task-6.png
+   :scale: 100%
+
+.. _section3-2-4-ecs-create-alb-label:
+
+EC2起動型-ロードバランサ作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+各サービスに処理を分散させるためのALBの作成を行う。
+
+■EC2サービスから、「ロードバランサー」メニューを選択し、「ロードバランサーの作成」を押下する。
+
+.. figure:: img/management-console-ecs-create-alb-1.png
+   :scale: 100%
+
+■ロードバランサーの種類の選択で、Application Load Balancerを選択する。
+
+.. figure:: img/management-console-ecs-create-alb-2.png
+   :scale: 100%
+
+■ロードバランサーの設定を行う。
+
+* 名前：sample-ecs-alb(適当な名前を設定)
+* アドレスタイプ：ipv4を選択
+* リスナー：httpを選択
+* アベイラビリティゾーン：2箇所のアベイラビリティゾーンを選択
+
+.. figure:: img/management-console-ecs-create-alb-3.png
+   :scale: 100%
+
+■セキュリティ構成の設定では、HTTPなのでそのままスキップ。
+
+.. figure:: img/management-console-ecs-create-alb-4.png
+   :scale: 100%
+
+.. note:: 今回はサンプルのためHTTPを設定しているが、本番ではHTTPS及び証明書等の設定を行うこと。
+
+■セキュリティグループの設定で、HTTPポートを開ける設定を行う。
+
+.. figure:: img/management-console-ecs-create-alb-5.png
+   :scale: 100%
+
+■ルーティングの設定で、新しいターゲットグループの設定、及びヘルスチェックの設定を行う。
+
+[ターゲットグループ]
+
+* ターゲットグループ：新しいターゲットグループを設定
+* 名前：sample-ecs-target-group(適当な名前を設定)
+* プロトコル：HTTP
+* ポート：80
+* ターゲットの種類：instance
+
+[ヘルスチェック]
+
+* HTTP
+* index.html(アプリケーションのトップポータル・ログインに相当するパスを設定)
+
+.. figure:: img/management-console-ecs-create-alb-6.png
+   :scale: 100%
+
+■ターゲットグループに :ref:`section3-2-2-ecs-create-cluster-label` で作成した、ECSクラスタを設定する。
+
+.. figure:: img/management-console-ecs-create-alb-7.png
+   :scale: 100%
+
+.. warning:: 動的ポートマッピングを行う場合、コンテナを実行するECSクラスタ(EC2)のセキュリティグループにロードバランサーからのアクセスでポート32768-61000を設定しておく必要がある。セキュリティグループのインバウンド設定では、ソースをロードバランサーのセキュリティグループが設定可能なので、必要に応じて設定しておくこと。
+
+   .. figure:: img/management-console-ecs-security-group-1.png
+      :scale: 100%
+
+
+.. _section3-2-5-ecs-create-service-label:
+
+EC2起動型-サービスの定義
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+コンテナをLaunchさせる設定をサービスとして定義する。
+
+■ECSサービスメニューから「クラスター」メニューを選択し、:ref:`section3-2-2-ecs-create-cluster-label` で作成した、ECSクラスタを選択する。「サービス」タブから「作成」ボタンを押下する。
+
+.. figure:: img/management-console-ecs-create-service-1.png
+   :scale: 100%
+
+■サービスの設定で以下の通り、サービス起動設定を行う。
+
+[サービスの設定]
+
+* 起動タイプ：EC2
+* タスク定義： :ref:`section3-2-3-ecs-create-task-label` で定義したタスクを指定
+* クラスター： :ref:`section3-2-2-ecs-create-cluster-label` で作成したクラスタを指定
+* サービス名：samaple-ecs-service(適当な名前を設定)
+* サービスタイプ： REPLICA
+* タスクの数：1(REPLICAを選択した場合、実行するコンテナの数)
+* 最小ヘルス率：50(デフォルト値)
+* 最大率：200(デフォルト値)
+
+.. note:: サービスタイプでREPLICAは、クラスタ全体でタスクの数として指定した数のコンテナを実行するオプションである。DAEMONは、ECSクラスタのインスタンスの増減に合わせて実行コンテナを増減させるオプションである。クラスタインスタンス1台ごとに1つの実行コンテナを維持する。詳細は、 `サービススケジューラの概念 <https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/ecs_services.html#service_scheduler>`_ を参照のこと。
+
+
+[タスクの配置]
+
+* AZバランススプレッド
+
+.. todo:: サービス配置のオプションについて整理する。
+
+.. figure:: img/management-console-ecs-create-service-2.png
+   :scale: 100%
+
+.. figure:: img/management-console-ecs-create-service-3.png
+   :scale: 100%
+
+■ネットワークの構成で、「VPCとセキュリティグループ」、「ヘルスチェックの猶予期間」、「ElasticLoadBalancing」、「負荷分散用のコンテナ」の設定を行う。
+
+[VPCとセキュリティグループ]
+
+* 設定済みのため省略
+
+[ヘルスチェックの猶予期間]
+
+* 100(アプリケーションの起動に時間がかかる場合の時間を設定)
+
+[ElasticLoadBalancing]
+
+* ELBタイプ： ApplicationLoadBalancerを選択
+* サービス用のIAMロールの設定： :ref:`section3-2-3-ecs-create-task-label` で作成したECS Task用のIAM ロールを設定。
+* ELB名： :ref:`section3-2-4-ecs-create-alb-label` で設定したALBを選択
+
+[負荷分散用のコンテナ]
+
+* :ref:`section3-2-3-ecs-create-task-label` で設定したコンテナ定義を選択し、「ELBへの追加」ボタンを押下する。
+* ターゲットグループ名： :ref:`section3-2-4-ecs-create-alb-label` で作成したターゲットグループ名を指定。
+
+.. figure:: img/management-console-ecs-create-service-4.png
+   :scale: 100%
+
+
+.. figure:: img/management-console-ecs-create-service-5.png
+   :scale: 100%
+
+■必要に応じて、AutoScalingオプションの設定を行い、「次のステップへ」を押下する。
+
+.. figure:: img/management-console-ecs-create-service-6.png
+   :scale: 100%
+
+■設定内容を確認し、「サービスの作成」を押下する。
+
+.. figure:: img/management-console-ecs-create-service-7.png
+   :scale: 100%
+
+■ECSサービスがLaunchする。ECSクラスタ上にコンテナが実行される。
+
+.. figure:: img/management-console-ecs-create-service-8.png
+   :scale: 100%
+
+.. note:: ECSクラスタにSSHログインし、docker ps -aすることでコンテナの実行を確認できる。
+
+.. note:: コンテナ実行時のログは/var/log/ecs/ecs-agent.log_XXXXで確認できる。トラブルシューティングはこちらを参照すること。
+
+.. note:: ロードバランサーでは、パスベースでコンテナが登録されているターゲットグループを指定することできる。ロードバランサーのリスナータブからルール設定することで、パス名に応じて向き先のECSクラスタ・コンテナのターゲットグループを設定できる。
+
+   .. figure:: img/management-console-ecs-load-balancer-1.png
+      :scale: 100%
+
+  下の設定例は、新たに2つのコンテナサービスを追加し、パスに応じて向き先のターゲットグループを変更する設定である。優先度の高い順にパスマッチしたルールに応じて、転送先のターゲットグループが決定する。
+
+   .. figure:: img/management-console-ecs-load-balancer-2.png
+      :scale: 100%

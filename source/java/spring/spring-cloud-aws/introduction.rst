@@ -28,6 +28,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.151-b12, mixed mode)
 
 [実行環境及び、SDKライブラリバージョン]
 AWS Dynamo
+
   * aws-java-sdk-dynamodb : 1.11.125
 
 [Spring]
