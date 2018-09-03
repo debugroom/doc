@@ -8,3 +8,4 @@ Docker
    article/overview.rst
    article/install.rst
    article/usage.rst
+   article/appendix.rst

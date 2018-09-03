@@ -17,7 +17,7 @@ Contents:
    article/storage.rst
    article/datastore.rst
    article/security.rst
-   article/operation.rst
    article/application.rst
+   article/devops.rst
    article/management.rst
    article/appendix.rst

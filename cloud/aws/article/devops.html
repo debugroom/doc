@@ -1,0 +1,1154 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DevOps Category &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Management Tools" href="management.html" />
+    <link rel="prev" title="Application Category" href="application.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DevOps Category</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#operation">Operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ec2">実行中のEC2インスタンスのバックアップ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-1-2-stamp-label">同じ構成のEC2インスタンスを作成する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cpu">CPUやメモリスペックを上昇させる</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-1-4-ondemand-disk-label">ディスク容量を増設する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-1-5-application-update-label">冗長化構成のアプリケーションをアップデートする</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#codebuild">CodeBuild</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section8-2-1-codebuild-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-2-1-codebuild-app-build-label">アプリケーションのビルド</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#codepipeline">CodePipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section8-3-1-codepipeline-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecs">ECSアプリケーションのステージングリリースの自動化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+        
+      <li>DevOps Category</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/aws/article/devops.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="devops-category">
+<span id="section8-devops-label"></span><h1>DevOps Category<a class="headerlink" href="#devops-category" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="operation">
+<span id="section8-1-operation-label"></span><h2>Operation<a class="headerlink" href="#operation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ec2">
+<span id="section8-1-1-snapshot-label"></span><h3>実行中のEC2インスタンスのバックアップ<a class="headerlink" href="#ec2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="overview">
+<span id="section8-1-1-1-overview-label"></span><h4>overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h4>
+<p>クラウドデザインパターンでは「Snapshotパターン」と呼ばれる。
+EC2インスタンスはディスクボリュームに「EBS(Elastic Block Store)」というストレージデバイスを使用しており、
+EBSにはある瞬間のスナップショットとしてバックアップを作成する機能がある。作成したデータはS3に保存されるが、
+特殊な形式のデータのため、直接S3から取り出すことはできない。作成したデータはEBSとして新たに作成し、
+EC2インスタンスにマウントするか、AMIイメージを作成し、新たなEC2インスタンスとし起動できる。
+これは次章「  <a class="reference internal" href="#section8-1-2-stamp-label"><span class="std std-ref">同じ構成のEC2インスタンスを作成する</span></a> 」にて記述する「Stampパターン」である。</p>
+</div>
+<div class="section" id="ebs">
+<span id="section8-1-1-1-operation-create-ebs-label"></span><h4>EBSボリュームの作成手順<a class="headerlink" href="#ebs" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>対象のストレージの確認</li>
+</ol>
+<p>EC2コンソールメニューから、「ボリューム」を選択し、スナップショットを作成する対象のストレージを選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-1.png"><img alt="../../../_images/management-console-operation-snapshot-1.png" src="../../../_images/management-console-operation-snapshot-1.png" style="width: 1385.0px; height: 813.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">/dev/xvda はXenベースのLinuxシステムにおいて、1台目のハードディスクドライブを指す。</p>
+</div>
+<ol class="arabic simple" start="2">
+<li>スナップショットの作成</li>
+</ol>
+<p>VolumeIDを右クリックし、「Create Snapshot」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-2.png"><img alt="../../../_images/management-console-operation-snapshot-2.png" src="../../../_images/management-console-operation-snapshot-2.png" style="width: 1004.0px; height: 515.0px;" /></a>
+</div>
+<p>名称を入力する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-3.png"><img alt="../../../_images/management-console-operation-snapshot-3.png" src="../../../_images/management-console-operation-snapshot-3.png" style="width: 617.0px; height: 273.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-4.png"><img alt="../../../_images/management-console-operation-snapshot-4.png" src="../../../_images/management-console-operation-snapshot-4.png" style="width: 1386.0px; height: 828.0px;" /></a>
+</div>
+<ol class="arabic simple" start="3">
+<li>EBSボリュームを作成する。</li>
+</ol>
+<p>作成したスナップショットを右クリックし、「Create Volume」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-5.png"><img alt="../../../_images/management-console-operation-snapshot-5.png" src="../../../_images/management-console-operation-snapshot-5.png" style="width: 1382.0px; height: 815.0px;" /></a>
+</div>
+<p>「ディスクの種類」、「ディスクの容量」、「アベイラビリティゾーンを選択する。」</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-6.png"><img alt="../../../_images/management-console-operation-snapshot-6.png" src="../../../_images/management-console-operation-snapshot-6.png" style="width: 1291.0px; height: 720.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EBSボリュームは同一のアベイラビリティゾーンでしか利用できないため、実行するEC2インスタンスのアベイラビリティゾーンに応じて、作成するゾーンを決定する。</p>
+</div>
+<p>実行すると、ボリュームにEBSがステータスavailabilityで作成される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-7.png"><img alt="../../../_images/management-console-operation-snapshot-7.png" src="../../../_images/management-console-operation-snapshot-7.png" style="width: 1217.0px; height: 340.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">スナップショットの選択時に、右クリック「コピー」を選択すると、別のリージョンへボリュームをコピーできる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">EBSスナップショットは
+* 差分(増分)バックアップ
+* 圧縮された状態で保存
+* S3に３箇所複数される。
+* ディスクサイズはフルサイズ表示となるが、実態は差分バックアップのため、サイズが必ずしも実際のデータサイズと一致しているわけではない。</p>
+</div>
+</div>
+<div class="section" id="ebsami">
+<span id="section8-1-1-2-operation-create-ami-label"></span><h4>EBSスナップショットからAMIの作成手順<a class="headerlink" href="#ebsami" title="Permalink to this headline">¶</a></h4>
+<p>スナップショットを作成したEBSがブート領域を含むのであれば(1台目のディスク)、AMIを作成できる。</p>
+<ol class="arabic simple">
+<li>イメージの作成</li>
+</ol>
+<p>スナップショットを右クリック「イメージの作成」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-1.png"><img alt="../../../_images/management-console-operation-stamp-1.png" src="../../../_images/management-console-operation-stamp-1.png" style="width: 1380.0px; height: 818.0px;" /></a>
+</div>
+<p>AMIの名称、説明、仮想マシンの種別を入力する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-2.png"><img alt="../../../_images/management-console-operation-stamp-2.png" src="../../../_images/management-console-operation-stamp-2.png" style="width: 1381.0px; height: 466.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">T2インスタンスを使用する場合、「ハードウェアアシストの仮想化(Hardware-assisted virtualization)」を選択すること。</p>
+</div>
+<p>実行すると、AMIにイメージがステータスavailabilityで作成される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-3.png"><img alt="../../../_images/management-console-operation-stamp-3.png" src="../../../_images/management-console-operation-stamp-3.png" style="width: 1380.0px; height: 582.0px;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="section8-1-2-stamp-label">
+<span id="id1"></span><h3>同じ構成のEC2インスタンスを作成する<a class="headerlink" href="#section8-1-2-stamp-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-1-2-1-stamp-overview-label">
+<span id="id2"></span><h4>overview<a class="headerlink" href="#section8-1-2-1-stamp-overview-label" title="Permalink to this headline">¶</a></h4>
+<p>前節「 <a class="reference internal" href="#section8-1-1-2-operation-create-ami-label"><span class="std std-ref">EBSスナップショットからAMIの作成手順</span></a> 」にて、EBSのスナップショットからAMIイメージを作成したが、
+稼働中のEC2インスタンスからAMIイメージを作成できる。AMIからEC2インスタンスを作るときは、
+CPUやメモリ構成も設定でき、スペックを任意に調整できる。</p>
+</div>
+<div class="section" id="ec2ami">
+<span id="section8-1-2-2-operation-create-ami-label"></span><h4>実行中EC2インスタンスからAMIの作成手順<a class="headerlink" href="#ec2ami" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>AMIイメージの作成</li>
+</ol>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">当オペレーションを実行すると、完全なディスクの複製を作成するために、実行中のEC2インスタンスが再起動するので注意。再起動したくない場合は、再起動しないオプションにチェックを入れて実行すること。</p>
+</div>
+<p>メニュー「インスタンス」から、右クリック「イメージの作成」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-4.png"><img alt="../../../_images/management-console-operation-stamp-4.png" src="../../../_images/management-console-operation-stamp-4.png" style="width: 891.0px; height: 536.0px;" /></a>
+</div>
+<p>「 <a class="reference internal" href="#section8-1-1-2-operation-create-ami-label"><span class="std std-ref">EBSスナップショットからAMIの作成手順</span></a> 」と同様、AMIの名称、説明、仮想マシンの種別を入力する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-5.png"><img alt="../../../_images/management-console-operation-stamp-5.png" src="../../../_images/management-console-operation-stamp-5.png" style="width: 1005.0px; height: 612.0px;" /></a>
+</div>
+<p>実行すると、AMIにイメージがステータスavailabilityで作成される。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-6.png"><img alt="../../../_images/management-console-operation-stamp-6.png" src="../../../_images/management-console-operation-stamp-6.png" style="width: 1199.0px; height: 512.0px;" /></a>
+</div>
+</div>
+<div class="section" id="amiec2">
+<span id="section8-1-2-3-operation-launch-ec2-by-ami-label"></span><h4>複製したAMIからEC2インスタンスを実行する手順<a class="headerlink" href="#amiec2" title="Permalink to this headline">¶</a></h4>
+<p>作成したAMIを使用して、EC2インスタンスを起動する。</p>
+<ol class="arabic simple">
+<li>EC2インスタンスの実行</li>
+</ol>
+<p>メニュー「AMI」でイメージを選択し、右クリック「作成」を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-7.png"><img alt="../../../_images/management-console-operation-stamp-7.png" src="../../../_images/management-console-operation-stamp-7.png" style="width: 922.0px; height: 421.0px;" /></a>
+</div>
+<p>「 <a class="reference internal" href="computing.html#section3-1-2-x-ec2-create-instance-label"><span class="std std-ref">インスタンスの作成</span></a> 」と同様に、EC2インスタンスを起動する。</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">AMIイメージの作成方法により実行可能なインスタンスタイプが制限される模様。条件を確認する。</p>
+</div>
+</div>
+</div>
+<div class="section" id="cpu">
+<span id="section8-1-3-scale-up-label"></span><h3>CPUやメモリスペックを上昇させる<a class="headerlink" href="#cpu" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">EC2インスタンス起動中にCPUやメモリスペックを変更する手順を記載する。</p>
+</div>
+</div>
+<div class="section" id="section8-1-4-ondemand-disk-label">
+<span id="id3"></span><h3>ディスク容量を増設する<a class="headerlink" href="#section8-1-4-ondemand-disk-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-1-4-1-application-extend-volume-overview-label">
+<span id="id4"></span><h4>overview<a class="headerlink" href="#section8-1-4-1-application-extend-volume-overview-label" title="Permalink to this headline">¶</a></h4>
+<p>起動中のEC2インスタンスの容量が足りなくなった場合、以下のようなメッセージが表示される。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>open /var/lib/docker/image/devicemapper/layerdb/tmp/layer-314207183/diff: no space left on device
+</pre></div>
+</div>
+<p>dfコマンドでディスク残容量の確認は以下の通り可能であるが、ここでは、起動中のインスタンスのディスク増設する方法を記述する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda1      <span class="m">8</span>.0G  <span class="m">8</span>.0G   52M <span class="m">100</span>% /
+devtmpfs        <span class="m">7</span>.4G     <span class="m">0</span>  <span class="m">7</span>.4G   <span class="m">0</span>% /dev
+tmpfs           <span class="m">7</span>.4G     <span class="m">0</span>  <span class="m">7</span>.4G   <span class="m">0</span>% /dev/shm
+tmpfs           <span class="m">7</span>.4G   17M  <span class="m">7</span>.4G   <span class="m">1</span>% /run
+tmpfs           <span class="m">7</span>.4G     <span class="m">0</span>  <span class="m">7</span>.4G   <span class="m">0</span>% /sys/fs/cgroup
+tmpfs           <span class="m">1</span>.5G     <span class="m">0</span>  <span class="m">1</span>.5G   <span class="m">0</span>% /run/user/1000
+</pre></div>
+</div>
+</div>
+<div class="section" id="section8-1-4-2-application-extend-volume-label">
+<span id="id5"></span><h4>EC2ボリュームサイズの拡張<a class="headerlink" href="#section8-1-4-2-application-extend-volume-label" title="Permalink to this headline">¶</a></h4>
+<p>■EC2コンソールメニューからボリュームを選び、拡張したいインスタンスのボリュームを選択する。アクションメニューから、「ボリュームの変更」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-1.png"><img alt="../../../_images/management-console-ec2-modify-volume-1.png" src="../../../_images/management-console-ec2-modify-volume-1.png" style="width: 1858.0px; height: 843.0px;" /></a>
+</div>
+<p>■ボリュームサイズを変更し、「変更」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-2.png"><img alt="../../../_images/management-console-ec2-modify-volume-2.png" src="../../../_images/management-console-ec2-modify-volume-2.png" style="width: 692.0px; height: 407.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-3.png"><img alt="../../../_images/management-console-ec2-modify-volume-3.png" src="../../../_images/management-console-ec2-modify-volume-3.png" style="width: 693.0px; height: 324.0px;" /></a>
+</div>
+<p>■EC2インスタンスにSSHでログインし、拡張したボリュームサイズにルートデバイスのパーティションを拡張させる。最初に、現状のディスクの状況を確認する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ルートデバイスのパーティションサイズを確認。</span>
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ lsblk
+NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+xvda                         <span class="m">202</span>:0    <span class="m">0</span>   50G  <span class="m">0</span> disk
+└─xvda1                      <span class="m">202</span>:1    <span class="m">0</span>    8G  <span class="m">0</span> part /
+loop0                          <span class="m">7</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool <span class="m">253</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+loop1                          <span class="m">7</span>:1    <span class="m">0</span>    2G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool <span class="m">253</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+
+<span class="c1"># パーティションの占有状況を確認。</span>
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ df -TH
+Filesystem     Type      Size  Used Avail Use% Mounted on
+/dev/xvda1     xfs       <span class="m">8</span>.6G  <span class="m">8</span>.6G   58M <span class="m">100</span>% /
+devtmpfs       devtmpfs  <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /dev
+tmpfs          tmpfs     <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /dev/shm
+tmpfs          tmpfs     <span class="m">8</span>.0G   18M  <span class="m">8</span>.0G   <span class="m">1</span>% /run
+tmpfs          tmpfs     <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /sys/fs/cgroup
+tmpfs          tmpfs     <span class="m">1</span>.6G     <span class="m">0</span>  <span class="m">1</span>.6G   <span class="m">0</span>% /run/user/1000
+
+<span class="c1"># ファイルシステムの確認。</span>
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo file -s /dev/xvd*
+/dev/xvda:  x86 boot sector<span class="p">;</span> partition <span class="m">1</span>: <span class="nv">ID</span><span class="o">=</span>0x83, active, starthead <span class="m">32</span>, startsector <span class="m">2048</span>, <span class="m">16775168</span> sectors, code offset 0x63
+/dev/xvda1: SGI XFS filesystem data <span class="o">(</span>blksz <span class="m">4096</span>, inosz <span class="m">512</span>, v2 <span class="nb">dirs</span><span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><a class="reference external" href="https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html">AWSの公式ガイド</a> では、XFSファイルシステムのディスク拡張はxfs_growfsコマンドを使用しているが、更新が行われなかったため、fdiskコマンドを使ってパーティションの再作成を行う方法で実施する。</p>
+</div>
+<p>■ fdiskコマンドを使用して、/dev/xvdaのパーティションを作成し直し、再起動する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo fdisk /dev/xvda
+Welcome to fdisk <span class="o">(</span>util-linux <span class="m">2</span>.23.2<span class="o">)</span>.
+
+Changes will remain in memory only, <span class="k">until</span> you decide to write them.
+Be careful before using the write command.
+
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: p
+
+Disk /dev/xvda: <span class="m">53</span>.7 GB, <span class="m">53687091200</span> bytes, <span class="m">104857600</span> sectors
+<span class="nv">Units</span> <span class="o">=</span> sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+Disk label type: dos
+Disk identifier: 0x000ae09f
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/xvda1   *        <span class="m">2048</span>    <span class="m">16777215</span>     <span class="m">8387584</span>   <span class="m">83</span>  Linux
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: d
+Selected partition <span class="m">1</span>
+Partition <span class="m">1</span> is deleted
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: n
+Partition type:
+p   primary <span class="o">(</span><span class="m">0</span> primary, <span class="m">0</span> extended, <span class="m">4</span> free<span class="o">)</span>
+e   extended
+Select <span class="o">(</span>default p<span class="o">)</span>: p
+Partition number <span class="o">(</span><span class="m">1</span>-4, default <span class="m">1</span><span class="o">)</span>: <span class="m">1</span>
+First sector <span class="o">(</span><span class="m">2048</span>-104857599, default <span class="m">2048</span><span class="o">)</span>:
+Using default value <span class="m">2048</span>
+Last sector, +sectors or +size<span class="o">{</span>K,M,G<span class="o">}</span> <span class="o">(</span><span class="m">2048</span>-104857599, default <span class="m">104857599</span><span class="o">)</span>:
+Using default value <span class="m">104857599</span>
+Partition <span class="m">1</span> of <span class="nb">type</span> Linux and of size <span class="m">50</span> GiB is <span class="nb">set</span>
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: p
+
+Disk /dev/xvda: <span class="m">53</span>.7 GB, <span class="m">53687091200</span> bytes, <span class="m">104857600</span> sectors
+<span class="nv">Units</span> <span class="o">=</span> sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
+Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
+Disk label type: dos
+Disk identifier: 0x000ae09f
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/xvda1            <span class="m">2048</span>   <span class="m">104857599</span>    <span class="m">52427776</span>   <span class="m">83</span>  Linux
+
+Command <span class="o">(</span>m <span class="k">for</span> <span class="nb">help</span><span class="o">)</span>: w
+The partition table has been altered!
+
+Calling ioctl<span class="o">()</span> to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error <span class="m">16</span>: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe<span class="o">(</span><span class="m">8</span><span class="o">)</span> or kpartx<span class="o">(</span><span class="m">8</span><span class="o">)</span>
+Syncing disks.
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ reboot
+
+<span class="c1"># 再起動後、パーティションのサイズ変更を確認。</span>
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ df -TH
+Filesystem     Type      Size  Used Avail Use% Mounted on
+/dev/xvda1     xfs        54G  <span class="m">8</span>.6G   46G  <span class="m">16</span>% /
+devtmpfs       devtmpfs  <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /dev
+tmpfs          tmpfs     <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /dev/shm
+tmpfs          tmpfs     <span class="m">8</span>.0G   18M  <span class="m">8</span>.0G   <span class="m">1</span>% /run
+tmpfs          tmpfs     <span class="m">8</span>.0G     <span class="m">0</span>  <span class="m">8</span>.0G   <span class="m">0</span>% /sys/fs/cgroup
+tmpfs          tmpfs     <span class="m">1</span>.6G     <span class="m">0</span>  <span class="m">1</span>.6G   <span class="m">0</span>% /run/user/1000
+
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ lsblk
+NAME                         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+xvda                         <span class="m">202</span>:0    <span class="m">0</span>   50G  <span class="m">0</span> disk
+└─xvda1                      <span class="m">202</span>:1    <span class="m">0</span>   50G  <span class="m">0</span> part /
+loop0                          <span class="m">7</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool <span class="m">253</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+loop1                          <span class="m">7</span>:1    <span class="m">0</span>    2G  <span class="m">0</span> loop
+└─docker-202:1-12881694-pool <span class="m">253</span>:0    <span class="m">0</span>  100G  <span class="m">0</span> dm
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="section8-1-5-application-update-label">
+<span id="id6"></span><h3>冗長化構成のアプリケーションをアップデートする<a class="headerlink" href="#section8-1-5-application-update-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-1-5-1-application-update-overview-label">
+<span id="id7"></span><h4>overview<a class="headerlink" href="#section8-1-5-1-application-update-overview-label" title="Permalink to this headline">¶</a></h4>
+<p>ロードバランサーを使用して冗長化構成したアプリケーションをサービス停止せずにアップデートする。
+片系のアプリケーションサーバをターゲットグループから除外した後、アプリケーションをアップデートし、
+再度ターゲットグループに組み込む。その後もう片系のアプリケーションサーバを同様にターゲットグループから削除し、
+アップデートを行い、組み戻しを行う。</p>
+</div>
+<div class="section" id="drain">
+<span id="section8-5-2-exclude-target-group-label"></span><h4>インスタンスのDrain<a class="headerlink" href="#drain" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>APサーバのインスタンスをターゲットグループから除外</li>
+</ol>
+<p>コンソールのメニュー「ターゲットグループ」にて、ターゲットタブから編集ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-app-update-1.png"><img alt="../../../_images/management-console-operation-app-update-1.png" src="../../../_images/management-console-operation-app-update-1.png" style="width: 1211.0px; height: 810.0px;" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>アップデート対象のアプリケーションインスタンスを選択し、削除ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-operation-app-update-2.png"><img alt="../../../_images/management-console-operation-app-update-2.png" src="../../../_images/management-console-operation-app-update-2.png" style="width: 1659.0px; height: 684.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">削除したインスタンスはロードバランサーがターゲットのリクエストルーティングを即時指定するが、deregistration_delay.timeout_secondsとして設定した時間、Connection Dranining状態として、セッションが維持される。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="codebuild">
+<span id="section8-2-codebuild-label"></span><h2>CodeBuild<a class="headerlink" href="#codebuild" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section8-2-1-codebuild-overview-label">
+<span id="id8"></span><h3>Overview<a class="headerlink" href="#section8-2-1-codebuild-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>AWS CodeBuildはクラウドでアプリケーションのビルドを行う従量課金型サービスで、buildspec.ymlに記述した内容に従ってビルド実行する。
+ビルドの元になるソースコードはS3に保存したものに加え、AWS CodeCommit、GitHub、BitBucketなどの各Gitベースのバージョン管理システムをサポートする。
+Jenkins Agentでも同様の処理を行えるものの、クラウドでマネージドな環境下で行われるため、大規模開発でのコミットやプルリクエスト後のテスト、ビルド処理をマシンリソースを気にせず実行できることがメリットである。</p>
+</div>
+<div class="section" id="section8-2-1-codebuild-app-build-label">
+<span id="id9"></span><h3>アプリケーションのビルド<a class="headerlink" href="#section8-2-1-codebuild-app-build-label" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>サービスメニューから「CodeBuild」を選択し、「今すぐ始める」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-1.png"><img alt="../../../_images/management-console-codebuild-app-build-1.png" src="../../../_images/management-console-codebuild-app-build-1.png" style="width: 1287.0px; height: 719.0px;" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>ビルドプロジェクトの設定を行う。ここでは、<a class="reference external" href="https://github.com/debugroom/sample-aws-codebuild">GitHub上にコミットしたSpringBootベースのアプリケーション</a> をビルドするため、以下の通り設定する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-2.png"><img alt="../../../_images/management-console-codebuild-app-build-2.png" src="../../../_images/management-console-codebuild-app-build-2.png" style="width: 729.0px; height: 771.0px;" /></a>
+</div>
+<p>[プロジェクトの設定]</p>
+<ul class="simple">
+<li>プロジェクト名：任意のプロジェクト名を設定(ここではsample-codebuild-build-app)</li>
+</ul>
+<p>[ソース：ビルドの対象]</p>
+<ul class="simple">
+<li>ソースプロバイダ：Github(ログインするOAuth認証があるため、適宜ログイン)</li>
+<li>レポジトリ：パブリックレポジトリ</li>
+<li>レポジトリのURL：<a class="reference external" href="https:github.com">https:github.com</a>/&lt;user-name&gt;/&lt;repository-name&gt;で指定</li>
+<li>Gitのクローンの深さ：1(コミットされた最新履歴からのバージョン)</li>
+<li>WebHook：コードがコミットされるたび、ビルド指定したければチェック</li>
+<li>バッジ：ビルドバッジを有効化する場合チェック</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ソースコードレポジトリに応じて、<a class="reference external" href="https://docs.aws.amazon.com/ja_jp/codebuild/latest/userguide/create-project.html#create-project-console">リファレンスのソースプロバイダの表でXがついている箇所の設定</a> を参照すること</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ビルドバッジはビルドステータスを個別定義・明示化するオプションである。詳しくは <a class="reference external" href="https://docs.aws.amazon.com/ja_jp/codebuild/latest/userguide/sample-build-badges.html">リファレンス</a> を参照のこと。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-3.png"><img alt="../../../_images/management-console-codebuild-app-build-3.png" src="../../../_images/management-console-codebuild-app-build-3.png" style="width: 737.0px; height: 648.0px;" /></a>
+</div>
+<p>[環境：ビルド方法]</p>
+<ul class="simple">
+<li>環境イメージ：AWS CodeBuildによって管理されたイメージの使用</li>
+<li>オペレーティングシステム：Ubuntu</li>
+<li>ランタイム：Java</li>
+<li>ランタイムバージョン：aws/codebuild/java:openjdk-8</li>
+<li>ビルド仕様：ソースコードのルートディレクトリのbuildspec.xmlを使用</li>
+<li>buildspec名：buildspec.xml</li>
+<li>証明書：証明書をインストールしない</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>buildspecはコミットしたアプリケーションのルートディレクトリに配置しておく。内容を以下の通り記述する。</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn test
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package
+artifacts:
+  files:
+    - target/sample-aws-codebuild-0.0.1-SNAPSHOT.jar
+</pre></div>
+</div>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-4.png"><img alt="../../../_images/management-console-codebuild-app-build-4.png" src="../../../_images/management-console-codebuild-app-build-4.png" style="width: 730.0px; height: 722.0px;" /></a>
+</div>
+<p>[アーティファクト：このビルドプロジェクトからアーティファクトを配置する場所]</p>
+<ul class="simple">
+<li>タイプ：アーティファクトなし</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ビルドテストのみを実行する場合や、コンテナへプッシュする場合は指定しなくて良い。</p>
+</div>
+<p>[キャッシュ]</p>
+<ul class="simple">
+<li>タイプ：キャッシュなし</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">キャッシュを使用すると、S3に再利用可能なビルド環境が保存され高速化される。</p>
+</div>
+<p>[サービスロール]</p>
+<ul class="simple">
+<li>アカウントでサービスロールを作成</li>
+</ul>
+<p>[VPC]</p>
+<ul class="simple">
+<li>NoVPC</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>設定内容を確認し、「保存してビルド」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-5.png"><img alt="../../../_images/management-console-codebuild-app-build-5.png" src="../../../_images/management-console-codebuild-app-build-5.png" style="width: 713.0px; height: 821.0px;" /></a>
+</div>
+<ol class="arabic simple" start="4">
+<li>ビルドの開始ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-6.png"><img alt="../../../_images/management-console-codebuild-app-build-6.png" src="../../../_images/management-console-codebuild-app-build-6.png" style="width: 828.0px; height: 718.0px;" /></a>
+</div>
+<ol class="arabic simple" start="5">
+<li>ビルド結果を確認する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-7.png"><img alt="../../../_images/management-console-codebuild-app-build-7.png" src="../../../_images/management-console-codebuild-app-build-7.png" style="width: 830.0px; height: 412.0px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-8.png"><img alt="../../../_images/management-console-codebuild-app-build-8.png" src="../../../_images/management-console-codebuild-app-build-8.png" style="width: 829.0px; height: 722.0px;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="codepipeline">
+<span id="section8-3-codepipeline-label"></span><h2>CodePipeline<a class="headerlink" href="#codepipeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section8-3-1-codepipeline-overview-label">
+<span id="id11"></span><h3>Overview<a class="headerlink" href="#section8-3-1-codepipeline-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>CodePipelineはアプリケーションのソースコードコミット→テスト→ビルド→ステージングデプロイ→プロダクションデプロイといった一連のソフトウェアリリースプロセスを自動化し、継続的インテグレーション・デリバリを実現するツールである。
+CodeCommitやS3、CodeBuild、CodeDeployといったAWSリソースはもちろんのこと、GitHubやJenkins、DockerHubとも連携し、アプリケーションの構築にかかる一連の流れを自動化できる。</p>
+</div>
+<div class="section" id="ecs">
+<span id="section8-3-2-codepipeline-staging-release-label"></span><h3>ECSアプリケーションのステージングリリースの自動化<a class="headerlink" href="#ecs" title="Permalink to this headline">¶</a></h3>
+<p>ここでは、CodePipeLineを使って、SpringBootベースのアプリケーションをGitHub上にソースコードコミットし、Dockerコンテナを用いてテスト・ビルドを行い、構築したアプリケーションコンテナを、DockerHub上にプッシュした後、EC2起動型のECSステージング環境へのデプロイする作業を自動化する設定例を記述する。
+なお、Dockerコンテナを使用したテスト・ビルドについては前章「 <a class="reference internal" href="#section8-2-codebuild-label"><span class="std std-ref">CodeBuild</span></a> 」で実行した通り、AWS CodeBuildを利用する。</p>
+<div class="section" id="section8-3-2-1-codepipeline-staging-release-prepared-label">
+<span id="id12"></span><h4>事前準備<a class="headerlink" href="#section8-3-2-1-codepipeline-staging-release-prepared-label" title="Permalink to this headline">¶</a></h4>
+<p>CodePipeLineでステージング環境へのリリースを自動化する設定を行う前に、以下を準備しておく。</p>
+<ol class="arabic simple">
+<li>リリースするSpringBootアプリケーション及びCodeBuild設定</li>
+<li>ステージング環境とするEC2起動型のECSコンテナ環境の構築</li>
+<li>ロードバランサーの設定</li>
+</ol>
+<p>上記のポイントについて順次記載する。</p>
+<ol class="arabic simple">
+<li>リリースするSpringBootアプリケーション及びCodeBuildの設定</li>
+</ol>
+<p>最終的なソースコードは <a class="reference external" href="https://github.com/debugroom/sample-aws-codepipeline">GitHub</a> 上にコミットしているが、
+ルートディレクトリの配下にCodeBuildで使用するbuildspec.ymlと、buildspec.yml内でDockerコマンドで実行されるビルド用のDockerfileを作成しておく。
+なお、各環境変数のパラメータはCodePipelineの設定時に指定する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>version: 0.2
+
+phases:
+  pre_build:
+    commands:
+#      - echo Logging in to Amazon ECR...
+#      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - echo Logging in to Docker Hub...
+      - docker login -u $USER -p $PASSWORD $DOCKER_REPO
+build:
+  commands:
+    - echo Build started on `date`
+    - echo Building the Docker image...
+    - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+#    - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+    - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
+post_build:
+  commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker image...
+#      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+       - printf &#39;[{&quot;name&quot;:&quot;sample-aws-codepipeline&quot;,&quot;imageUri&quot;:&quot;%s&quot;}]&#39; $IMAGE_REPO_NAME:$IMAGE_TAG &gt; imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">buildspec.yml内では、コンテナをDockerHubへプッシュした後に、ECSコンテナの構築でコンテナイメージをPullするために必要な「imagedefinitions.json」を出力している。
+タスク定義で指定するコンテナ名とURLをJSON形式で表現したファイルである。</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">「imagedefinitions.json」で”name”指定する値は、ECSタスク定義名ではなく、タスク定義で定義したコンテナ名を設定する必要がある。</p>
+</div>
+<p>Dockerfileは最終的にECSコンテナのイメージとなる。CentOS7をベースとして、JDKとMavenをインストールし、対象のソースコードをクローンしてビルドした後、タイムゾーンとロケールを変更してアプリケーションを実行する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Dockerfile for sample service using embedded tomcat server
+
+FROM centos:centos7
+MAINTAINER debugroom
+
+RUN yum install -y \
+    java-1.8.0-openjdk \
+    java-1.8.0-openjdk-devel \
+    wget tar iproute git
+
+RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+RUN sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+RUN yum install -y apache-maven
+ENV JAVA_HOME /etc/alternatives/jre
+RUN git clone https://github.com/debugroom/sample-aws-codepipeline.git /var/local/sample-aws-codepipeline
+RUN mvn install -f /var/local/sample-aws-codepipeline/pom.xml
+
+RUN rm -f /etc/rpm/macros.image-language-conf &amp;&amp; \
+    sed -i &#39;/^override_install_langs=/d&#39; /etc/yum.conf &amp;&amp; \
+    yum -y reinstall glibc-common &amp;&amp; \
+    yum clean all
+
+ENV LANG=&quot;ja_JP.UTF-8&quot; \
+    LANGUAGE=&quot;ja_JP:ja&quot; \
+    LC_ALL=&quot;ja_JP.UTF-8&quot;
+
+RUN cp /etc/localtime /etc/localtime.org
+RUN ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+EXPOSE 8080
+
+CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipeline/target/sample-aws-codepipeline-0.0.1-SNAPSHOT.jar
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">説明は割愛するが、アプリケーションは、<a class="reference external" href="http:/">http:/</a>/&lt;loadbalancerのURL&gt;/aws-code-pipeline/api/v1/usersでユーザの一覧を返すAPIを持つアプリケーションで、テストコードを含めコミットしている。</p>
+</div>
+<ol class="arabic simple" start="2">
+<li>ステージング環境とするEC2起動型のECSコンテナ環境の構築</li>
+</ol>
+<p>「 <a class="reference internal" href="computing.html#section3-2-ecs-label"><span class="std std-ref">Elastic Container Service</span></a> 」で構築したECSクラスタ、ロードバランサを利用する。ECSタスク定義・サービス定義は、アプリケーションを一度CodePipelineでビルド設定した後に行うため、ECSクラスタ・ロードバランサはそのまま利用し、アプリケーションの振り分け先であるターゲットグループのみ新規作成しておく。</p>
+<p>EC2のサービスメニュー &gt; ターゲットグループを選択し、「ターゲットグループの作成」を押下して、以下のように入力してターゲットグループを作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png"><img alt="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" src="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" style="width: 921.0px; height: 504.0px;" /></a>
+</div>
+<ul class="simple">
+<li>ターゲットグループ名：任意</li>
+<li>プロトコル：HTTP</li>
+<li>ポート：80</li>
+<li>VPC：任意(あらかじめ作ったもの)</li>
+</ul>
+<p>[ヘルスチェックの設定]</p>
+<ul class="simple">
+<li>プロトコル：HTTP</li>
+<li>パス：<a class="reference external" href="http:/">http:/</a>/&lt;loadbalancerのURL&gt;/aws-code-pipeline/api/v1/users(アプリケーションの正常応答するURL)</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>ロードバランサの設定</li>
+</ol>
+<p>作成したアプリケーションのURLのパスが来た場合に、上記で作成したターゲットグループへ振り分けられるよう設定を行う。</p>
+<p>EC2サービスメニュー &gt; ロードバランサーを選択し、指定するロードバランサーを選んで、リスナータブで「ルールの表示/編集」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" style="width: 771.0px; height: 236.0px;" /></a>
+</div>
+<p>プラスボタンを押下してルールを追加する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" style="width: 940.0px; height: 413.0px;" /></a>
+</div>
+<p>作成したアプリケーションのパスルールに一致したら、上記で作成したターゲットグループに向くよう設定しておく。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" style="width: 939.0px; height: 394.0px;" /></a>
+</div>
+</div>
+<div class="section" id="section8-3-2-2-codepipeline-staging-release-setting-label">
+<span id="id13"></span><h4>CodePipeLineの設定(ソース・ビルド)<a class="headerlink" href="#section8-3-2-2-codepipeline-staging-release-setting-label" title="Permalink to this headline">¶</a></h4>
+<p>ステージング環境へのリリースまで設定するためには一度、ECSのタスク定義と、サービス設定をおこなっていく必要があるため、
+まずCodePipeLineでGitHubからソースコードコミットし、Dockerコンテナでテスト・ビルド後、DockerHubへプッシュするところまでを設定し、起動する。</p>
+<p>■サービス「CodePipeline」を選択し、「今すぐ始める」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-1.png"><img alt="../../../_images/management-console-codepipeline-1.png" src="../../../_images/management-console-codepipeline-1.png" style="width: 1113.0px; height: 777.0px;" /></a>
+</div>
+<p>■パイプライン名を任意に設定し、「次のステップへ」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-2.png"><img alt="../../../_images/management-console-codepipeline-2.png" src="../../../_images/management-console-codepipeline-2.png" style="width: 539.0px; height: 220.0px;" /></a>
+</div>
+<p>■ソースプロバイダをGitHubに設定し、GitHubに接続した後、レポジトリ及びブランチを指定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-3.png"><img alt="../../../_images/management-console-codepipeline-3.png" src="../../../_images/management-console-codepipeline-3.png" style="width: 564.0px; height: 803.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上記のサンプルでは、masterブランチを指定しているが、実際の環境ではmasterブランチをproductionに、developブランチをstagingなどに設定することを推奨する。</p>
+</div>
+<p>■ビルドプロバイダに「AWS CodeBuild」を選択し、以下の通り、設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-4.png"><img alt="../../../_images/management-console-codepipeline-4.png" src="../../../_images/management-console-codepipeline-4.png" style="width: 567.0px; height: 787.0px;" /></a>
+</div>
+<p>[プロジェクトの設定]</p>
+<ul class="simple">
+<li>新しいビルドプロジェクトを選択</li>
+<li>プロジェクト名：任意のプロジェクト名を設定</li>
+</ul>
+<p>[環境の設定]</p>
+<ul class="simple">
+<li>環境イメージ：AWS CodeBuildマネージド型イメージの使用</li>
+<li>OS：Ubuntu</li>
+<li>ランタイム：DOCKER</li>
+<li>バージョン：aws/codebuild/docker:YY.MM.X</li>
+<li>ビルド仕様：ソースコードのルートディレクトリのbuildspec.ymlを使用</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここで指定しているDocker環境はECSコンテナをビルドするための設定のため、Ubuntuを使用する設定で問題ない。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-5.png"><img alt="../../../_images/management-console-codepipeline-5.png" src="../../../_images/management-console-codepipeline-5.png" style="width: 565.0px; height: 388.0px;" /></a>
+</div>
+<p>[キャッシュ]</p>
+<ul class="simple">
+<li>タイプ：キャッシュ指定なし</li>
+</ul>
+<p>[コンテナサービスロール]</p>
+<ul class="simple">
+<li>アカウントで新しいロールを作成します。</li>
+<li>ロール名：任意の名前を設定</li>
+</ul>
+<p>[VPC]</p>
+<ul class="simple">
+<li>VPC ID：非VPC</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-6.png"><img alt="../../../_images/management-console-codepipeline-6.png" src="../../../_images/management-console-codepipeline-6.png" style="width: 556.0px; height: 782.0px;" /></a>
+</div>
+<p>[アドバンスト]</p>
+<ul class="simple">
+<li>ビルドタイムアウト：1時間</li>
+<li>コンピューティング：build.standard.small</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">コンテナのローリングアップデートに時間を要する場合があるので、ある程度タイムアウトの時間を確保しておく</p>
+</div>
+<p>[環境変数] 「 <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> 」で作成したDockerfileの実行に必要な環境変数を設定。</p>
+<ul class="simple">
+<li>USER：DockerHubにログインするユーザ名</li>
+<li>PASSWORD：DockerHubにログインするユーザのパスワード</li>
+<li>DOCKER_REPO：DockerHubのURL</li>
+<li>IMAGE_REPO_NAME：Dockerイメージ名</li>
+<li>IMAGE_TAG：イメージタグ(バージョン)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DockerHubのURLは、省略しても良いがデフォルトは <a class="reference external" href="https://index.docker.io/v1/">https://index.docker.io/v1/</a> である。</p>
+</div>
+<p>■デプロイプロバイダには「デプロイなし」を指定し、「次のステップ」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-7.png"><img alt="../../../_images/management-console-codepipeline-7.png" src="../../../_images/management-console-codepipeline-7.png" style="width: 552.0px; height: 316.0px;" /></a>
+</div>
+<p>■任意のロール名を入力し、「ロールの作成」ボタンを押下して、サービスロールを作成し、「次のステップ」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-8.png"><img alt="../../../_images/management-console-codepipeline-8.png" src="../../../_images/management-console-codepipeline-8.png" style="width: 606.0px; height: 261.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>適切な権限を持つロールを設定しないとエラーになるので注意</p>
+<div class="last figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-9.png"><img alt="../../../_images/management-console-codepipeline-9.png" src="../../../_images/management-console-codepipeline-9.png" style="width: 549.0px; height: 272.0px;" /></a>
+</div>
+</div>
+<p>■設定内容を確認し、「パイプラインの作成」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-10.png"><img alt="../../../_images/management-console-codepipeline-10.png" src="../../../_images/management-console-codepipeline-10.png" style="width: 554.0px; height: 771.0px;" /></a>
+</div>
+<p>■ソースコードがチェックアウトされ、コンテナのビルドが実行される。正常終了すると、DockerHubにコンテナイメージがプッシュされる。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-11.png"><img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" style="width: 919.0px; height: 627.0px;" /></a>
+</div>
+</div>
+<div class="section" id="section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label">
+<span id="id14"></span><h4>ECSタスク定義<a class="headerlink" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label" title="Permalink to this headline">¶</a></h4>
+<p>プッシュしたコンテナイメージの設定情報からECSのタスク定義を行う。CodepipeLineが実行されるたび、ECSタスクのリビジョンがアップデートされる形となる。</p>
+<p>■ECSサービスメニューから、タスク定義を選択し、「新しいタスク定義の作成」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" style="width: 932.0px; height: 389.0px;" /></a>
+</div>
+<p>■起動モードはEC2を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" style="width: 603.0px; height: 635.0px;" /></a>
+</div>
+<p>■タスクとコンテナの定義について以下の通り、設定を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" style="width: 667.0px; height: 471.0px;" /></a>
+</div>
+<p>[タスクとコンテナの定義の設定]</p>
+<ul class="simple">
+<li>タスク定義名：任意</li>
+<li>タスクロール：任意(ECSアプリケーションが必要な権限を設定)</li>
+<li>ネットワークモード：デフォルト</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" style="width: 672.0px; height: 512.0px;" /></a>
+</div>
+<p>[タスクの実行のIAMロール]</p>
+<ul class="simple">
+<li>タスク実行ロール： <a class="reference internal" href="computing.html#section3-2-3-ecs-create-task-label"><span class="std std-ref">EC2起動型-タスクの定義</span></a> で作成したECS Task用のIAM ロールを設定。</li>
+</ul>
+<p>[タスクサイズ]</p>
+<ul class="simple">
+<li>タスクメモリ：1024MiB</li>
+<li>タスクCPU：256</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Spring Boot Applicationで構成する場合は1GB以上のメモリを割り当てておくこと。512MB程度で起動すると、アプリケーションの規模が多くなったときに、起動に時間がかかり、ヘルスチェックでエラー検出し、コンテナの無限ループ起動を誘発してしまうため。</p>
+</div>
+<p>■ コンテナ定義を以下の通り設定する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" style="width: 760.0px; height: 524.0px;" /></a>
+</div>
+<p>[スタンダード]</p>
+<ul class="simple">
+<li>コンテナ名：任意</li>
+<li>イメージ：前章で作成したコンテナイメージのURL・タグ名を指定</li>
+<li>メモリ制限：1024MiB</li>
+<li>ポートマッピング<ul>
+<li>ホストポート：0</li>
+<li>コンテナポート：8080</li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">コンテナ名は <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> のbuildspec.ymlで指定した、imagedefinitions.jsonのname属性の値と同じにしておく必要がある。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" style="width: 601.0px; height: 750.0px;" /></a>
+</div>
+<p>[詳細コンテナの設定]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" style="width: 589.0px; height: 545.0px;" /></a>
+</div>
+<p>[ネットワークの設定]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" style="width: 586.0px; height: 764.0px;" /></a>
+</div>
+<p>[ストレージとログ]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<p>[セキュリティ]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" style="width: 586.0px; height: 326.0px;" /></a>
+</div>
+<p>[リソースの制限]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<p>[DOCKERラベル]</p>
+<ul class="simple">
+<li>特にここでは設定しない</li>
+</ul>
+<p>■制約等は特に設定せず、「作成」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" style="width: 679.0px; height: 484.0px;" /></a>
+</div>
+</div>
+<div class="section" id="section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label">
+<span id="id15"></span><h4>ECSサービス設定<a class="headerlink" href="#section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label" title="Permalink to this headline">¶</a></h4>
+<p>前章  <a class="reference internal" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label"><span class="std std-ref">ECSタスク定義</span></a> を元にECSサービスを設定し、ECSコンテナを起動させておく。CodePipeLineが実行されると最新のリビジョンにアップデートされたコンテナイメージがローリングアップデートされることになる。</p>
+<p>■ECSサービスメニューから「クラスター」を選び、作成してあるECSクラスタ「sample-cluster」を選択する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" style="width: 694.0px; height: 571.0px;" /></a>
+</div>
+<p>■サービスタブから、「作成」ボタンを押下し、サービスを新規作成する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" style="width: 744.0px; height: 545.0px;" /></a>
+</div>
+<p>■以下の通り、サービスの新規設定を行う。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" style="width: 634.0px; height: 875.0px;" /></a>
+</div>
+<p>[サービスの設定]</p>
+<ul class="simple">
+<li>起動タイプ：EC2</li>
+<li>タスク定義：前章「 <a class="reference internal" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label"><span class="std std-ref">ECSタスク定義</span></a> 」で作成したタスクを指定</li>
+<li>クラスター：選択したクラスタを指定</li>
+<li>サービス名：任意</li>
+<li>サービスタイプ：REPLICA</li>
+<li>タスクの数：2</li>
+<li>最小ヘルス率：50</li>
+<li>最大率：200</li>
+</ul>
+<p>[タスクの配置]</p>
+<ul class="simple">
+<li>配置テンプレート：AZバランススプレッド</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">設定オプションについては、<a class="reference internal" href="computing.html#section3-2-5-ecs-create-service-label"><span class="std std-ref">EC2起動型-サービスの定義</span></a>　も参照のこと。</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" style="width: 634.0px; height: 802.0px;" /></a>
+</div>
+<p>[ヘルスチェックの猶予期間]</p>
+<ul class="simple">
+<li>ヘルスチェックの猶予期間：100</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SpringBootアプリケーションだと設定したメモリ・CPU、アプリの規模によっては時間がかかるため、適宜猶予期間を設定しておくこと。</p>
+</div>
+<p>[Elastic Load Balancing(オプション)]</p>
+<ul class="simple">
+<li>ELBタイプ：ApplicationLoadBalancer</li>
+<li>サービス用のIAMロールの選択： <a class="reference internal" href="computing.html#section3-2-3-ecs-create-task-label"><span class="std std-ref">EC2起動型-タスクの定義</span></a> で作成したECS Task用のIAM ロールを設定。</li>
+<li>ELB名： <a class="reference internal" href="computing.html#section3-2-4-ecs-create-alb-label"><span class="std std-ref">EC2起動型-ロードバランサ作成</span></a> で設定したALBを選択</li>
+</ul>
+<p>■ <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> で作成したロードバランサを指定し、「次のステップ」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" style="width: 630.0px; height: 651.0px;" /></a>
+</div>
+<p>■ AutoScalingオプションは、「サービスの必要数を直接調整しない」を設定し、「次のステップ」を押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" style="width: 627.0px; height: 304.0px;" /></a>
+</div>
+<p>■設定値を確認し、「サービスの作成」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" style="width: 632.0px; height: 841.0px;" /></a>
+</div>
+</div>
+<div class="section" id="codepipeline-ecs">
+<span id="section8-3-2-5-codepipeline-staging-release-setting-2-label"></span><h4>CodePipeLineの設定(ECSデプロイ)<a class="headerlink" href="#codepipeline-ecs" title="Permalink to this headline">¶</a></h4>
+<p>作成したECSタスク定義・サービス定義の内容に従い、ステージング環境へECSコンテナをデプロイする設定を行う。</p>
+<p>■  <a class="reference internal" href="#section8-3-2-2-codepipeline-staging-release-setting-label"><span class="std std-ref">CodePipeLineの設定(ソース・ビルド)</span></a> で作成したCodePipeline定義を開き、「編集」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-11.png"><img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" style="width: 919.0px; height: 627.0px;" /></a>
+</div>
+<p>■ ビルドの後にステージングデプロイ用のアクションを追加し、「アクションの追加」ボタンを押下する。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-12.png"><img alt="../../../_images/management-console-codepipeline-12.png" src="../../../_images/management-console-codepipeline-12.png" style="width: 1034.0px; height: 843.0px;" /></a>
+</div>
+<p>詳細なオプションは、以下の設定通り行う。</p>
+<ul class="simple">
+<li>アクションカテゴリ：デプロイ</li>
+</ul>
+<p>[デプロイアクション]</p>
+<ul class="simple">
+<li>デプロイアクション：任意の名前</li>
+<li>デプロイプロバイダ：AmazonECS</li>
+</ul>
+<p>[AmazonECS]</p>
+<ul class="simple">
+<li>クラスタ名：選択したクラスタを指定</li>
+<li>サービス名：前章「 <a class="reference internal" href="#section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label"><span class="std std-ref">ECSサービス設定</span></a> 」で作成したサービスを指定</li>
+<li>イメージファイル名： 「 <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> 」で作成した、「imagedefinitions.json」を指定</li>
+<li>入力アーティファクト：直前のアクション「Build」の出力アーティファクトと同名にしておく</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="management.html" class="btn btn-neutral float-right" title="Management Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="application.html" class="btn btn-neutral" title="Application Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

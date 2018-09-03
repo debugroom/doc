@@ -1,6 +1,6 @@
 .. include:: ../module.txt
 
-.. _section9-appendix-label:
+.. _section9-aws-appendix-label:
 
 Appendix - 付録
 ======================================================
