@@ -19,5 +19,6 @@ Contents:
    article/security.rst
    article/application.rst
    article/devops.rst
+   article/iot.rst
    article/management.rst
    article/appendix.rst

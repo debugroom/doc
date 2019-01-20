@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AWS IoT &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Management Tools" href="management.html" />
+    <link rel="prev" title="DevOps Category" href="devops.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Amazon web service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AWS IoT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-core">AWS IoT Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-device-management">AWS IoT Device Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-device-defender">AWS IoT Device Defender</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-greengrass">AWS IoT Greengrass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-analytics">AWS IoT Analytics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amazon-freertos">Amazon FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-1-click">AWS IoT 1-Click</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-events">AWS IoT Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-things-graph">AWS IoT Things Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-iot-sitewise">AWS IoT SiteWise</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Amazon web service</a> &raquo;</li>
+        
+      <li>AWS IoT</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/aws/article/iot.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="aws-iot">
+<span id="section9-iot-label"></span><h1>AWS IoT<a class="headerlink" href="#aws-iot" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<span id="section9-1-aws-iot-overview-label"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>AWS IoTは、インターネットを介してデータ連携するセンサー等のIoTデバイスからAWSクラウドへのセキュアなデータ通信・デバイス認証や、
+IoTデバイス自体のリモート管理・ファームウェアアップデート等に加え、通信データの処理、保存、分析などを提供する包括的なサービスである。</p>
+<p>2019年1月現在、AWS IoTは以下のような分類でサービス提供されている。</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">AWS IoTが提供するサービス</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>サービス名</td>
+<td>概要</td>
+</tr>
+<tr class="row-even"><td>IoT Core</td>
+<td>数十万規模のデバイスのデータ収集・リモート制御を目的としたサービス。<br /> AWSクラウドへのセキュア接続やデバイス認証、リクエストの受付やメッセージのルーティングを行う。</td>
+</tr>
+<tr class="row-odd"><td>IoT Device Management</td>
+<td>(大量の)デバイスの導入、整理、監視、リモート管理、ファームアップデート、パッチ管理を行う。</td>
+</tr>
+<tr class="row-even"><td>IoT Device Defender</td>
+<td>デバイスの監査、アノマリー検出・アラート通知などを行う。</td>
+</tr>
+<tr class="row-odd"><td>IoT Analytics</td>
+<td>IoTデバイスから送信されたデータを収集、処理、保存、解析、可視化するサービス。</td>
+</tr>
+<tr class="row-even"><td>IoT Greengrass</td>
+<td>エッジコンピューティング環境向けのサービス。AWS IoTの各種機能を <br /> エッジコンピューティング環境で実現するためのデバイスにインストールするソフトウェアとサーバ側のサービスがある。</td>
+</tr>
+<tr class="row-odd"><td>Amazon FreeRTOS</td>
+<td>マイクロコントローラ向けのIoTオペレーティングシステム。マイコンベースの機器をIoTデバイス化できる。</td>
+</tr>
+<tr class="row-even"><td>IoT 1-click</td>
+<td>AWS IoT エンタープライズボタン、SORACOM LTE-M ボタンといった <br /> 専用のデバイスからLambdaFunctionを実行するためのサービス。</td>
+</tr>
+<tr class="row-odd"><td>IoT SiteWise</td>
+<td>Snowball Edgeなどのゲートウェイデバイスで動作するAWSクラウドへ <br /> データをセキュアに送信するソフトウェアパッケージ。また、複数のゲートウェイから収集したデータを構造化、 <br /> ラベリングし、リアルタイムに指標を作成し、可視化するダッシュボード機能もある。</td>
+</tr>
+<tr class="row-even"><td>IoT Events</td>
+<td>デバイスから収集されたデータを継続的に監視し、定義したDetector Modelに従って <br /> イベントを検出、アクションを実行するサービス。</td>
+</tr>
+<tr class="row-odd"><td>IoT Things Graph</td>
+<td>AWS IoT Greengrassに対応したエッジデバイスで実行するアプリケーションを、<br /> モデルを用いて視覚的に設計するUIツール。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="aws-iot-core">
+<span id="section9-2-iot-core-label"></span><h2>AWS IoT Core<a class="headerlink" href="#aws-iot-core" title="Permalink to this headline">¶</a></h2>
+<p>IoT CoreはAWS IoTの中核となるサービスで、主にデバイス間の通信やデバイスの状態管理を担当する。
+IoT Coreは以下の６つのコンポーネントにより構成される。</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">AWS IoT Coreのコンポーネントの概要</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>サービス名</td>
+<td>概要</td>
+</tr>
+<tr class="row-even"><td>Device Gateway</td>
+<td>MQTTプロトコル、HTTP1.1、WebSocketsを用いて(TLS1.2)、Publish、Subscribe型で通信する。また、デバイスとの間でどのくらい通信を維持するか(KeepAlive)設定する。</td>
+</tr>
+<tr class="row-odd"><td>Identity Service(認証・認可)</td>
+<td>証明書によるデバイスごとの認証、独自もしくはAWS IoT X.509証明書による認証。機械同士の認証になるため、証明書、秘密鍵を使用して相互認証を行う。IoTポリシーを証明書にアタッチすることできめ細やかな権限設定が可能。</td>
+</tr>
+<tr class="row-even"><td>Message Broker</td>
+<td>メッセージのルーティング</td>
+</tr>
+<tr class="row-odd"><td>Rule Engine</td>
+<td>SQL文を使ったトピックのフィルタやデータ変換・拡張などを実行する。また別AWSサービスへのルーティングなども実行する</td>
+</tr>
+<tr class="row-even"><td>Device Shadow</td>
+<td>デバイスの状態管理、状態データの取得・保存を行う。</td>
+</tr>
+<tr class="row-odd"><td>Registry</td>
+<td>デバイスの状態管理、状態データの取得・保存を行う。</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Identity Serviceでは、あるデバイスのLeakした場合、全デバイスがRevokeの影響を受ける。そのため、特定のデバイスのみRevokeできるようにする。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Device Shadowは以下のような要領で状態を管理する。</p>
+<ol class="last arabic simple">
+<li>Thingは自身の状態をReportedとしてShadowに登録</li>
+<li>Mobileは状態をクラウド側のShadowに登録</li>
+<li>MobileはThingの状態の更新をDesiredとして登録</li>
+<li>Thingとの状態がずれている場合、クラウド側から差分(Delta)の通知を送信し要求されている状態に変更する。</li>
+</ol>
+</div>
+</div>
+<div class="section" id="aws-iot-device-management">
+<span id="section9-3-iot-device-management-label"></span><h2>AWS IoT Device Management<a class="headerlink" href="#aws-iot-device-management" title="Permalink to this headline">¶</a></h2>
+<p>IoT Device Managementでは、主に(大量の)デバイスの導入、整理、監視、リモート管理、ファームアップデート、パッチ管理を行う。以下のような機能を持つ。</p>
+<ul class="simple">
+<li>シリアルIDなどデバイス情報の一括登録(テンプレートによるメタデータ、証明書、ポリシーを一括登録)</li>
+<li>デバイスのグルーピングと検索(属性やシャドウを組み合わせて対象のデバイスを検索)</li>
+<li>デバイスのロギングとモニタリング(デバイスやグループ(トラブルシューティング対象等)単位でログレベルの設定が可能)</li>
+<li>OTA(OverTheAir)アップデート(リリース済みのデバイスに検証済み署名を送付する等)とアップデート対象モニタリング(どのくらいファームウェアのアップデートが完了したかを監視)</li>
+<li>Jobs Fleet Rollouts(デバイスへのファームのカナリアリリース(Jobs)で動的なロールアウトが行える)</li>
+</ul>
+</div>
+<div class="section" id="aws-iot-device-defender">
+<span id="section9-4-iot-device-defender-label"></span><h2>AWS IoT Device Defender<a class="headerlink" href="#aws-iot-device-defender" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">IoT Device Defenderについて記述する。</p>
+</div>
+</div>
+<div class="section" id="aws-iot-greengrass">
+<span id="section9-5-iot-greengrass-label"></span><h2>AWS IoT Greengrass<a class="headerlink" href="#aws-iot-greengrass" title="Permalink to this headline">¶</a></h2>
+<p>インターネットに直接アクセスできないデバイスへのデータ配信等、エッジコンピューティング向けのサービス。
+エッジデバイスにインストールするソフトウェアであり、クラウド上のプログラムをデバイス側へ転送し、デバイス側で実行する。
+エッジコンピューティングでは主にレイテンシや帯域幅が問題になり、オフライン上での実行が必要になるケースも多いが、以下のような機能をもち、セキュアに実行できる。</p>
+<p>[機能]
+* クラウドから配布したLambdaをローカルで実行
+* ローカルでメッセジングとLambdaのTrigger
+* データの状態と同期
+* 終端とのデバイスとの通信(MQTT)のためのプロトコルアダプタ
+* OTAアップデート
+* 機械学習のMLモデルをエッジデバイスにデプロイし、デバイス側で推論を行い、結果を活用する。</p>
+</div>
+<div class="section" id="aws-iot-analytics">
+<span id="section9-6-iot-analytics-label"></span><h2>AWS IoT Analytics<a class="headerlink" href="#aws-iot-analytics" title="Permalink to this headline">¶</a></h2>
+<p>データノイズのクレンジング・フィルタリング、処理変換(圧縮等)、保存、定期的な蓄積、分析バッチ処理、可視化を行うサービス。</p>
+<ul class="simple">
+<li>AWS IoT Analytics -&gt; Channel</li>
+<li>Pipleline</li>
+<li>Store Processed datastore</li>
+<li>Data set</li>
+<li>Advanced Analytics  or Visualization</li>
+</ul>
+</div>
+<div class="section" id="amazon-freertos">
+<span id="section9-7-freertos-label"></span><h2>Amazon FreeRTOS<a class="headerlink" href="#amazon-freertos" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">FreeRTOSについて記述する。</p>
+</div>
+</div>
+<div class="section" id="aws-iot-1-click">
+<span id="section9-8-iot-one-click-label"></span><h2>AWS IoT 1-Click<a class="headerlink" href="#aws-iot-1-click" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">1-Clickについて記述する。</p>
+</div>
+</div>
+<div class="section" id="aws-iot-events">
+<span id="section9-9-iot-events-label"></span><h2>AWS IoT Events<a class="headerlink" href="#aws-iot-events" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">IoT Eventsについて記述する。</p>
+</div>
+</div>
+<div class="section" id="aws-iot-things-graph">
+<span id="section9-10-iot-things-graph-label"></span><h2>AWS IoT Things Graph<a class="headerlink" href="#aws-iot-things-graph" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">IoT Things Graphについて記述する。</p>
+</div>
+</div>
+<div class="section" id="aws-iot-sitewise">
+<span id="section9-11-iot-sitewise-label"></span><h2>AWS IoT SiteWise<a class="headerlink" href="#aws-iot-sitewise" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-5">
+<p class="first admonition-title">Todo</p>
+<p class="last">IoT SiteWiseについて記述する。</p>
+</div>
+<p>Hundson Memo</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kawabataku:~/environment $ sudo pip install AWSIoTPythonSDK
+Collecting AWSIoTPythonSDK
+  Downloading https://files.pythonhosted.org/packages/01/6f/ee3c174d87c3cd0b9cfa8e7e0599549ea28f495be2559dcc64c6d6485973/AWSIoTPythonSDK-1.4.3.tar.gz (79kB)
+    100% |████████████████████████████████| 81kB 3.5MB/s
+Building wheels for collected packages: AWSIoTPythonSDK
+  Running setup.py bdist_wheel for AWSIoTPythonSDK ... done
+  Stored in directory: /root/.cache/pip/wheels/60/43/ee/3df322dae6a74e27af57d797beb8cf35d2b1391f09073fa189
+Successfully built AWSIoTPythonSDK
+Installing collected packages: AWSIoTPythonSDK
+Successfully installed AWSIoTPythonSDK-1.4.3
+You are using pip version 9.0.3, however version 18.1 is available.
+You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.
+kawabataku:~/environment $
+kawabataku:~/environment $
+kawabataku:~/environment $
+kawabataku:~/environment $ wget http://bit.ly/2QqqRqx -O dummyclient.tar.gz
+--2019-01-16 07:09:15--  http://bit.ly/2QqqRqx
+Resolving bit.ly (bit.ly)... 67.199.248.11, 67.199.248.10
+Connecting to bit.ly (bit.ly)|67.199.248.11|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2019-01-16 07:09:15 ERROR 404: Not Found.
+
+kawabataku:~/environment $ wget http://bit.ly/2QggRgx -O dummyclient.tar.gz
+--2019-01-16 07:10:03--  http://bit.ly/2QggRgx
+Resolving bit.ly (bit.ly)... 67.199.248.10, 67.199.248.11
+Connecting to bit.ly (bit.ly)|67.199.248.10|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz [following]
+--2019-01-16 07:10:03--  https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz
+Resolving s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)... 52.219.68.84
+Connecting to s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)|52.219.68.84|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 6036 (5.9K) [application/x-gzip]
+Saving to: ‘dummyclient.tar.gz’
+
+dummyclient.tar.gz                 100%[=============================================================&gt;]   5.89K  --.-KB/s    in 0s
+
+2019-01-16 07:10:03 (210 MB/s) - ‘dummyclient.tar.gz’ saved [6036/6036]
+
+kawabataku:~/environment $
+kawabataku:~/environment $
+kawabataku:~/environment $ tar -zxvf dummyclient.tar.gz
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+./._DummyDevice
+tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/._.DS_Store
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/.DS_Store
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/._deviceMain.py
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/deviceMain.py
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/._certs
+tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/certs/
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/._dependency.py
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/dependency.py
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/._IoT_common.py
+tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/IoT_common.py
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/certs/._root.pem
+tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+DummyDevice/certs/root.pem
+kawabataku:~/environment $
+kawabataku:~/environment $
+kawabataku:~/environment $ ls
+dummyclient.tar.gz  DummyDevice  README.md
+kawabataku:~/environment $
+kawabataku:~/environment $
+kawabataku:~/environment $ cd DummyDevice/
+kawabataku:~/environment/DummyDevice $ ls
+certs  dependency.py  deviceMain.py  IoT_common.py
+kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing -- root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
+usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
+                     --root_ca ROOT_CA --cert CERT --private PRIVATE
+deviceMain.py: error: argument --endpoint is required
+kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
+usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
+                     --root_ca ROOT_CA --cert CERT --private PRIVATE
+deviceMain.py: error: argument --cert is required
+kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/
+ccaf1d27c4-certificate.pem.crt  ccaf1d27c4-public.pem.key       root.pem
+ccaf1d27c4-private.pem.key      ._root.pem
+kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/ccaf1d27c4-certificate.pem.crt
+send back state payload:{&quot;state&quot;: {&quot;reported&quot;: {&quot;wait_time&quot;: 5}}}
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="management.html" class="btn btn-neutral float-right" title="Management Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="devops.html" class="btn btn-neutral" title="DevOps Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

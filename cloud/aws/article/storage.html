@@ -111,8 +111,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
-<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
@@ -419,9 +419,17 @@ CDNでは、世界各地に分散して配置したサーバのうち、ユー�
 <li>HTTPSの使用有無</li>
 <li>キャッシュを保持する最小時間</li>
 </ul>
+<p>Amazon CloudFrontは、キャッシュコントロールヘッダーを使用して、オリジンにファイルの更新バージョンがあるかどうかチェックする頻度を決定する。
+失効期間を0秒に設定すると、Amazon CloudFrontはオリジンサーバーですべてのリクエストを再検証する。
+キャッシュコントロールヘッダーが設定されていない場合、デフォルトでは、オリジンでファイルの変更があったことを最後に確認した時点から 24時間が経過した後に、
+各エッジロケーションがリクエストを受け取ると、ファイルの更新バージョンの有無を゙チェックする。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">CloudFrontはデフォルトでは、<a class="reference external" href="https://dxxxx.cloudfront.net">https://dxxxx.cloudfront.net</a>/xxxxのようなディストリビューションドメインで行われるが、独自SSL証明書サポート機能により、独自のドメイン名とSSL証明書を使用できる。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CloudFrontでS3の静的コンテンツをキャッシュする場合は、必要に応じてCORSの設定が必要である。１回設定を行えば、全てのエッジロケーションで反映される。</p>
 </div>
 </div>
 </div>

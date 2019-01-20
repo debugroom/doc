@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Management Tools" href="management.html" />
-    <link rel="prev" title="Operation on AWS" href="operation.html" /> 
+    <link rel="next" title="DevOps Category" href="devops.html" />
+    <link rel="prev" title="Security Category" href="security.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
@@ -98,7 +98,6 @@
 <li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datastore.html">DataStore Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
-<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Application Category</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#amazon-simple-notification-service-sns">Amazon Simple Notification Service(SNS)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
@@ -129,6 +128,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
@@ -356,6 +356,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">SQSのサービスはS3と同じく、リージョン単位で提供されるサービスである。</p>
 </div>
+<p>また、キューには他のユーザとも共有することができ、匿名で他のAWSユーザと共有するオプション、アクセス許可を利用して特定のユーザとシェアするオプションがある。料金はメッセージの所有者になる。</p>
 </div>
 <div class="section" id="section7-2-1-sqs-create-queue-label">
 <span id="id2"></span><h3>キューの作成<a class="headerlink" href="#section7-2-1-sqs-create-queue-label" title="Permalink to this headline">¶</a></h3>
@@ -521,11 +522,13 @@ request-responseモデルは、Amazon Lambdaがファンクションを同期的
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">その他、Lambdaでは以下の制約が貸される。
-* 実行処理時間が５分
-* ネットワーク通信はTCP/IPのみサポート
-* デバッグ用のシステムコールは制限される
-* TCP25ポートはトラフィックが制限される(スパム対策)</p>
+<p>その他、Lambdaでは以下の制約が貸される。</p>
+<ul class="last simple">
+<li>実行処理時間が５分</li>
+<li>ネットワーク通信はTCP/IPのみサポート</li>
+<li>デバッグ用のシステムコールは制限される</li>
+<li>TCP25ポートはトラフィックが制限される(スパム対策)</li>
+</ul>
 </div>
 </div>
 <div class="section" id="section7-4-3-lambda-deploy-label">
@@ -799,10 +802,10 @@ API Gatewaryなどはデフォルト30[s]のリクエストタイムアウトが
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="management.html" class="btn btn-neutral float-right" title="Management Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="devops.html" class="btn btn-neutral float-right" title="DevOps Category" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="operation.html" class="btn btn-neutral" title="Operation on AWS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="security.html" class="btn btn-neutral" title="Security Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

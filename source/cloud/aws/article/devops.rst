@@ -952,3 +952,31 @@ CodePipeLineの設定(ECSデプロイ)
 * サービス名：前章「 :ref:`section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label` 」で作成したサービスを指定
 * イメージファイル名： 「 :ref:`section8-3-2-1-codepipeline-staging-release-prepared-label` 」で作成した、「imagedefinitions.json」を指定
 * 入力アーティファクト：直前のアクション「Build」の出力アーティファクトと同名にしておく
+
+.. _section8-4-cloud-formation-label:
+
+CloudFormation
+------------------------------------------------------
+
+CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
+
+.. todo:: CloudFormationのテンプレート記述要領について記述。
+
+
+.. _section8-5-elastic-beanstalk-label:
+
+Elastic Beanstalk
+------------------------------------------------------
+
+Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。
+
+.. todo:: Elastic Beanstalkについて詳述。
+
+.. _section8-6-elastic-beanstalk-label:
+
+OpsWorks
+------------------------------------------------------
+
+AWS OpsWorksはChefを利用して、アプリケーションの設定と管理を行う構成管理サービス
+
+.. todo:: OpsWorksについて詳細を記述

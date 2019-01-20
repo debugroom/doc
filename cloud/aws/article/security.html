@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Operation on AWS" href="operation.html" />
+    <link rel="next" title="Application Category" href="application.html" />
     <link rel="prev" title="DataStore Category" href="datastore.html" /> 
 
   
@@ -118,16 +118,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#section7-4-1-sts-overview-label">Overview</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-key-management-service-kms">AWS Key Management Service(KMS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#aws">AWSのセキュリティ対策</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ddos">DDos対策</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#security-inspector">Security Inspector</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#aws-key-management-service-kms">AWS Key Management Service(KMS)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="operation.html">Operation on AWS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
@@ -430,14 +430,43 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 <span id="section7-4-sts-label"></span><h2>Amazon STS<a class="headerlink" href="#amazon-sts" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section7-4-1-sts-overview-label">
 <span id="id5"></span><h3>Overview<a class="headerlink" href="#section7-4-1-sts-overview-label" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Todo</p>
-<p class="last">STSについて整理し記述</p>
-</div>
+<p>STSはIAMユーザもしくはフェデレーテッドユーザがリクエスト可能な一時的セキュリティ認証情報を提供するWebサービスである。
+STSでは、Security Assertion Markup Language (SAML) 2.0 をサポートする。この機能では、フェデレーティッドシングルサインオン (SSO) が有効になり、
+ユーザーは Windows Active Directory Federation ServicesなどのSAML 互換アイデンティティプロバイダーからのアサーションを使用して、
+AWS マネジメントコンソールへのサインインや、プログラムの AWS API 呼び出しを行うことができる。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">フェデレーテッドユーザとは、特定の認証を完了した認証済みのユーザを指す。</p>
 </div>
+<p>また、Amazon、Facebook、または Google へのログインなどの信頼できるアイデンティティプロ バイダーを使用して、アプリケーションを設定し、
+フェデレーションされた認証情報を配布するWeb ID フェデレーションをサポートするが、以下のようなステップで実行可能である。</p>
+<ol class="arabic simple">
+<li>アイデンティティプロバイダーにアプリケーションを登録する。</li>
+<li>アイデンティティプロバイダー用の IAM ロールを作成する。</li>
+<li>そのIAMロールにアクセス権限を設定する。</li>
+<li>アイデンティティプロバイダーのSDKを使用して、ログイン後にトークンにアクセスできるようにする。</li>
+<li>AWS SDK for JavaScript を使用して、トークンを元にAWSリソースの一時的な認証情報をアプリケーションに取得させる</li>
+</ol>
+</div>
+</div>
+<div class="section" id="aws-key-management-service-kms">
+<span id="section7-5-key-management-service-label"></span><h2>AWS Key Management Service(KMS)<a class="headerlink" href="#aws-key-management-service-kms" title="Permalink to this headline">¶</a></h2>
+<p>AWS Key Management Serviceとは、データを暗号化するキーのマネージド暗号化サービスである。
+KMSでは、カスタマーマスターキー(CMK)と呼ばれるタイプのキーを使用して、データを暗号化および復号する。
+データキーは暗号化対象毎に固有のため、キーが流出しても影響は限定的になる。KMSでは以下のようなキー管理機能を実行できる。</p>
+<ul class="simple">
+<li>一意のエイリアスおよび説明を付けたキーを作成する。</li>
+<li>IAMのどのユーザーおよびロールがキーを管理できるかを定義する。</li>
+<li>IAMのどのユーザーおよびロールがキーを使用して、データを暗号化および復号できるかを定義する。</li>
+<li>AWS KMSが1年ごとに自動でキーを更新するよう設定する。</li>
+<li>キーを誰にも使用されないように一時的に無効にする。</li>
+<li>無効にしたキーを再度有効にする。</li>
+<li>AWS CloudTrailでログを調査して、キーの使用を監査する。</li>
+</ul>
+<p>アプリケーションのデータを暗号化する必要がある場合、開発者は、AWS SDKを使用することで、簡単に暗号化キーを使用および保護できる。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AWS CloudHSMと類似するサービスであるが、KMSはマスターとなるキー自体を生成するのに対し、CloudHSMはキーを保管しておくだけのサービスである。</p>
 </div>
 </div>
 <div class="section" id="aws">
@@ -451,21 +480,9 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 <div class="section" id="security-inspector">
 <span id="section7-3-2-security-inspector-label"></span><h3>Security Inspector<a class="headerlink" href="#security-inspector" title="Permalink to this headline">¶</a></h3>
 <p>Security InspetorはAWSにデプロイされたアプリケーションのセキュリティ評価サービスである。</p>
-<div class="admonition-todo admonition" id="index-2">
+<div class="admonition-todo admonition" id="index-1">
 <p class="first admonition-title">Todo</p>
 <p class="last">Security Inspectorについて記述。</p>
-</div>
-</div>
-<div class="section" id="aws-key-management-service-kms">
-<span id="section7-3-3-key-management-service-label"></span><h3>AWS Key Management Service(KMS)<a class="headerlink" href="#aws-key-management-service-kms" title="Permalink to this headline">¶</a></h3>
-<p>AWS Key Management Serviceとは、データを暗号化するキーのマネージド暗号化サービス</p>
-<div class="admonition-todo admonition" id="index-3">
-<p class="first admonition-title">Todo</p>
-<p class="last">KMSについて記述。</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">AWS CloudHSMと類似するサービスであるが、KMSはマスターとなるキー自体を生成するのに対し、CloudHSMはキーを保管しておくだけのサービスである。</p>
 </div>
 </div>
 </div>
@@ -479,7 +496,7 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="operation.html" class="btn btn-neutral float-right" title="Operation on AWS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="application.html" class="btn btn-neutral float-right" title="Application Category" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datastore.html" class="btn btn-neutral" title="DataStore Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

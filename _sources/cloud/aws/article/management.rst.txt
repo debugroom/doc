@@ -30,7 +30,7 @@ Cloud WatchはAWSのリソースをモニタリングするサービスである
 * メトリクスの閾値設定・アラーム通知、アクション実行
 
   #. (例)CPU使用率が50%を下回るとオートスケーリング、AmazonLamdaのイベント発生
-  
+
 * CloudWatch Logsを使用してアプリケーションログを保存・モニタリング
 
 .. note:: 各サービスによって標準となるメトリクスは異なる。ALBではリクエスト数などをCloudWatchで収集しており、そのメトリクスに応じてEC2のオートスケールイベントを発生することは可能である。
@@ -60,23 +60,6 @@ CloudConfigはAWSのリソースの設定の履歴、変更通知利用できる
 * リソース変更通知
 * リソースの関連性
 
-.. _section9-5-cloud-formation-label:
-
-CloudFormation
-------------------------------------------------------
-
-CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
-
-.. todo:: CloudFormationのテンプレート記述要領について記述。
-
-.. _section9-6-elastic-beanstalk-label:
-
-Elastic Beanstalk
-------------------------------------------------------
-
-Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。
-
-.. todo:: Elastic Beanstalkについて詳述。
 
 .. _section9-7-cost-report-label:
 
@@ -89,5 +72,12 @@ Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケ
 
 Trusted Advisor
 ------------------------------------------------------
+
+AWS Trusted Advisorでは、パフォーマンスとセキュリティに関する最も一般的な4つの推奨事項をチェックする。
+
+* コストの最適化
+* セキュリティ
+* 耐障害性
+* パフォーマンス向上
 
 .. todo:: Trusted Advisorについて記述。
