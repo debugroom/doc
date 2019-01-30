@@ -117,8 +117,75 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 
 .. note:: VPC内のトラフィックログを収集する場合は、VPCフローログ機能(コンソール>VPC>フローログタブ)を利用すること。
 
+.. _section3-1-3-create-vpc-label:
 
-.. _section3-1-2-elastic-ip-address-label:
+VPCの構築
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■AWSコンソールから、「VPC」サービスを選択し、「VPCを作成」ボタンを押下する。
+
+   .. figure:: img/management-console-vpc-create-vpc-1.png
+      :scale: 100%
+
+■以下の通り、VPCの設定値を入力して、「create」ボタンを押下する。
+
+* Name Tag：任意の名前
+* IPv4 CIDR block：XXX.XXX.XXX.XXX/16-28
+* IPv6 CIDR block：No IPv6 CIDR Block
+* Tenancy :Default
+
+.. _section3-1-4-create-subnet-label:
+
+サブネットの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■AWSコンソールから、「VPC」サービスを選択し、「サブネット」メニューを選び、「サブネットの作成」ボタンを押下する。
+
+   .. figure:: img/management-console-vpc-create-subnet-public-1.png
+      :scale: 100%
+
+■以下の通り、パブリックサブネットの設定値を入力して、「作成」ボタンを押下する。
+
+* 名前タグ：任意の名前
+* VPC：サブネットを作成するVPCを選択
+* アベイラビリティゾーン：サブネットを設定するアベイラビリティゾーンを設定
+* IPv4 CIDRブロック：サブネットに割り当てるIPv4 CIDRブロック
+
+.. _section3-1-5-create-ibgw-label:
+
+インターネットゲートウェイの作成・アタッチ
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+パブリックサブネットにアタッチするための、インターネットゲートウェイを作成する。
+
+■AWSコンソールから、「VPC」サービスを選択し、「インターネットゲートウェイ」メニューから、「インターネットゲートウェイの作成」ボタンを押下する。名前タグを入力して、「作成」ボタンを押下する。
+
+   .. figure:: img/management-console-vpc-create-igw-1.png
+      :scale: 100%
+
+■作成したインターネットゲートウェイを選択し、「アクション」ボタンから「VPCにアタッチ」を選択し、アタッチするVPCを選択する。
+
+   .. figure:: img/management-console-vpc-attach-igw-1.png
+      :scale: 100%
+
+.. _section3-1-6-edit-routetable-label:
+
+ルートテーブルの編集
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+アタッチしたインターネットゲートウェイの設定をルートテーブルに追加する。
+
+■AWSコンソールから「VPC」サービスを選択し、「ルートテーブル」メニューを選択する。作成したVPCに関連付けられているルートテーブルを選択し、「Route」タブから「Edit Routes」ボタンを押下する。
+
+   .. figure:: img/management-console-vpc-edit-routetable-1.png
+      :scale: 100%
+
+■「Add Route」ボタンを押下し、アウトバウンドトラフィック「0.0.0.0/0」に作成したインターネットゲートウェイを設定する。
+
+   .. figure:: img/management-console-vpc-edit-routetable-2.png
+      :scale: 100%
+
+.. _section3-1-7-elastic-ip-address-label:
 
 Elastic IP Address
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -143,6 +210,22 @@ Elastic IP Address
    .. figure:: img/management-console-elastic-ip-address-3.png
       :scale: 100%
 
+.. _section3-1-8-create-vpc-with-public-private-subnet-label:
+
+パブリックサブネットとプライベートサブネットをもつVPCの構築
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: この方法でVPCを作成する場合は、事前にNATゲートウェイに設定するElasticIPアドレスを取得しておくこと。
+
+■AWSコンソールから、「VPC」サービスを選択し、「VPCダッシュボード」メニューから、「VPCを作成」ボタンを押下する。
+
+   .. figure:: img/management-console-vpc-create-vpc-public-private-subnet-1.png
+      :scale: 100%
+
+■以下の通り、VPCのCIDRや、パブリック、プライベートサブネットのCIDR、NAT Gatewayに割り当てるElasticIPアドレスを設定する。
+
+   .. figure:: img/management-console-vpc-create-vpc-public-private-subnet-2.png
+      :scale: 100%
 
 .. _section3-2-direct-connect-label:
 
@@ -396,7 +479,7 @@ Route53ダッシュボードに移動すると、申請したドメインの登�
 登録したドメインとElastic IPアドレスの紐付け設定
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-前節「 :ref:`section3-4-2-route53-registration-label` 」に続き、登録したドメインを「 :ref:`section3-1-2-elastic-ip-address-label` 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。
+前節「 :ref:`section3-4-2-route53-registration-label` 」に続き、登録したドメインを「 :ref:`section3-1-7-elastic-ip-address-label` 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。
 
 .. figure:: img/management-console-route53-registration-6.png
    :scale: 100%

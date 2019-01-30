@@ -35,7 +35,78 @@ MySQLとPostgreSQLではDBインスタンスの暗号化が、SQLServerとOracle
 
 .. note:: RDSのマスタースレーブはクロスリージョンでもサポートされる。
 
-.. _section6-2-elasticache-label:
+.. _section6-2-aurora-label:
+
+Aurora
+------------------------------------------------------
+
+クラウド時代にAWSが再設計したRDBMS
+
+* スケールアウト、分散、マルチテナント
+* AWSサービスを活用したサービス志向アーキテクチャ
+* フルマネージド
+
+ストレージの書き込み方式にクォーラムモデルを採用しているため、高可用性を実現している。
+
+[Auroraが向くユースケース]
+* OLTP向けのスループット最適化(数千TPSといった負荷がかかっても性能が落ちないように最適化)
+* 堅牢性(３つのAZに跨りデータをコピーする必要がある)を求めるデータ
+
+[メモ]
+
+* Aurora StorageのIO(Read/Write形式の特徴)
+
+   * SSDをシームレスにスケール(10GB->64TB)
+   * 高可用性
+     データを3AZに6つのストレージ(ノードとしては、10GBの数百のストレージノードにストライピングされている)
+     同期(レプリケーション)するとレイテンシが遅延、非同期するとデータがロストする可能性するので
+     Quorum(クォーラムモデル)4/6方式により解決
+   * MTTR(平均復旧時間)を短縮
+
+* キャッシュレイヤの分離
+  DBプロセスが再起動してもキャッシュが残る
+
+[Aurora MySQL]
+
+* 高速化したフェイルオーバー
+
+* Custom Endpoint
+  Auroraクラスタ内のどのインスタンスを含めるか、ユーザが指定可能なエンドポイントが作成可能
+  オンラインクエリ用のリードレプリカ、分析用のリードレプリカをエンドポイントで分離可能になった。
+
+* Aurora Serverless
+  - HTTPSエンドポイントも提供
+  - あまり使用されないアプリケーションなどがユースケース
+
+* Global Database
+  Auroraでサポートしていたクロスリージョンレプリケーションで使用していたBinlogを使わず、直接別のリージョンで物理コピーを行うので、
+  低レイテンシーで別リージョンのデータリードが可能。
+
+[PostgreSQL]
+
+* PostgreSQL9.6及び10互換
+
+* RDS for PostgreSQLで利用可能な拡張モジュールを利用可能
+
+＊ Redshift -> PostgreSQLへのdblink機能
+
+[新機能]
+
+* PostgreSQL10.4、10.5互換
+
+* ネイティブ・パーティショニング(宣言的パーティショニング)
+
+* パラレルクエリ強化(パラレルクエリのScan、Join方式の追加)
+
+* postgres_fdw強化(リモートサーバの集約に対応)
+
+* Aurora Serverless
+
+* QPM(Query Plan Management)
+  実行計画の変更やそのタイミングを制御可能
+
+
+.. _section6-3-elasticache-label:
 
 ElastiCache
 ------------------------------------------------------
@@ -52,12 +123,12 @@ ElastiCacheはデータベースの応答をキャッシュに保存し高速化
 
 .. todo:: 各プロダクトの違いを記述する。
 
-.. _section6-3-dynamodb-label:
+.. _section6-4-dynamodb-label:
 
 DynamoDB
 ------------------------------------------------------
 
-.. _section6-3-1-dynamodb-overvie-label:
+.. _section6-4-1-dynamodb-overvie-label:
 
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -72,7 +143,7 @@ DynamoDBの設定では、テーブルごとに目標とする書き込みと読
 
   #. 最大4KBのデータを上限に、強い整合性のある読み込みを１秒あたり１回
   #. 最大4KBのデータを上限に、結果整合性のある読み込みを１秒あたり２回
-  
+
 * 書き込みキャパシティーユニット
 
   #. 最大1KBのデータを上限に、書き込みを１秒あたり１回
@@ -82,7 +153,7 @@ DynamoDBは指定されたリクエストスループットに基づいて、自
 
 .. warning:: DynamoDBのデータは1項目(1行)あたり400KBのため、バイナリデータなどサイズの大きくなりがちなデータは保存できないので注意。
 
-.. _section6-3-2-dynamodb-create-label:
+.. _section6-4-2-dynamodb-create-label:
 
 DynamoDBの作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -97,7 +168,7 @@ DynamoDBの作成
 .. figure:: img/management-console-dynamodb-create-2.png
       :scale: 100%
 
-.. _section6-4-redshift-label:
+.. _section6-5-redshift-label:
 
 
 Redshift

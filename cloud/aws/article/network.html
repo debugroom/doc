@@ -96,7 +96,12 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Network Category</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#virtual-private-network-vpc">Virtual Private Network(VPC)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vpc">VPCの構築</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-4-create-subnet-label">サブネットの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-5-create-ibgw-label">インターネットゲートウェイの作成・アタッチ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-6-edit-routetable-label">ルートテーブルの編集</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#elastic-ip-address">Elastic IP Address</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section3-1-8-create-vpc-with-public-private-subnet-label">パブリックサブネットとプライベートサブネットをもつVPCの構築</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#direct-connect">Direct Connect</a></li>
@@ -121,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
@@ -281,8 +287,8 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>プライベートサブネット内にあるインスタンスがインターネットなど外部通信する必要がある場合は、パブリックサブネットにNAT用のEC2インスタンスを配置するか、VPC NAT ゲートウェイを使うオプションがある。</p>
-<table border="1" class="colwidths-given last docutils" id="id6">
-<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given last docutils" id="id10">
+<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="40%" />
@@ -321,8 +327,72 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p class="last">VPC内のトラフィックログを収集する場合は、VPCフローログ機能(コンソール&gt;VPC&gt;フローログタブ)を利用すること。</p>
 </div>
 </div>
+<div class="section" id="vpc">
+<span id="section3-1-3-create-vpc-label"></span><h3>VPCの構築<a class="headerlink" href="#vpc" title="Permalink to this headline">¶</a></h3>
+<p>■AWSコンソールから、「VPC」サービスを選択し、「VPCを作成」ボタンを押下する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-1.png"><img alt="../../../_images/management-console-vpc-create-vpc-1.png" src="../../../_images/management-console-vpc-create-vpc-1.png" style="width: 908.0px; height: 475.0px;" /></a>
+</div>
+</div></blockquote>
+<p>■以下の通り、VPCの設定値を入力して、「create」ボタンを押下する。</p>
+<ul class="simple">
+<li>Name Tag：任意の名前</li>
+<li>IPv4 CIDR block：XXX.XXX.XXX.XXX/16-28</li>
+<li>IPv6 CIDR block：No IPv6 CIDR Block</li>
+<li>Tenancy :Default</li>
+</ul>
+</div>
+<div class="section" id="section3-1-4-create-subnet-label">
+<span id="id1"></span><h3>サブネットの作成<a class="headerlink" href="#section3-1-4-create-subnet-label" title="Permalink to this headline">¶</a></h3>
+<p>■AWSコンソールから、「VPC」サービスを選択し、「サブネット」メニューを選び、「サブネットの作成」ボタンを押下する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-subnet-public-1.png"><img alt="../../../_images/management-console-vpc-create-subnet-public-1.png" src="../../../_images/management-console-vpc-create-subnet-public-1.png" style="width: 911.0px; height: 547.0px;" /></a>
+</div>
+</div></blockquote>
+<p>■以下の通り、パブリックサブネットの設定値を入力して、「作成」ボタンを押下する。</p>
+<ul class="simple">
+<li>名前タグ：任意の名前</li>
+<li>VPC：サブネットを作成するVPCを選択</li>
+<li>アベイラビリティゾーン：サブネットを設定するアベイラビリティゾーンを設定</li>
+<li>IPv4 CIDRブロック：サブネットに割り当てるIPv4 CIDRブロック</li>
+</ul>
+</div>
+<div class="section" id="section3-1-5-create-ibgw-label">
+<span id="id2"></span><h3>インターネットゲートウェイの作成・アタッチ<a class="headerlink" href="#section3-1-5-create-ibgw-label" title="Permalink to this headline">¶</a></h3>
+<p>パブリックサブネットにアタッチするための、インターネットゲートウェイを作成する。</p>
+<p>■AWSコンソールから、「VPC」サービスを選択し、「インターネットゲートウェイ」メニューから、「インターネットゲートウェイの作成」ボタンを押下する。名前タグを入力して、「作成」ボタンを押下する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-igw-1.png"><img alt="../../../_images/management-console-vpc-create-igw-1.png" src="../../../_images/management-console-vpc-create-igw-1.png" style="width: 827.0px; height: 278.0px;" /></a>
+</div>
+</div></blockquote>
+<p>■作成したインターネットゲートウェイを選択し、「アクション」ボタンから「VPCにアタッチ」を選択し、アタッチするVPCを選択する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-attach-igw-1.png"><img alt="../../../_images/management-console-vpc-attach-igw-1.png" src="../../../_images/management-console-vpc-attach-igw-1.png" style="width: 824.0px; height: 359.0px;" /></a>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="section3-1-6-edit-routetable-label">
+<span id="id3"></span><h3>ルートテーブルの編集<a class="headerlink" href="#section3-1-6-edit-routetable-label" title="Permalink to this headline">¶</a></h3>
+<p>アタッチしたインターネットゲートウェイの設定をルートテーブルに追加する。</p>
+<p>■AWSコンソールから「VPC」サービスを選択し、「ルートテーブル」メニューを選択する。作成したVPCに関連付けられているルートテーブルを選択し、「Route」タブから「Edit Routes」ボタンを押下する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-edit-routetable-1.png"><img alt="../../../_images/management-console-vpc-edit-routetable-1.png" src="../../../_images/management-console-vpc-edit-routetable-1.png" style="width: 1085.0px; height: 321.0px;" /></a>
+</div>
+</div></blockquote>
+<p>■「Add Route」ボタンを押下し、アウトバウンドトラフィック「0.0.0.0/0」に作成したインターネットゲートウェイを設定する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-edit-routetable-2.png"><img alt="../../../_images/management-console-vpc-edit-routetable-2.png" src="../../../_images/management-console-vpc-edit-routetable-2.png" style="width: 876.0px; height: 360.0px;" /></a>
+</div>
+</div></blockquote>
+</div>
 <div class="section" id="elastic-ip-address">
-<span id="section3-1-2-elastic-ip-address-label"></span><h3>Elastic IP Address<a class="headerlink" href="#elastic-ip-address" title="Permalink to this headline">¶</a></h3>
+<span id="section3-1-7-elastic-ip-address-label"></span><h3>Elastic IP Address<a class="headerlink" href="#elastic-ip-address" title="Permalink to this headline">¶</a></h3>
 <p>前節「 <a class="reference internal" href="#section3-1-1-vpc-overview-label"><span class="std std-ref">Overview</span></a> 」でも述べた通り、IPアドレスは動的に割り当てられるものと固定で割り当てられるElastic IP Addressがあり、EC2インスタンスではデフォルトで動的なIPアドレスが割り当てられるが、稼働中のEC2インスタンス１つにつき、１つのElastic IP Addressを割り当てることができる。</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -344,6 +414,25 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 </div>
 </div>
 </div>
+<div class="section" id="section3-1-8-create-vpc-with-public-private-subnet-label">
+<span id="id4"></span><h3>パブリックサブネットとプライベートサブネットをもつVPCの構築<a class="headerlink" href="#section3-1-8-create-vpc-with-public-private-subnet-label" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この方法でVPCを作成する場合は、事前にNATゲートウェイに設定するElasticIPアドレスを取得しておくこと。</p>
+</div>
+<p>■AWSコンソールから、「VPC」サービスを選択し、「VPCダッシュボード」メニューから、「VPCを作成」ボタンを押下する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png"><img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" style="width: 1001.0px; height: 446.0px;" /></a>
+</div>
+</div></blockquote>
+<p>■以下の通り、VPCのCIDRや、パブリック、プライベートサブネットのCIDR、NAT Gatewayに割り当てるElasticIPアドレスを設定する。</p>
+<blockquote>
+<div><div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png"><img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" style="width: 1013.0px; height: 711.0px;" /></a>
+</div>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="direct-connect">
 <span id="section3-2-direct-connect-label"></span><h2>Direct Connect<a class="headerlink" href="#direct-connect" title="Permalink to this headline">¶</a></h2>
@@ -361,7 +450,7 @@ IEEEによって標準化されたネットワーク規格である「802.1Q VLA
 <div class="section" id="elastic-load-balancing-elb">
 <span id="section3-3-elastic-load-balancing-label"></span><h2>Elastic Load Balancing(ELB)<a class="headerlink" href="#elastic-load-balancing-elb" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section3-3-1-elb-overview-label">
-<span id="id1"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Elastic Load BalancingはAWS内で利用できる仮想ロードバランサーで以下の様な特徴を持つ。</p>
 <ul class="simple">
 <li>ELB自体のスケーリング</li>
@@ -512,11 +601,11 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <div class="section" id="route53">
 <span id="section3-4-route53-label"></span><h2>Route53<a class="headerlink" href="#route53" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section3-4-1-route53-overview-label">
-<span id="id3"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。
 Route53は以下のルーティングをサポートする。</p>
-<table border="1" class="colwidths-given docutils" id="id7">
-<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id11">
+<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="70%" />
@@ -548,7 +637,7 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 </div>
 <div class="section" id="section3-4-2-route53-registration-label">
-<span id="id4"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-1.png"><img alt="../../../_images/management-console-route53-registration-1.png" src="../../../_images/management-console-route53-registration-1.png" style="width: 1144.0px; height: 717.0px;" /></a>
@@ -576,7 +665,7 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 <div class="section" id="elastic-ip">
 <span id="section3-4-3-route53-domain-setting-label"></span><h3>登録したドメインとElastic IPアドレスの紐付け設定<a class="headerlink" href="#elastic-ip" title="Permalink to this headline">¶</a></h3>
-<p>前節「 <a class="reference internal" href="#section3-4-2-route53-registration-label"><span class="std std-ref">ドメインの登録</span></a> 」に続き、登録したドメインを「 <a class="reference internal" href="#section3-1-2-elastic-ip-address-label"><span class="std std-ref">Elastic IP Address</span></a> 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。</p>
+<p>前節「 <a class="reference internal" href="#section3-4-2-route53-registration-label"><span class="std std-ref">ドメインの登録</span></a> 」に続き、登録したドメインを「 <a class="reference internal" href="#section3-1-7-elastic-ip-address-label"><span class="std std-ref">Elastic IP Address</span></a> 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-6.png"><img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" style="width: 1160.0px; height: 563.0px;" /></a>
 </div>
@@ -588,8 +677,8 @@ Route53は以下のルーティングをサポートする。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-route53-setting-domain-2.png"><img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" style="width: 1177.0px; height: 764.0px;" /></a>
 </div>
-<table border="1" class="colwidths-given docutils" id="id8">
-<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id12">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="23%" />
 <col width="54%" />
@@ -644,7 +733,7 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 </div>
 <div class="section" id="section3-4-3-route53-healthcheck-label">
-<span id="id5"></span><h3>ヘルスチェックの設定<a class="headerlink" href="#section3-4-3-route53-healthcheck-label" title="Permalink to this headline">¶</a></h3>
+<span id="id9"></span><h3>ヘルスチェックの設定<a class="headerlink" href="#section3-4-3-route53-healthcheck-label" title="Permalink to this headline">¶</a></h3>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">マルチリージョンフェイルオーバーの設定を記述。</p>
