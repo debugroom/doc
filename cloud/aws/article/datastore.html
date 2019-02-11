@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -103,6 +104,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#dynamodb">DynamoDB</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section6-4-2-dynamodb-create-label">DynamoDBの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spring-data-dynamodb">Spring Data DynamoDBの利用</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#redshift">Redshift</a></li>
@@ -285,11 +287,34 @@ Auroraでサポートしていたクロスリージョンレプリケーショ�
 インメモリキャッシュエンジンをサポートしている。</p>
 <ul class="simple">
 <li>memcached</li>
+<li>マルチスレッド</li>
+<li>No Persitence</li>
+<li>Flat string ElastiCache</li>
+<li>low maintainance</li>
+<li>easy to scale holizontally</li>
 </ul>
 <p>単純なキーバリューモデルで、複数ノード間のキャッシュレプリケーションなどの冗長化機能がないため、
 可用性はアプリケーション側で確保する必要がある。</p>
 <ul class="simple">
 <li>Redis</li>
+<li>Single thread</li>
+<li>Persistence</li>
+<li>Hash型</li>
+<li>Rate Limiting</li>
+</ul>
+<p>キャッシュデータ(読み取り専用、冪等、繰り返しアクセス、生存期間が長い)とは</p>
+<ul class="simple">
+<li>ブラウザキャッシュ
+JS、CSS</li>
+<li>Webサーバキャッシュ</li>
+<li>キャッシュストレージ -&gt; ElasticCacheのカバー範囲
+APIの結果</li>
+<li>データストアキャッシュ -&gt; ElasticCacheのカバー範囲
+クエリキャッシュ</li>
+<li>キャッシュパターン
+* Be Lazy
+* White On Through
+* StoringJson</li>
 </ul>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
@@ -322,6 +347,34 @@ DynamoDBの設定では、テーブルごとに目標とする書き込みと読
 <p class="first admonition-title">Warning</p>
 <p class="last">DynamoDBのデータは1項目(1行)あたり400KBのため、バイナリデータなどサイズの大きくなりがちなデータは保存できないので注意。</p>
 </div>
+<ul class="simple">
+<li>パーティションキー、ソートキー<ul>
+<li>ローカルセカンダリインデックス：SortKey以外で絞り込み検索を行うキーを持つ。すべての要素(テーブルとインデックス)の合計が10Gb</li>
+<li>グローバルセカンダリインデックス：PationKeyの属性の代わりとなるキー。他のカラムとPationKeyを組み合わせ検索条件とする。20個まで</li>
+</ul>
+</li>
+<li>DynamoDB Transaction</li>
+<li>DynamoDB Key Diagnostics Library</li>
+<li>DynamoDB Accelator(DAX)：フルマネージドで高可用性の、DynamoDB 用インメモリキャッシュ</li>
+<li>データモデル<ul>
+<li>グローバルセカンダリインデックス(GSIの制限はデフォルト最大20まで)<ul>
+<li>Composite Key(Attributeの結合)</li>
+<li>Sparse index</li>
+</ul>
+</li>
+<li>GSI OVERLOADING(GSIとして利用する属性を複数にまとめてしまい、GSIの数を減らす方法)</li>
+<li>GSIのキーとなるデータが大きすぎる場合、キーとなる項目のポインタとなるIDなどを作成してテーブル分割する。</li>
+<li>DynamoDB Trigger：DynamoDBの書き込みに応じて別処理をLambdaでトリガーする。</li>
+<li>DynamoDB TTL：テーブルの項目を期限切れにする特定のタイムスタンプを設定する機能</li>
+<li>ホットデータとコールドデータでテーブルを分けること</li>
+<li>特定のパーティションキーに読み込みが集中する場合は、DAXを活用すること。</li>
+<li>書き込みが特定のテーブルに集中する場合は、キュー(SQS)やストリーム(kinesis)を間に挟んで緩和する。もしくはプライマリキーにUUIDや乱数などで書き込むノードを分散させる。</li>
+</ul>
+</li>
+<li>データモデルの設計方法：まずデータアクセスのユースケースをすべて洗い出すこと。</li>
+<li>データモデルが似ているCassandraではNETFIXから <a class="reference external" href="https://github.com/Netflix/astyanax">Astyanax</a> が提供されている。</li>
+<li>グローバルテーブルでも各リージョンごとにDynamoDBのテブールが構築され、データが(非同期で)リプリケーションされていく(コリジョンした場合は後勝ち)。マルチリージョンごとにノードが作られるわけではない。</li>
+</ul>
 </div>
 <div class="section" id="section6-4-2-dynamodb-create-label">
 <span id="id1"></span><h3>DynamoDBの作成<a class="headerlink" href="#section6-4-2-dynamodb-create-label" title="Permalink to this headline">¶</a></h3>
@@ -333,6 +386,10 @@ DynamoDBの設定では、テーブルごとに目標とする書き込みと読
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-dynamodb-create-2.png"><img alt="../../../_images/management-console-dynamodb-create-2.png" src="../../../_images/management-console-dynamodb-create-2.png" style="width: 629.0px; height: 554.0px;" /></a>
 </div>
+</div>
+<div class="section" id="spring-data-dynamodb">
+<span id="section6-4-3-spring-data-dynamodb-label"></span><h3>Spring Data DynamoDBの利用<a class="headerlink" href="#spring-data-dynamodb" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/introduction.html#section1-springdata-dynamodb-introduction-label"><span class="std std-ref">Introduction</span></a> を参照のこと。</p>
 </div>
 </div>
 <div class="section" id="redshift">

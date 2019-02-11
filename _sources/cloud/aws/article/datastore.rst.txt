@@ -116,10 +116,37 @@ ElastiCacheはデータベースの応答をキャッシュに保存し高速化
 
 * memcached
 
+* マルチスレッド
+* No Persitence
+* Flat string ElastiCache
+* low maintainance
+* easy to scale holizontally
+
 単純なキーバリューモデルで、複数ノード間のキャッシュレプリケーションなどの冗長化機能がないため、
 可用性はアプリケーション側で確保する必要がある。
 
 * Redis
+
+* Single thread
+* Persistence
+* Hash型
+* Rate Limiting
+
+キャッシュデータ(読み取り専用、冪等、繰り返しアクセス、生存期間が長い)とは
+
+* ブラウザキャッシュ
+  JS、CSS
+* Webサーバキャッシュ
+
+* キャッシュストレージ -> ElasticCacheのカバー範囲
+  APIの結果
+* データストアキャッシュ -> ElasticCacheのカバー範囲
+  クエリキャッシュ
+
+* キャッシュパターン
+  * Be Lazy
+  * White On Through
+  * StoringJson
 
 .. todo:: 各プロダクトの違いを記述する。
 
@@ -153,6 +180,46 @@ DynamoDBは指定されたリクエストスループットに基づいて、自
 
 .. warning:: DynamoDBのデータは1項目(1行)あたり400KBのため、バイナリデータなどサイズの大きくなりがちなデータは保存できないので注意。
 
+
+* パーティションキー、ソートキー
+
+  * ローカルセカンダリインデックス：SortKey以外で絞り込み検索を行うキーを持つ。すべての要素(テーブルとインデックス)の合計が10Gb
+  * グローバルセカンダリインデックス：PationKeyの属性の代わりとなるキー。他のカラムとPationKeyを組み合わせ検索条件とする。20個まで
+
+* DynamoDB Transaction
+
+* DynamoDB Key Diagnostics Library
+
+* DynamoDB Accelator(DAX)：フルマネージドで高可用性の、DynamoDB 用インメモリキャッシュ
+
+* データモデル
+
+  * グローバルセカンダリインデックス(GSIの制限はデフォルト最大20まで)
+
+    * Composite Key(Attributeの結合)
+    * Sparse index
+
+  * GSI OVERLOADING(GSIとして利用する属性を複数にまとめてしまい、GSIの数を減らす方法)
+
+  * GSIのキーとなるデータが大きすぎる場合、キーとなる項目のポインタとなるIDなどを作成してテーブル分割する。
+
+  * DynamoDB Trigger：DynamoDBの書き込みに応じて別処理をLambdaでトリガーする。
+
+  * DynamoDB TTL：テーブルの項目を期限切れにする特定のタイムスタンプを設定する機能
+
+  * ホットデータとコールドデータでテーブルを分けること
+
+  * 特定のパーティションキーに読み込みが集中する場合は、DAXを活用すること。
+
+  * 書き込みが特定のテーブルに集中する場合は、キュー(SQS)やストリーム(kinesis)を間に挟んで緩和する。もしくはプライマリキーにUUIDや乱数などで書き込むノードを分散させる。
+
+* データモデルの設計方法：まずデータアクセスのユースケースをすべて洗い出すこと。
+
+* データモデルが似ているCassandraではNETFIXから `Astyanax <https://github.com/Netflix/astyanax>`_ が提供されている。
+
+* グローバルテーブルでも各リージョンごとにDynamoDBのテブールが構築され、データが(非同期で)リプリケーションされていく(コリジョンした場合は後勝ち)。マルチリージョンごとにノードが作られるわけではない。
+
+
 .. _section6-4-2-dynamodb-create-label:
 
 DynamoDBの作成
@@ -167,6 +234,13 @@ DynamoDBの作成
 
 .. figure:: img/management-console-dynamodb-create-2.png
       :scale: 100%
+
+.. _section6-4-3-spring-data-dynamodb--label:
+
+Spring Data DynamoDBの利用
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:ref:`section1-springdata-dynamodb-introduction-label` を参照のこと。
 
 .. _section6-5-redshift-label:
 
