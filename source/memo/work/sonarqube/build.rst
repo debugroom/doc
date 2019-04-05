@@ -1,7 +1,61 @@
 .. include:: ../module.txt
 
-SONARQUBEの環境構築
+SonarQubeの環境構築
 ================================================================================
+
+SonarQube ServerのCentOS7へのインストール
+--------------------------------------------------------------------------------
+
+1. sonarqubeユーザを追加する。
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo useradd sonarqube
+
+2. JDKや、zip、unzipコマンドのインストール
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo yum install -y java-1.8.0-openjdk zip unzip
+   // omit
+
+3. sonarqubeをダウンロードし、インストール
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.7.zip
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ unzip sonarqube-7.7.zip
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo mv sonarqube-7.7 /usr/local/
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo chown -R sonarqube:sonarqube /usr/local/
+
+
+4. sonarqubeデータベースの接続情報(ユーザ、パスワード、接続先)を設定。ここでは、RDSにsonarデータベースおよびユーザを事前に作成しておくものとする。
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ vi /usr/local/sonarqube-7.7/conf/sonar.properties
+
+   # User credentials.
+   # Permissions to create tables, indices and triggers must be granted to JDBC user.
+   # The schema must be created first.
+   sonar.jdbc.username=sonar
+   sonar.jdbc.password=sonar
+
+   #----- PostgreSQL 9.3 or greater
+   # By default the schema named "public" is used. It can be overridden with the parameter "currentSchema".
+   sonar.jdbc.url=jdbc:postgresql://sample-sonar-database.xxxxxx.ap-northeast-1.rds.amazonaws.com/sonar
+
+5. sonarqubeサーバを起動する。
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo su sonarqube -c "/usr/local/sonarqube-7.7/bin/linux-x86-64/sonar.sh start"
+
 
 サンプルプロジェクトの作成
 --------------------------------------------------------------------------------
@@ -82,6 +136,9 @@ Javaのチェックルールとして、FindBugsのルールを追加する。�
 
 |br|
 
+SonarLintの使用
+================================================================================
+
 IntellJ IDEAへのSONAR Lintインストール
 --------------------------------------------------------------
 
@@ -152,3 +209,40 @@ SONARQUBEの新規プロジェクト作成時に取得したトークンを入�
    :scale: 100%
 
 |br|
+
+SonarScannerの使用
+================================================================================
+
+SonarScannerのCentOS7へのインストール
+--------------------------------------------------------------
+
+1. sonar-scanner-cli、unzipコマンド、JDKのダウンロード、インストール
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo yum -y install unzip java-1.8.0-openjdk java-1.8.0-openjdk-devel
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo unzip sonar-scanner-cli-3.3.0.1492-linux.zip -d /usr/local/sonar-scanner
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ export PATH=$PATH:/usr/local/sonar-scanner/sonar-scanner-3.3.0.1492-linux/bin
+
+2. 解析対象のソースプロジェクトのダウンロードと、sonar.propertiesから参照する環境変数の設定
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo git clone https://github.com/debugroom/sample-continuous-integration.git
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sudo chown -R centos:centos sample-continuous-integration/
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ export SONARQUBE_ENDPOINT=http://XXX.XXX.XXX.XXX:9000
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ export SONARQUBE_TOKEN=YYYYYYYYYYYYYYYYYYYYYYYYYY
+
+3. ソース解析の実行(targetフォルダを作成するために事前にmvn testしておく)
+
+.. sourcecode:: bash
+   :linenos:
+
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ cd sample-continuous-integration/
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ ./mvnw test
+   // omit
+   [centos@ip-XXX-XXX-XXX-XXX ~]$ sonar-scanner
+   // omit

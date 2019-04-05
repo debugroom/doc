@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SONARQUBEの環境構築 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  <title>SonarQubeの環境構築 &mdash; document 0.1-SNAPSHOTS documentation</title>
   
 
   
@@ -97,11 +97,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">work guideline</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">SONARQUBEの環境構築</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SonarQubeの環境構築</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sonarqube-servercentos7">SonarQube ServerのCentOS7へのインストール</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id1">サンプルプロジェクトの作成</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">プラグインの追加</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">プロファイルの追加</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sonarlint">SonarLintの使用</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#intellj-ideasonar-lint">IntellJ IDEAへのSONAR Lintインストール</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sonarscanner">SonarScannerの使用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sonarscannercentos7">SonarScannerのCentOS7へのインストール</a></li>
 </ul>
 </li>
 </ul>
@@ -153,7 +161,7 @@
         
           <li><a href="../index.html">work guideline</a> &raquo;</li>
         
-      <li>SONARQUBEの環境構築</li>
+      <li>SonarQubeの環境構築</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -173,7 +181,68 @@
            <div itemprop="articleBody">
             
   <div class="section" id="sonarqube">
-<h1>SONARQUBEの環境構築<a class="headerlink" href="#sonarqube" title="Permalink to this headline">¶</a></h1>
+<h1>SonarQubeの環境構築<a class="headerlink" href="#sonarqube" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sonarqube-servercentos7">
+<h2>SonarQube ServerのCentOS7へのインストール<a class="headerlink" href="#sonarqube-servercentos7" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>sonarqubeユーザを追加する。</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo useradd sonarqube
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>JDKや、zip、unzipコマンドのインストール</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo yum install -y java-1.8.0-openjdk zip unzip
+// omit
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li>sonarqubeをダウンロードし、インストール</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.7.zip
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ unzip sonarqube-7.7.zip
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo mv sonarqube-7.7 /usr/local/
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo chown -R sonarqube:sonarqube /usr/local/
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="4">
+<li>sonarqubeデータベースの接続情報(ユーザ、パスワード、接続先)を設定。ここでは、RDSにsonarデータベースおよびユーザを事前に作成しておくものとする。</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ vi /usr/local/sonarqube-7.7/conf/sonar.properties
+
+<span class="c1"># User credentials.</span>
+<span class="c1"># Permissions to create tables, indices and triggers must be granted to JDBC user.</span>
+<span class="c1"># The schema must be created first.</span>
+sonar.jdbc.username<span class="o">=</span>sonar
+sonar.jdbc.password<span class="o">=</span>sonar
+
+<span class="c1">#----- PostgreSQL 9.3 or greater</span>
+<span class="c1"># By default the schema named &quot;public&quot; is used. It can be overridden with the parameter &quot;currentSchema&quot;.</span>
+sonar.jdbc.url<span class="o">=</span>jdbc:postgresql://sample-sonar-database.xxxxxx.ap-northeast-1.rds.amazonaws.com/sonar
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="5">
+<li>sonarqubeサーバを起動する。</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo su sonarqube -c <span class="s2">&quot;/usr/local/sonarqube-7.7/bin/linux-x86-64/sonar.sh start&quot;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 <div class="section" id="id1">
 <h2>サンプルプロジェクトの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>SONARQUBEにログイン後、右上の＋ボタンを押下し、「Create New Project」を押下し、
@@ -234,6 +303,9 @@ ProjectKeyおよび、DisplayNameを入力する。</p>
 </div>
 <p><br/></p>
 </div>
+</div>
+<div class="section" id="sonarlint">
+<h1>SonarLintの使用<a class="headerlink" href="#sonarlint" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="intellj-ideasonar-lint">
 <h2>IntellJ IDEAへのSONAR Lintインストール<a class="headerlink" href="#intellj-ideasonar-lint" title="Permalink to this headline">¶</a></h2>
 <p><br/></p>
@@ -282,6 +354,50 @@ SonarLintのインストールを行う。IntelliJのPreferenceから、「Plugi
 <a class="reference internal image-reference" href="../../../_images/intellj_setting_project.png"><img alt="../../../_images/intellj_setting_project.png" src="../../../_images/intellj_setting_project.png" style="width: 944.0px; height: 813.0px;" /></a>
 </div>
 <p><br/></p>
+</div>
+</div>
+<div class="section" id="sonarscanner">
+<h1>SonarScannerの使用<a class="headerlink" href="#sonarscanner" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sonarscannercentos7">
+<h2>SonarScannerのCentOS7へのインストール<a class="headerlink" href="#sonarscannercentos7" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>sonar-scanner-cli、unzipコマンド、JDKのダウンロード、インストール</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo yum -y install unzip java-1.8.0-openjdk java-1.8.0-openjdk-devel
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo unzip sonar-scanner-cli-3.3.0.1492-linux.zip -d /usr/local/sonar-scanner
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/sonar-scanner/sonar-scanner-3.3.0.1492-linux/bin
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>解析対象のソースプロジェクトのダウンロードと、sonar.propertiesから参照する環境変数の設定</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo git clone https://github.com/debugroom/sample-continuous-integration.git
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sudo chown -R centos:centos sample-continuous-integration/
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ <span class="nb">export</span> <span class="nv">SONARQUBE_ENDPOINT</span><span class="o">=</span>http://XXX.XXX.XXX.XXX:9000
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ <span class="nb">export</span> <span class="nv">SONARQUBE_TOKEN</span><span class="o">=</span>YYYYYYYYYYYYYYYYYYYYYYYYYY
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li>ソース解析の実行(targetフォルダを作成するために事前にmvn testしておく)</li>
+</ol>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ <span class="nb">cd</span> sample-continuous-integration/
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ ./mvnw <span class="nb">test</span>
+// omit
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ sonar-scanner
+// omit
+</pre></div>
+</td></tr></table></div>
 </div>
 </div>
 
