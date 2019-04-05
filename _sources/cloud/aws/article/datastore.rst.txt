@@ -235,7 +235,7 @@ DynamoDBの作成
 .. figure:: img/management-console-dynamodb-create-2.png
       :scale: 100%
 
-.. _section6-4-3-spring-data-dynamodb--label:
+.. _section6-4-3-spring-data-dynamodb-label:
 
 Spring Data DynamoDBの利用
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SONARQUBEの環境構築 &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="Sphinxの導入とGitHubページの作成" href="../sphinx/install.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">work guideline</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../sphinx/install.html">Sphinxの導入とGitHubページの作成</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SONARQUBEの環境構築</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">サンプルプロジェクトの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">プラグインの追加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">プロファイルの追加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#intellj-ideasonar-lint">IntellJ IDEAへのSONAR Lintインストール</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">work guideline</a> &raquo;</li>
+        
+      <li>SONARQUBEの環境構築</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/memo/work/sonarqube/build.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sonarqube">
+<h1>SONARQUBEの環境構築<a class="headerlink" href="#sonarqube" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>サンプルプロジェクトの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>SONARQUBEにログイン後、右上の＋ボタンを押下し、「Create New Project」を押下し、
+ProjectKeyおよび、DisplayNameを入力する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_project_1.png"><img alt="../../../_images/sonarqube_create_new_project_1.png" src="../../../_images/sonarqube_create_new_project_1.png" style="width: 597.0px; height: 385.0px;" /></a>
+</div>
+<p><br/></p>
+<p>プロジェクトのトークンを発行する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">トークンはログイン情報として使用するので記録しておくこと。</p>
+</div>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_project_2.png"><img alt="../../../_images/sonarqube_create_new_project_2.png" src="../../../_images/sonarqube_create_new_project_2.png" style="width: 1318.0px; height: 480.0px;" /></a>
+</div>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_project_3.png"><img alt="../../../_images/sonarqube_create_new_project_3.png" src="../../../_images/sonarqube_create_new_project_3.png" style="width: 1316.0px; height: 759.0px;" /></a>
+</div>
+<p><br/></p>
+</div>
+<div class="section" id="id2">
+<h2>プラグインの追加<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><br/></p>
+<p>Javaのチェックルールとして、FindBugsのルールを追加する。「Administration」メニューを選択し、
+「Marketplace」タブをにある、Plugin検索フォームから「FindBugs」を入力して、
+ヒットしたプラグインをインストールする。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_add_findbugs_1.png"><img alt="../../../_images/sonarqube_add_findbugs_1.png" src="../../../_images/sonarqube_add_findbugs_1.png" style="width: 1298.0px; height: 731.0px;" /></a>
+</div>
+<p><br/></p>
+</div>
+<div class="section" id="id3">
+<h2>プロファイルの追加<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><br/></p>
+<p>追加した「FindBugs」のチェックルールと合わせ、適用する新たなプロファイルを作成する。
+「Quality Profile」メニューを選択し、Javaの「Sonar way」プロファイルのコンフィグメニューで
+「コピー」を選択する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_profile_1.png"><img alt="../../../_images/sonarqube_create_new_profile_1.png" src="../../../_images/sonarqube_create_new_profile_1.png" style="width: 1311.0px; height: 849.0px;" /></a>
+</div>
+<p><br/></p>
+<p>新たなプロファイル名を入力する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_profile_2.png"><img alt="../../../_images/sonarqube_create_new_profile_2.png" src="../../../_images/sonarqube_create_new_profile_2.png" style="width: 448.0px; height: 213.0px;" /></a>
+</div>
+<p><br/></p>
+<p>追加したプロファイルに追加のチェックルールを設定する場合は、「Activate More」ボタンから追加を行う。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/sonarqube_create_new_profile_3.png"><img alt="../../../_images/sonarqube_create_new_profile_3.png" src="../../../_images/sonarqube_create_new_profile_3.png" style="width: 1301.0px; height: 653.0px;" /></a>
+</div>
+<p><br/></p>
+</div>
+<div class="section" id="intellj-ideasonar-lint">
+<h2>IntellJ IDEAへのSONAR Lintインストール<a class="headerlink" href="#intellj-ideasonar-lint" title="Permalink to this headline">¶</a></h2>
+<p><br/></p>
+<p>SONARQUBEで作成したチェックルールをローカル端末のIntelliJ IDEAに適用するために、
+SonarLintのインストールを行う。IntelliJのPreferenceから、「Plugin」メニューを選択し、
+「Browse repositories」ボタンを押下する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_install_sonar_lint_1.png"><img alt="../../../_images/intellj_install_sonar_lint_1.png" src="../../../_images/intellj_install_sonar_lint_1.png" style="width: 1028.0px; height: 693.0px;" /></a>
+</div>
+<p><br/></p>
+<p>SonarLintを検索し、インストールを実行する。インストール後、再起動を行うこと。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_install_sonar_lint_2.png"><img alt="../../../_images/intellj_install_sonar_lint_2.png" src="../../../_images/intellj_install_sonar_lint_2.png" style="width: 824.0px; height: 673.0px;" /></a>
+</div>
+<p><br/></p>
+<p>SONARQUBEに設定したプロジェクトのプロファイルのチェックルールを適用するよう、SonarLintからSonarQubeへの接続を行う。
+「Preference」から「Other Settings」 &gt; 「SonarLint General Settings」を選択し、「＋」ボタンを押下する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_setting_sonarqube_1.png"><img alt="../../../_images/intellj_setting_sonarqube_1.png" src="../../../_images/intellj_setting_sonarqube_1.png" style="width: 944.0px; height: 813.0px;" /></a>
+</div>
+<p><br/></p>
+<p>Configuration Nameを入力し、ConnectionTypeはSONARQUBEを選択する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_setting_sonarqube_2.png"><img alt="../../../_images/intellj_setting_sonarqube_2.png" src="../../../_images/intellj_setting_sonarqube_2.png" style="width: 1075.0px; height: 467.0px;" /></a>
+</div>
+<p><br/></p>
+<p>SONARQUBEの新規プロジェクト作成時に取得したトークンを入力する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_setting_sonarqube_3.png"><img alt="../../../_images/intellj_setting_sonarqube_3.png" src="../../../_images/intellj_setting_sonarqube_3.png" style="width: 1075.0px; height: 467.0px;" /></a>
+</div>
+<p><br/></p>
+<p>接続が繋がったことを確認して、「Finish」ボタンを押下する。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_setting_sonarqube_4.png"><img alt="../../../_images/intellj_setting_sonarqube_4.png" src="../../../_images/intellj_setting_sonarqube_4.png" style="width: 1075.0px; height: 467.0px;" /></a>
+</div>
+<p><br/></p>
+<p>接続完了後、SONARQUBEに設定したプロジェクトの設定を行う。これで、静的チェックを行う際に、SONARQUBEでプロジェクトに設定したプロファイルのルールが適用されることになる。</p>
+<p><br/></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/intellj_setting_project.png"><img alt="../../../_images/intellj_setting_project.png" src="../../../_images/intellj_setting_project.png" style="width: 944.0px; height: 813.0px;" /></a>
+</div>
+<p><br/></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../sphinx/install.html" class="btn btn-neutral" title="Sphinxの導入とGitHubページの作成" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
