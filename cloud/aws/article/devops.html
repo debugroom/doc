@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Management Tools" href="management.html" />
+    <link rel="next" title="AWS IoT" href="iot.html" />
     <link rel="prev" title="Application Category" href="application.html" /> 
 
   
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -110,7 +111,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#codebuild">CodeBuild</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section8-2-1-codebuild-overview-label">Overview</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section8-2-1-codebuild-app-build-label">アプリケーションのビルド</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-2-2-codebuild-app-build-label">アプリケーションのビルド</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#codebuild-local">CodeBuild Localの利用</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#codepipeline">CodePipeline</a><ul>
@@ -121,8 +123,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#cloudformation">CloudFormation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#elastic-beanstalk">Elastic Beanstalk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#opsworks">OpsWorks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-systems-manager">AWS Systems Manager</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section8-7-1-systems-manager-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remote-connect">Remote Connect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resource-group">Resource Group</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#insight-dashboard">Insight &amp; Dashboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-tasks">Running Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#paramter-store">Paramter Store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#os-patch-management">OS patch management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maintenance-windows">Maintenance windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consistent-configuration">Consistent Configuration</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
@@ -536,8 +551,8 @@ loop1                          <span class="m">7</span>:1    <span class="m">0</
 ビルドの元になるソースコードはS3に保存したものに加え、AWS CodeCommit、GitHub、BitBucketなどの各Gitベースのバージョン管理システムをサポートする。
 Jenkins Agentでも同様の処理を行えるものの、クラウドでマネージドな環境下で行われるため、大規模開発でのコミットやプルリクエスト後のテスト、ビルド処理をマシンリソースを気にせず実行できることがメリットである。</p>
 </div>
-<div class="section" id="section8-2-1-codebuild-app-build-label">
-<span id="id9"></span><h3>アプリケーションのビルド<a class="headerlink" href="#section8-2-1-codebuild-app-build-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-2-2-codebuild-app-build-label">
+<span id="id9"></span><h3>アプリケーションのビルド<a class="headerlink" href="#section8-2-2-codebuild-app-build-label" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>サービスメニューから「CodeBuild」を選択し、「今すぐ始める」ボタンを押下する。</li>
 </ol>
@@ -652,12 +667,139 @@ artifacts:
 <div class="figure">
 <a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-8.png"><img alt="../../../_images/management-console-codebuild-app-build-8.png" src="../../../_images/management-console-codebuild-app-build-8.png" style="width: 829.0px; height: 722.0px;" /></a>
 </div>
+<p><br /></p>
+</div>
+<div class="section" id="codebuild-local">
+<span id="section8-2-2-codebuild-local-label"></span><h3>CodeBuild Localの利用<a class="headerlink" href="#codebuild-local" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://aws.amazon.com/jp/blogs/devops/announcing-local-build-support-for-aws-codebuild/">2018年5月に、CodeBuildをローカル環境で動かすDockerイメージが公開された</a> 。このサポートにより、Dockerがインストールされたマシンでbuildspec.ymlのデバッグやテストが可能である。</p>
+<div class="section" id="section8-2-2-1-codebuild-local-prepared-label">
+<span id="id11"></span><h4>事前準備<a class="headerlink" href="#section8-2-2-1-codebuild-local-prepared-label" title="Permalink to this headline">¶</a></h4>
+<p>CodeBuild Localを利用するには、事前に以下を実施しておく必要がある。</p>
+<ol class="arabic simple">
+<li>実際にビルド実行環境コンテナイメージ(DefaultではUbuntu)を作成</li>
+<li>環境コンテナを起動するためのエージェントコンテナイメージをプル</li>
+</ol>
+<p>なお、CodeBuild Localを実行する際は2のコンテナイメージをDocker runするかたちになるが、実行スクリプトが提供されているため、このスクリプトに1のコンテナイメージ名やアーティファクトの出力先フォルダ、認証情報など情報を渡して実行することになる。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">2のコンテナイメージを作成するためのDockerfileはAWSから公開されていない模様。</p>
+</div>
+<p>1の手順としては、<a class="reference external" href="https://github.com/aws/aws-codebuild-docker-images">公式サイト</a> の手順に習い、ターミナルなどを使って、適当なディレクトリで、ビルド実行環境のコンテナイメージがあるaws-codebuild-docker-imagesのレポジトリをGit cloneする。
+ビルド用のコンテナ(starndard:2.0)イメージを構築するDockerfileがあるディレクトリへ移動し、docker buildコマンドを実行する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/aws/aws-codebuild-docker-images.git
+$ <span class="nb">cd</span> aws-codebuild-docker-images
+$ <span class="nb">cd</span> ubuntu/standard/2.0
+$ docker build -t aws/codebuild/standard:2.0 .
+</pre></div>
+</div>
+<p>続いて、環境コンテナを起動するためのエージェントコンテナイメージをプルする。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ docker pull amazon/aws-codebuild-local:latest --disable-content-trust<span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="section8-2-2-1-codebuild-local-execution-label">
+<span id="id13"></span><h4>CodeBuild Localの実行<a class="headerlink" href="#section8-2-2-1-codebuild-local-execution-label" title="Permalink to this headline">¶</a></h4>
+<p>Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
+今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
+なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は <a class="reference internal" href="#section8-7-6-2-systems-manager-parameter-store-create-parameter-label"><span class="std std-ref">標準パラメータストアの設定</span></a> を参照のこと。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>version: <span class="m">0</span>.2
+env:
+  parameter-store:
+    SONAR_HOST_URL: <span class="s2">&quot;SONAR_HOST_URL&quot;</span>
+    SONAR_LOGIN: <span class="s2">&quot;SONAR_LOGIN_COMMON&quot;</span>
+phases:
+  install:
+    runtime-versions:
+      docker: <span class="m">18</span>
+  build:
+    commands:
+      - mvn -f common/pom.xml package sonar:sonar -Dsonar.host.url<span class="o">=</span><span class="si">${</span><span class="nv">SONAR_HOST_URL</span><span class="si">}</span> -Dsonar.login<span class="o">=</span><span class="si">${</span><span class="nv">SONAR_LOGIN</span><span class="si">}</span>
+artifacts:
+  files:
+    - common/target/mynavi-sample-continuous-integration-common-0.0.1-SNAPSHOT.jar
+</pre></div>
+</div>
+<p>buildspec.ymlおよびcodebuild_build.shはcommonプロジェクト配下にあるが、CodeBuildによってGitHubからクローンされるビルド対象のアプリケーションソースコードのルートディレクトリ(ビルドコマンドを実行するディレクトリ)を起点として、コピーしたcodebuild_build.shにオプションパラメータを与えて実行する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ common/codebuild_build.sh -i aws/codebuild/standard:2.0 -a common/target/ -c -b common/buildspec.yml
+</pre></div>
+</div>
+<p>なお、上記で実行したスクリプトの各オプションの説明は以下の通り。</p>
+<table border="1" class="colwidths-given docutils" id="id23">
+<caption><span class="caption-text">codebuild_build.shのオプション</span><a class="headerlink" href="#id23" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>オプション</td>
+<td>説明</td>
+</tr>
+<tr class="row-even"><td>iオプション(必須)</td>
+<td>事前準備で作成したCodeBuildでビルドするコンテナイメージを指定する。</td>
+</tr>
+<tr class="row-odd"><td>aオプション(必須)</td>
+<td>アーティファクトを出力するディレクトリを指定する。</td>
+</tr>
+<tr class="row-even"><td>cオプション</td>
+<td>AWS認証情報を指定する(デフォルトでは~/.aws/credentialsの認証情報が使用される)</td>
+</tr>
+<tr class="row-odd"><td>bオプション</td>
+<td>buildspec.ymlを指定する。</td>
+</tr>
+</tbody>
+</table>
+<p>スクリプトを実行すると、以下の通り、CodeBuildがローカルのDocker環境で実行されるようになる。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Build Command:
+
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock -e <span class="s2">&quot;IMAGE_NAME=aws/codebuild/standard:2.0&quot;</span> -e <span class="s2">&quot;ARTIFACTS=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration/common/target/&quot;</span> -e <span class="s2">&quot;SOURCE=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration&quot;</span> -e <span class="s2">&quot;BUILDSPEC=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration/common/buildspec.yml&quot;</span> -e <span class="s2">&quot;AWS_CONFIGURATION=/Users/kawabatakouhei/.aws&quot;</span> -e <span class="s2">&quot;INITIATOR=kawabatakouhei&quot;</span> amazon/aws-codebuild-local:latest
+
+Removing agent-resources_build_1 ... <span class="k">done</span>
+Removing agent-resources_agent_1 ... <span class="k">done</span>
+Removing network agent-resources_default
+Removing volume agent-resources_source_volume
+Removing volume agent-resources_user_volume
+Creating network <span class="s2">&quot;agent-resources_default&quot;</span> with the default driver
+Creating volume <span class="s2">&quot;agent-resources_source_volume&quot;</span> with <span class="nb">local</span> driver
+Creating volume <span class="s2">&quot;agent-resources_user_volume&quot;</span> with <span class="nb">local</span> driver
+Creating agent-resources_agent_1 ... <span class="k">done</span>
+Creating agent-resources_build_1 ... <span class="k">done</span>
+Attaching to agent-resources_agent_1, agent-resources_build_1
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:25:01 Waiting <span class="k">for</span> agent ping
+
+// omit
+
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> BUILD SUCCESS
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> Total time:  <span class="m">03</span>:09 min
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> Finished at: <span class="m">2019</span>-06-27T19:29:04Z
+agent_1  <span class="p">|</span> <span class="o">[</span>INFO<span class="o">]</span> ------------------------------------------------------------------------
+agent_1  <span class="p">|</span>
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase complete: BUILD State: SUCCEEDED
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase context status code:  Message:
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Entering phase POST_BUILD
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase complete: POST_BUILD State: SUCCEEDED
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase context status code:  Message:
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Expanding base directory path: .
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Assembling file list
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Expanding .
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Expanding artifact file paths <span class="k">for</span> base directory .
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Assembling file list
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Expanding common/target/mynavi-sample-continuous-integration-common-0.0.1-SNAPSHOT.jar
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Found <span class="m">1</span> file<span class="o">(</span>s<span class="o">)</span>
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Preparing to copy secondary artifacts
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 No secondary artifacts defined in buildspec
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase complete: UPLOAD_ARTIFACTS State: SUCCEEDED
+agent_1  <span class="p">|</span> <span class="o">[</span>Container<span class="o">]</span> <span class="m">2019</span>/06/27 <span class="m">19</span>:29:04 Phase context status code:  Message:
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="codepipeline">
 <span id="section8-3-codepipeline-label"></span><h2>CodePipeline<a class="headerlink" href="#codepipeline" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section8-3-1-codepipeline-overview-label">
-<span id="id11"></span><h3>Overview<a class="headerlink" href="#section8-3-1-codepipeline-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>Overview<a class="headerlink" href="#section8-3-1-codepipeline-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>CodePipelineはアプリケーションのソースコードコミット→テスト→ビルド→ステージングデプロイ→プロダクションデプロイといった一連のソフトウェアリリースプロセスを自動化し、継続的インテグレーション・デリバリを実現するツールである。
 CodeCommitやS3、CodeBuild、CodeDeployといったAWSリソースはもちろんのこと、GitHubやJenkins、DockerHubとも連携し、アプリケーションの構築にかかる一連の流れを自動化できる。</p>
 </div>
@@ -666,7 +808,7 @@ CodeCommitやS3、CodeBuild、CodeDeployといったAWSリソースはもちろ�
 <p>ここでは、CodePipeLineを使って、SpringBootベースのアプリケーションをGitHub上にソースコードコミットし、Dockerコンテナを用いてテスト・ビルドを行い、構築したアプリケーションコンテナを、DockerHub上にプッシュした後、EC2起動型のECSステージング環境へのデプロイする作業を自動化する設定例を記述する。
 なお、Dockerコンテナを使用したテスト・ビルドについては前章「 <a class="reference internal" href="#section8-2-codebuild-label"><span class="std std-ref">CodeBuild</span></a> 」で実行した通り、AWS CodeBuildを利用する。</p>
 <div class="section" id="section8-3-2-1-codepipeline-staging-release-prepared-label">
-<span id="id12"></span><h4>事前準備<a class="headerlink" href="#section8-3-2-1-codepipeline-staging-release-prepared-label" title="Permalink to this headline">¶</a></h4>
+<span id="id15"></span><h4>事前準備<a class="headerlink" href="#section8-3-2-1-codepipeline-staging-release-prepared-label" title="Permalink to this headline">¶</a></h4>
 <p>CodePipeLineでステージング環境へのリリースを自動化する設定を行う前に、以下を準備しておく。</p>
 <ol class="arabic simple">
 <li>リリースするSpringBootアプリケーション及びCodeBuild設定</li>
@@ -792,7 +934,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 </div>
 <div class="section" id="section8-3-2-2-codepipeline-staging-release-setting-label">
-<span id="id13"></span><h4>CodePipeLineの設定(ソース・ビルド)<a class="headerlink" href="#section8-3-2-2-codepipeline-staging-release-setting-label" title="Permalink to this headline">¶</a></h4>
+<span id="id16"></span><h4>CodePipeLineの設定(ソース・ビルド)<a class="headerlink" href="#section8-3-2-2-codepipeline-staging-release-setting-label" title="Permalink to this headline">¶</a></h4>
 <p>ステージング環境へのリリースまで設定するためには一度、ECSのタスク定義と、サービス設定をおこなっていく必要があるため、
 まずCodePipeLineでGitHubからソースコードコミットし、Dockerコンテナでテスト・ビルド後、DockerHubへプッシュするところまでを設定し、起動する。</p>
 <p>■サービス「CodePipeline」を選択し、「今すぐ始める」ボタンを押下する。</p>
@@ -897,7 +1039,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 </div>
 <div class="section" id="section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label">
-<span id="id14"></span><h4>ECSタスク定義<a class="headerlink" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label" title="Permalink to this headline">¶</a></h4>
+<span id="id17"></span><h4>ECSタスク定義<a class="headerlink" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label" title="Permalink to this headline">¶</a></h4>
 <p>プッシュしたコンテナイメージの設定情報からECSのタスク定義を行う。CodepipeLineが実行されるたび、ECSタスクのリビジョンがアップデートされる形となる。</p>
 <p>■ECSサービスメニューから、タスク定義を選択し、「新しいタスク定義の作成」ボタンを押下する。</p>
 <div class="figure">
@@ -994,7 +1136,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 </div>
 <div class="section" id="section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label">
-<span id="id15"></span><h4>ECSサービス設定<a class="headerlink" href="#section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label" title="Permalink to this headline">¶</a></h4>
+<span id="id18"></span><h4>ECSサービス設定<a class="headerlink" href="#section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label" title="Permalink to this headline">¶</a></h4>
 <p>前章  <a class="reference internal" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label"><span class="std std-ref">ECSタスク定義</span></a> を元にECSサービスを設定し、ECSコンテナを起動させておく。CodePipeLineが実行されると最新のリビジョンにアップデートされたコンテナイメージがローリングアップデートされることになる。</p>
 <p>■ECSサービスメニューから「クラスター」を選び、作成してあるECSクラスタ「sample-cluster」を選択する。</p>
 <div class="figure">
@@ -1111,6 +1253,147 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p class="last">OpsWorksについて詳細を記述</p>
 </div>
 </div>
+<div class="section" id="aws-systems-manager">
+<span id="section8-7-systems-manager-label"></span><h2>AWS Systems Manager<a class="headerlink" href="#aws-systems-manager" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section8-7-1-systems-manager-overview-label">
+<span id="id19"></span><h3>Overview<a class="headerlink" href="#section8-7-1-systems-manager-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>AWS Systems Managerは、EC2をはじめとしたサーバリソースの大規模な運用・管理を効率化・自動化するサービスである。
+EC2インスタンスへのパッチ適用やインベントリ(システム構成)情報の収集、OSのアップデートやドライバの更新の実行、AMIの管理などを、リソース単位でまとめ大規模に実行することが可能である。
+また、複数のリソースで共有可能なパラメータストアの作成やブラウザベースでのEC2インスタンスへのアクセスなどシステム管理に関わる複数の機能群で構成される。Systems Managerの主な特徴・機能は以下の通りである。</p>
+<table border="1" class="colwidths-given docutils" id="id24">
+<caption><span class="caption-text">Systems Managerの主な特徴・機能</span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>機能</td>
+<td>概要</td>
+</tr>
+<tr class="row-even"><td>Remote Connect</td>
+<td>通常必ず行うセキュリティインバウンド設定やSSHキーなしで、ブラウザやAWS CLIを使ってEC2インスタンスへアクセスする機能</td>
+</tr>
+<tr class="row-odd"><td>Resource Group</td>
+<td>AWSの複数のリソースをグルーピング化できる機能</td>
+</tr>
+<tr class="row-even"><td>Insight &amp; Dashboard</td>
+<td>リソースごとに収集したソフトウェアインベントリ情報(OSバージョンなどの構成管理情報)やCloudTrail、Trusted Advisorなどのインサイト情報をダッシュボードで俯瞰的に参照する機能</td>
+</tr>
+<tr class="row-odd"><td>RunningTasks on group resources</td>
+<td>リソースグループに対し、オペレーションタスク・スクリプトを自動的に実行する機能</td>
+</tr>
+<tr class="row-even"><td>Parameter store</td>
+<td>複数のリソースで共有可能な、認証キーやIDなど秘匿情報やプレインテキストデータを階層的に管理して保存、参照する機能</td>
+</tr>
+<tr class="row-odd"><td>OS patch management</td>
+<td>複数のリソースまたはリソースグループに対し、パッチ適用などを実行する機能</td>
+</tr>
+<tr class="row-even"><td>Meintenance windows</td>
+<td>タスク実行をスケジューリング化し実行する機能</td>
+</tr>
+<tr class="row-odd"><td>Consistent Configuration</td>
+<td>ステートマネージャを使用した一貫した設定・メンテナンス機能</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="remote-connect">
+<span id="section8-7-2-systems-manager-remote-connect-label"></span><h3>Remote Connect<a class="headerlink" href="#remote-connect" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-5">
+<p class="first admonition-title">Todo</p>
+<p class="last">Systems Managerを使ったリモートアクセスのやり方を記載する。</p>
+</div>
+</div>
+<div class="section" id="resource-group">
+<span id="section8-7-3-systems-manager-resource-group-label"></span><h3>Resource Group<a class="headerlink" href="#resource-group" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-6">
+<p class="first admonition-title">Todo</p>
+<p class="last">Systems Managerを使ったリソースグループ設定のやり方を記載する。</p>
+</div>
+</div>
+<div class="section" id="insight-dashboard">
+<span id="section8-7-4-systems-manager-insight-dashboard-label"></span><h3>Insight &amp; Dashboard<a class="headerlink" href="#insight-dashboard" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-7">
+<p class="first admonition-title">Todo</p>
+<p class="last">Systems Managerを使ったインサイト情報の参照機能の使い方を記載する。</p>
+</div>
+</div>
+<div class="section" id="running-tasks">
+<span id="section8-7-5-systems-manager-runnging-task-label"></span><h3>Running Tasks<a class="headerlink" href="#running-tasks" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-8">
+<p class="first admonition-title">Todo</p>
+<p class="last">タスク自動実行機能の使い方を記載する。</p>
+</div>
+</div>
+<div class="section" id="paramter-store">
+<span id="section8-7-6-systems-manager-parameter-store-label"></span><h3>Paramter Store<a class="headerlink" href="#paramter-store" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-7-6-1-systems-manager-parameter-store-overview-label">
+<span id="id20"></span><h4>Overview<a class="headerlink" href="#section8-7-6-1-systems-manager-parameter-store-overview-label" title="Permalink to this headline">¶</a></h4>
+<p>パラメータストアはパスワードやデータベース文字列、ライセンスコードなどアプリケーションに直接実装せず環境変数を経由して設定するデータ等を一元的に管理するためのサービスである。
+特に多くのEC2インスタンスやECSタスク上にデプロイされたアプリケーションなどで同一のデータを参照したい場合有効であり、またデータは階層構造をとることができる。
+データ値はプレーンテキストまたはAWS KMSを使用して暗号化データとして使用でき、暗号化や復号化も同時に実行する。パラメータストアの参照はIAMにより細かくアクセス制御が可能であり、
+以下のAWSサービスから利用可能である。</p>
+<ul class="simple">
+<li>Amazon EC2</li>
+<li>Amazon ECS</li>
+<li>AWS Lambda</li>
+<li>AWS CloudFormation</li>
+<li>AWS CodeBuild</li>
+<li>AWS CodeDeploy</li>
+</ul>
+<p>また、暗号化や通知、モニタリング、監査を行うため、以下のサービスと連動して機能する。</p>
+<ul class="simple">
+<li>AWS KMS</li>
+<li>Amazon SNS</li>
+<li>Amazon CloudWatch</li>
+<li>AWS CloudTrail</li>
+</ul>
+<p>従来のパラメータストアでは、データサイズが4KBまで、スループット上限は規定範囲内だったが、<a class="reference external" href="https://aws.amazon.com/jp/about-aws/whats-new/2019/04/aws_systems_manager_parameter_store_introduces_advanced_parameters/">2019年4月のアップデートでアドバンスドパラメータオプションが導入</a> され、
+10000を変えるパラメータの作成、最大8KB、スループットの上限緩和(デフォルト40tpsから最大1000tpsまで)の拡張がなされた。
+ただし、アドバンスドパラメータオプションは有料となるため注意すること。</p>
+</div>
+<div class="section" id="section8-7-6-2-systems-manager-parameter-store-create-parameter-label">
+<span id="id22"></span><h4>標準パラメータストアの設定<a class="headerlink" href="#section8-7-6-2-systems-manager-parameter-store-create-parameter-label" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>AWSコンソール上から、Systems Managerを選択し、「パラメータストア」メニューから「パラメータの作成」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ssm-create-parameter-store-1.png"><img alt="../../../_images/management-console-ssm-create-parameter-store-1.png" src="../../../_images/management-console-ssm-create-parameter-store-1.png" style="width: 663.0px; height: 342.0px;" /></a>
+</div>
+<ol class="arabic simple" start="2">
+<li>パラメータ名と値を設定し、「作成」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/management-console-ssm-create-parameter-store-2.png"><img alt="../../../_images/management-console-ssm-create-parameter-store-2.png" src="../../../_images/management-console-ssm-create-parameter-store-2.png" style="width: 555.0px; height: 777.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここで設定したパラメータを参照する方法は、 <a class="reference internal" href="#section8-2-2-1-codebuild-local-execution-label"><span class="std std-ref">CodeBuild Localの実行</span></a> を参照のこと。</p>
+</div>
+</div>
+</div>
+<div class="section" id="os-patch-management">
+<span id="section8-7-7-systems-manager-os-patch-management-label"></span><h3>OS patch management<a class="headerlink" href="#os-patch-management" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-9">
+<p class="first admonition-title">Todo</p>
+<p class="last">パッチマネージャーを使ったOSパッチ管理方法を記載する。</p>
+</div>
+</div>
+<div class="section" id="maintenance-windows">
+<span id="section8-7-8-systems-manager-maintenance-windows-label"></span><h3>Maintenance windows<a class="headerlink" href="#maintenance-windows" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-10">
+<p class="first admonition-title">Todo</p>
+<p class="last">メンテナンスウィンドウを使ったスケジューリングタスクの設定・実行方法を記載する。</p>
+</div>
+</div>
+<div class="section" id="consistent-configuration">
+<span id="section8-7-9-systems-manager-consistent-configuration-label"></span><h3>Consistent Configuration<a class="headerlink" href="#consistent-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-11">
+<p class="first admonition-title">Todo</p>
+<p class="last">ステートマネージャを使った設定・実行方法を記載する。</p>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -1121,7 +1404,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="management.html" class="btn btn-neutral float-right" title="Management Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="iot.html" class="btn btn-neutral float-right" title="AWS IoT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="application.html" class="btn btn-neutral" title="Application Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

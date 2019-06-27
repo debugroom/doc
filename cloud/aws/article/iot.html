@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -310,13 +311,15 @@ IoT Coreは以下の６つのコンポーネントにより構成される。</p
 <p>インターネットに直接アクセスできないデバイスへのデータ配信等、エッジコンピューティング向けのサービス。
 エッジデバイスにインストールするソフトウェアであり、クラウド上のプログラムをデバイス側へ転送し、デバイス側で実行する。
 エッジコンピューティングでは主にレイテンシや帯域幅が問題になり、オフライン上での実行が必要になるケースも多いが、以下のような機能をもち、セキュアに実行できる。</p>
-<p>[機能]
-* クラウドから配布したLambdaをローカルで実行
-* ローカルでメッセジングとLambdaのTrigger
-* データの状態と同期
-* 終端とのデバイスとの通信(MQTT)のためのプロトコルアダプタ
-* OTAアップデート
-* 機械学習のMLモデルをエッジデバイスにデプロイし、デバイス側で推論を行い、結果を活用する。</p>
+<p>[機能]</p>
+<ul class="simple">
+<li>クラウドから配布したLambdaをローカルで実行</li>
+<li>ローカルでメッセジングとLambdaのTrigger</li>
+<li>データの状態と同期</li>
+<li>終端とのデバイスとの通信(MQTT)のためのプロトコルアダプタ</li>
+<li>OTAアップデート</li>
+<li>機械学習のMLモデルをエッジデバイスにデプロイし、デバイス側で推論を行い、結果を活用する。</li>
+</ul>
 </div>
 <div class="section" id="aws-iot-analytics">
 <span id="section9-6-iot-analytics-label"></span><h2>AWS IoT Analytics<a class="headerlink" href="#aws-iot-analytics" title="Permalink to this headline">¶</a></h2>
@@ -366,127 +369,127 @@ IoT Coreは以下の６つのコンポーネントにより構成される。</p
 <p>Hundson Memo</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kawabataku:~/environment $ sudo pip install AWSIoTPythonSDK
 Collecting AWSIoTPythonSDK
-  Downloading https://files.pythonhosted.org/packages/01/6f/ee3c174d87c3cd0b9cfa8e7e0599549ea28f495be2559dcc64c6d6485973/AWSIoTPythonSDK-1.4.3.tar.gz (79kB)
-    100% |████████████████████████████████| 81kB 3.5MB/s
+   Downloading https://files.pythonhosted.org/packages/01/6f/ee3c174d87c3cd0b9cfa8e7e0599549ea28f495be2559dcc64c6d6485973/AWSIoTPythonSDK-1.4.3.tar.gz (79kB)
+     100% |████████████████████████████████| 81kB 3.5MB/s
 Building wheels for collected packages: AWSIoTPythonSDK
-  Running setup.py bdist_wheel for AWSIoTPythonSDK ... done
-  Stored in directory: /root/.cache/pip/wheels/60/43/ee/3df322dae6a74e27af57d797beb8cf35d2b1391f09073fa189
-Successfully built AWSIoTPythonSDK
-Installing collected packages: AWSIoTPythonSDK
-Successfully installed AWSIoTPythonSDK-1.4.3
-You are using pip version 9.0.3, however version 18.1 is available.
-You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.
-kawabataku:~/environment $
-kawabataku:~/environment $
-kawabataku:~/environment $
-kawabataku:~/environment $ wget http://bit.ly/2QqqRqx -O dummyclient.tar.gz
---2019-01-16 07:09:15--  http://bit.ly/2QqqRqx
-Resolving bit.ly (bit.ly)... 67.199.248.11, 67.199.248.10
-Connecting to bit.ly (bit.ly)|67.199.248.11|:80... connected.
-HTTP request sent, awaiting response... 404 Not Found
-2019-01-16 07:09:15 ERROR 404: Not Found.
+   Running setup.py bdist_wheel for AWSIoTPythonSDK ... done
+   Stored in directory: /root/.cache/pip/wheels/60/43/ee/3df322dae6a74e27af57d797beb8cf35d2b1391f09073fa189
+ Successfully built AWSIoTPythonSDK
+ Installing collected packages: AWSIoTPythonSDK
+ Successfully installed AWSIoTPythonSDK-1.4.3
+ You are using pip version 9.0.3, however version 18.1 is available.
+ You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.
+ kawabataku:~/environment $
+ kawabataku:~/environment $
+ kawabataku:~/environment $
+ kawabataku:~/environment $ wget http://bit.ly/2QqqRqx -O dummyclient.tar.gz
+ --2019-01-16 07:09:15--  http://bit.ly/2QqqRqx
+ Resolving bit.ly (bit.ly)... 67.199.248.11, 67.199.248.10
+ Connecting to bit.ly (bit.ly)|67.199.248.11|:80... connected.
+ HTTP request sent, awaiting response... 404 Not Found
+ 2019-01-16 07:09:15 ERROR 404: Not Found.
 
-kawabataku:~/environment $ wget http://bit.ly/2QggRgx -O dummyclient.tar.gz
---2019-01-16 07:10:03--  http://bit.ly/2QggRgx
-Resolving bit.ly (bit.ly)... 67.199.248.10, 67.199.248.11
-Connecting to bit.ly (bit.ly)|67.199.248.10|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz [following]
---2019-01-16 07:10:03--  https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz
-Resolving s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)... 52.219.68.84
-Connecting to s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)|52.219.68.84|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 6036 (5.9K) [application/x-gzip]
-Saving to: ‘dummyclient.tar.gz’
+ kawabataku:~/environment $ wget http://bit.ly/2QggRgx -O dummyclient.tar.gz
+ --2019-01-16 07:10:03--  http://bit.ly/2QggRgx
+ Resolving bit.ly (bit.ly)... 67.199.248.10, 67.199.248.11
+ Connecting to bit.ly (bit.ly)|67.199.248.10|:80... connected.
+ HTTP request sent, awaiting response... 301 Moved Permanently
+ Location: https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz [following]
+ --2019-01-16 07:10:03--  https://s3-ap-northeast-1.amazonaws.com/awsj-iot-handson/data-collection/dummyclient.tar.gz
+ Resolving s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)... 52.219.68.84
+ Connecting to s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)|52.219.68.84|:443... connected.
+ HTTP request sent, awaiting response... 200 OK
+ Length: 6036 (5.9K) [application/x-gzip]
+ Saving to: ‘dummyclient.tar.gz’
 
-dummyclient.tar.gz                 100%[=============================================================&gt;]   5.89K  --.-KB/s    in 0s
+ dummyclient.tar.gz                 100%[=============================================================&gt;]   5.89K  --.-KB/s    in 0s
 
-2019-01-16 07:10:03 (210 MB/s) - ‘dummyclient.tar.gz’ saved [6036/6036]
+ 2019-01-16 07:10:03 (210 MB/s) - ‘dummyclient.tar.gz’ saved [6036/6036]
 
-kawabataku:~/environment $
-kawabataku:~/environment $
-kawabataku:~/environment $ tar -zxvf dummyclient.tar.gz
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-./._DummyDevice
-tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/._.DS_Store
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/.DS_Store
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/._deviceMain.py
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/deviceMain.py
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/._certs
-tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/certs/
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/._dependency.py
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/dependency.py
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/._IoT_common.py
-tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/IoT_common.py
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/certs/._root.pem
-tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
-tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
-DummyDevice/certs/root.pem
-kawabataku:~/environment $
-kawabataku:~/environment $
-kawabataku:~/environment $ ls
-dummyclient.tar.gz  DummyDevice  README.md
-kawabataku:~/environment $
-kawabataku:~/environment $
-kawabataku:~/environment $ cd DummyDevice/
-kawabataku:~/environment/DummyDevice $ ls
-certs  dependency.py  deviceMain.py  IoT_common.py
-kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing -- root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
-usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
-                     --root_ca ROOT_CA --cert CERT --private PRIVATE
-deviceMain.py: error: argument --endpoint is required
-kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
-usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
-                     --root_ca ROOT_CA --cert CERT --private PRIVATE
-deviceMain.py: error: argument --cert is required
-kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/
-ccaf1d27c4-certificate.pem.crt  ccaf1d27c4-public.pem.key       root.pem
-ccaf1d27c4-private.pem.key      ._root.pem
-kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/ccaf1d27c4-certificate.pem.crt
-send back state payload:{&quot;state&quot;: {&quot;reported&quot;: {&quot;wait_time&quot;: 5}}}
+ kawabataku:~/environment $
+ kawabataku:~/environment $
+ kawabataku:~/environment $ tar -zxvf dummyclient.tar.gz
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ ./._DummyDevice
+ tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/._.DS_Store
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/.DS_Store
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/._deviceMain.py
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/deviceMain.py
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/._certs
+ tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/certs/
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/._dependency.py
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/dependency.py
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/._IoT_common.py
+ tar: Ignoring unknown extended header keyword `LIBARCHIVE.creationtime&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/IoT_common.py
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/certs/._root.pem
+ tar: Ignoring unknown extended header keyword `SCHILY.dev&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.ino&#39;
+ tar: Ignoring unknown extended header keyword `SCHILY.nlink&#39;
+ DummyDevice/certs/root.pem
+ kawabataku:~/environment $
+ kawabataku:~/environment $
+ kawabataku:~/environment $ ls
+ dummyclient.tar.gz  DummyDevice  README.md
+ kawabataku:~/environment $
+ kawabataku:~/environment $
+ kawabataku:~/environment $ cd DummyDevice/
+ kawabataku:~/environment/DummyDevice $ ls
+ certs  dependency.py  deviceMain.py  IoT_common.py
+ kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing -- root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
+ usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
+                      --root_ca ROOT_CA --cert CERT --private PRIVATE
+ deviceMain.py: error: argument --endpoint is required
+ kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com
+ usage: deviceMain.py [-h] --device_name DEVICE_NAME --endpoint ENDPOINT
+                      --root_ca ROOT_CA --cert CERT --private PRIVATE
+ deviceMain.py: error: argument --cert is required
+ kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/
+ ccaf1d27c4-certificate.pem.crt  ccaf1d27c4-public.pem.key       root.pem
+ ccaf1d27c4-private.pem.key      ._root.pem
+ kawabataku:~/environment/DummyDevice $ python deviceMain.py --device_name sample_iot_thing --root_ca ./certs/root.pem --private ./certs/ccaf1d27c4-private.pem.key --endpoint a2zv4jn2dn9jft-ats.iot.us-west-2.amazonaws.com --cert ./certs/ccaf1d27c4-certificate.pem.crt
+ send back state payload:{&quot;state&quot;: {&quot;reported&quot;: {&quot;wait_time&quot;: 5}}}
 </pre></div>
 </div>
 </div>

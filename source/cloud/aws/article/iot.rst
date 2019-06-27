@@ -122,6 +122,7 @@ AWS IoT Greengrass
 エッジコンピューティングでは主にレイテンシや帯域幅が問題になり、オフライン上での実行が必要になるケースも多いが、以下のような機能をもち、セキュアに実行できる。
 
 [機能]
+
 * クラウドから配布したLambdaをローカルで実行
 * ローカルでメッセジングとLambdaのTrigger
 * データの状態と同期
@@ -181,11 +182,11 @@ Hundson Memo
 
 .. sourcecode:: bash
 
-    kawabataku:~/environment $ sudo pip install AWSIoTPythonSDK
-    Collecting AWSIoTPythonSDK
+   kawabataku:~/environment $ sudo pip install AWSIoTPythonSDK
+   Collecting AWSIoTPythonSDK
       Downloading https://files.pythonhosted.org/packages/01/6f/ee3c174d87c3cd0b9cfa8e7e0599549ea28f495be2559dcc64c6d6485973/AWSIoTPythonSDK-1.4.3.tar.gz (79kB)
         100% |████████████████████████████████| 81kB 3.5MB/s
-    Building wheels for collected packages: AWSIoTPythonSDK
+   Building wheels for collected packages: AWSIoTPythonSDK
       Running setup.py bdist_wheel for AWSIoTPythonSDK ... done
       Stored in directory: /root/.cache/pip/wheels/60/43/ee/3df322dae6a74e27af57d797beb8cf35d2b1391f09073fa189
     Successfully built AWSIoTPythonSDK

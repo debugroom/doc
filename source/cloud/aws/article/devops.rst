@@ -383,7 +383,7 @@ AWS CodeBuildはクラウドでアプリケーションのビルドを行う従�
 ビルドの元になるソースコードはS3に保存したものに加え、AWS CodeCommit、GitHub、BitBucketなどの各Gitベースのバージョン管理システムをサポートする。
 Jenkins Agentでも同様の処理を行えるものの、クラウドでマネージドな環境下で行われるため、大規模開発でのコミットやプルリクエスト後のテスト、ビルド処理をマシンリソースを気にせず実行できることがメリットである。
 
-.. _section8-2-1-codebuild-app-build-label:
+.. _section8-2-2-codebuild-app-build-label:
 
 アプリケーションのビルド
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -489,6 +489,146 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 .. figure:: img/management-console-codebuild-app-build-8.png
    :scale: 100%
 
+|br|
+
+.. _section8-2-2-codebuild-local-label:
+
+CodeBuild Localの利用
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`2018年5月に、CodeBuildをローカル環境で動かすDockerイメージが公開された <https://aws.amazon.com/jp/blogs/devops/announcing-local-build-support-for-aws-codebuild/>`_ 。このサポートにより、Dockerがインストールされたマシンでbuildspec.ymlのデバッグやテストが可能である。
+
+.. _section8-2-2-1-codebuild-local-prepared-label:
+
+事前準備
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+CodeBuild Localを利用するには、事前に以下を実施しておく必要がある。
+
+#. 実際にビルド実行環境コンテナイメージ(DefaultではUbuntu)を作成
+#. 環境コンテナを起動するためのエージェントコンテナイメージをプル
+
+なお、CodeBuild Localを実行する際は2のコンテナイメージをDocker runするかたちになるが、実行スクリプトが提供されているため、このスクリプトに1のコンテナイメージ名やアーティファクトの出力先フォルダ、認証情報など情報を渡して実行することになる。
+
+.. note:: 2のコンテナイメージを作成するためのDockerfileはAWSから公開されていない模様。
+
+1の手順としては、`公式サイト <https://github.com/aws/aws-codebuild-docker-images>`_ の手順に習い、ターミナルなどを使って、適当なディレクトリで、ビルド実行環境のコンテナイメージがあるaws-codebuild-docker-imagesのレポジトリをGit cloneする。
+ビルド用のコンテナ(starndard:2.0)イメージを構築するDockerfileがあるディレクトリへ移動し、docker buildコマンドを実行する。
+
+.. sourcecode:: bash
+
+   $ git clone https://github.com/aws/aws-codebuild-docker-images.git
+   $ cd aws-codebuild-docker-images
+   $ cd ubuntu/standard/2.0
+   $ docker build -t aws/codebuild/standard:2.0 .
+
+続いて、環境コンテナを起動するためのエージェントコンテナイメージをプルする。
+
+.. sourcecode:: bash
+
+   $ docker pull amazon/aws-codebuild-local:latest --disable-content-trust=false
+
+.. _section8-2-2-1-codebuild-local-execution-label:
+
+CodeBuild Localの実行
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
+今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
+なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は :ref:`section8-7-6-2-systems-manager-parameter-store-create-parameter-label` を参照のこと。
+
+.. sourcecode:: bash
+
+   version: 0.2
+   env:
+     parameter-store:
+       SONAR_HOST_URL: "SONAR_HOST_URL"
+       SONAR_LOGIN: "SONAR_LOGIN_COMMON"
+   phases:
+     install:
+       runtime-versions:
+         docker: 18
+     build:
+       commands:
+         - mvn -f common/pom.xml package sonar:sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_LOGIN}
+   artifacts:
+     files:
+       - common/target/mynavi-sample-continuous-integration-common-0.0.1-SNAPSHOT.jar
+
+
+buildspec.ymlおよびcodebuild_build.shはcommonプロジェクト配下にあるが、CodeBuildによってGitHubからクローンされるビルド対象のアプリケーションソースコードのルートディレクトリ(ビルドコマンドを実行するディレクトリ)を起点として、コピーしたcodebuild_build.shにオプションパラメータを与えて実行する。
+
+.. sourcecode:: bash
+
+   $ common/codebuild_build.sh -i aws/codebuild/standard:2.0 -a common/target/ -c -b common/buildspec.yml
+
+なお、上記で実行したスクリプトの各オプションの説明は以下の通り。
+
+.. list-table:: codebuild_build.shのオプション
+   :widths: 2, 8
+
+   * - オプション
+     - 説明
+
+   * - iオプション(必須)
+     - 事前準備で作成したCodeBuildでビルドするコンテナイメージを指定する。
+
+   * - aオプション(必須)
+     - アーティファクトを出力するディレクトリを指定する。
+
+   * - cオプション
+     - AWS認証情報を指定する(デフォルトでは~/.aws/credentialsの認証情報が使用される)
+
+   * - bオプション
+     - buildspec.ymlを指定する。
+
+スクリプトを実行すると、以下の通り、CodeBuildがローカルのDocker環境で実行されるようになる。
+
+.. sourcecode:: bash
+
+   Build Command:
+
+   docker run -it -v /var/run/docker.sock:/var/run/docker.sock -e "IMAGE_NAME=aws/codebuild/standard:2.0" -e "ARTIFACTS=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration/common/target/" -e "SOURCE=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration" -e "BUILDSPEC=/Users/kawabatakouhei/Documents/repos/git/debugroom/mynavi-sample-continuous-integration/common/buildspec.yml" -e "AWS_CONFIGURATION=/Users/kawabatakouhei/.aws" -e "INITIATOR=kawabatakouhei" amazon/aws-codebuild-local:latest
+
+   Removing agent-resources_build_1 ... done
+   Removing agent-resources_agent_1 ... done
+   Removing network agent-resources_default
+   Removing volume agent-resources_source_volume
+   Removing volume agent-resources_user_volume
+   Creating network "agent-resources_default" with the default driver
+   Creating volume "agent-resources_source_volume" with local driver
+   Creating volume "agent-resources_user_volume" with local driver
+   Creating agent-resources_agent_1 ... done
+   Creating agent-resources_build_1 ... done
+   Attaching to agent-resources_agent_1, agent-resources_build_1
+   agent_1  | [Container] 2019/06/27 19:25:01 Waiting for agent ping
+
+   // omit
+
+   agent_1  | [INFO] ------------------------------------------------------------------------
+   agent_1  | [INFO] BUILD SUCCESS
+   agent_1  | [INFO] ------------------------------------------------------------------------
+   agent_1  | [INFO] Total time:  03:09 min
+   agent_1  | [INFO] Finished at: 2019-06-27T19:29:04Z
+   agent_1  | [INFO] ------------------------------------------------------------------------
+   agent_1  |
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase complete: BUILD State: SUCCEEDED
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase context status code:  Message:
+   agent_1  | [Container] 2019/06/27 19:29:04 Entering phase POST_BUILD
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase complete: POST_BUILD State: SUCCEEDED
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase context status code:  Message:
+   agent_1  | [Container] 2019/06/27 19:29:04 Expanding base directory path: .
+   agent_1  | [Container] 2019/06/27 19:29:04 Assembling file list
+   agent_1  | [Container] 2019/06/27 19:29:04 Expanding .
+   agent_1  | [Container] 2019/06/27 19:29:04 Expanding artifact file paths for base directory .
+   agent_1  | [Container] 2019/06/27 19:29:04 Assembling file list
+   agent_1  | [Container] 2019/06/27 19:29:04 Expanding common/target/mynavi-sample-continuous-integration-common-0.0.1-SNAPSHOT.jar
+   agent_1  | [Container] 2019/06/27 19:29:04 Found 1 file(s)
+   agent_1  | [Container] 2019/06/27 19:29:04 Preparing to copy secondary artifacts
+   agent_1  | [Container] 2019/06/27 19:29:04 No secondary artifacts defined in buildspec
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase complete: UPLOAD_ARTIFACTS State: SUCCEEDED
+   agent_1  | [Container] 2019/06/27 19:29:04 Phase context status code:  Message:
+   
 
 .. _section8-3-codepipeline-label:
 
@@ -980,3 +1120,146 @@ OpsWorks
 AWS OpsWorksはChefを利用して、アプリケーションの設定と管理を行う構成管理サービス
 
 .. todo:: OpsWorksについて詳細を記述
+
+.. _section8-7-Systems-Manager-label:
+
+AWS Systems Manager
+------------------------------------------------------
+
+.. _section8-7-1-systems-manager-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AWS Systems Managerは、EC2をはじめとしたサーバリソースの大規模な運用・管理を効率化・自動化するサービスである。
+EC2インスタンスへのパッチ適用やインベントリ(システム構成)情報の収集、OSのアップデートやドライバの更新の実行、AMIの管理などを、リソース単位でまとめ大規模に実行することが可能である。
+また、複数のリソースで共有可能なパラメータストアの作成やブラウザベースでのEC2インスタンスへのアクセスなどシステム管理に関わる複数の機能群で構成される。Systems Managerの主な特徴・機能は以下の通りである。
+
+.. list-table:: Systems Managerの主な特徴・機能
+   :widths: 2, 8
+
+   * - 機能
+     - 概要
+
+   * - Remote Connect
+     - 通常必ず行うセキュリティインバウンド設定やSSHキーなしで、ブラウザやAWS CLIを使ってEC2インスタンスへアクセスする機能
+
+   * - Resource Group
+     - AWSの複数のリソースをグルーピング化できる機能
+
+   * - Insight & Dashboard
+     - リソースごとに収集したソフトウェアインベントリ情報(OSバージョンなどの構成管理情報)やCloudTrail、Trusted Advisorなどのインサイト情報をダッシュボードで俯瞰的に参照する機能
+
+   * - RunningTasks on group resources
+     - リソースグループに対し、オペレーションタスク・スクリプトを自動的に実行する機能
+
+   * - Parameter store
+     - 複数のリソースで共有可能な、認証キーやIDなど秘匿情報やプレインテキストデータを階層的に管理して保存、参照する機能
+
+   * - OS patch management
+     - 複数のリソースまたはリソースグループに対し、パッチ適用などを実行する機能
+
+   * - Meintenance windows
+     - タスク実行をスケジューリング化し実行する機能
+
+   * - Consistent Configuration
+     - ステートマネージャを使用した一貫した設定・メンテナンス機能
+
+.. _section8-7-2-systems-manager-remote-connect-label:
+
+Remote Connect
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: Systems Managerを使ったリモートアクセスのやり方を記載する。
+
+.. _section8-7-3-systems-manager-resource-group-label:
+
+Resource Group
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: Systems Managerを使ったリソースグループ設定のやり方を記載する。
+
+.. _section8-7-4-systems-manager-insight-dashboard-label:
+
+Insight & Dashboard
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: Systems Managerを使ったインサイト情報の参照機能の使い方を記載する。
+
+.. _section8-7-5-systems-manager-runnging-task-label:
+
+Running Tasks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: タスク自動実行機能の使い方を記載する。
+
+.. _section8-7-6-systems-manager-Parameter-store-label:
+
+Paramter Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _section8-7-6-1-systems-manager-parameter-store-overview-label:
+
+Overview
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+パラメータストアはパスワードやデータベース文字列、ライセンスコードなどアプリケーションに直接実装せず環境変数を経由して設定するデータ等を一元的に管理するためのサービスである。
+特に多くのEC2インスタンスやECSタスク上にデプロイされたアプリケーションなどで同一のデータを参照したい場合有効であり、またデータは階層構造をとることができる。
+データ値はプレーンテキストまたはAWS KMSを使用して暗号化データとして使用でき、暗号化や復号化も同時に実行する。パラメータストアの参照はIAMにより細かくアクセス制御が可能であり、
+以下のAWSサービスから利用可能である。
+
+* Amazon EC2
+* Amazon ECS
+* AWS Lambda
+* AWS CloudFormation
+* AWS CodeBuild
+* AWS CodeDeploy
+
+また、暗号化や通知、モニタリング、監査を行うため、以下のサービスと連動して機能する。
+
+* AWS KMS
+* Amazon SNS
+* Amazon CloudWatch
+* AWS CloudTrail
+
+従来のパラメータストアでは、データサイズが4KBまで、スループット上限は規定範囲内だったが、`2019年4月のアップデートでアドバンスドパラメータオプションが導入 <https://aws.amazon.com/jp/about-aws/whats-new/2019/04/aws_systems_manager_parameter_store_introduces_advanced_parameters/>`_ され、
+10000を変えるパラメータの作成、最大8KB、スループットの上限緩和(デフォルト40tpsから最大1000tpsまで)の拡張がなされた。
+ただし、アドバンスドパラメータオプションは有料となるため注意すること。
+
+.. _section8-7-6-2-systems-manager-parameter-store-create-parameter-label:
+
+標準パラメータストアの設定
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+1. AWSコンソール上から、Systems Managerを選択し、「パラメータストア」メニューから「パラメータの作成」ボタンを押下する。
+
+.. figure:: img/management-console-ssm-create-parameter-store-1.png
+   :scale: 100%
+
+2. パラメータ名と値を設定し、「作成」ボタンを押下する。
+
+.. figure:: img/management-console-ssm-create-parameter-store-2.png
+   :scale: 100%
+
+.. note:: ここで設定したパラメータを参照する方法は、 :ref:`section8-2-2-1-codebuild-local-execution-label` を参照のこと。
+
+.. _section8-7-7-systems-manager-os-patch-management-label:
+
+OS patch management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: パッチマネージャーを使ったOSパッチ管理方法を記載する。
+
+.. _section8-7-8-systems-manager-maintenance-windows-label:
+
+Maintenance windows
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: メンテナンスウィンドウを使ったスケジューリングタスクの設定・実行方法を記載する。
+
+.. _section8-7-9-systems-manager-consistent-configuration-label:
+
+Consistent Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo:: ステートマネージャを使った設定・実行方法を記載する。
