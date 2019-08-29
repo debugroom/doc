@@ -8,3 +8,4 @@ Contents:
 
    sphinx/install.rst
    sonarqube/build.rst
+   reveal/install.rst

@@ -522,7 +522,7 @@ CodeBuild Localを利用するには、事前に以下を実施しておく必�
    $ cd ubuntu/standard/2.0
    $ docker build -t aws/codebuild/standard:2.0 .
 
-続いて、環境コンテナを起動するためのエージェントコンテナイメージをプルする。
+続いて、2.環境コンテナを起動するためのエージェントコンテナイメージをプルする。
 
 .. sourcecode:: bash
 
@@ -536,6 +536,8 @@ CodeBuild Localの実行
 Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
 今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
 なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は :ref:`section8-7-6-2-systems-manager-parameter-store-create-parameter-label` を参照のこと。
+
+.. note:: AWS Systems Managerパラメータストアを利用して環境変数を取得する場合、認証情報のユーザに権限を付与しておくこと。
 
 .. sourcecode:: bash
 
@@ -628,7 +630,7 @@ buildspec.ymlおよびcodebuild_build.shはcommonプロジェクト配下にあ�
    agent_1  | [Container] 2019/06/27 19:29:04 No secondary artifacts defined in buildspec
    agent_1  | [Container] 2019/06/27 19:29:04 Phase complete: UPLOAD_ARTIFACTS State: SUCCEEDED
    agent_1  | [Container] 2019/06/27 19:29:04 Phase context status code:  Message:
-   
+
 
 .. _section8-3-codepipeline-label:
 
@@ -681,22 +683,23 @@ CodePipeLineでステージング環境へのリリースを自動化する設�
    #      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
          - echo Logging in to Docker Hub...
          - docker login -u $USER -p $PASSWORD $DOCKER_REPO
-   build:
-     commands:
-       - echo Build started on `date`
-       - echo Building the Docker image...
-       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+     build:
+       commands:
+         - echo Build started on `date`
+         - echo Building the Docker image...
+         - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
    #    - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
-   post_build:
-     commands:
-       - echo Build completed on `date`
-       - echo Pushing the Docker image...
+         - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
+     post_build:
+       commands:
+         - echo Build completed on `date`
+         - echo Pushing the Docker image...
    #      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-          - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
-          - printf '[{"name":"sample-aws-codepipeline","imageUri":"%s"}]' $IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+         - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+         - printf '[{"name":"sample-aws-codepipeline","imageUri":"%s"}]' $IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
    artifacts:
-     files: imagedefinitions.json
+     files:
+       - imagedefinitions.json
 
 .. note:: buildspec.yml内では、コンテナをDockerHubへプッシュした後に、ECSコンテナの構築でコンテナイメージをPullするために必要な「imagedefinitions.json」を出力している。
           タスク定義で指定するコンテナ名とURLをJSON形式で表現したファイルである。

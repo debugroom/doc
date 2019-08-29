@@ -230,9 +230,11 @@ MySQLとPostgreSQLではDBインスタンスの暗号化が、SQLServerとOracle
 <li>フルマネージド</li>
 </ul>
 <p>ストレージの書き込み方式にクォーラムモデルを採用しているため、高可用性を実現している。</p>
-<p>[Auroraが向くユースケース]
-* OLTP向けのスループット最適化(数千TPSといった負荷がかかっても性能が落ちないように最適化)
-* 堅牢性(３つのAZに跨りデータをコピーする必要がある)を求めるデータ</p>
+<p>[Auroraが向くユースケース]</p>
+<ul class="simple">
+<li>OLTP向けのスループット最適化(数千TPSといった負荷がかかっても性能が落ちないように最適化)</li>
+<li>堅牢性(３つのAZに跨りデータをコピーする必要がある)を求めるデータ</li>
+</ul>
 <p>[メモ]</p>
 <ul>
 <li><p class="first">Aurora StorageのIO(Read/Write形式の特徴)</p>
@@ -316,10 +318,41 @@ APIの結果</li>
 * White On Through
 * StoringJson</li>
 </ul>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">各プロダクトの違いを記述する。</p>
-</div>
+<p>以下のような観点で使い分けを行う。</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">ElastiCache(MemcachedとRedis)の共有キャッシュとして違い</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#160;</td>
+<td>Memcached</td>
+<td>Redis</td>
+</tr>
+<tr class="row-even"><td>アクセス</td>
+<td>マルチスレッド</td>
+<td>シングルスレッド</td>
+</tr>
+<tr class="row-odd"><td>データ構造・タイプ</td>
+<td>シンプル</td>
+<td>文字列からリスト・ハッシュ等複雑なデータ型をサポート</td>
+</tr>
+<tr class="row-even"><td>永続性</td>
+<td>なし</td>
+<td>あり</td>
+</tr>
+<tr class="row-odd"><td>マルチAZとフェイルオーバー</td>
+<td>なし</td>
+<td>あり</td>
+</tr>
+<tr class="row-even"><td>その他の特徴</td>
+<td>水平スケール可能</td>
+<td>スケールアウトは更新がマスターノードに集中するため不可(リードレプリカは可) <br /></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="dynamodb">
 <span id="section6-4-dynamodb-label"></span><h2>DynamoDB<a class="headerlink" href="#dynamodb" title="Permalink to this headline">¶</a></h2>

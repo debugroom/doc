@@ -18,5 +18,6 @@ Contents:
    cloud/aws/index.rst
    cloud/docker/index.rst
    cloud/kubernetes/index.rst
+   cloud/swagger/index.rst
    convention/app-infra/index.rst
    memo/work/index.rst

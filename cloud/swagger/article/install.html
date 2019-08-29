@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Swagger Editor、Swgger UIのインストール &mdash; document 0.1-SNAPSHOTS documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> document
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1-SNAPSHOTS
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jpa/index.html">JavaEE JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../aws/index.html">Amazon web service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">document</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Swagger Editor、Swgger UIのインストール</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/cloud/swagger/article/install.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="swagger-editorswgger-ui">
+<span id="section2-swagger-install-label"></span><h1>Swagger Editor、Swgger UIのインストール<a class="headerlink" href="#swagger-editorswgger-ui" title="Permalink to this headline">¶</a></h1>
+<p>Dockerを用いてSwagger EditorおよびUIのインストールを行う。
+なお手順は <a class="reference external" href="https://github.com/swagger-api/swagger-editor">Swagger Editor公式サイト</a> および <a class="reference external" href="https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/installation.md">Swagger UI公式サイト</a> も参照のこと。</p>
+<ol class="arabic simple">
+<li>Dockerがインストールされたマシン上で、SwaggerEditorおよびUIのコンテナイメージをプルする。</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ docker pull swaggerapi/swagger-editor
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ docker pull swaggerapi/swagger-ui
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>プルしたコンテナイメージをそれぞれ起動する。</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ docker run -d -p <span class="m">8081</span>:8080 swaggerapi/swagger-editor
+<span class="o">[</span>centos@ip-XXX-XXX-XXX-XXX ~<span class="o">]</span>$ docker run -d -p <span class="m">8082</span>:8080 swaggerapi/swagger-ui
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><a class="reference external" href="http://localhost:8081/">http://localhost:8081/</a>、<a class="reference external" href="http://localhost">http://localhost</a>:8082にそれぞれアクセスし、ツールが表示されればOK。</li>
+</ol>
+<p><br /></p>
+<div class="figure">
+<a class="reference internal image-reference" href="../../../_images/swagger-editor.png"><img alt="../../../_images/swagger-editor.png" src="../../../_images/swagger-editor.png" style="width: 1528.0px; height: 962.0px;" /></a>
+</div>
+<p><br /></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, org.debugroom.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1-SNAPSHOTS',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

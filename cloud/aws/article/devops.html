@@ -692,7 +692,7 @@ $ <span class="nb">cd</span> ubuntu/standard/2.0
 $ docker build -t aws/codebuild/standard:2.0 .
 </pre></div>
 </div>
-<p>続いて、環境コンテナを起動するためのエージェントコンテナイメージをプルする。</p>
+<p>続いて、2.環境コンテナを起動するためのエージェントコンテナイメージをプルする。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ docker pull amazon/aws-codebuild-local:latest --disable-content-trust<span class="o">=</span><span class="nb">false</span>
 </pre></div>
 </div>
@@ -702,6 +702,10 @@ $ docker build -t aws/codebuild/standard:2.0 .
 <p>Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
 今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
 なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は <a class="reference internal" href="#section8-7-6-2-systems-manager-parameter-store-create-parameter-label"><span class="std std-ref">標準パラメータストアの設定</span></a> を参照のこと。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AWS Systems Managerパラメータストアを利用して環境変数を取得する場合、認証情報のユーザに権限を付与しておくこと。</p>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>version: <span class="m">0</span>.2
 env:
   parameter-store:
@@ -831,22 +835,23 @@ phases:
 #      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - echo Logging in to Docker Hub...
       - docker login -u $USER -p $PASSWORD $DOCKER_REPO
-build:
-  commands:
-    - echo Build started on `date`
-    - echo Building the Docker image...
-    - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
 #    - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-    - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
-post_build:
-  commands:
-    - echo Build completed on `date`
-    - echo Pushing the Docker image...
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
 #      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
-       - printf &#39;[{&quot;name&quot;:&quot;sample-aws-codepipeline&quot;,&quot;imageUri&quot;:&quot;%s&quot;}]&#39; $IMAGE_REPO_NAME:$IMAGE_TAG &gt; imagedefinitions.json
+      - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+      - printf &#39;[{&quot;name&quot;:&quot;sample-aws-codepipeline&quot;,&quot;imageUri&quot;:&quot;%s&quot;}]&#39; $IMAGE_REPO_NAME:$IMAGE_TAG &gt; imagedefinitions.json
 artifacts:
-  files: imagedefinitions.json
+  files:
+    - imagedefinitions.json
 </pre></div>
 </div>
 <div class="admonition note">
