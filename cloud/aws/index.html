@@ -108,6 +108,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -184,6 +185,7 @@
 <li class="toctree-l2"><a class="reference internal" href="article/overview.html#service">Service</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/overview.html#management-console">Management console</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/overview.html#amazon-resource-name-arn">Amazon Resource Name(ARN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/overview.html#section1-5-todo-aws-first-label">アカウントを作ってやるべきこと</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="article/network.html">Network Category</a><ul>
@@ -343,18 +345,7 @@
 <li class="toctree-l2"><a class="reference internal" href="article/devops.html#cloudformation">CloudFormation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/devops.html#elastic-beanstalk">Elastic Beanstalk</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/devops.html#opsworks">OpsWorks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="article/devops.html#aws-systems-manager">AWS Systems Manager</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#section8-7-1-systems-manager-overview-label">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#remote-connect">Remote Connect</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#resource-group">Resource Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#insight-dashboard">Insight &amp; Dashboard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#running-tasks">Running Tasks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#paramter-store">Paramter Store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#os-patch-management">OS patch management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#maintenance-windows">Maintenance windows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="article/devops.html#consistent-configuration">Consistent Configuration</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="article/devops.html#aws-cdk-aws-cloud-development-kit">AWS CDK(AWS Cloud Development Kit)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="article/iot.html">AWS IoT</a><ul>
@@ -372,11 +363,41 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="article/management.html">Management Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="article/management.html#cloudwatch">CloudWatch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="article/management.html#cloudtrail">CloudTrail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#cloudwatch">CloudWatch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#cloudwatch-eventsns">CloudWatch EventとSNSを用いたアラートの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#cloudwatch-eventlambda">CloudWatch EventとLambdaの実行</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#cloudtrail">CloudTrail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#section9-2-1-cloud-trail-overview-label">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#cloudtrailcloudwatchlogs">CloudTrailとCloudWatchLogsの統合</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="article/management.html#cloudconfig">CloudConfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/management.html#section9-7-cost-report-label">請求レポート</a></li>
 <li class="toctree-l2"><a class="reference internal" href="article/management.html#trusted-advisor">Trusted Advisor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#aws-systems-manager">AWS Systems Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#section9-9-1-systems-manager-overview-label">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#remote-connect">Remote Connect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#resource-group">Resource Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#insight-dashboard">Insight &amp; Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#running-tasks">Running Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#paramter-store">Paramter Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#os-patch-management">OS patch management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#maintenance-windows">Maintenance windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#consistent-configuration">Consistent Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#landing-zone">Landing Zone</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#section9-10-1-landingzone-overview-label">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#controltower">ControlTower</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="article/management.html#section9-11-1-controltower-overview-label">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="article/management.html#awsmemo">AWS運用Memo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="article/appendix.html">Appendix - 付録</a><ul>

@@ -123,18 +123,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#cloudformation">CloudFormation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#elastic-beanstalk">Elastic Beanstalk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#opsworks">OpsWorks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#aws-systems-manager">AWS Systems Manager</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#section8-7-1-systems-manager-overview-label">Overview</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#remote-connect">Remote Connect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#resource-group">Resource Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#insight-dashboard">Insight &amp; Dashboard</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#running-tasks">Running Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#paramter-store">Paramter Store</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#os-patch-management">OS patch management</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#maintenance-windows">Maintenance windows</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#consistent-configuration">Consistent Configuration</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-cdk-aws-cloud-development-kit">AWS CDK(AWS Cloud Development Kit)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
@@ -144,6 +133,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -234,7 +224,7 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 </ol>
 <p>EC2コンソールメニューから、「ボリューム」を選択し、スナップショットを作成する対象のストレージを選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-1.png"><img alt="../../../_images/management-console-operation-snapshot-1.png" src="../../../_images/management-console-operation-snapshot-1.png" style="width: 1385.0px; height: 813.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-1.png" src="../../../_images/management-console-operation-snapshot-1.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -245,25 +235,25 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 </ol>
 <p>VolumeIDを右クリックし、「Create Snapshot」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-2.png"><img alt="../../../_images/management-console-operation-snapshot-2.png" src="../../../_images/management-console-operation-snapshot-2.png" style="width: 1004.0px; height: 515.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-2.png" src="../../../_images/management-console-operation-snapshot-2.png" />
 </div>
 <p>名称を入力する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-3.png"><img alt="../../../_images/management-console-operation-snapshot-3.png" src="../../../_images/management-console-operation-snapshot-3.png" style="width: 617.0px; height: 273.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-3.png" src="../../../_images/management-console-operation-snapshot-3.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-4.png"><img alt="../../../_images/management-console-operation-snapshot-4.png" src="../../../_images/management-console-operation-snapshot-4.png" style="width: 1386.0px; height: 828.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-4.png" src="../../../_images/management-console-operation-snapshot-4.png" />
 </div>
 <ol class="arabic simple" start="3">
 <li>EBSボリュームを作成する。</li>
 </ol>
 <p>作成したスナップショットを右クリックし、「Create Volume」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-5.png"><img alt="../../../_images/management-console-operation-snapshot-5.png" src="../../../_images/management-console-operation-snapshot-5.png" style="width: 1382.0px; height: 815.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-5.png" src="../../../_images/management-console-operation-snapshot-5.png" />
 </div>
 <p>「ディスクの種類」、「ディスクの容量」、「アベイラビリティゾーンを選択する。」</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-6.png"><img alt="../../../_images/management-console-operation-snapshot-6.png" src="../../../_images/management-console-operation-snapshot-6.png" style="width: 1291.0px; height: 720.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-6.png" src="../../../_images/management-console-operation-snapshot-6.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -271,7 +261,7 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 </div>
 <p>実行すると、ボリュームにEBSがステータスavailabilityで作成される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-snapshot-7.png"><img alt="../../../_images/management-console-operation-snapshot-7.png" src="../../../_images/management-console-operation-snapshot-7.png" style="width: 1217.0px; height: 340.0px;" /></a>
+<img alt="../../../_images/management-console-operation-snapshot-7.png" src="../../../_images/management-console-operation-snapshot-7.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -294,11 +284,11 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 </ol>
 <p>スナップショットを右クリック「イメージの作成」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-1.png"><img alt="../../../_images/management-console-operation-stamp-1.png" src="../../../_images/management-console-operation-stamp-1.png" style="width: 1380.0px; height: 818.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-1.png" src="../../../_images/management-console-operation-stamp-1.png" />
 </div>
 <p>AMIの名称、説明、仮想マシンの種別を入力する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-2.png"><img alt="../../../_images/management-console-operation-stamp-2.png" src="../../../_images/management-console-operation-stamp-2.png" style="width: 1381.0px; height: 466.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-2.png" src="../../../_images/management-console-operation-stamp-2.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -306,7 +296,7 @@ EC2インスタンスにマウントするか、AMIイメージを作成し、�
 </div>
 <p>実行すると、AMIにイメージがステータスavailabilityで作成される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-3.png"><img alt="../../../_images/management-console-operation-stamp-3.png" src="../../../_images/management-console-operation-stamp-3.png" style="width: 1380.0px; height: 582.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-3.png" src="../../../_images/management-console-operation-stamp-3.png" />
 </div>
 </div>
 </div>
@@ -329,15 +319,15 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 </div>
 <p>メニュー「インスタンス」から、右クリック「イメージの作成」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-4.png"><img alt="../../../_images/management-console-operation-stamp-4.png" src="../../../_images/management-console-operation-stamp-4.png" style="width: 891.0px; height: 536.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-4.png" src="../../../_images/management-console-operation-stamp-4.png" />
 </div>
 <p>「 <a class="reference internal" href="#section8-1-1-2-operation-create-ami-label"><span class="std std-ref">EBSスナップショットからAMIの作成手順</span></a> 」と同様、AMIの名称、説明、仮想マシンの種別を入力する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-5.png"><img alt="../../../_images/management-console-operation-stamp-5.png" src="../../../_images/management-console-operation-stamp-5.png" style="width: 1005.0px; height: 612.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-5.png" src="../../../_images/management-console-operation-stamp-5.png" />
 </div>
 <p>実行すると、AMIにイメージがステータスavailabilityで作成される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-6.png"><img alt="../../../_images/management-console-operation-stamp-6.png" src="../../../_images/management-console-operation-stamp-6.png" style="width: 1199.0px; height: 512.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-6.png" src="../../../_images/management-console-operation-stamp-6.png" />
 </div>
 </div>
 <div class="section" id="amiec2">
@@ -348,7 +338,7 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 </ol>
 <p>メニュー「AMI」でイメージを選択し、右クリック「作成」を行う。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-stamp-7.png"><img alt="../../../_images/management-console-operation-stamp-7.png" src="../../../_images/management-console-operation-stamp-7.png" style="width: 922.0px; height: 421.0px;" /></a>
+<img alt="../../../_images/management-console-operation-stamp-7.png" src="../../../_images/management-console-operation-stamp-7.png" />
 </div>
 <p>「 <a class="reference internal" href="computing.html#section3-1-2-x-ec2-create-instance-label"><span class="std std-ref">インスタンスの作成</span></a> 」と同様に、EC2インスタンスを起動する。</p>
 <div class="admonition-todo admonition" id="index-0">
@@ -388,14 +378,14 @@ tmpfs           <span class="m">1</span>.5G     <span class="m">0</span>  <span 
 <span id="id5"></span><h4>EC2ボリュームサイズの拡張<a class="headerlink" href="#section8-1-4-2-application-extend-volume-label" title="Permalink to this headline">¶</a></h4>
 <p>■EC2コンソールメニューからボリュームを選び、拡張したいインスタンスのボリュームを選択する。アクションメニューから、「ボリュームの変更」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-1.png"><img alt="../../../_images/management-console-ec2-modify-volume-1.png" src="../../../_images/management-console-ec2-modify-volume-1.png" style="width: 1858.0px; height: 843.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-modify-volume-1.png" src="../../../_images/management-console-ec2-modify-volume-1.png" />
 </div>
 <p>■ボリュームサイズを変更し、「変更」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-2.png"><img alt="../../../_images/management-console-ec2-modify-volume-2.png" src="../../../_images/management-console-ec2-modify-volume-2.png" style="width: 692.0px; height: 407.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-modify-volume-2.png" src="../../../_images/management-console-ec2-modify-volume-2.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-modify-volume-3.png"><img alt="../../../_images/management-console-ec2-modify-volume-3.png" src="../../../_images/management-console-ec2-modify-volume-3.png" style="width: 693.0px; height: 324.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-modify-volume-3.png" src="../../../_images/management-console-ec2-modify-volume-3.png" />
 </div>
 <p>■EC2インスタンスにSSHでログインし、拡張したボリュームサイズにルートデバイスのパーティションを拡張させる。最初に、現状のディスクの状況を確認する。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ルートデバイスのパーティションサイズを確認。</span>
@@ -528,13 +518,13 @@ loop1                          <span class="m">7</span>:1    <span class="m">0</
 </ol>
 <p>コンソールのメニュー「ターゲットグループ」にて、ターゲットタブから編集ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-app-update-1.png"><img alt="../../../_images/management-console-operation-app-update-1.png" src="../../../_images/management-console-operation-app-update-1.png" style="width: 1211.0px; height: 810.0px;" /></a>
+<img alt="../../../_images/management-console-operation-app-update-1.png" src="../../../_images/management-console-operation-app-update-1.png" />
 </div>
 <ol class="arabic simple" start="2">
 <li>アップデート対象のアプリケーションインスタンスを選択し、削除ボタンを押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-operation-app-update-2.png"><img alt="../../../_images/management-console-operation-app-update-2.png" src="../../../_images/management-console-operation-app-update-2.png" style="width: 1659.0px; height: 684.0px;" /></a>
+<img alt="../../../_images/management-console-operation-app-update-2.png" src="../../../_images/management-console-operation-app-update-2.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -557,13 +547,13 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 <li>サービスメニューから「CodeBuild」を選択し、「今すぐ始める」ボタンを押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-1.png"><img alt="../../../_images/management-console-codebuild-app-build-1.png" src="../../../_images/management-console-codebuild-app-build-1.png" style="width: 1287.0px; height: 719.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-1.png" src="../../../_images/management-console-codebuild-app-build-1.png" />
 </div>
 <ol class="arabic simple" start="2">
 <li>ビルドプロジェクトの設定を行う。ここでは、<a class="reference external" href="https://github.com/debugroom/sample-aws-codebuild">GitHub上にコミットしたSpringBootベースのアプリケーション</a> をビルドするため、以下の通り設定する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-2.png"><img alt="../../../_images/management-console-codebuild-app-build-2.png" src="../../../_images/management-console-codebuild-app-build-2.png" style="width: 729.0px; height: 771.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-2.png" src="../../../_images/management-console-codebuild-app-build-2.png" />
 </div>
 <p>[プロジェクトの設定]</p>
 <ul class="simple">
@@ -587,7 +577,7 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 <p class="last">ビルドバッジはビルドステータスを個別定義・明示化するオプションである。詳しくは <a class="reference external" href="https://docs.aws.amazon.com/ja_jp/codebuild/latest/userguide/sample-build-badges.html">リファレンス</a> を参照のこと。</p>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-3.png"><img alt="../../../_images/management-console-codebuild-app-build-3.png" src="../../../_images/management-console-codebuild-app-build-3.png" style="width: 737.0px; height: 648.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-3.png" src="../../../_images/management-console-codebuild-app-build-3.png" />
 </div>
 <p>[環境：ビルド方法]</p>
 <ul class="simple">
@@ -620,7 +610,7 @@ artifacts:
 </div>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-4.png"><img alt="../../../_images/management-console-codebuild-app-build-4.png" src="../../../_images/management-console-codebuild-app-build-4.png" style="width: 730.0px; height: 722.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-4.png" src="../../../_images/management-console-codebuild-app-build-4.png" />
 </div>
 <p>[アーティファクト：このビルドプロジェクトからアーティファクトを配置する場所]</p>
 <ul class="simple">
@@ -650,22 +640,22 @@ artifacts:
 <li>設定内容を確認し、「保存してビルド」ボタンを押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-5.png"><img alt="../../../_images/management-console-codebuild-app-build-5.png" src="../../../_images/management-console-codebuild-app-build-5.png" style="width: 713.0px; height: 821.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-5.png" src="../../../_images/management-console-codebuild-app-build-5.png" />
 </div>
 <ol class="arabic simple" start="4">
 <li>ビルドの開始ボタンを押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-6.png"><img alt="../../../_images/management-console-codebuild-app-build-6.png" src="../../../_images/management-console-codebuild-app-build-6.png" style="width: 828.0px; height: 718.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-6.png" src="../../../_images/management-console-codebuild-app-build-6.png" />
 </div>
 <ol class="arabic simple" start="5">
 <li>ビルド結果を確認する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-7.png"><img alt="../../../_images/management-console-codebuild-app-build-7.png" src="../../../_images/management-console-codebuild-app-build-7.png" style="width: 830.0px; height: 412.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-7.png" src="../../../_images/management-console-codebuild-app-build-7.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codebuild-app-build-8.png"><img alt="../../../_images/management-console-codebuild-app-build-8.png" src="../../../_images/management-console-codebuild-app-build-8.png" style="width: 829.0px; height: 722.0px;" /></a>
+<img alt="../../../_images/management-console-codebuild-app-build-8.png" src="../../../_images/management-console-codebuild-app-build-8.png" />
 </div>
 <p><br /></p>
 </div>
@@ -701,7 +691,7 @@ $ docker build -t aws/codebuild/standard:2.0 .
 <span id="id13"></span><h4>CodeBuild Localの実行<a class="headerlink" href="#section8-2-2-1-codebuild-local-execution-label" title="Permalink to this headline">¶</a></h4>
 <p>Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
 今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
-なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は <a class="reference internal" href="#section8-7-6-2-systems-manager-parameter-store-create-parameter-label"><span class="std std-ref">標準パラメータストアの設定</span></a> を参照のこと。</p>
+なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は <a class="reference internal" href="management.html#section9-9-6-2-systems-manager-parameter-store-create-parameter-label"><span class="std std-ref">標準パラメータストアの設定</span></a> を参照のこと。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">AWS Systems Managerパラメータストアを利用して環境変数を取得する場合、認証情報のユーザに権限を付与しておくこと。</p>
@@ -728,8 +718,8 @@ artifacts:
 </pre></div>
 </div>
 <p>なお、上記で実行したスクリプトの各オプションの説明は以下の通り。</p>
-<table border="1" class="colwidths-given docutils" id="id23">
-<caption><span class="caption-text">codebuild_build.shのオプション</span><a class="headerlink" href="#id23" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id19">
+<caption><span class="caption-text">codebuild_build.shのオプション</span><a class="headerlink" href="#id19" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -908,7 +898,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p>「 <a class="reference internal" href="computing.html#section3-2-ecs-label"><span class="std std-ref">Elastic Container Service</span></a> 」で構築したECSクラスタ、ロードバランサを利用する。ECSタスク定義・サービス定義は、アプリケーションを一度CodePipelineでビルド設定した後に行うため、ECSクラスタ・ロードバランサはそのまま利用し、アプリケーションの振り分け先であるターゲットグループのみ新規作成しておく。</p>
 <p>EC2のサービスメニュー &gt; ターゲットグループを選択し、「ターゲットグループの作成」を押下して、以下のように入力してターゲットグループを作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png"><img alt="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" src="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" style="width: 921.0px; height: 504.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" src="../../../_images/management-console-ec2-create-target-group-for-codepipeline-1.png" />
 </div>
 <ul class="simple">
 <li>ターゲットグループ名：任意</li>
@@ -927,15 +917,15 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p>作成したアプリケーションのURLのパスが来た場合に、上記で作成したターゲットグループへ振り分けられるよう設定を行う。</p>
 <p>EC2サービスメニュー &gt; ロードバランサーを選択し、指定するロードバランサーを選んで、リスナータブで「ルールの表示/編集」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" style="width: 771.0px; height: 236.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png" />
 </div>
 <p>プラスボタンを押下してルールを追加する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" style="width: 940.0px; height: 413.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png" />
 </div>
 <p>作成したアプリケーションのパスルールに一致したら、上記で作成したターゲットグループに向くよう設定しておく。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png"><img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" style="width: 939.0px; height: 394.0px;" /></a>
+<img alt="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" src="../../../_images/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png" />
 </div>
 </div>
 <div class="section" id="section8-3-2-2-codepipeline-staging-release-setting-label">
@@ -944,15 +934,15 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 まずCodePipeLineでGitHubからソースコードコミットし、Dockerコンテナでテスト・ビルド後、DockerHubへプッシュするところまでを設定し、起動する。</p>
 <p>■サービス「CodePipeline」を選択し、「今すぐ始める」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-1.png"><img alt="../../../_images/management-console-codepipeline-1.png" src="../../../_images/management-console-codepipeline-1.png" style="width: 1113.0px; height: 777.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-1.png" src="../../../_images/management-console-codepipeline-1.png" />
 </div>
 <p>■パイプライン名を任意に設定し、「次のステップへ」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-2.png"><img alt="../../../_images/management-console-codepipeline-2.png" src="../../../_images/management-console-codepipeline-2.png" style="width: 539.0px; height: 220.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-2.png" src="../../../_images/management-console-codepipeline-2.png" />
 </div>
 <p>■ソースプロバイダをGitHubに設定し、GitHubに接続した後、レポジトリ及びブランチを指定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-3.png"><img alt="../../../_images/management-console-codepipeline-3.png" src="../../../_images/management-console-codepipeline-3.png" style="width: 564.0px; height: 803.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-3.png" src="../../../_images/management-console-codepipeline-3.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -960,7 +950,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 <p>■ビルドプロバイダに「AWS CodeBuild」を選択し、以下の通り、設定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-4.png"><img alt="../../../_images/management-console-codepipeline-4.png" src="../../../_images/management-console-codepipeline-4.png" style="width: 567.0px; height: 787.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-4.png" src="../../../_images/management-console-codepipeline-4.png" />
 </div>
 <p>[プロジェクトの設定]</p>
 <ul class="simple">
@@ -980,7 +970,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p class="last">ここで指定しているDocker環境はECSコンテナをビルドするための設定のため、Ubuntuを使用する設定で問題ない。</p>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-5.png"><img alt="../../../_images/management-console-codepipeline-5.png" src="../../../_images/management-console-codepipeline-5.png" style="width: 565.0px; height: 388.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-5.png" src="../../../_images/management-console-codepipeline-5.png" />
 </div>
 <p>[キャッシュ]</p>
 <ul class="simple">
@@ -996,7 +986,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <li>VPC ID：非VPC</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-6.png"><img alt="../../../_images/management-console-codepipeline-6.png" src="../../../_images/management-console-codepipeline-6.png" style="width: 556.0px; height: 782.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-6.png" src="../../../_images/management-console-codepipeline-6.png" />
 </div>
 <p>[アドバンスト]</p>
 <ul class="simple">
@@ -1021,26 +1011,26 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 <p>■デプロイプロバイダには「デプロイなし」を指定し、「次のステップ」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-7.png"><img alt="../../../_images/management-console-codepipeline-7.png" src="../../../_images/management-console-codepipeline-7.png" style="width: 552.0px; height: 316.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-7.png" src="../../../_images/management-console-codepipeline-7.png" />
 </div>
 <p>■任意のロール名を入力し、「ロールの作成」ボタンを押下して、サービスロールを作成し、「次のステップ」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-8.png"><img alt="../../../_images/management-console-codepipeline-8.png" src="../../../_images/management-console-codepipeline-8.png" style="width: 606.0px; height: 261.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-8.png" src="../../../_images/management-console-codepipeline-8.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>適切な権限を持つロールを設定しないとエラーになるので注意</p>
 <div class="last figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-9.png"><img alt="../../../_images/management-console-codepipeline-9.png" src="../../../_images/management-console-codepipeline-9.png" style="width: 549.0px; height: 272.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-9.png" src="../../../_images/management-console-codepipeline-9.png" />
 </div>
 </div>
 <p>■設定内容を確認し、「パイプラインの作成」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-10.png"><img alt="../../../_images/management-console-codepipeline-10.png" src="../../../_images/management-console-codepipeline-10.png" style="width: 554.0px; height: 771.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-10.png" src="../../../_images/management-console-codepipeline-10.png" />
 </div>
 <p>■ソースコードがチェックアウトされ、コンテナのビルドが実行される。正常終了すると、DockerHubにコンテナイメージがプッシュされる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-11.png"><img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" style="width: 919.0px; height: 627.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" />
 </div>
 </div>
 <div class="section" id="section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label">
@@ -1048,15 +1038,15 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p>プッシュしたコンテナイメージの設定情報からECSのタスク定義を行う。CodepipeLineが実行されるたび、ECSタスクのリビジョンがアップデートされる形となる。</p>
 <p>■ECSサービスメニューから、タスク定義を選択し、「新しいタスク定義の作成」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" style="width: 932.0px; height: 389.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-1.png" />
 </div>
 <p>■起動モードはEC2を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" style="width: 603.0px; height: 635.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-2.png" />
 </div>
 <p>■タスクとコンテナの定義について以下の通り、設定を行う。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" style="width: 667.0px; height: 471.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-3.png" />
 </div>
 <p>[タスクとコンテナの定義の設定]</p>
 <ul class="simple">
@@ -1065,7 +1055,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <li>ネットワークモード：デフォルト</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" style="width: 672.0px; height: 512.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-4.png" />
 </div>
 <p>[タスクの実行のIAMロール]</p>
 <ul class="simple">
@@ -1082,7 +1072,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 <p>■ コンテナ定義を以下の通り設定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" style="width: 760.0px; height: 524.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-5.png" />
 </div>
 <p>[スタンダード]</p>
 <ul class="simple">
@@ -1100,21 +1090,21 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p class="last">コンテナ名は <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> のbuildspec.ymlで指定した、imagedefinitions.jsonのname属性の値と同じにしておく必要がある。</p>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" style="width: 601.0px; height: 750.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-6.png" />
 </div>
 <p>[詳細コンテナの設定]</p>
 <ul class="simple">
 <li>特にここでは設定しない</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" style="width: 589.0px; height: 545.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-7.png" />
 </div>
 <p>[ネットワークの設定]</p>
 <ul class="simple">
 <li>特にここでは設定しない</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" style="width: 586.0px; height: 764.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-8.png" />
 </div>
 <p>[ストレージとログ]</p>
 <ul class="simple">
@@ -1125,7 +1115,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <li>特にここでは設定しない</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" style="width: 586.0px; height: 326.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-9.png" />
 </div>
 <p>[リソースの制限]</p>
 <ul class="simple">
@@ -1137,7 +1127,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </ul>
 <p>■制約等は特に設定せず、「作成」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png"><img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" style="width: 679.0px; height: 484.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" src="../../../_images/management-console-ecs-create-task-for-codepipeline-10.png" />
 </div>
 </div>
 <div class="section" id="section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label">
@@ -1145,15 +1135,15 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p>前章  <a class="reference internal" href="#section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label"><span class="std std-ref">ECSタスク定義</span></a> を元にECSサービスを設定し、ECSコンテナを起動させておく。CodePipeLineが実行されると最新のリビジョンにアップデートされたコンテナイメージがローリングアップデートされることになる。</p>
 <p>■ECSサービスメニューから「クラスター」を選び、作成してあるECSクラスタ「sample-cluster」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" style="width: 694.0px; height: 571.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-1.png" />
 </div>
 <p>■サービスタブから、「作成」ボタンを押下し、サービスを新規作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" style="width: 744.0px; height: 545.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-2.png" />
 </div>
 <p>■以下の通り、サービスの新規設定を行う。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" style="width: 634.0px; height: 875.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-3.png" />
 </div>
 <p>[サービスの設定]</p>
 <ul class="simple">
@@ -1175,7 +1165,7 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p class="last">設定オプションについては、<a class="reference internal" href="computing.html#section3-2-5-ecs-create-service-label"><span class="std std-ref">EC2起動型-サービスの定義</span></a>　も参照のこと。</p>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" style="width: 634.0px; height: 802.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-4.png" />
 </div>
 <p>[ヘルスチェックの猶予期間]</p>
 <ul class="simple">
@@ -1193,15 +1183,15 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </ul>
 <p>■ <a class="reference internal" href="#section8-3-2-1-codepipeline-staging-release-prepared-label"><span class="std std-ref">事前準備</span></a> で作成したロードバランサを指定し、「次のステップ」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" style="width: 630.0px; height: 651.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-5.png" />
 </div>
 <p>■ AutoScalingオプションは、「サービスの必要数を直接調整しない」を設定し、「次のステップ」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" style="width: 627.0px; height: 304.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-6.png" />
 </div>
 <p>■設定値を確認し、「サービスの作成」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png"><img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" style="width: 632.0px; height: 841.0px;" /></a>
+<img alt="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" src="../../../_images/management-console-ecs-create-service-for-codepipeline-7.png" />
 </div>
 </div>
 <div class="section" id="codepipeline-ecs">
@@ -1209,11 +1199,11 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <p>作成したECSタスク定義・サービス定義の内容に従い、ステージング環境へECSコンテナをデプロイする設定を行う。</p>
 <p>■  <a class="reference internal" href="#section8-3-2-2-codepipeline-staging-release-setting-label"><span class="std std-ref">CodePipeLineの設定(ソース・ビルド)</span></a> で作成したCodePipeline定義を開き、「編集」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-11.png"><img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" style="width: 919.0px; height: 627.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-11.png" src="../../../_images/management-console-codepipeline-11.png" />
 </div>
 <p>■ ビルドの後にステージングデプロイ用のアクションを追加し、「アクションの追加」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-codepipeline-12.png"><img alt="../../../_images/management-console-codepipeline-12.png" src="../../../_images/management-console-codepipeline-12.png" style="width: 1034.0px; height: 843.0px;" /></a>
+<img alt="../../../_images/management-console-codepipeline-12.png" src="../../../_images/management-console-codepipeline-12.png" />
 </div>
 <p>詳細なオプションは、以下の設定通り行う。</p>
 <ul class="simple">
@@ -1236,16 +1226,24 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 </div>
 <div class="section" id="cloudformation">
 <span id="section8-4-cloud-formation-label"></span><h2>CloudFormation<a class="headerlink" href="#cloudformation" title="Permalink to this headline">¶</a></h2>
-<p>CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。</p>
-<div class="admonition-todo admonition" id="index-2">
-<p class="first admonition-title">Todo</p>
-<p class="last">CloudFormationのテンプレート記述要領について記述。</p>
+<p>CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
+CloudFormationは以下のフォーマットで記述される。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>AWSTemplateFormatVersion: <span class="s2">&quot;version date&quot;</span>
+Description: String
+Metadata: template metadata
+Parameters: <span class="nb">set</span> of parameters
+Mappings: <span class="nb">set</span> of mappings
+Conditions: <span class="nb">set</span> of conditions
+Transform: <span class="nb">set</span> of transforms
+Resources: <span class="nb">set</span> of resources
+Outputs: <span class="nb">set</span> of outputs
+</pre></div>
 </div>
 </div>
 <div class="section" id="elastic-beanstalk">
 <span id="section8-5-elastic-beanstalk-label"></span><h2>Elastic Beanstalk<a class="headerlink" href="#elastic-beanstalk" title="Permalink to this headline">¶</a></h2>
 <p>Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。</p>
-<div class="admonition-todo admonition" id="index-3">
+<div class="admonition-todo admonition" id="index-2">
 <p class="first admonition-title">Todo</p>
 <p class="last">Elastic Beanstalkについて詳述。</p>
 </div>
@@ -1253,150 +1251,17 @@ CMD java -jar -Dspring.profiles.active=production /var/local/sample-aws-codepipe
 <div class="section" id="opsworks">
 <span id="section8-6-elastic-beanstalk-label"></span><h2>OpsWorks<a class="headerlink" href="#opsworks" title="Permalink to this headline">¶</a></h2>
 <p>AWS OpsWorksはChefを利用して、アプリケーションの設定と管理を行う構成管理サービス</p>
-<div class="admonition-todo admonition" id="index-4">
+<div class="admonition-todo admonition" id="index-3">
 <p class="first admonition-title">Todo</p>
 <p class="last">OpsWorksについて詳細を記述</p>
 </div>
 </div>
-<div class="section" id="aws-systems-manager">
-<span id="section8-7-systems-manager-label"></span><h2>AWS Systems Manager<a class="headerlink" href="#aws-systems-manager" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="section8-7-1-systems-manager-overview-label">
-<span id="id19"></span><h3>Overview<a class="headerlink" href="#section8-7-1-systems-manager-overview-label" title="Permalink to this headline">¶</a></h3>
-<p>AWS Systems Managerは、EC2をはじめとしたサーバリソースの大規模な運用・管理を効率化・自動化するサービスである。
-EC2インスタンスへのパッチ適用やインベントリ(システム構成)情報の収集、OSのアップデートやドライバの更新の実行、AMIの管理などを、リソース単位でまとめ大規模に実行することが可能である。
-また、複数のリソースで共有可能なパラメータストアの作成やブラウザベースでのEC2インスタンスへのアクセスなどシステム管理に関わる複数の機能群で構成される。Systems Managerの主な特徴・機能は以下の通りである。</p>
-<table border="1" class="colwidths-given docutils" id="id24">
-<caption><span class="caption-text">Systems Managerの主な特徴・機能</span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>機能</td>
-<td>概要</td>
-</tr>
-<tr class="row-even"><td>Remote Connect</td>
-<td>通常必ず行うセキュリティインバウンド設定やSSHキーなしで、ブラウザやAWS CLIを使ってEC2インスタンスへアクセスする機能</td>
-</tr>
-<tr class="row-odd"><td>Resource Group</td>
-<td>AWSの複数のリソースをグルーピング化できる機能</td>
-</tr>
-<tr class="row-even"><td>Insight &amp; Dashboard</td>
-<td>リソースごとに収集したソフトウェアインベントリ情報(OSバージョンなどの構成管理情報)やCloudTrail、Trusted Advisorなどのインサイト情報をダッシュボードで俯瞰的に参照する機能</td>
-</tr>
-<tr class="row-odd"><td>RunningTasks on group resources</td>
-<td>リソースグループに対し、オペレーションタスク・スクリプトを自動的に実行する機能</td>
-</tr>
-<tr class="row-even"><td>Parameter store</td>
-<td>複数のリソースで共有可能な、認証キーやIDなど秘匿情報やプレインテキストデータを階層的に管理して保存、参照する機能</td>
-</tr>
-<tr class="row-odd"><td>OS patch management</td>
-<td>複数のリソースまたはリソースグループに対し、パッチ適用などを実行する機能</td>
-</tr>
-<tr class="row-even"><td>Meintenance windows</td>
-<td>タスク実行をスケジューリング化し実行する機能</td>
-</tr>
-<tr class="row-odd"><td>Consistent Configuration</td>
-<td>ステートマネージャを使用した一貫した設定・メンテナンス機能</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="remote-connect">
-<span id="section8-7-2-systems-manager-remote-connect-label"></span><h3>Remote Connect<a class="headerlink" href="#remote-connect" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-5">
-<p class="first admonition-title">Todo</p>
-<p class="last">Systems Managerを使ったリモートアクセスのやり方を記載する。</p>
-</div>
-</div>
-<div class="section" id="resource-group">
-<span id="section8-7-3-systems-manager-resource-group-label"></span><h3>Resource Group<a class="headerlink" href="#resource-group" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-6">
-<p class="first admonition-title">Todo</p>
-<p class="last">Systems Managerを使ったリソースグループ設定のやり方を記載する。</p>
-</div>
-</div>
-<div class="section" id="insight-dashboard">
-<span id="section8-7-4-systems-manager-insight-dashboard-label"></span><h3>Insight &amp; Dashboard<a class="headerlink" href="#insight-dashboard" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-7">
-<p class="first admonition-title">Todo</p>
-<p class="last">Systems Managerを使ったインサイト情報の参照機能の使い方を記載する。</p>
-</div>
-</div>
-<div class="section" id="running-tasks">
-<span id="section8-7-5-systems-manager-runnging-task-label"></span><h3>Running Tasks<a class="headerlink" href="#running-tasks" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-8">
-<p class="first admonition-title">Todo</p>
-<p class="last">タスク自動実行機能の使い方を記載する。</p>
-</div>
-</div>
-<div class="section" id="paramter-store">
-<span id="section8-7-6-systems-manager-parameter-store-label"></span><h3>Paramter Store<a class="headerlink" href="#paramter-store" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="section8-7-6-1-systems-manager-parameter-store-overview-label">
-<span id="id20"></span><h4>Overview<a class="headerlink" href="#section8-7-6-1-systems-manager-parameter-store-overview-label" title="Permalink to this headline">¶</a></h4>
-<p>パラメータストアはパスワードやデータベース文字列、ライセンスコードなどアプリケーションに直接実装せず環境変数を経由して設定するデータ等を一元的に管理するためのサービスである。
-特に多くのEC2インスタンスやECSタスク上にデプロイされたアプリケーションなどで同一のデータを参照したい場合有効であり、またデータは階層構造をとることができる。
-データ値はプレーンテキストまたはAWS KMSを使用して暗号化データとして使用でき、暗号化や復号化も同時に実行する。パラメータストアの参照はIAMにより細かくアクセス制御が可能であり、
-以下のAWSサービスから利用可能である。</p>
-<ul class="simple">
-<li>Amazon EC2</li>
-<li>Amazon ECS</li>
-<li>AWS Lambda</li>
-<li>AWS CloudFormation</li>
-<li>AWS CodeBuild</li>
-<li>AWS CodeDeploy</li>
-</ul>
-<p>また、暗号化や通知、モニタリング、監査を行うため、以下のサービスと連動して機能する。</p>
-<ul class="simple">
-<li>AWS KMS</li>
-<li>Amazon SNS</li>
-<li>Amazon CloudWatch</li>
-<li>AWS CloudTrail</li>
-</ul>
-<p>従来のパラメータストアでは、データサイズが4KBまで、スループット上限は規定範囲内だったが、<a class="reference external" href="https://aws.amazon.com/jp/about-aws/whats-new/2019/04/aws_systems_manager_parameter_store_introduces_advanced_parameters/">2019年4月のアップデートでアドバンスドパラメータオプションが導入</a> され、
-10000を変えるパラメータの作成、最大8KB、スループットの上限緩和(デフォルト40tpsから最大1000tpsまで)の拡張がなされた。
-ただし、アドバンスドパラメータオプションは有料となるため注意すること。</p>
-</div>
-<div class="section" id="section8-7-6-2-systems-manager-parameter-store-create-parameter-label">
-<span id="id22"></span><h4>標準パラメータストアの設定<a class="headerlink" href="#section8-7-6-2-systems-manager-parameter-store-create-parameter-label" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
-<li>AWSコンソール上から、Systems Managerを選択し、「パラメータストア」メニューから「パラメータの作成」ボタンを押下する。</li>
-</ol>
-<div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ssm-create-parameter-store-1.png"><img alt="../../../_images/management-console-ssm-create-parameter-store-1.png" src="../../../_images/management-console-ssm-create-parameter-store-1.png" style="width: 663.0px; height: 342.0px;" /></a>
-</div>
-<ol class="arabic simple" start="2">
-<li>パラメータ名と値を設定し、「作成」ボタンを押下する。</li>
-</ol>
-<div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-ssm-create-parameter-store-2.png"><img alt="../../../_images/management-console-ssm-create-parameter-store-2.png" src="../../../_images/management-console-ssm-create-parameter-store-2.png" style="width: 555.0px; height: 777.0px;" /></a>
-</div>
+<div class="section" id="aws-cdk-aws-cloud-development-kit">
+<span id="section8-7-cloud-formation-label"></span><h2>AWS CDK(AWS Cloud Development Kit)<a class="headerlink" href="#aws-cdk-aws-cloud-development-kit" title="Permalink to this headline">¶</a></h2>
+<p>AWS CDKはインフラをPython、TypeScriptなどの言語で記述する言語である。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ここで設定したパラメータを参照する方法は、 <a class="reference internal" href="#section8-2-2-1-codebuild-local-execution-label"><span class="std std-ref">CodeBuild Localの実行</span></a> を参照のこと。</p>
-</div>
-</div>
-</div>
-<div class="section" id="os-patch-management">
-<span id="section8-7-7-systems-manager-os-patch-management-label"></span><h3>OS patch management<a class="headerlink" href="#os-patch-management" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-9">
-<p class="first admonition-title">Todo</p>
-<p class="last">パッチマネージャーを使ったOSパッチ管理方法を記載する。</p>
-</div>
-</div>
-<div class="section" id="maintenance-windows">
-<span id="section8-7-8-systems-manager-maintenance-windows-label"></span><h3>Maintenance windows<a class="headerlink" href="#maintenance-windows" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-10">
-<p class="first admonition-title">Todo</p>
-<p class="last">メンテナンスウィンドウを使ったスケジューリングタスクの設定・実行方法を記載する。</p>
-</div>
-</div>
-<div class="section" id="consistent-configuration">
-<span id="section8-7-9-systems-manager-consistent-configuration-label"></span><h3>Consistent Configuration<a class="headerlink" href="#consistent-configuration" title="Permalink to this headline">¶</a></h3>
-<div class="admonition-todo admonition" id="index-11">
-<p class="first admonition-title">Todo</p>
-<p class="last">ステートマネージャを使った設定・実行方法を記載する。</p>
-</div>
+<p class="last">2019.9時点でGA中のサービス。</p>
 </div>
 </div>
 </div>

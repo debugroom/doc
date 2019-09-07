@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Appendix - 付録" href="appendix.html" />
-    <link rel="prev" title="DevOps Category" href="devops.html" /> 
+    <link rel="prev" title="AWS IoT" href="iot.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -100,12 +101,43 @@
 <li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Management Tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cloudwatch">CloudWatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cloudtrail">CloudTrail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cloudwatch">CloudWatch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cloudwatch-eventsns">CloudWatch EventとSNSを用いたアラートの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cloudwatch-eventlambda">CloudWatch EventとLambdaの実行</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cloudtrail">CloudTrail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section9-2-1-cloud-trail-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cloudtrailcloudwatchlogs">CloudTrailとCloudWatchLogsの統合</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#cloudconfig">CloudConfig</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#section9-7-cost-report-label">請求レポート</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trusted-advisor">Trusted Advisor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-systems-manager">AWS Systems Manager</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section9-9-1-systems-manager-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remote-connect">Remote Connect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resource-group">Resource Group</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#insight-dashboard">Insight &amp; Dashboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-tasks">Running Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#paramter-store">Paramter Store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#os-patch-management">OS patch management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maintenance-windows">Maintenance windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consistent-configuration">Consistent Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#landing-zone">Landing Zone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section9-10-1-landingzone-overview-label">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#controltower">ControlTower</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section9-11-1-controltower-overview-label">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#awsmemo">AWS運用Memo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
@@ -113,6 +145,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -184,7 +217,9 @@
   <div class="section" id="management-tools">
 <span id="section9-management-label"></span><h1>Management Tools<a class="headerlink" href="#management-tools" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="cloudwatch">
-<span id="section9-2-cloud-trail-label"></span><h2>CloudWatch<a class="headerlink" href="#cloudwatch" title="Permalink to this headline">¶</a></h2>
+<span id="section9-1-cloud-watch-label"></span><h2>CloudWatch<a class="headerlink" href="#cloudwatch" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="section9-1-1-cloud-watch-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
 <p>Cloud WatchはAWSのリソースをモニタリングするサービスである。提供される機能は以下のとおりである。</p>
 <ul class="simple">
 <li>以下のようなメトリクスのハイパーバイザレベルでの追跡・収集(EC2の標準メトリクス)<ol class="arabic">
@@ -216,11 +251,408 @@
 <p class="first admonition-title">Note</p>
 <p class="last">CloudWatchだけでシステム運用の全てのメトリクスの収集は難しいので、必要に応じて運用監視ミドルウェアの導入を行うこと。</p>
 </div>
+<p><br /></p>
+</div>
+<div class="section" id="cloudwatch-eventsns">
+<span id="section9-1-2-cloud-watch-event-alert-label"></span><h3>CloudWatch EventとSNSを用いたアラートの作成<a class="headerlink" href="#cloudwatch-eventsns" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>ここでは、AWSマネジメントコンソールにログインすることをCloudWatch Eventに設定し、イベントを検知したらSNSを使用してメール通知するアラートを設定する。
+最初にSNSでEmailを発信するトピックを作成する。必要に応じて、 <a class="reference internal" href="application.html#section7-1-1-sns-overview-label"><span class="std std-ref">Overview</span></a> も参照すること。</p>
+<p>Amazon SNSサービスを選択し、「トピック」メニューから「トピックの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-1.png" src="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-1.png" />
+</div>
+<p><br /></p>
+<p>トピック名を入力し、「トピックの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-2.png" src="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-2.png" />
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-3.png" src="../../../_images/management-console-sns-create-topic-for-cloud-watch-event-3.png" />
+</div>
+<p><br /></p>
+<p>トピックを購読するサブスクリプションとしてEmail配信を設定する。「サブスクリプション」メニューから「サブスクリプションの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-sns-create-subscription-email-for-cloud-watch-event-1.png" src="../../../_images/management-console-sns-create-subscription-email-for-cloud-watch-event-1.png" />
+</div>
+<p><br /></p>
+<p>以下の要領でサブスクリプションの設定を行う。</p>
+<ul class="simple">
+<li>トピックARN: 上記で作成したトピックのARN</li>
+<li>プロトコル：Eメール</li>
+<li>エンドポイント：送信対象となるEmail</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-sns-create-subscription-email-for-cloud-watch-event-2.png" src="../../../_images/management-console-sns-create-subscription-email-for-cloud-watch-event-2.png" />
+</div>
+<p><br /></p>
+<p>続いて、CloudWatchEventを作成する。「CloudWatch」サービスで、「イベント」メニューを選択し、「今すぐ始める」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-1.png" src="../../../_images/management-console-cloudwatch-create-event-1.png" />
+</div>
+<p><br /></p>
+<p>以下の要領で、イベントを設定し、「設定の詳細」ボタンを押下する。</p>
+<ul class="simple">
+<li>イベントソース<ul>
+<li>イベントパターン：サービス別のイベントに一致するイベントパターンの構築</li>
+<li>サービス名：AWSコンソールのサインイン</li>
+<li>イベントタイプ：サインインイベント</li>
+<li>任意のユーザ</li>
+</ul>
+</li>
+<li>ターゲット<ul>
+<li>SNSトピック：上記で作成したSNSトピック</li>
+<li>入力の設定：一致したイベント</li>
+</ul>
+</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-2.png" src="../../../_images/management-console-cloudwatch-create-event-2.png" />
+</div>
+<p><br /></p>
+<p>ルール名を入力し、「ルールの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-4.png" src="../../../_images/management-console-cloudwatch-create-event-4.png" />
+</div>
+<p><br /></p>
+<p>一度サインアウトした後に、しばらく時間を置いたのち、ログインすると設定したアドレス宛にメールが送信できるようになる。</p>
+<p><br /></p>
+</div>
+<div class="section" id="cloudwatch-eventlambda">
+<span id="section9-1-3-cloud-watch-event-lambda-label"></span><h3>CloudWatch EventとLambdaの実行<a class="headerlink" href="#cloudwatch-eventlambda" title="Permalink to this headline">¶</a></h3>
+<p>ここでは、特定のセキュリティグループの変更を監視し、変更があるとLambdaファンクションを使って設定を元に戻すアクションを実行する。
+まず、Lambdaファンクションを実行する際に必要となるIAMポリシー及びロールを作成する。「IAM」サービスから、「ポリシー」メニューを選択し、「ポリシーの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-1.png" src="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-1.png" />
+</div>
+<p><br /></p>
+<p>「JSON」タブを選択し、以下の通りポリシーを設定する。</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[</span>
+         <span class="p">{</span>
+             <span class="s2">&quot;Effect&quot;</span> <span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;ec2:DescribeSecurityGroups&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+             <span class="s2">&quot;Effect&quot;</span> <span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;logs:CreateLogGroup&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+             <span class="s2">&quot;Effect&quot;</span> <span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="p">[</span>
+                 <span class="s2">&quot;Logs:CreateLogStream&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;logs:PutLogEvents&quot;</span>
+             <span class="p">],</span>
+             <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
+         <span class="p">}</span>
+     <span class="p">]</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-2.png" src="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-2.png" />
+</div>
+<p><br /></p>
+<p>ポリシー名を入力し、「ポリシーの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-3.png" src="../../../_images/management-console-iam-create-policy-for-cloudwatch-monitoring-security-group-3.png" />
+</div>
+<p><br /></p>
+<p>続いて、「ロール」メニューから「ロールの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-1.png" src="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-1.png" />
+</div>
+<p><br /></p>
+<p>「このロールを使用するサービスを選択」として「Lambda」を選択し、「次のステップ：アクセス権限」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-2.png" src="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-2.png" />
+</div>
+<p><br /></p>
+<p>上記で作成したポリシーをアタッチし、「次のステップ：タグ」ボタンを押下する。タグは特に設定せず先へ進む。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-3.png" src="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-3.png" />
+</div>
+<p><br /></p>
+<p>ロール名を入力し、「ロールの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-4.png" src="../../../_images/management-console-iam-create-lambda-role-for-cloudwatch-monitoring-security-group-4.png" />
+</div>
+<p><br /></p>
+<p>次に実行するLambdaファンクションを作成する。「AWS Lambda」サービスを選択し、「関数」メニューから「関数の作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-1.png" src="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-1.png" />
+</div>
+<p><br /></p>
+<p>以下の要領で関数を作成し、「関数の作成」ボタンを押下する。</p>
+<ul class="simple">
+<li>関数名：関数名を入力</li>
+<li>ランタイム：Python2.7</li>
+<li>アクセス権限：前節で作成したIAMロール</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-2.png" src="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-2.png" />
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-3.png" src="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-3.png" />
+</div>
+<p><br /></p>
+<p>関数として、以下のPythonコードを入力する。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright [2016]-[2016] Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;).</span>
+<span class="c1"># You may not use this file except in compliance with the License.</span>
+<span class="c1"># A copy of the License is located at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://aws.amazon.com/apache2.0/</span>
+<span class="c1">#</span>
+<span class="c1"># or in the &quot;license&quot; file accompanying this file.</span>
+<span class="c1"># This file is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,</span>
+<span class="c1"># either express or implied. See the License for the specific language governing permissions</span>
+<span class="c1"># and limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1"># Description: Checks that all security groups block access to the specified ports.</span>
+<span class="c1">#</span>
+<span class="c1"># awscwevents_lambda_security_group.py</span>
+<span class="c1">#</span>
+<span class="c1"># Author: jeffscottlevine</span>
+<span class="c1"># Date: 2016-09-05</span>
+<span class="c1">#</span>
+<span class="c1"># This file contains an AWS Lambda handler which responds to AWS API calls that modify the ingress</span>
+<span class="c1"># permissions of security groups to see if the permissions now differ from the required permissions</span>
+
+<span class="c1"># as specificed in the REQUIRED_PERMISSIONS variable below.</span>
+<span class="c1">#</span>
+<span class="c1"># Note: The permissions are not remediated within this function because doing so could possibly</span>
+<span class="c1"># trigger a recursion issue with this Lambda function triggering itself.</span>
+<span class="c1">#</span>
+<span class="c1"># 2017-01-13 - Added &quot;Ipv6Ranges&quot; to REQUIRED_PERMISSIONS to accommodate IPv6 within Amazon VPC.</span>
+
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">botocore</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="n">APPLICABLE_APIS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AuthorizeSecurityGroupIngress&quot;</span><span class="p">,</span> <span class="s2">&quot;RevokeSecurityGroupIngress&quot;</span><span class="p">]</span>
+
+<span class="c1"># Specify the required ingress permissions using the same key layout as that provided in the</span>
+<span class="c1"># describe_security_group API response and authorize_security_group_ingress/egress API calls.</span>
+
+<span class="n">REQUIRED_PERMISSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;IpProtocol&quot;</span> <span class="p">:</span> <span class="s2">&quot;tcp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FromPort&quot;</span> <span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="s2">&quot;ToPort&quot;</span> <span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="s2">&quot;UserIdGroupPairs&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;IpRanges&quot;</span> <span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;CidrIp&quot;</span> <span class="p">:</span> <span class="s2">&quot;0.0.0.0/0&quot;</span><span class="p">}],</span>
+        <span class="s2">&quot;PrefixListIds&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;Ipv6Ranges&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;IpProtocol&quot;</span> <span class="p">:</span> <span class="s2">&quot;tcp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FromPort&quot;</span> <span class="p">:</span> <span class="mi">443</span><span class="p">,</span>
+        <span class="s2">&quot;ToPort&quot;</span> <span class="p">:</span> <span class="mi">443</span><span class="p">,</span>
+        <span class="s2">&quot;UserIdGroupPairs&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;IpRanges&quot;</span> <span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;CidrIp&quot;</span> <span class="p">:</span> <span class="s2">&quot;0.0.0.0/0&quot;</span><span class="p">}],</span>
+        <span class="s2">&quot;PrefixListIds&quot;</span> <span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;Ipv6Ranges&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+
+<span class="c1"># evaluate_compliance</span>
+<span class="c1">#</span>
+<span class="c1"># This is the main compliance evaluation function.</span>
+
+<span class="k">def</span> <span class="nf">evaluate_compliance</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+    <span class="n">event_name</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">][</span><span class="s2">&quot;eventName&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">event_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">APPLICABLE_APIS</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This rule does not apply for the event &quot;</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">group_id</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;detail&quot;</span><span class="p">][</span><span class="s2">&quot;requestParameters&quot;</span><span class="p">][</span><span class="s2">&quot;groupId&quot;</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;group id: &quot;</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;ec2&quot;</span><span class="p">);</span>
+
+    <span class="k">try</span><span class="p">:</span>
+         <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">describe_security_groups</span><span class="p">(</span><span class="n">GroupIds</span><span class="o">=</span><span class="p">[</span><span class="n">group_id</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">botocore</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;describe_security_groups failure on group &quot;</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="s2">&quot; .&quot;</span><span class="p">)</span>
+         <span class="k">return</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;security group definition: &quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">ip_permissions</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;SecurityGroups&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;IpPermissions&quot;</span><span class="p">]</span>
+    <span class="n">authorize_permissions</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span> <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">REQUIRED_PERMISSIONS</span> <span class="k">if</span> <span class="n">perm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ip_permissions</span><span class="p">]</span>
+    <span class="n">revoke_permissions</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm</span> <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">ip_permissions</span> <span class="k">if</span> <span class="n">perm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">REQUIRED_PERMISSIONS</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">authorize_permissions</span> <span class="ow">or</span> <span class="n">revoke_permissions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">authorize_permissions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">authorize_permissions</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This permission must be authorized: &quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">perm</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;:&#39;</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">revoke_permissions</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">revoke_permissions</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This permission must be revoked: &quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">perm</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;:&#39;</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;All permissions are correct.&quot;</span><span class="p">)</span>
+
+<span class="c1"># lambda_handler</span>
+<span class="c1">#</span>
+<span class="c1"># This is the main handle for the Lambda function.  AWS Lambda passes the function an event and a context.</span>
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;event: &quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+
+    <span class="n">evaluation</span> <span class="o">=</span> <span class="n">evaluate_compliance</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-4.png" src="../../../_images/management-console-lambda-create-function-repair-security-group-for-python-4.png" />
+</div>
+<p><br /></p>
+<p>変更監視対象とするセキュリティグループを作成する。EC2サービスから、セキュリティグループメニューから、「セキュリティグループの作成」を押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-security-group-for-cloudwatch-monitoring-1.png" src="../../../_images/management-console-ec2-create-security-group-for-cloudwatch-monitoring-1.png" />
+</div>
+<p><br /></p>
+<p>特にルールは設定せず作成する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-security-group-for-cloudwatch-monitoring-2.png" src="../../../_images/management-console-ec2-create-security-group-for-cloudwatch-monitoring-2.png" />
+</div>
+<p><br /></p>
+<p>作成したセキュリティグループを変更監視対象に設定する。CloudWatchサービスから「イベント」メニューを選択し、「今すぐ始める」を押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-lambda-1.png" src="../../../_images/management-console-cloudwatch-create-event-lambda-1.png" />
+</div>
+<p><br /></p>
+<ul class="simple">
+<li>イベントパターン：サービス別のイベントに一致するイベントパターンの構築を選択<ul>
+<li>サービス名：CloudTrail</li>
+<li>イベントタイプ：AWS API Call via CloudTrail</li>
+<li>任意のオペレーションを選択</li>
+</ul>
+</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-lambda-2.png" src="../../../_images/management-console-cloudwatch-create-event-lambda-2.png" />
+</div>
+<p><br /></p>
+<p>編集リンクを押下し、イベントパターンを以下のように変更する。</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;detail-type&quot;</span><span class="o">:</span> <span class="p">[</span>
+       <span class="s2">&quot;AWS API Call via CloudTrail&quot;</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;detail&quot;</span><span class="o">:</span> <span class="p">{</span>
+       <span class="s2">&quot;eventSource&quot;</span><span class="o">:</span> <span class="p">[</span>
+           <span class="s2">&quot;ec2.amazonaws.com&quot;</span>
+       <span class="p">],</span>
+       <span class="s2">&quot;eventName&quot;</span><span class="o">:</span> <span class="p">[</span>
+           <span class="s2">&quot;AuthorizeSecurityGroupIngress&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;RevokeSecurityGroupIngress&quot;</span>
+       <span class="p">],</span>
+       <span class="s2">&quot;requestParameters&quot;</span><span class="o">:</span> <span class="p">{</span>
+           <span class="s2">&quot;groupId&quot;</span><span class="o">:</span> <span class="p">[</span>
+              <span class="s2">&quot;sg-0d7b9ee604811ba7d&quot;</span>
+           <span class="p">]</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-lambda-3.png" src="../../../_images/management-console-cloudwatch-create-event-lambda-3.png" />
+</div>
+<p><br /></p>
+<p>ターゲットは以下のように設定し、「設定の詳細」を押下する。</p>
+<ul class="simple">
+<li>Lambda関数：前節で作成したLambda関数を設定</li>
+<li>SNSトピック：前節で作成したSNSトピック</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-lambda-4.png" src="../../../_images/management-console-cloudwatch-create-event-lambda-4.png" />
+</div>
+<p><br /></p>
+<p>名前を入力後、「ルールの作成」を押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudwatch-create-event-lambda-5.png" src="../../../_images/management-console-cloudwatch-create-event-lambda-5.png" />
+</div>
+<p><br /></p>
+<p>セキュリティグループを変更すると自動的に変更が通知されるようになる。</p>
+<p><br /></p>
+</div>
 </div>
 <div class="section" id="cloudtrail">
-<span id="section9-3-cloud-trail-label"></span><h2>CloudTrail<a class="headerlink" href="#cloudtrail" title="Permalink to this headline">¶</a></h2>
+<span id="section9-2-cloud-trail-label"></span><h2>CloudTrail<a class="headerlink" href="#cloudtrail" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section9-2-1-cloud-trail-overview-label">
+<span id="id1"></span><h3>Overview<a class="headerlink" href="#section9-2-1-cloud-trail-overview-label" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
 <p>CloudTrailはアカウントユーザに対する全てのAPIリクエストを記録するサービスである。
 セキュリティ分析やAWSリソースの変更の追跡、トラブルシューティングに活用できる。</p>
+<p><br /></p>
+</div>
+<div class="section" id="cloudtrailcloudwatchlogs">
+<span id="section9-2-2-cloud-trail-cloudwatchlogs-integration-label"></span><h3>CloudTrailとCloudWatchLogsの統合<a class="headerlink" href="#cloudtrailcloudwatchlogs" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>操作履歴をCloudWatchLogsで確認できるようにCloudTrailと統合を行う。「CloudTrail」サービスから「証跡情報」メニューを選択し、「証跡の作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-1.png" src="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-1.png" />
+</div>
+<p><br /></p>
+<p>以下の要領で証跡情報の作成を行い、「次へ」ボタンを押下する。</p>
+<ul class="simple">
+<li>証跡名：任意の証跡名を入力</li>
+<li>証跡情報を全てのリージョンに適用：はい</li>
+<li>管理イベント：全て</li>
+<li>ストレージの場所：新しいバケットを作成する：はい</li>
+<li>S3バケット：新規作成するバケット名を入力</li>
+<li>新規または既存のロググループ：なければ新しいロググループを作成</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-2.png" src="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-2.png" />
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-3.png" src="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-3.png" />
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-5.png" src="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-5.png" />
+</div>
+<p><br /></p>
+<p>デフォルトで用意されているCloudTrailからのCloudWatchLogsへのアクセス権限がついたIAMロールとポリシー名を設定し、「許可」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-6.png" src="../../../_images/management-console-cloudtrail-cloudwatchlogs-integration-6.png" />
+</div>
+<p><br /></p>
+</div>
 </div>
 <div class="section" id="cloudconfig">
 <span id="section9-4-cloud-config-label"></span><h2>CloudConfig<a class="headerlink" href="#cloudconfig" title="Permalink to this headline">¶</a></h2>
@@ -236,7 +668,7 @@
 </ul>
 </div>
 <div class="section" id="section9-7-cost-report-label">
-<span id="id2"></span><h2>請求レポート<a class="headerlink" href="#section9-7-cost-report-label" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>請求レポート<a class="headerlink" href="#section9-7-cost-report-label" title="Permalink to this headline">¶</a></h2>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">請求レポートについて詳述。</p>
@@ -256,6 +688,966 @@
 <p class="last">Trusted Advisorについて記述。</p>
 </div>
 </div>
+<div class="section" id="aws-systems-manager">
+<span id="section9-9-systems-manager-label"></span><h2>AWS Systems Manager<a class="headerlink" href="#aws-systems-manager" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section9-9-1-systems-manager-overview-label">
+<span id="id4"></span><h3>Overview<a class="headerlink" href="#section9-9-1-systems-manager-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>AWS Systems Managerは、EC2をはじめとしたサーバリソースの大規模な運用・管理を効率化・自動化するサービスである。
+EC2インスタンスへのパッチ適用やインベントリ(システム構成)情報の収集、OSのアップデートやドライバの更新の実行、AMIの管理などを、リソース単位でまとめ大規模に実行することが可能である。
+また、複数のリソースで共有可能なパラメータストアの作成やブラウザベースでのEC2インスタンスへのアクセスなどシステム管理に関わる複数の機能群で構成される。Systems Managerの主な特徴・機能は以下の通りである。</p>
+<table border="1" class="colwidths-given docutils" id="id10">
+<caption><span class="caption-text">Systems Managerの主な特徴・機能</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>機能</td>
+<td>概要</td>
+</tr>
+<tr class="row-even"><td>Remote Connect</td>
+<td>通常必ず行うセキュリティインバウンド設定やSSHキーなしで、ブラウザやAWS CLIを使ってEC2インスタンスへアクセスする機能</td>
+</tr>
+<tr class="row-odd"><td>Resource Group</td>
+<td>AWSの複数のリソースをグルーピング化できる機能</td>
+</tr>
+<tr class="row-even"><td>Insight &amp; Dashboard</td>
+<td>リソースごとに収集したソフトウェアインベントリ情報(OSバージョンなどの構成管理情報)やCloudTrail、Trusted Advisorなどのインサイト情報をダッシュボードで俯瞰的に参照する機能</td>
+</tr>
+<tr class="row-odd"><td>RunningTasks on group resources</td>
+<td>リソースグループに対し、オペレーションタスク・スクリプトを自動的に実行する機能</td>
+</tr>
+<tr class="row-even"><td>Parameter store</td>
+<td>複数のリソースで共有可能な、認証キーやIDなど秘匿情報やプレインテキストデータを階層的に管理して保存、参照する機能</td>
+</tr>
+<tr class="row-odd"><td>OS patch management</td>
+<td>複数のリソースまたはリソースグループに対し、パッチ適用などを実行する機能</td>
+</tr>
+<tr class="row-even"><td>Meintenance windows</td>
+<td>タスク実行をスケジューリング化し実行する機能</td>
+</tr>
+<tr class="row-odd"><td>Consistent Configuration</td>
+<td>ステートマネージャを使用した一貫した設定・メンテナンス機能</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+</div>
+<div class="section" id="remote-connect">
+<span id="section9-9-2-systems-manager-remote-connect-label"></span><h3>Remote Connect<a class="headerlink" href="#remote-connect" title="Permalink to this headline">¶</a></h3>
+<p>インバウンド接続設定がないプライベートサブネットのEC2インスタンスにSessionManagerを使ってリモート接続を行う。
+まず、SSMへのアクセス権限を付与したIAMロールを作成する。IAMロールメニューを選択し、「ロールの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-role-for-ssm-1.png" src="../../../_images/management-console-iam-create-role-for-ssm-1.png" />
+</div>
+<p><br /></p>
+<p>ロールを使用するサービスとして、「EC2」を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-role-for-ssm-2.png" src="../../../_images/management-console-iam-create-role-for-ssm-2.png" />
+</div>
+<p><br /></p>
+<p>「AmazonEC3RoleforSSM」ポリシーをアタッチする。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-role-for-ssm-3.png" src="../../../_images/management-console-iam-create-role-for-ssm-3.png" />
+</div>
+<p><br /></p>
+<p>ロール名を入力し、「ロールの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-iam-create-role-for-ssm-4.png" src="../../../_images/management-console-iam-create-role-for-ssm-4.png" />
+</div>
+<p><br /></p>
+<p>続いて、プライベートサブネットにインバウンド接続のないセキュリティグループを設定したEC2を作成する。
+EC2メニューから「インスタンスの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-1.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-1.png" />
+</div>
+<p><br /></p>
+<p>マシンイメージとして「Amazon Linux2(HVM), SSD Volume Type」を選択する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">これらのマシンイメージにはデフォルトで「SSMエージェント」がインストールされている。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-2.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-2.png" />
+</div>
+<p><br /></p>
+<p>適当なインスタンスタイプを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-3.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-3.png" />
+</div>
+<p><br /></p>
+<p>プラベートサブネットがあるVPCを選択し、上記で作成したIAMロールを設定する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LaunchするとEC2からSSM APIへポーリングが実行されるようになる。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-4.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-4.png" />
+</div>
+<p><br /></p>
+<p>ストレージはデフォルトのまま設定しておく。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-5.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-5.png" />
+</div>
+<p><br /></p>
+<p>後の手順でインスタンスを識別しやすいようにタグを設定しておく。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-6.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-6.png" />
+</div>
+<p><br /></p>
+<p>インバウンド接続設定がないセキュリティグループ(デフォルトのもの)を設定する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-7.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-7.png" />
+</div>
+<p><br /></p>
+<p>「起動」ボタンを押下し、インスタンスを実行する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-8.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-8.png" />
+</div>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">キーペアは特に設定せず実行して良い。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ec2-create-instance-for-ssm-9.png" src="../../../_images/management-console-ec2-create-instance-for-ssm-9.png" />
+</div>
+<p><br /></p>
+<p>インスタンスが実行された後、「SystemManager」サービスの「マネージドインスタンス」メニューを選択し、作成したインスタンスが表示されていることを確認する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-confirm-managed-instance-1.png" src="../../../_images/management-console-ssm-confirm-managed-instance-1.png" />
+</div>
+<p><br /></p>
+<p>SessionManagerを利用して、セッションを開始する。「セッションマネージャ」メニューを選択し、「セッションの開始」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-session-manager-start-1.png" src="../../../_images/management-console-ssm-session-manager-start-1.png" />
+</div>
+<p><br /></p>
+<p>接続対象のインスタンスを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-session-manager-start-2.png" src="../../../_images/management-console-ssm-session-manager-start-2.png" />
+</div>
+<p><br /></p>
+<p>コンソールが開き、コマンドが実行可能になる。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-session-manager-start-3.png" src="../../../_images/management-console-ssm-session-manager-start-3.png" />
+</div>
+<p><br /></p>
+<p>SSHデーモンをストップしても継続してコンソール処理できることを確認する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-session-manager-start-4.png" src="../../../_images/management-console-ssm-session-manager-start-4.png" />
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="resource-group">
+<span id="section9-9-3-systems-manager-resource-group-label"></span><h3>Resource Group<a class="headerlink" href="#resource-group" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Systems Managerを使ったリソースグループ設定のやり方を記載する。</p>
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="insight-dashboard">
+<span id="section9-9-4-systems-manager-insight-dashboard-label"></span><h3>Insight &amp; Dashboard<a class="headerlink" href="#insight-dashboard" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Microsoftのブラウザだとうまくいかないので注意</p>
+</div>
+<p><br /></p>
+<p><a class="reference internal" href="#section9-9-2-systems-manager-remote-connect-label"><span class="std std-ref">Remote Connect</span></a> の手順中に作成したEC2インスタンスのインベントリ情報を収集し、QuickSightを通して可視化する。
+データの収集はEC2インスタンスにインストールされたSSMエージェントに対し、 ステートマネージャーが30分毎に情報送信を指示する。収集した情報は、
+インベントリがS3へ集約して転送する。S3に集約されたデータはAWS Glueが12時間に1度の頻度でクローリングしてデータベースを構築する。
+このデータベースに対し、AWS Athenaがクエリを実行して、QuickSightにより可視化する流れとなる。</p>
+<p>なお、収集できるインベントリデータは、EC2にインストールされているアプリケーションパッケージの一覧やバージョン等。
+また、マシンスペックといったインスタンスの情報やOSのバージョンなどが収集される。定期的なOSのアップデート対象やセキュリティ脆弱性対象の確認などの用途に適している。</p>
+<p>以下順次環境構築していく。</p>
+<p>SystemsManagerサービスを選択し、「インベントリ」メニューを選択後、「セットアップインベントリ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-setup-inventory-1.png" src="../../../_images/management-console-ssm-setup-inventory-1.png" />
+</div>
+<p><br /></p>
+<p>インベントリの名前を入力し、ターゲットでインスタンスを手動選択し、 <a class="reference internal" href="#section9-9-2-systems-manager-remote-connect-label"><span class="std std-ref">Remote Connect</span></a> で作成したEC2インスタンスを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-setup-inventory-2.png" src="../../../_images/management-console-ssm-setup-inventory-2.png" />
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-setup-inventory-3.png" src="../../../_images/management-console-ssm-setup-inventory-3.png" />
+</div>
+<p><br /></p>
+<p>収集するパラメータは以下の通り設定する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-setup-inventory-4.png" src="../../../_images/management-console-ssm-setup-inventory-4.png" />
+</div>
+<p><br /></p>
+<p>選択後、「セットアップインベントリ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-setup-inventory-5.png" src="../../../_images/management-console-ssm-setup-inventory-5.png" />
+</div>
+<p><br /></p>
+<p>「マネージドインスタンス」メニューから、収集設定したインスタンスを選択し、「インベントリ」タブを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-confirm-inventory-1.png" src="../../../_images/management-console-ssm-confirm-inventory-1.png" />
+</div>
+<p><br /></p>
+<p>インベントリタイプで、収集設定したパラメータが表示されることを確認する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-confirm-inventory-2.png" src="../../../_images/management-console-ssm-confirm-inventory-2.png" />
+</div>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>なお、インベントリの収集頻度はステートマネージャーメニューから確認できる。</p>
+<div class="last figure">
+<img alt="../../../_images/management-console-ssm-statemanager-confirm-1.png" src="../../../_images/management-console-ssm-statemanager-confirm-1.png" />
+</div>
+</div>
+<p><br /></p>
+<p>続いて、収集するインベントリ情報を保存するためのS3バケットの作成とアクセス制御設定を行う。「S3」サービスから「バケットの作成」ボタンを押下する。
+バケット名を入力し、東京リージョンを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-1.png" src="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-1.png" />
+</div>
+<p><br /></p>
+<p>プロパティはデフォルトのまま、「次へ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-2.png" src="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-2.png" />
+</div>
+<p><br /></p>
+<p>アクセス許可は「パブリックアクセスを全てブロック」を選択し、「次へ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-3.png" src="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-3.png" />
+</div>
+<p><br /></p>
+<p>「バケットの作成」ボタンを押下して、バケットを作成する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-4.png" src="../../../_images/management-console-s3-create-bucket-for-ssm-inventory-4.png" />
+</div>
+<p><br /></p>
+<p>作成したバケットにアクセスポリシーを設定する。バケットを選択し、「アクセス権限」タブを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-setting-access-controll-for-ssm-inventory-1.png" src="../../../_images/management-console-s3-setting-access-controll-for-ssm-inventory-1.png" />
+</div>
+<p><br /></p>
+<p>以下の通り、ポリシーエディタに設定する。</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;Version&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Statement&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;Sid&quot;</span><span class="o">:</span> <span class="s2">&quot;SSMBucketPermissionsCheck&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Principal&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Service&quot;</span><span class="o">:</span> <span class="s2">&quot;ssm.amazonaws.com&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;s3:GetBucketAcl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:s3:::debugroom-sample-ssm-inventory&quot;</span>
+       <span class="p">},</span>
+       <span class="p">{</span>
+            <span class="s2">&quot;Sid&quot;</span><span class="o">:</span> <span class="s2">&quot; SSMBucketDelivery&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Effect&quot;</span><span class="o">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Principal&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Service&quot;</span><span class="o">:</span> <span class="s2">&quot;ssm.amazonaws.com&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Action&quot;</span><span class="o">:</span> <span class="s2">&quot;s3:PutObject&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Resource&quot;</span><span class="o">:</span> <span class="s2">&quot;arn:aws:s3:::debugroom-sample-ssm-inventory/*/accountid=XXXXXXXXXXXXXXX/*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Condition&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;StringEquals&quot;</span><span class="o">:</span> <span class="p">{</span>
+                   <span class="s2">&quot;s3:x-amz-acl&quot;</span><span class="o">:</span> <span class="s2">&quot;bucket-owner-full-control&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+       <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-s3-setting-access-controll-for-ssm-inventory-2.png" src="../../../_images/management-console-s3-setting-access-controll-for-ssm-inventory-2.png" />
+</div>
+<p><br /></p>
+<p>リソースデータを同期し、作成したS3バケットへデータ送信を行う。「インベントリ」メニューを選択し、「リソースデータの同期」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-resource-sync-1.png" src="../../../_images/management-console-ssm-resource-sync-1.png" />
+</div>
+<p><br /></p>
+<p>「リソースデータの同期の作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-resource-sync-2.png" src="../../../_images/management-console-ssm-resource-sync-2.png" />
+</div>
+<p><br /></p>
+<p>同期名を入力し、先ほど作成したバケット名を入力する。バケットのリージョンを選択して、「作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-resource-sync-3.png" src="../../../_images/management-console-ssm-resource-sync-3.png" />
+</div>
+<p><br /></p>
+<p>「インベントリ」メニューを再度押下して。作成したインベントリの「詳細ビュー」タブから作成したリソースデータの同期を行う。
+ロールの作成などしばらく時間がかかるので、時間を置いた後再度実行する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-resource-sync-4.png" src="../../../_images/management-console-ssm-resource-sync-4.png" />
+</div>
+<p><br /></p>
+<p>インベントリタイプで、設定したインベントリデータが表示されれば、作成が成功する(S3にデータがあるか確認する)。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-resource-sync-5.png" src="../../../_images/management-console-ssm-resource-sync-5.png" />
+</div>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">このデータ同期により、Athena でクエリするために必要な Glue クローラや Glue データカタログの作成も合わせて行われる。Glueクローラーでは指定した場所にあるデータを自動で解析してAmazon Athenaのデータベースとテーブルを作成する。</p>
+</div>
+<p><br /></p>
+<p>作成したデータをQuickSightで可視化する(初回はサインアップ手順から)。QuickSightサービスを選択し、「Sign up for QuickSight」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-account-1.png" src="../../../_images/management-console-quicksight-create-account-1.png" />
+</div>
+<p><br /></p>
+<p>「Standard」エディションを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-account-2.png" src="../../../_images/management-console-quicksight-create-account-2.png" />
+</div>
+<p><br /></p>
+<p>S3バケットがある同じリージョンを選択し、QuickSightアカウント名及び、Emailを入力する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-account-3.png" src="../../../_images/management-console-quicksight-create-account-3.png" />
+</div>
+<p><br />
+以下にチェックを入れ、「完了」ボタンを押下する。</p>
+<ul class="simple">
+<li>Enable autodiscovery of data and users in your Amazon Redshift, Amazon RDS, and AWS IAM services</li>
+<li>Amazon Athena</li>
+<li>AmazonS3(バケットも忘れずに設定する)</li>
+</ul>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-account-4.png" src="../../../_images/management-console-quicksight-create-account-4.png" />
+</div>
+<p><br /></p>
+<p>「Amazon QuickSightに移動する」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-account-5.png" src="../../../_images/management-console-quicksight-create-account-5.png" />
+</div>
+<p><br /></p>
+<p>画面左上部の「新しい分析」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-1.png" src="../../../_images/management-console-quicksight-create-analysis-1.png" />
+</div>
+<p><br /></p>
+<p>画面左上部の「新しいデータセット」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-2.png" src="../../../_images/management-console-quicksight-create-analysis-2.png" />
+</div>
+<p><br /></p>
+<p>「Athena」を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-3.png" src="../../../_images/management-console-quicksight-create-analysis-3.png" />
+</div>
+<p><br /></p>
+<p>「データソース名」を入力し、「データソースを作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-5.png" src="../../../_images/management-console-quicksight-create-analysis-5.png" />
+</div>
+<p><br /></p>
+<p>テーブルを選択する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここでは上述の「リソース同期の作成」時に、S3上に転送されたインベントリデータをAWS Glueがクロールしてテーブルを自動構築している。クロール頻度など変更したい場合は、「AWS Glue」サービスなどを選択して変更すること。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-6.png" src="../../../_images/management-console-quicksight-create-analysis-6.png" />
+</div>
+<p><br /></p>
+<p>「Visualize」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-7.png" src="../../../_images/management-console-quicksight-create-analysis-7.png" />
+</div>
+<p><br /></p>
+<p>以下の要領で、インベントリデータを可視化する。</p>
+<ol class="arabic simple">
+<li>QuickSight のメイン画面左上の「追加」を選択し、「ビジュアルを追加する」を選択する。 シート上にビジュアルフィールドが表示される。</li>
+<li>左下のビジュアルタイプの枠右上にある円グラフのアイコンをクリックする。</li>
+<li>左側のフィールドリストから architecture を選択し、ドラッグ&amp;ドロップして「グループ/色」に配置する。ビジュアルフィールドに円グラフが表示される。これは対象となる全サーバの全パッケージ一覧のアーキテクチャの比率を示している。</li>
+</ol>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-8.png" src="../../../_images/management-console-quicksight-create-analysis-8.png" />
+</div>
+<p><br /></p>
+<p>また、以下の要領で、別のインベントリデータを可視化する。ここでは、特定パッケージの特定バージョンのソフトウェアがいくつ導入されているのか表を新しく作成する。</p>
+<ol class="arabic simple">
+<li>再度 QuickSight のメイン画面左上の「追加」を選択し、「ビジュアルを追加する」を選択する。シート上にビジュアルフィールドが表示される。</li>
+<li>ビジュアルタイプから左下のほうにある「テーブル」を選択する(ピボットテーブルではなく)。</li>
+<li>グループ化の条件に「name」 「version」、値に「name」をドラッグ&amp;ドロップする。値に配置したものは name(カウント) となり、合計件数を表している。対象サーバが 1つだとカウントはすべて1になるが、異なるバージョンのソフトウエアが複数サーバに導入されていると、どのバージョンがいくつ導入されているのかを把握することが可能になる。これにフィルタを追加することで、特定ソフトウェアだけを表示することができる。</li>
+</ol>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-quicksight-create-analysis-9.png" src="../../../_images/management-console-quicksight-create-analysis-9.png" />
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="running-tasks">
+<span id="section9-9-5-systems-manager-runnging-task-label"></span><h3>Running Tasks<a class="headerlink" href="#running-tasks" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>SystemsManager を使用することで、多数の EC2インスタンスへのコマンドの実行を一括して行うことができる。ここでは、
+<a class="reference internal" href="#section9-9-2-systems-manager-remote-connect-label"><span class="std std-ref">Remote Connect</span></a> の手順中に作成したEC2インスタンスに対し、コマンドの実行を行う。
+「コマンドの実行」メニューを選択し、「コマンドを実行」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-1.png" src="../../../_images/management-console-ssm-run-command-1.png" />
+</div>
+<p><br /></p>
+<p>「AWS-RunShellScript」を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-2.png" src="../../../_images/management-console-ssm-run-command-2.png" />
+</div>
+<p><br /></p>
+<p>実行コマンドを入力する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-3.png" src="../../../_images/management-console-ssm-run-command-3.png" />
+</div>
+<p><br /></p>
+<p>ターゲットとなるインスタンスを選択する。インスタンスのタグや、手動選択、作成したリソースグループの選択も可能である。ここでは、作成したインスタンスを手動で選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-4.png" src="../../../_images/management-console-ssm-run-command-4.png" />
+</div>
+<p><br /></p>
+<p>その他は特に入力せず、「コマンド実行」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-5.png" src="../../../_images/management-console-ssm-run-command-5.png" />
+</div>
+<p><br /></p>
+<p>実行されたコマンドの結果が表示される。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-6.png" src="../../../_images/management-console-ssm-run-command-6.png" />
+</div>
+<p><br /></p>
+<p>2500文字までなら出力結果を確認することができる。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-run-command-7.png" src="../../../_images/management-console-ssm-run-command-7.png" />
+</div>
+<p><br />
+<br /></p>
+</div>
+<div class="section" id="paramter-store">
+<span id="section9-9-6-systems-manager-parameter-store-label"></span><h3>Paramter Store<a class="headerlink" href="#paramter-store" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section9-9-6-1-systems-manager-parameter-store-overview-label">
+<span id="id5"></span><h4>Overview<a class="headerlink" href="#section9-9-6-1-systems-manager-parameter-store-overview-label" title="Permalink to this headline">¶</a></h4>
+<p>パラメータストアはパスワードやデータベース文字列、ライセンスコードなどアプリケーションに直接実装せず環境変数を経由して設定するデータ等を一元的に管理するためのサービスである。
+特に多くのEC2インスタンスやECSタスク上にデプロイされたアプリケーションなどで同一のデータを参照したい場合有効であり、またデータは階層構造をとることができる。
+データ値はプレーンテキストまたはAWS KMSを使用して暗号化データとして使用でき、暗号化や復号化も同時に実行する。パラメータストアの参照はIAMにより細かくアクセス制御が可能であり、
+以下のAWSサービスから利用可能である。</p>
+<ul class="simple">
+<li>Amazon EC2</li>
+<li>Amazon ECS</li>
+<li>AWS Lambda</li>
+<li>AWS CloudFormation</li>
+<li>AWS CodeBuild</li>
+<li>AWS CodeDeploy</li>
+</ul>
+<p>また、暗号化や通知、モニタリング、監査を行うため、以下のサービスと連動して機能する。</p>
+<ul class="simple">
+<li>AWS KMS</li>
+<li>Amazon SNS</li>
+<li>Amazon CloudWatch</li>
+<li>AWS CloudTrail</li>
+</ul>
+<p>従来のパラメータストアでは、データサイズが4KBまで、スループット上限は規定範囲内だったが、<a class="reference external" href="https://aws.amazon.com/jp/about-aws/whats-new/2019/04/aws_systems_manager_parameter_store_introduces_advanced_parameters/">2019年4月のアップデートでアドバンスドパラメータオプションが導入</a> され、
+10000を変えるパラメータの作成、最大8KB、スループットの上限緩和(デフォルト40tpsから最大1000tpsまで)の拡張がなされた。
+ただし、アドバンスドパラメータオプションは有料となるため注意すること。</p>
+</div>
+<div class="section" id="section9-9-6-2-systems-manager-parameter-store-create-parameter-label">
+<span id="id7"></span><h4>標準パラメータストアの設定<a class="headerlink" href="#section9-9-6-2-systems-manager-parameter-store-create-parameter-label" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>AWSコンソール上から、Systems Managerを選択し、「パラメータストア」メニューから「パラメータの作成」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-parameter-store-1.png" src="../../../_images/management-console-ssm-create-parameter-store-1.png" />
+</div>
+<ol class="arabic simple" start="2">
+<li>パラメータ名と値を設定し、「作成」ボタンを押下する。</li>
+</ol>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-parameter-store-2.png" src="../../../_images/management-console-ssm-create-parameter-store-2.png" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここで設定したパラメータを参照する方法は、 <a class="reference internal" href="devops.html#section8-2-2-1-codebuild-local-execution-label"><span class="std std-ref">CodeBuild Localの実行</span></a> を参照のこと。</p>
+</div>
+</div>
+</div>
+<div class="section" id="os-patch-management">
+<span id="section9-9-7-systems-manager-os-patch-management-label"></span><h3>OS patch management<a class="headerlink" href="#os-patch-management" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">パッチマネージャーを使ったOSパッチ管理方法を記載する。</p>
+</div>
+</div>
+<div class="section" id="maintenance-windows">
+<span id="section9-9-8-systems-manager-maintenance-windows-label"></span><h3>Maintenance windows<a class="headerlink" href="#maintenance-windows" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>メンテナンスウィンドウとコマンド実行機能を利用して、OSのパッチを適用するコマンドを実行する。「メンテナンスウィンドウ」メニューから「メンテナンスウィンドウの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-1.png" src="../../../_images/management-console-ssm-create-maintenance-window-1.png" />
+</div>
+<p><br /></p>
+<p>メンテナンスウィンドウ名を入力する。ここで、未登録のターゲットのチェックは外しておく。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-2.png" src="../../../_images/management-console-ssm-create-maintenance-window-2.png" />
+</div>
+<p><br /></p>
+<p>スケジュールを指定する。確認のため、ここでは30分に一回、クーロンスケジュールビルダーで設定しておく。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-3.png" src="../../../_images/management-console-ssm-create-maintenance-window-3.png" />
+</div>
+<p><br /></p>
+<p>「メンテナンスウィンドウの作成」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-4.png" src="../../../_images/management-console-ssm-create-maintenance-window-4.png" />
+</div>
+<p><br /></p>
+<p>作成したメンテナンスウィンドウを選択し、「アクション」ボタンからターゲットの登録を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-target-1.png" src="../../../_images/management-console-ssm-create-maintenance-window-target-1.png" />
+</div>
+<p><br /></p>
+<p>ターゲット名を入力する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-target-2.png" src="../../../_images/management-console-ssm-create-maintenance-window-target-2.png" />
+</div>
+<p><br /></p>
+<p>適用対象とするインスタンスを選択する。ここでも同じくインスタンスのタグや、手動指定、リソースグループを使った指定ができるが、手動でインスタンスを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-target-3.png" src="../../../_images/management-console-ssm-create-maintenance-window-target-3.png" />
+</div>
+<p><br />
+<br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-target-4.png" src="../../../_images/management-console-ssm-create-maintenance-window-target-4.png" />
+</div>
+<p><br /></p>
+<p>続いて、メンテナンスウィンドウを選択し、「タスク」タブから、「タスクを登録する」ボタンを押下する
+<br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-1.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-1.png" />
+</div>
+<p><br /></p>
+<p>「run command タスクの登録」を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-2.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-2.png" />
+</div>
+<p><br /></p>
+<p>「タスクの名称」を入力する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-3.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-3.png" />
+</div>
+<p><br /></p>
+<p>コマンドのドキュメントには、「AWS-RunPatchBaseline」を選択し、優先度を1に設定する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-4.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-4.png" />
+</div>
+<p><br /></p>
+<p>上記で作成したターゲットを指定する。「レート制御」゙は一度に 2つのインスタンスの処理を実行し、全ての処理が失敗した場合にのみタスクを停止する(途中で失敗するインスタンスがあった場合でも全てのインスタンスに一度は処理が実行される)よう
+並行性ターゲットを1に指定し、誤差閾値を100%に設定する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-5.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-5.png" />
+</div>
+<p><br /></p>
+<p>IAMロールは「Systems Manager用のサービスにリンクされたロールを使用する」を選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-6.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-6.png" />
+</div>
+<p><br /></p>
+<p>パラメータのOperationには「Install」を指定し、「run commandタスクの登録」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-7.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-7.png" />
+</div>
+<p><br /></p>
+<p>登録後、指定時刻になると、実行されるので、履歴タブから結果を確認する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-ssm-create-maintenance-window-task-8.png" src="../../../_images/management-console-ssm-create-maintenance-window-task-8.png" />
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="consistent-configuration">
+<span id="section9-9-9-systems-manager-consistent-configuration-label"></span><h3>Consistent Configuration<a class="headerlink" href="#consistent-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">ステートマネージャを使った設定・実行方法を記載する。</p>
+</div>
+</div>
+</div>
+<div class="section" id="landing-zone">
+<span id="section9-10-label"></span><h2>Landing Zone<a class="headerlink" href="#landing-zone" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section9-10-1-landingzone-overview-label">
+<span id="id8"></span><h3>Overview<a class="headerlink" href="#section9-10-1-landingzone-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>マルチアカウントのポリシーやパーミッションをコントロールし自動で簡単に設定できるソリューション(無償)。ControllTownerの前身。
+構成する各サービスの利用料は負担する形になる。</p>
+</div>
+</div>
+<div class="section" id="controltower">
+<span id="section9-11-label"></span><h2>ControlTower<a class="headerlink" href="#controltower" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section9-11-1-controltower-overview-label">
+<span id="id9"></span><h3>Overview<a class="headerlink" href="#section9-11-1-controltower-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>マルチアカウントに対応したセキュアな環境(ガードレール)を簡単に設定・管理</p>
+<table border="1" class="colwidths-given docutils" id="id11">
+<caption><span class="caption-text">設定されたガードレール</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="53%" />
+<col width="13%" />
+<col width="20%" />
+<col width="13%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ルール</td>
+<td>ガイダンス</td>
+<td>カテゴリ</td>
+<td>動作</td>
+</tr>
+<tr class="row-even"><td>ログアーカイブの保存時に暗号化を有効にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>ログアーカイブのアクセスログ作成を有効にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>ログアーカイブへのポリシーの変更を不許可にします</td>
+<td>必須</td>
+<td>モニタリング</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>ログアーカイブへのパブリック読み取りアクセスを不許可にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>ログアーカイブへのパブリック書き込みアクセスを不許可にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>ログアーカイブの保持ポリシーを設定する</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>CloudTrail への設定変更を不許可にします</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>CloudTrail イベントと CloudWatch logs を統合する</td>
+<td>必須</td>
+<td>モニタリング</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>利用可能なすべてのリージョンで CloudTrail を有効にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>CloudTrail ログファイルの整合性検証を有効にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>AWS Control Tower によって設定された CloudWatch への変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>AWS Control Tower によって設定された AWS Config アグリゲーションへの変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>AWS Config への設定変更を不許可にします</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>利用可能なすべてのリージョンで AWS Config を有効にする</td>
+<td>必須</td>
+<td>監査ログ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>AWS Control Tower によって設定された AWS Config ルールへの変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>EBS 用に最適化されていない EC2 インスタンスタイプの起動を許可しない</td>
+<td>強く推奨</td>
+<td>オペレーション</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>EC2 インスタンスにアタッチされていない EBS ボリュームを許可しない</td>
+<td>強く推奨</td>
+<td>オペレーション</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>EC2 インスタンスにアタッチされた EBS ボリュームの暗号化を有効にする</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>AWS Control Tower によって設定された IAM ロールへの変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>MFA なしで IAM ユーザーへのアクセスを許可しない</td>
+<td>選択的</td>
+<td>IAM</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>AWS Control Tower によって設定された Lambda 関数への変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>MFA なしで IAM ユーザーへのコンソールアクセスを許可しない</td>
+<td>選択的</td>
+<td>IAM</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>RDP を介したインターネット接続を許可しない</td>
+<td>強く推奨</td>
+<td>ネットワーク</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>SSH を介したインターネット接続を許可しない</td>
+<td>強く推奨</td>
+<td>ネットワーク</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>RDS データベースインスタンスへのパブリックアクセスを許可しない</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>RDS データベーススナップショットへのパブリックアクセスを許可しない</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>暗号化されたストレージではない RDS データベースインスタンスを許可しない</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>ルートユーザーとしてのアクションを許可しない</td>
+<td>強く推奨</td>
+<td>IAM</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>ルートユーザーのアクセスキーの作成を許可しない</td>
+<td>強く推奨</td>
+<td>IAM</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>S3 バケットのクロスリージョンレプリケーションを許可しない</td>
+<td>選択的</td>
+<td>データセキュリティ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>MFA なしで S3 バケットでの削除アクションを許可しない</td>
+<td>選択的</td>
+<td>データセキュリティ</td>
+<td>予防</td>
+</tr>
+<tr class="row-odd"><td>ルートユーザーに対して、MFA を有効化する</td>
+<td>強く推奨</td>
+<td>IAM</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>S3 バケットへのパブリック読み取りアクセスを不許可にする</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>S3 バケットへのパブリック書き込みアクセスを不許可にする</td>
+<td>強く推奨</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-even"><td>バージョンが有効かされていないS3 バケットを許可しない</td>
+<td>選択的</td>
+<td>データセキュリティ</td>
+<td>検出</td>
+</tr>
+<tr class="row-odd"><td>Amazon SNS によって設定された AWS Control Tower への変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+<tr class="row-even"><td>AWS Control Tower によって設定された Amazon SNS のサブスクリプションへの変更を不許可にします</td>
+<td>必須</td>
+<td>Control Tower のセットアップ</td>
+<td>予防</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="awsmemo">
+<span id="section9-12-2-memo-label"></span><h2>AWS運用Memo<a class="headerlink" href="#awsmemo" title="Permalink to this headline">¶</a></h2>
+<p>■エンタープライズ運用ユースケース・パターン</p>
+<ul>
+<li><p class="first">サーバを可視化</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM Inventoryを使った可視化</li>
+<li>SSMエージェントをインストールすれば、オンプレミスマシンの情報収集も可能</li>
+<li>EC2→SSM Inventory→S3→Athena→QuickSight</li>
+<li>AWS Configとの連携により違反状況を検知・通知も可能</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">実行一括オペレーション</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM RunCommandによる規定操作の一括実行</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">サーバログイン操作の事前許可と事後確認</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM SessionManager上で、許可された人が許可されたサーバに許可された時間にログイン可能なように制御</li>
+<li>実行コマンド履歴の事後確認</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">インスタンスを指定時間帯のみ起動する</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM MaintenanceWindowによるスケジューリング</li>
+<li>Instance Scheduler</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">メモリ使用率などを収集する監視エージェント(CloudWatch統合Agent)の一括設定</p>
+</li>
+<li><p class="first">セキュリティパッチの適用</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM PatchManagerを使用して一定のルールで全社のサーバに適用する</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ソフトウェアライセンスの管理</p>
+<blockquote>
+<div><ul class="simple">
+<li>SSM Inventoryを使って情報収集し、LicenceManagerで突きあわせ。</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Control Tower</p>
+</li>
+</ul>
+<p>■マルチアカウントとして、以下のようにアカウントを分離することを推奨。</p>
+<ul class="simple">
+<li>請求アカウント</li>
+<li>共有サービス</li>
+<li>セキュリティ&amp;監査</li>
+</ul>
+<p>■ 運用の種類と目的</p>
+<ul>
+<li><p class="first">システム運用</p>
+<blockquote>
+<div><ul class="simple">
+<li>イベント管理</li>
+<li>インシデント管理</li>
+<li>セキュリティ管理</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">保守運用</p>
+<blockquote>
+<div><ul class="simple">
+<li>構成管理</li>
+<li>パッチ管理</li>
+<li>ライセンス管理</li>
+<li>変更管理</li>
+<li>資産管理</li>
+<li>リリース管理</li>
+<li>テスト</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">障害対応</p>
+</li>
+<li><p class="first">サービス運用</p>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -269,7 +1661,7 @@
         <a href="appendix.html" class="btn btn-neutral float-right" title="Appendix - 付録" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="devops.html" class="btn btn-neutral" title="DevOps Category" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="iot.html" class="btn btn-neutral" title="AWS IoT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

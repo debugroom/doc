@@ -256,12 +256,12 @@ DynamoDBの作成
 ■AWSコンソールからDynamodbを選択し、「テーブルの作成」を押下する。
 
 .. figure:: img/management-console-dynamodb-create-1.png
-      :scale: 100%
+
 
 ■テーブル名、プライマリーキー等入力し、「作成」ボタンを押下する。
 
 .. figure:: img/management-console-dynamodb-create-2.png
-      :scale: 100%
+
 
 .. _section6-4-3-spring-data-dynamodb-label:
 

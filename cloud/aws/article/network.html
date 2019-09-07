@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -133,6 +134,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -332,7 +334,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>■AWSコンソールから、「VPC」サービスを選択し、「VPCを作成」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-1.png"><img alt="../../../_images/management-console-vpc-create-vpc-1.png" src="../../../_images/management-console-vpc-create-vpc-1.png" style="width: 908.0px; height: 475.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-create-vpc-1.png" src="../../../_images/management-console-vpc-create-vpc-1.png" />
 </div>
 </div></blockquote>
 <p>■以下の通り、VPCの設定値を入力して、「create」ボタンを押下する。</p>
@@ -348,7 +350,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>■AWSコンソールから、「VPC」サービスを選択し、「サブネット」メニューを選び、「サブネットの作成」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-subnet-public-1.png"><img alt="../../../_images/management-console-vpc-create-subnet-public-1.png" src="../../../_images/management-console-vpc-create-subnet-public-1.png" style="width: 911.0px; height: 547.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-create-subnet-public-1.png" src="../../../_images/management-console-vpc-create-subnet-public-1.png" />
 </div>
 </div></blockquote>
 <p>■以下の通り、パブリックサブネットの設定値を入力して、「作成」ボタンを押下する。</p>
@@ -365,13 +367,13 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>■AWSコンソールから、「VPC」サービスを選択し、「インターネットゲートウェイ」メニューから、「インターネットゲートウェイの作成」ボタンを押下する。名前タグを入力して、「作成」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-igw-1.png"><img alt="../../../_images/management-console-vpc-create-igw-1.png" src="../../../_images/management-console-vpc-create-igw-1.png" style="width: 827.0px; height: 278.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-create-igw-1.png" src="../../../_images/management-console-vpc-create-igw-1.png" />
 </div>
 </div></blockquote>
 <p>■作成したインターネットゲートウェイを選択し、「アクション」ボタンから「VPCにアタッチ」を選択し、アタッチするVPCを選択する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-attach-igw-1.png"><img alt="../../../_images/management-console-vpc-attach-igw-1.png" src="../../../_images/management-console-vpc-attach-igw-1.png" style="width: 824.0px; height: 359.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-attach-igw-1.png" src="../../../_images/management-console-vpc-attach-igw-1.png" />
 </div>
 </div></blockquote>
 </div>
@@ -381,13 +383,13 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>■AWSコンソールから「VPC」サービスを選択し、「ルートテーブル」メニューを選択する。作成したVPCに関連付けられているルートテーブルを選択し、「Route」タブから「Edit Routes」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-edit-routetable-1.png"><img alt="../../../_images/management-console-vpc-edit-routetable-1.png" src="../../../_images/management-console-vpc-edit-routetable-1.png" style="width: 1085.0px; height: 321.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-edit-routetable-1.png" src="../../../_images/management-console-vpc-edit-routetable-1.png" />
 </div>
 </div></blockquote>
 <p>■「Add Route」ボタンを押下し、アウトバウンドトラフィック「0.0.0.0/0」に作成したインターネットゲートウェイを設定する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-edit-routetable-2.png"><img alt="../../../_images/management-console-vpc-edit-routetable-2.png" src="../../../_images/management-console-vpc-edit-routetable-2.png" style="width: 876.0px; height: 360.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-edit-routetable-2.png" src="../../../_images/management-console-vpc-edit-routetable-2.png" />
 </div>
 </div></blockquote>
 </div>
@@ -403,14 +405,14 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>Elastic IPアドレスの設定</p>
 <p>Elastic IP Addressを割り当てるにはコンソール画面のElastic IPメニューから、「新しいIPアドレスの割り当て」を選択すると、新しく固定IPアドレスが獲得できる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-1.png"><img alt="../../../_images/management-console-elastic-ip-address-1.png" src="../../../_images/management-console-elastic-ip-address-1.png" style="width: 1102.0px; height: 627.0px;" /></a>
+<img alt="../../../_images/management-console-elastic-ip-address-1.png" src="../../../_images/management-console-elastic-ip-address-1.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-2.png"><img alt="../../../_images/management-console-elastic-ip-address-2.png" src="../../../_images/management-console-elastic-ip-address-2.png" style="width: 1053.0px; height: 755.0px;" /></a>
+<img alt="../../../_images/management-console-elastic-ip-address-2.png" src="../../../_images/management-console-elastic-ip-address-2.png" />
 </div>
 <p>獲得した固定IPアドレスを稼働中のEC2インスタンスに割り当てる場合は、「アクション」ボタンからアドレスの関連付けを選択し、割り当てるEC2インスタンスIDを指定する。</p>
 <div class="last figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-elastic-ip-address-3.png"><img alt="../../../_images/management-console-elastic-ip-address-3.png" src="../../../_images/management-console-elastic-ip-address-3.png" style="width: 1153.0px; height: 589.0px;" /></a>
+<img alt="../../../_images/management-console-elastic-ip-address-3.png" src="../../../_images/management-console-elastic-ip-address-3.png" />
 </div>
 </div>
 </div>
@@ -423,13 +425,13 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <p>■AWSコンソールから、「VPC」サービスを選択し、「VPCダッシュボード」メニューから、「VPCを作成」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png"><img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" style="width: 1001.0px; height: 446.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-1.png" />
 </div>
 </div></blockquote>
 <p>■以下の通り、VPCのCIDRや、パブリック、プライベートサブネットのCIDR、NAT Gatewayに割り当てるElasticIPアドレスを設定する。</p>
 <blockquote>
 <div><div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png"><img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" style="width: 1013.0px; height: 711.0px;" /></a>
+<img alt="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" src="../../../_images/management-console-vpc-create-vpc-public-private-subnet-2.png" />
 </div>
 </div></blockquote>
 </div>
@@ -524,19 +526,19 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <li>EC2コンソールメニューから、ロードバランサを選択し、「ロードバランサの作成」をクリックする。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-1.png"><img alt="../../../_images/management-console-application-load-balancing-setting-1.png" src="../../../_images/management-console-application-load-balancing-setting-1.png" style="width: 938.0px; height: 635.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-1.png" src="../../../_images/management-console-application-load-balancing-setting-1.png" />
 </div>
 <ol class="arabic simple" start="2">
 <li>「アプリケーションロードバランサ」を選択する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-2.png"><img alt="../../../_images/management-console-application-load-balancing-setting-2.png" src="../../../_images/management-console-application-load-balancing-setting-2.png" style="width: 1359.0px; height: 540.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-2.png" src="../../../_images/management-console-application-load-balancing-setting-2.png" />
 </div>
 <ol class="arabic simple" start="3">
 <li>ロードバランサの以下の設定項目を入力する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-3.png"><img alt="../../../_images/management-console-application-load-balancing-setting-3.png" src="../../../_images/management-console-application-load-balancing-setting-3.png" style="width: 1369.0px; height: 796.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-3.png" src="../../../_images/management-console-application-load-balancing-setting-3.png" />
 </div>
 <ul class="simple">
 <li>名前：ALBの名称</li>
@@ -548,7 +550,7 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <li>証明書・セキュリティポリシーの設定。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-4.png"><img alt="../../../_images/management-console-application-load-balancing-setting-4.png" src="../../../_images/management-console-application-load-balancing-setting-4.png" style="width: 1384.0px; height: 819.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-4.png" src="../../../_images/management-console-application-load-balancing-setting-4.png" />
 </div>
 <ul class="simple">
 <li>証明書タイプ：設定する証明書のタイプを指定する。 <a class="reference internal" href="security.html#section7-2-2-acm-request-certication-label"><span class="std std-ref">証明書のリクエスト</span></a> にて作成した証明書を使用</li>
@@ -559,14 +561,14 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <li>セキュリティグループの設定</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-5.png"><img alt="../../../_images/management-console-application-load-balancing-setting-5.png" src="../../../_images/management-console-application-load-balancing-setting-5.png" style="width: 1192.0px; height: 819.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-5.png" src="../../../_images/management-console-application-load-balancing-setting-5.png" />
 </div>
 <ol class="arabic simple" start="6">
 <li>ルーティングの設定</li>
 </ol>
 <p>ロードバランサーからディスパッチするサーバのインスタンスグループを指定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-6.png"><img alt="../../../_images/management-console-application-load-balancing-setting-6.png" src="../../../_images/management-console-application-load-balancing-setting-6.png" style="width: 1386.0px; height: 821.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-6.png" src="../../../_images/management-console-application-load-balancing-setting-6.png" />
 </div>
 <ul class="simple">
 <li>名前：任意のターゲットグループ名(xxx-app-alb等)</li>
@@ -580,7 +582,7 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 </ol>
 <p>インスタンスグループに登録するターゲットを指定。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-7.png"><img alt="../../../_images/management-console-application-load-balancing-setting-7.png" src="../../../_images/management-console-application-load-balancing-setting-7.png" style="width: 1187.0px; height: 820.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-7.png" src="../../../_images/management-console-application-load-balancing-setting-7.png" />
 </div>
 <p>確認ボタンを押下し、ALBを作成する。</p>
 <ol class="arabic simple" start="8">
@@ -590,11 +592,11 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 スティッキーセッションを維持する必要があるものは、ターゲットグループからスティッキーセッションの設定を行う。</p>
 <p>EC2コンソールから、メニュー「ターゲットグループ」を選び、「属性」オプションを選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-8.png"><img alt="../../../_images/management-console-application-load-balancing-setting-8.png" src="../../../_images/management-console-application-load-balancing-setting-8.png" style="width: 1388.0px; height: 829.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-8.png" src="../../../_images/management-console-application-load-balancing-setting-8.png" />
 </div>
 <p>「ロードバランサーによって生成されたCookieの維持を有効化」にチェックを入れ、維持期間を設定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-application-load-balancing-setting-9.png"><img alt="../../../_images/management-console-application-load-balancing-setting-9.png" src="../../../_images/management-console-application-load-balancing-setting-9.png" style="width: 953.0px; height: 349.0px;" /></a>
+<img alt="../../../_images/management-console-application-load-balancing-setting-9.png" src="../../../_images/management-console-application-load-balancing-setting-9.png" />
 </div>
 </div>
 </div>
@@ -640,42 +642,42 @@ Route53は以下のルーティングをサポートする。</p>
 <span id="id8"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-1.png"><img alt="../../../_images/management-console-route53-registration-1.png" src="../../../_images/management-console-route53-registration-1.png" style="width: 1144.0px; height: 717.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-1.png" src="../../../_images/management-console-route53-registration-1.png" />
 </div>
 <p>登録したいドメインが利用可能かチェックを行う。カートに追加すると、どのくらいの期間ドメインを利用するか選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-2.png"><img alt="../../../_images/management-console-route53-registration-2.png" src="../../../_images/management-console-route53-registration-2.png" style="width: 1021.0px; height: 697.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-2.png" src="../../../_images/management-console-route53-registration-2.png" />
 </div>
 <p>ドメインの管理者の連絡先情報を入力する。入力したメールアドレス宛に認証のためのメールが届くため、メール記載のリンクを押下して認証を行う。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-3.png"><img alt="../../../_images/management-console-route53-registration-3.png" src="../../../_images/management-console-route53-registration-3.png" style="width: 1105.0px; height: 706.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-3.png" src="../../../_images/management-console-route53-registration-3.png" />
 </div>
 <p>登録依頼が完了すると、下記の画面が表示される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-4.png"><img alt="../../../_images/management-console-route53-registration-4.png" src="../../../_images/management-console-route53-registration-4.png" style="width: 811.0px; height: 281.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-4.png" src="../../../_images/management-console-route53-registration-4.png" />
 </div>
 <p>Route53ダッシュボードに移動すると、申請したドメインの登録情報に関するステータスが表示される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-5.png"><img alt="../../../_images/management-console-route53-registration-5.png" src="../../../_images/management-console-route53-registration-5.png" style="width: 1137.0px; height: 551.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-5.png" src="../../../_images/management-console-route53-registration-5.png" />
 </div>
 <p>登録が完了(完了画面では最大3日程度と書かれているが、今回は1時間程度で完了した)すると、管理者宛のメールアドレスに登録完了のメールが送付され、ダッシュボードの表示が切り替わる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-6.png"><img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" style="width: 1160.0px; height: 563.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" />
 </div>
 </div>
 <div class="section" id="elastic-ip">
 <span id="section3-4-3-route53-domain-setting-label"></span><h3>登録したドメインとElastic IPアドレスの紐付け設定<a class="headerlink" href="#elastic-ip" title="Permalink to this headline">¶</a></h3>
 <p>前節「 <a class="reference internal" href="#section3-4-2-route53-registration-label"><span class="std std-ref">ドメインの登録</span></a> 」に続き、登録したドメインを「 <a class="reference internal" href="#section3-1-7-elastic-ip-address-label"><span class="std std-ref">Elastic IP Address</span></a> 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-registration-6.png"><img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" style="width: 1160.0px; height: 563.0px;" /></a>
+<img alt="../../../_images/management-console-route53-registration-6.png" src="../../../_images/management-console-route53-registration-6.png" />
 </div>
 <p>対象のドメインにチェックを入れ、「Go to Record Sets」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-setting-domain-1.png"><img alt="../../../_images/management-console-route53-setting-domain-1.png" src="../../../_images/management-console-route53-setting-domain-1.png" style="width: 1175.0px; height: 491.0px;" /></a>
+<img alt="../../../_images/management-console-route53-setting-domain-1.png" src="../../../_images/management-console-route53-setting-domain-1.png" />
 </div>
 <p>以下の要領で、Create Record SetにドメインとIPアドレスを設定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-route53-setting-domain-2.png"><img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" style="width: 1177.0px; height: 764.0px;" /></a>
+<img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" />
 </div>
 <table border="1" class="colwidths-given docutils" id="id12">
 <caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>

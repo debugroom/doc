@@ -313,10 +313,10 @@ Management console
 Management consoleは、Amazon web serviceを管理するためのWebアプリケーションである。インスタンスの起動や、S3への接続といった、多くのAWSサービスの処理、操作をGUIを通じて行える。また、使用料金の情報も得る事が出来る。
 
 .. figure:: img/management-console-top.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-biling-dashboad.png
-   :scale: 100%
+
 
 .. _section1-4-overview-arn-label:
 
@@ -346,3 +346,33 @@ arn:partition:service:region:account-id:resource
      - リソースを保有しているAWSアカウントのハイフンなしのID
    * - resource
      - リソースのキー
+
+.. _section1-5-todo-aws-first-label:
+
+アカウントを作ってやるべきこと
+------------------------------------------------------
+
+* ルートユーザにMFAを設定する
+
+.. note:: そもそもルートユーザは極力利用しない
+
+* 管理者権限を割り当てた管理者ユーザを作成する(管理者用のIAMグループを作成する)
+* 管理者ユーザに請求情報のアクセス権を設定する。
+
+.. note:: 一般ユーザには最小限の権限を付与する。
+
+* CloudTrailを有効化し、すべてのAWS API呼び出しを記録する
+
+.. note:: 2019年7月現在、アカウントを作成するとCloudTrailはデフォルトで有効化される設定になっている。
+
+* AWSConfigを有効化し、リソース構成変更を記録する
+
+* CostExplorerを有効化する。
+
+* 予算を設定し、メールによる通知設定を行う。
+
+* Amazon GuardDutyを有効化し、セキュリティ脅威の監視を行う
+
+* 動作確認のための最初のサーバを作成し、ログイン、削除する(作成したユーザが正しいか)。
+
+* 手元のPCからAWS CLIを使って操作する

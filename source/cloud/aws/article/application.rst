@@ -16,7 +16,7 @@ Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Amazon Simple Notification ServiceはPublish/Subscribe型のメッセージ配信サービスである。
-発行者(Publisher)は、複数の購読者(Subscriber：WebServer, Mail, Amazon SQS, Amazon Lamda)へ非同期メッセージ送信する。
+発行者(Publisher)は、複数の購読者(Subscriber：WebServer, Mail, Amazon SQS, Amazon Lambda)へ非同期メッセージ送信する。
 
 SNSは以下のような特徴をもつ。
 
@@ -50,7 +50,7 @@ SNS Topicの作成
 ■AWSコンソールからSNSを選択する。
 
 .. figure:: img/management-console-sns-create-topic-1.png
-   :scale: 100%
+
 
 ■トピックメニューを選択し、「新しくトピックを作成」をクリックする。
 
@@ -58,22 +58,22 @@ SNS Topicの作成
 ■トピック名を作成し、「トピックの作成」をクリックする。トピックが作成される。
 
 .. figure:: img/management-console-sns-create-topic-3.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-sns-create-topic-4.png
-   :scale: 100%
+
 
 ここでは、AutoScaleした際にイベント通知をSNSを行う場合の例を説明する。
 
 ■EC2サービスでAutoScaleグループメニューを選択し、「通知」タブの「通知の作成」をクリックする。
 
 .. figure:: img/management-console-sns-create-topic-5.png
-   :scale: 100%
+
 
 ■上記で作成したトピックが選択されるので、イベントを追加し、保存を押下する。これによりAutoScaleでEC2インスタンスが起動すると、SNSトピックにメッセージが送信されるようになる。
 
 .. figure:: img/management-console-sns-create-topic-6.png
-   :scale: 100%
+
 
 
 .. _section7-2-sqs-label:
@@ -152,20 +152,20 @@ http://sqs.<region>.amazonaws.com/<accout-id>
 ■コンソールからSQSを選択し、「今すぐ始める」をクリックする。
 
 .. figure:: img/management-console-sqs-create-queue-1.png
-   :scale: 100%
+
 
 ■キューに名称、キューの属性を設定し、キューの作成を押下する。
 
 .. figure:: img/management-console-sqs-create-queue-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-sqs-create-queue-3.png
-   :scale: 100%
+
 
 ■キューが登録される。
 
 .. figure:: img/management-console-sqs-create-queue-4.png
-   :scale: 100%
+
 
 .. _section7-2-2-sqs-usage-applicaiotn-label:
 
@@ -179,12 +179,12 @@ Spring Cloud AWSを利用してSQSキューを利用するアプリケーショ�
 作成したキューに対し、メッセージを送信する。キューを選択し、「キュー操作」からメッセージ送信を選ぶ。
 
 .. figure:: img/management-console-sqs-push-queue-1.png
-   :scale: 100%
+
 
 メッセージを入力し、送信ボタンを押下する。
 
 .. figure:: img/management-console-sqs-push-queue-2.png
-   :scale: 100%
+
 
 アプリケーションを実行しているとリスナーがメッセージ処理する。
 
@@ -204,12 +204,12 @@ SNSトピックから通知されたイベントを受け取りキューをメ�
 ■作成したSQSキューを選択し、「キュー操作」>「SNSトピックへのキューサブスクライブ」を選択する。
 
 .. figure:: img/management-console-sqs-subscribe-sns-1.png
-   :scale: 100%
+
 
 ■ 購読する対象のSNSトピックを選択する。
 
 .. figure:: img/management-console-sqs-subscribe-sns-2.png
-   :scale: 100%
+
 
 
 .. _section7-3-kinesis-stream-label:
@@ -495,27 +495,27 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 ■AWSコンソールから、AWS Lambdaを選択し、「関数の作成」をクリックする。
 
 .. figure:: img/management-console-lambda-upload-1.png
-      :scale: 100%
+
 
 ■関数の名前、実行する言語や環境、ロールを選択し、関数を作成する。
 
 .. figure:: img/management-console-lambda-s3-1.png
-      :scale: 100%
+
 
 .. note:: S3等にアクセスする場合は、権限を付与したロールを作成しておくこと。
 
    .. figure:: img/management-console-lambda-upload-3.png
-      :scale: 100%
+
 
 ■イベントのトリガーとなる要素を「トリガーの追加」リストから選択し、追加する。ここでは、S3を追加する。
 
 .. figure:: img/management-console-lambda-s3-2.png
-      :scale: 100%
+
 
 ■S3におけるイベントの発生条件を設定する。ここでは特定のバケットに新規追加、更新するとLambdaにイベントが通知されるよう決定する。
 
 .. figure:: img/management-console-lambda-s3-3.png
-      :scale: 100%
+
 
 .. warning:: S3のイベント発生条件で、Lambdaファンクション処理後に再びLambdaのイベント発生条件を満たさないよう注意すること。
    例えば、S3の特定のフォルダにオブジェクトを作成することを発生条件にしていると、ファンクション内で新たにそのフォルダにオブジェクトを作成すると、永久ループすることになる。
@@ -524,13 +524,13 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 ■続いて、作成したLambdaファンクションを選択し、実行環境やハンドラ、環境変数などの設定を行う。
 
 .. figure:: img/management-console-lambda-s3-4.png
-      :scale: 100%
+
 
 .. figure:: img/management-console-lambda-s3-5.png
-      :scale: 100%
+
 
 .. figure:: img/management-console-lambda-s3-6.png
-      :scale: 100%
+
 
 以下では最低限必要な設定要領を記述する。
 
@@ -557,12 +557,12 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 .. note:: テスト実行により関数が正常実行されるか確認できる。ただし、実際のイベントのオブジェクトは空の状態で渡ってくるので注意。
 
    .. figure:: img/management-console-lambda-s3-7.png
-      :scale: 100%
+
 
 ■画面上部の保存を押下した後、S3へファイルアップロードすると、イベントが通知され、Lambdaファンクションが起動する。実行はCloud Watchから確認できる。
 
 .. figure:: img/management-console-lambda-s3-8.png
-      :scale: 100%
+
 
 .. warning:: Spring Cloud Functionで実行するファンクションは初回起動時にDIコンテナの起動で数十秒要する。
    ２回目以降、Lambda実行環境が再利用するので、イベント通知後処理が早く実行されるが、完全マネージドのLambda環境では、

@@ -68,23 +68,23 @@ Amazon S3にデータを保存するには、最初にルートフォルダに�
 ■S3コンソールでバケットの作成を選択する。
 
 .. figure:: img/management-console-s3-portal-1.png
-   :scale: 100%
+
 
 ■バケットを作成するリージョンとバケット名を入力し、次へを押下する。
 
 .. figure:: img/management-console-s3-create-bucket-1.png
-   :scale: 100%
+
 
 ■プロパティやアクセス権限はそのままの設定で次へを押下していき、バケットを作成する。
 
 .. figure:: img/management-console-s3-create-bucket-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-s3-create-bucket-3.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-s3-create-bucket-4.png
-   :scale: 100%
+
 
 なお、バケットの作成は無料で行えるが、バケット内にオブジェクトを保存・転送した場合に費用が発生する。料金は `こちら <https://aws.amazon.com/jp/s3/pricing/>`_ を参照のこと。
 
@@ -97,26 +97,26 @@ Amazon S3にデータを保存するには、最初にルートフォルダに�
 ■S3コンソールでバケットを選択し、フォルダの作成ボタンを押下し、フォルダ名を入力してフォルダを作成する。
 
 .. figure:: img/management-console-s3-create-folder-1.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-s3-create-folder-2.png
-   :scale: 100%
+
 
 ■S3コンソールでバケットを選択し、アップロードボタンを押下する。
 
 .. figure:: img/management-console-s3-upload-1.png
-   :scale: 100%
+
 
 ■アップロード対象のファイルを選択したのち、ファイルの閲覧権限を設定してアップロードする。
 
 .. figure:: img/management-console-s3-upload-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-s3-upload-3.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-s3-upload-4.png
-   :scale: 100%
+
 
 .. note:: Amazon S3 では、オブジェクトのキー名に基づきバケットが仕切られるため、タイムスタンプやアルファベット順など、順次的なプレフィックスを使用すると、Amazon S3 では大量のキーが保存される特定のパーティションが使用される確率が高くなる。S3のリクエストのワークロードが1秒につき、100を超えるPUT、LIST、DELETE、あるいは300を超えるGETが見込まれるとき、`ガイドライン <https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html>`_ に従い、パフォーマンスの向上のためにバケット名の先頭に異なる英数字の使用を検討すること。
 
@@ -141,7 +141,7 @@ CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy
    </CORSRule>
 
 .. figure:: img/management-console-s3-setting-cors-1.png
-   :scale: 100%
+
 
 .. warning:: S3ではオブジェクトにアクセスするURLを２種類サポートしている。
 

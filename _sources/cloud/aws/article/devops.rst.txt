@@ -37,7 +37,7 @@ EBSボリュームの作成手順
 EC2コンソールメニューから、「ボリューム」を選択し、スナップショットを作成する対象のストレージを選択する。
 
 .. figure:: img/management-console-operation-snapshot-1.png
-   :scale: 100%
+
 
 .. note:: /dev/xvda はXenベースのLinuxシステムにおいて、1台目のハードディスクドライブを指す。
 
@@ -46,34 +46,34 @@ EC2コンソールメニューから、「ボリューム」を選択し、ス�
 VolumeIDを右クリックし、「Create Snapshot」を選択する。
 
 .. figure:: img/management-console-operation-snapshot-2.png
-   :scale: 100%
+
 
 名称を入力する。
 
 .. figure:: img/management-console-operation-snapshot-3.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-operation-snapshot-4.png
-   :scale: 100%
+
 
 3. EBSボリュームを作成する。
 
 作成したスナップショットを右クリックし、「Create Volume」を選択する。
 
 .. figure:: img/management-console-operation-snapshot-5.png
-   :scale: 100%
+
 
 「ディスクの種類」、「ディスクの容量」、「アベイラビリティゾーンを選択する。」
 
 .. figure:: img/management-console-operation-snapshot-6.png
-   :scale: 100%
+
 
 .. note:: EBSボリュームは同一のアベイラビリティゾーンでしか利用できないため、実行するEC2インスタンスのアベイラビリティゾーンに応じて、作成するゾーンを決定する。
 
 実行すると、ボリュームにEBSがステータスavailabilityで作成される。
 
 .. figure:: img/management-console-operation-snapshot-7.png
-   :scale: 100%
+
 
 .. note:: スナップショットの選択時に、右クリック「コピー」を選択すると、別のリージョンへボリュームをコピーできる。
 
@@ -95,19 +95,19 @@ EBSスナップショットからAMIの作成手順
 スナップショットを右クリック「イメージの作成」を選択する。
 
 .. figure:: img/management-console-operation-stamp-1.png
-   :scale: 100%
+
 
 AMIの名称、説明、仮想マシンの種別を入力する。
 
 .. figure:: img/management-console-operation-stamp-2.png
-   :scale: 100%
+
 
 .. note:: T2インスタンスを使用する場合、「ハードウェアアシストの仮想化(Hardware-assisted virtualization)」を選択すること。
 
 実行すると、AMIにイメージがステータスavailabilityで作成される。
 
 .. figure:: img/management-console-operation-stamp-3.png
-   :scale: 100%
+
 
 
 .. _section8-1-2-stamp-label:
@@ -136,17 +136,17 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 メニュー「インスタンス」から、右クリック「イメージの作成」を選択する。
 
 .. figure:: img/management-console-operation-stamp-4.png
-   :scale: 100%
+
 
 「 :ref:`section8-1-1-2-operation-create-ami-label` 」と同様、AMIの名称、説明、仮想マシンの種別を入力する。
 
 .. figure:: img/management-console-operation-stamp-5.png
-   :scale: 100%
+
 
 実行すると、AMIにイメージがステータスavailabilityで作成される。
 
 .. figure:: img/management-console-operation-stamp-6.png
-   :scale: 100%
+
 
 .. _section8-1-2-3-operation-launch-ec2-by-ami-label:
 
@@ -160,7 +160,7 @@ CPUやメモリ構成も設定でき、スペックを任意に調整できる�
 メニュー「AMI」でイメージを選択し、右クリック「作成」を行う。
 
 .. figure:: img/management-console-operation-stamp-7.png
-   :scale: 100%
+
 
 「 :ref:`section3-1-2-X-ec2-create-instance-label` 」と同様に、EC2インスタンスを起動する。
 
@@ -210,15 +210,15 @@ EC2ボリュームサイズの拡張
 ■EC2コンソールメニューからボリュームを選び、拡張したいインスタンスのボリュームを選択する。アクションメニューから、「ボリュームの変更」を選択する。
 
 .. figure:: img/management-console-ec2-modify-volume-1.png
-   :scale: 100%
+
 
 ■ボリュームサイズを変更し、「変更」ボタンを押下する。
 
 .. figure:: img/management-console-ec2-modify-volume-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ec2-modify-volume-3.png
-   :scale: 100%
+
 
 ■EC2インスタンスにSSHでログインし、拡張したボリュームサイズにルートデバイスのパーティションを拡張させる。最初に、現状のディスクの状況を確認する。
 
@@ -360,12 +360,12 @@ overview
 コンソールのメニュー「ターゲットグループ」にて、ターゲットタブから編集ボタンを押下する。
 
 .. figure:: img/management-console-operation-app-update-1.png
-   :scale: 100%
+
 
 2. アップデート対象のアプリケーションインスタンスを選択し、削除ボタンを押下する。
 
 .. figure:: img/management-console-operation-app-update-2.png
-   :scale: 100%
+
 
 .. note:: 削除したインスタンスはロードバランサーがターゲットのリクエストルーティングを即時指定するが、deregistration_delay.timeout_secondsとして設定した時間、Connection Dranining状態として、セッションが維持される。
 
@@ -391,12 +391,12 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 1. サービスメニューから「CodeBuild」を選択し、「今すぐ始める」ボタンを押下する。
 
 .. figure:: img/management-console-codebuild-app-build-1.png
-   :scale: 100%
+
 
 2. ビルドプロジェクトの設定を行う。ここでは、`GitHub上にコミットしたSpringBootベースのアプリケーション <https://github.com/debugroom/sample-aws-codebuild>`_ をビルドするため、以下の通り設定する。
 
 .. figure:: img/management-console-codebuild-app-build-2.png
-   :scale: 100%
+
 
 [プロジェクトの設定]
 
@@ -416,7 +416,7 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 .. note:: ビルドバッジはビルドステータスを個別定義・明示化するオプションである。詳しくは `リファレンス <https://docs.aws.amazon.com/ja_jp/codebuild/latest/userguide/sample-build-badges.html>`_ を参照のこと。
 
 .. figure:: img/management-console-codebuild-app-build-3.png
-   :scale: 100%
+
 
 [環境：ビルド方法]
 
@@ -449,7 +449,7 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 
 
 .. figure:: img/management-console-codebuild-app-build-4.png
-   :scale: 100%
+
 
 [アーティファクト：このビルドプロジェクトからアーティファクトを配置する場所]
 
@@ -474,20 +474,20 @@ Jenkins Agentでも同様の処理を行えるものの、クラウドでマネ�
 3. 設定内容を確認し、「保存してビルド」ボタンを押下する。
 
 .. figure:: img/management-console-codebuild-app-build-5.png
-   :scale: 100%
+
 
 4. ビルドの開始ボタンを押下する。
 
 .. figure:: img/management-console-codebuild-app-build-6.png
-   :scale: 100%
+
 
 5. ビルド結果を確認する。
 
 .. figure:: img/management-console-codebuild-app-build-7.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-codebuild-app-build-8.png
-   :scale: 100%
+
 
 |br|
 
@@ -535,7 +535,7 @@ CodeBuild Localの実行
 
 Git cloneしたaws-codebuild-docker-imagesの中にlocal_builds/codebuild_build.shがあるので、buildspec.ymlがあるディレクトリへコピーする。
 今回、buildspec.ymlとしては、マルチプロジェクト構成のMavenプロジェクトで、プロジェクトルート配下のcommonプロジェクトに対し、mvn packageコマンドを実行し、Sonarqubeへscan結果を送信するものを用いる。
-なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は :ref:`section8-7-6-2-systems-manager-parameter-store-create-parameter-label` を参照のこと。
+なお、buildspec.ymlから環境変数として、SonarqubeServerのURL(SONAR_HOST_URL)とトークン(SONAR_LOGIN_COMMON)をAWS Systems Managerから取得する。なお、パラメータストアの設定は :ref:`section9-9-6-2-systems-manager-parameter-store-create-parameter-label` を参照のこと。
 
 .. note:: AWS Systems Managerパラメータストアを利用して環境変数を取得する場合、認証情報のユーザに権限を付与しておくこと。
 
@@ -752,7 +752,7 @@ Dockerfileは最終的にECSコンテナのイメージとなる。CentOS7をベ
 EC2のサービスメニュー > ターゲットグループを選択し、「ターゲットグループの作成」を押下して、以下のように入力してターゲットグループを作成する。
 
 .. figure:: img/management-console-ec2-create-target-group-for-codepipeline-1.png
-   :scale: 100%
+
 
 * ターゲットグループ名：任意
 * プロトコル：HTTP
@@ -773,17 +773,17 @@ EC2のサービスメニュー > ターゲットグループを選択し、「�
 EC2サービスメニュー > ロードバランサーを選択し、指定するロードバランサーを選んで、リスナータブで「ルールの表示/編集」を選択する。
 
 .. figure:: img/management-console-ec2-setting-loadbalancer-for-codepipeline-1.png
-   :scale: 100%
+
 
 プラスボタンを押下してルールを追加する。
 
 .. figure:: img/management-console-ec2-setting-loadbalancer-for-codepipeline-2.png
-   :scale: 100%
+
 
 作成したアプリケーションのパスルールに一致したら、上記で作成したターゲットグループに向くよう設定しておく。
 
 .. figure:: img/management-console-ec2-setting-loadbalancer-for-codepipeline-3.png
-   :scale: 100%
+
 
 .. _section8-3-2-2-codepipeline-staging-release-setting-label:
 
@@ -796,24 +796,24 @@ CodePipeLineの設定(ソース・ビルド)
 ■サービス「CodePipeline」を選択し、「今すぐ始める」ボタンを押下する。
 
 .. figure:: img/management-console-codepipeline-1.png
-   :scale: 100%
+
 
 ■パイプライン名を任意に設定し、「次のステップへ」ボタンを押下する。
 
 .. figure:: img/management-console-codepipeline-2.png
-   :scale: 100%
+
 
 ■ソースプロバイダをGitHubに設定し、GitHubに接続した後、レポジトリ及びブランチを指定する。
 
 .. figure:: img/management-console-codepipeline-3.png
-   :scale: 100%
+
 
 .. note:: 上記のサンプルでは、masterブランチを指定しているが、実際の環境ではmasterブランチをproductionに、developブランチをstagingなどに設定することを推奨する。
 
 ■ビルドプロバイダに「AWS CodeBuild」を選択し、以下の通り、設定する。
 
 .. figure:: img/management-console-codepipeline-4.png
-   :scale: 100%
+
 
 [プロジェクトの設定]
 
@@ -831,7 +831,7 @@ CodePipeLineの設定(ソース・ビルド)
 .. note:: ここで指定しているDocker環境はECSコンテナをビルドするための設定のため、Ubuntuを使用する設定で問題ない。
 
 .. figure:: img/management-console-codepipeline-5.png
-   :scale: 100%
+
 
 [キャッシュ]
 
@@ -847,7 +847,7 @@ CodePipeLineの設定(ソース・ビルド)
 * VPC ID：非VPC
 
 .. figure:: img/management-console-codepipeline-6.png
-   :scale: 100%
+
 
 [アドバンスト]
 
@@ -869,29 +869,29 @@ CodePipeLineの設定(ソース・ビルド)
 ■デプロイプロバイダには「デプロイなし」を指定し、「次のステップ」ボタンを押下する。
 
 .. figure:: img/management-console-codepipeline-7.png
-   :scale: 100%
+
 
 .. note::　本来であればデプロイプロバイダに「ECS」を指定するが、一度コンテナイメージを作成し、ECSタスク定義とサービス定義を実行した後、再度デプロイプロバイダの設定を行う。
 
 ■任意のロール名を入力し、「ロールの作成」ボタンを押下して、サービスロールを作成し、「次のステップ」を押下する。
 
 .. figure:: img/management-console-codepipeline-8.png
-   :scale: 100%
+
 
 .. note:: 適切な権限を持つロールを設定しないとエラーになるので注意
 
    .. figure:: img/management-console-codepipeline-9.png
-      :scale: 100%
+
 
 ■設定内容を確認し、「パイプラインの作成」を押下する。
 
 .. figure:: img/management-console-codepipeline-10.png
-   :scale: 100%
+
 
 ■ソースコードがチェックアウトされ、コンテナのビルドが実行される。正常終了すると、DockerHubにコンテナイメージがプッシュされる。
 
 .. figure:: img/management-console-codepipeline-11.png
-   :scale: 100%
+
 
 .. _section8-3-2-3-codepipeline-staging-release-ecs-task-setting-label:
 
@@ -903,17 +903,17 @@ ECSタスク定義
 ■ECSサービスメニューから、タスク定義を選択し、「新しいタスク定義の作成」ボタンを押下する。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-1.png
-   :scale: 100%
+
 
 ■起動モードはEC2を選択する。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-2.png
-   :scale: 100%
+
 
 ■タスクとコンテナの定義について以下の通り、設定を行う。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-3.png
-   :scale: 100%
+
 
 [タスクとコンテナの定義の設定]
 
@@ -922,7 +922,7 @@ ECSタスク定義
 * ネットワークモード：デフォルト
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-4.png
-   :scale: 100%
+
 
 [タスクの実行のIAMロール]
 
@@ -938,7 +938,7 @@ ECSタスク定義
 ■ コンテナ定義を以下の通り設定する。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-5.png
-   :scale: 100%
+
 
 [スタンダード]
 
@@ -953,21 +953,21 @@ ECSタスク定義
 .. warning:: コンテナ名は :ref:`section8-3-2-1-codepipeline-staging-release-prepared-label` のbuildspec.ymlで指定した、imagedefinitions.jsonのname属性の値と同じにしておく必要がある。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-6.png
-   :scale: 100%
+
 
 [詳細コンテナの設定]
 
 * 特にここでは設定しない
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-7.png
-   :scale: 100%
+
 
 [ネットワークの設定]
 
 * 特にここでは設定しない
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-8.png
-   :scale: 100%
+
 
 [ストレージとログ]
 
@@ -978,7 +978,7 @@ ECSタスク定義
 * 特にここでは設定しない
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-9.png
-   :scale: 100%
+
 
 [リソースの制限]
 
@@ -991,7 +991,7 @@ ECSタスク定義
 ■制約等は特に設定せず、「作成」ボタンを押下する。
 
 .. figure:: img/management-console-ecs-create-task-for-codepipeline-10.png
-   :scale: 100%
+
 
 .. _section8-3-2-4-codepipeline-staging-release-ecs-service-setting-label:
 
@@ -1004,17 +1004,17 @@ ECSサービス設定
 ■ECSサービスメニューから「クラスター」を選び、作成してあるECSクラスタ「sample-cluster」を選択する。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-1.png
-   :scale: 100%
+
 
 ■サービスタブから、「作成」ボタンを押下し、サービスを新規作成する。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-2.png
-   :scale: 100%
+
 
 ■以下の通り、サービスの新規設定を行う。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-3.png
-   :scale: 100%
+
 
 [サービスの設定]
 
@@ -1034,7 +1034,7 @@ ECSサービス設定
 .. note:: 設定オプションについては、:ref:`section3-2-5-ecs-create-service-label`　も参照のこと。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-4.png
-   :scale: 100%
+
 
 [ヘルスチェックの猶予期間]
 
@@ -1051,17 +1051,17 @@ ECSサービス設定
 ■ :ref:`section8-3-2-1-codepipeline-staging-release-prepared-label` で作成したロードバランサを指定し、「次のステップ」ボタンを押下する。
 　
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-5.png
-   :scale: 100%
+
 
 ■ AutoScalingオプションは、「サービスの必要数を直接調整しない」を設定し、「次のステップ」を押下する。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-6.png
-   :scale: 100%
+
 
 ■設定値を確認し、「サービスの作成」ボタンを押下する。
 
 .. figure:: img/management-console-ecs-create-service-for-codepipeline-7.png
-   :scale: 100%
+
 
 .. _section8-3-2-5-codepipeline-staging-release-setting-2-label:
 
@@ -1073,12 +1073,12 @@ CodePipeLineの設定(ECSデプロイ)
 ■  :ref:`section8-3-2-2-codepipeline-staging-release-setting-label` で作成したCodePipeline定義を開き、「編集」ボタンを押下する。
 
 .. figure:: img/management-console-codepipeline-11.png
-   :scale: 100%
+
 
 ■ ビルドの後にステージングデプロイ用のアクションを追加し、「アクションの追加」ボタンを押下する。
 
 .. figure:: img/management-console-codepipeline-12.png
-   :scale: 100%
+
 
 詳細なオプションは、以下の設定通り行う。
 
@@ -1102,8 +1102,19 @@ CloudFormation
 ------------------------------------------------------
 
 CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
+CloudFormationは以下のフォーマットで記述される。
 
-.. todo:: CloudFormationのテンプレート記述要領について記述。
+.. sourcecode:: bash
+
+   AWSTemplateFormatVersion: "version date"
+   Description: String
+   Metadata: template metadata
+   Parameters: set of parameters
+   Mappings: set of mappings
+   Conditions: set of conditions
+   Transform: set of transforms
+   Resources: set of resources
+   Outputs: set of outputs
 
 
 .. _section8-5-elastic-beanstalk-label:
@@ -1124,145 +1135,11 @@ AWS OpsWorksはChefを利用して、アプリケーションの設定と管理�
 
 .. todo:: OpsWorksについて詳細を記述
 
-.. _section8-7-Systems-Manager-label:
+.. _section8-7-cloud-formation-label:
 
-AWS Systems Manager
+AWS CDK(AWS Cloud Development Kit)
 ------------------------------------------------------
 
-.. _section8-7-1-systems-manager-overview-label:
+AWS CDKはインフラをPython、TypeScriptなどの言語で記述する言語である。
 
-Overview
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-AWS Systems Managerは、EC2をはじめとしたサーバリソースの大規模な運用・管理を効率化・自動化するサービスである。
-EC2インスタンスへのパッチ適用やインベントリ(システム構成)情報の収集、OSのアップデートやドライバの更新の実行、AMIの管理などを、リソース単位でまとめ大規模に実行することが可能である。
-また、複数のリソースで共有可能なパラメータストアの作成やブラウザベースでのEC2インスタンスへのアクセスなどシステム管理に関わる複数の機能群で構成される。Systems Managerの主な特徴・機能は以下の通りである。
-
-.. list-table:: Systems Managerの主な特徴・機能
-   :widths: 2, 8
-
-   * - 機能
-     - 概要
-
-   * - Remote Connect
-     - 通常必ず行うセキュリティインバウンド設定やSSHキーなしで、ブラウザやAWS CLIを使ってEC2インスタンスへアクセスする機能
-
-   * - Resource Group
-     - AWSの複数のリソースをグルーピング化できる機能
-
-   * - Insight & Dashboard
-     - リソースごとに収集したソフトウェアインベントリ情報(OSバージョンなどの構成管理情報)やCloudTrail、Trusted Advisorなどのインサイト情報をダッシュボードで俯瞰的に参照する機能
-
-   * - RunningTasks on group resources
-     - リソースグループに対し、オペレーションタスク・スクリプトを自動的に実行する機能
-
-   * - Parameter store
-     - 複数のリソースで共有可能な、認証キーやIDなど秘匿情報やプレインテキストデータを階層的に管理して保存、参照する機能
-
-   * - OS patch management
-     - 複数のリソースまたはリソースグループに対し、パッチ適用などを実行する機能
-
-   * - Meintenance windows
-     - タスク実行をスケジューリング化し実行する機能
-
-   * - Consistent Configuration
-     - ステートマネージャを使用した一貫した設定・メンテナンス機能
-
-.. _section8-7-2-systems-manager-remote-connect-label:
-
-Remote Connect
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: Systems Managerを使ったリモートアクセスのやり方を記載する。
-
-.. _section8-7-3-systems-manager-resource-group-label:
-
-Resource Group
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: Systems Managerを使ったリソースグループ設定のやり方を記載する。
-
-.. _section8-7-4-systems-manager-insight-dashboard-label:
-
-Insight & Dashboard
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: Systems Managerを使ったインサイト情報の参照機能の使い方を記載する。
-
-.. _section8-7-5-systems-manager-runnging-task-label:
-
-Running Tasks
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: タスク自動実行機能の使い方を記載する。
-
-.. _section8-7-6-systems-manager-Parameter-store-label:
-
-Paramter Store
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. _section8-7-6-1-systems-manager-parameter-store-overview-label:
-
-Overview
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-パラメータストアはパスワードやデータベース文字列、ライセンスコードなどアプリケーションに直接実装せず環境変数を経由して設定するデータ等を一元的に管理するためのサービスである。
-特に多くのEC2インスタンスやECSタスク上にデプロイされたアプリケーションなどで同一のデータを参照したい場合有効であり、またデータは階層構造をとることができる。
-データ値はプレーンテキストまたはAWS KMSを使用して暗号化データとして使用でき、暗号化や復号化も同時に実行する。パラメータストアの参照はIAMにより細かくアクセス制御が可能であり、
-以下のAWSサービスから利用可能である。
-
-* Amazon EC2
-* Amazon ECS
-* AWS Lambda
-* AWS CloudFormation
-* AWS CodeBuild
-* AWS CodeDeploy
-
-また、暗号化や通知、モニタリング、監査を行うため、以下のサービスと連動して機能する。
-
-* AWS KMS
-* Amazon SNS
-* Amazon CloudWatch
-* AWS CloudTrail
-
-従来のパラメータストアでは、データサイズが4KBまで、スループット上限は規定範囲内だったが、`2019年4月のアップデートでアドバンスドパラメータオプションが導入 <https://aws.amazon.com/jp/about-aws/whats-new/2019/04/aws_systems_manager_parameter_store_introduces_advanced_parameters/>`_ され、
-10000を変えるパラメータの作成、最大8KB、スループットの上限緩和(デフォルト40tpsから最大1000tpsまで)の拡張がなされた。
-ただし、アドバンスドパラメータオプションは有料となるため注意すること。
-
-.. _section8-7-6-2-systems-manager-parameter-store-create-parameter-label:
-
-標準パラメータストアの設定
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-1. AWSコンソール上から、Systems Managerを選択し、「パラメータストア」メニューから「パラメータの作成」ボタンを押下する。
-
-.. figure:: img/management-console-ssm-create-parameter-store-1.png
-   :scale: 100%
-
-2. パラメータ名と値を設定し、「作成」ボタンを押下する。
-
-.. figure:: img/management-console-ssm-create-parameter-store-2.png
-   :scale: 100%
-
-.. note:: ここで設定したパラメータを参照する方法は、 :ref:`section8-2-2-1-codebuild-local-execution-label` を参照のこと。
-
-.. _section8-7-7-systems-manager-os-patch-management-label:
-
-OS patch management
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: パッチマネージャーを使ったOSパッチ管理方法を記載する。
-
-.. _section8-7-8-systems-manager-maintenance-windows-label:
-
-Maintenance windows
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: メンテナンスウィンドウを使ったスケジューリングタスクの設定・実行方法を記載する。
-
-.. _section8-7-9-systems-manager-consistent-configuration-label:
-
-Consistent Configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: ステートマネージャを使った設定・実行方法を記載する。
+.. note:: 2019.9時点でGA中のサービス。

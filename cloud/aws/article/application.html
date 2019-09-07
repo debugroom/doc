@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -129,12 +130,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -210,7 +213,7 @@
 <div class="section" id="overview">
 <span id="section7-1-1-sns-overview-label"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
 <p>Amazon Simple Notification ServiceはPublish/Subscribe型のメッセージ配信サービスである。
-発行者(Publisher)は、複数の購読者(Subscriber：WebServer, Mail, Amazon SQS, Amazon Lamda)へ非同期メッセージ送信する。</p>
+発行者(Publisher)は、複数の購読者(Subscriber：WebServer, Mail, Amazon SQS, Amazon Lambda)へ非同期メッセージ送信する。</p>
 <p>SNSは以下のような特徴をもつ。</p>
 <ul class="simple">
 <li>単一で複数の購読者へメッセージを送信できる。</li>
@@ -250,24 +253,24 @@
 <span id="section7-1-2-sns-overview-label"></span><h3>SNS Topicの作成<a class="headerlink" href="#sns-topic" title="Permalink to this headline">¶</a></h3>
 <p>■AWSコンソールからSNSを選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sns-create-topic-1.png"><img alt="../../../_images/management-console-sns-create-topic-1.png" src="../../../_images/management-console-sns-create-topic-1.png" style="width: 1064.0px; height: 572.0px;" /></a>
+<img alt="../../../_images/management-console-sns-create-topic-1.png" src="../../../_images/management-console-sns-create-topic-1.png" />
 </div>
 <p>■トピックメニューを選択し、「新しくトピックを作成」をクリックする。</p>
 <p>■トピック名を作成し、「トピックの作成」をクリックする。トピックが作成される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sns-create-topic-3.png"><img alt="../../../_images/management-console-sns-create-topic-3.png" src="../../../_images/management-console-sns-create-topic-3.png" style="width: 895.0px; height: 313.0px;" /></a>
+<img alt="../../../_images/management-console-sns-create-topic-3.png" src="../../../_images/management-console-sns-create-topic-3.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sns-create-topic-4.png"><img alt="../../../_images/management-console-sns-create-topic-4.png" src="../../../_images/management-console-sns-create-topic-4.png" style="width: 1044.0px; height: 255.0px;" /></a>
+<img alt="../../../_images/management-console-sns-create-topic-4.png" src="../../../_images/management-console-sns-create-topic-4.png" />
 </div>
 <p>ここでは、AutoScaleした際にイベント通知をSNSを行う場合の例を説明する。</p>
 <p>■EC2サービスでAutoScaleグループメニューを選択し、「通知」タブの「通知の作成」をクリックする。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sns-create-topic-5.png"><img alt="../../../_images/management-console-sns-create-topic-5.png" src="../../../_images/management-console-sns-create-topic-5.png" style="width: 1054.0px; height: 525.0px;" /></a>
+<img alt="../../../_images/management-console-sns-create-topic-5.png" src="../../../_images/management-console-sns-create-topic-5.png" />
 </div>
 <p>■上記で作成したトピックが選択されるので、イベントを追加し、保存を押下する。これによりAutoScaleでEC2インスタンスが起動すると、SNSトピックにメッセージが送信されるようになる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sns-create-topic-6.png"><img alt="../../../_images/management-console-sns-create-topic-6.png" src="../../../_images/management-console-sns-create-topic-6.png" style="width: 1055.0px; height: 515.0px;" /></a>
+<img alt="../../../_images/management-console-sns-create-topic-6.png" src="../../../_images/management-console-sns-create-topic-6.png" />
 </div>
 </div>
 </div>
@@ -362,18 +365,18 @@
 <span id="id2"></span><h3>キューの作成<a class="headerlink" href="#section7-2-1-sqs-create-queue-label" title="Permalink to this headline">¶</a></h3>
 <p>■コンソールからSQSを選択し、「今すぐ始める」をクリックする。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-create-queue-1.png"><img alt="../../../_images/management-console-sqs-create-queue-1.png" src="../../../_images/management-console-sqs-create-queue-1.png" style="width: 1016.0px; height: 526.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-create-queue-1.png" src="../../../_images/management-console-sqs-create-queue-1.png" />
 </div>
 <p>■キューに名称、キューの属性を設定し、キューの作成を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-create-queue-2.png"><img alt="../../../_images/management-console-sqs-create-queue-2.png" src="../../../_images/management-console-sqs-create-queue-2.png" style="width: 1060.0px; height: 296.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-create-queue-2.png" src="../../../_images/management-console-sqs-create-queue-2.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-create-queue-3.png"><img alt="../../../_images/management-console-sqs-create-queue-3.png" src="../../../_images/management-console-sqs-create-queue-3.png" style="width: 1024.0px; height: 508.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-create-queue-3.png" src="../../../_images/management-console-sqs-create-queue-3.png" />
 </div>
 <p>■キューが登録される。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-create-queue-4.png"><img alt="../../../_images/management-console-sqs-create-queue-4.png" src="../../../_images/management-console-sqs-create-queue-4.png" style="width: 1067.0px; height: 540.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-create-queue-4.png" src="../../../_images/management-console-sqs-create-queue-4.png" />
 </div>
 </div>
 <div class="section" id="sqs">
@@ -382,11 +385,11 @@
 <p><a class="reference internal" href="../../../java/spring/spring-cloud-aws/usage.html#section2-1-spring-cloud-aws-sqs-usage-label"><span class="std std-ref">Amazon SQSを利用する実装</span></a> を参照のこと。</p>
 <p>作成したキューに対し、メッセージを送信する。キューを選択し、「キュー操作」からメッセージ送信を選ぶ。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-push-queue-1.png"><img alt="../../../_images/management-console-sqs-push-queue-1.png" src="../../../_images/management-console-sqs-push-queue-1.png" style="width: 1109.0px; height: 851.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-push-queue-1.png" src="../../../_images/management-console-sqs-push-queue-1.png" />
 </div>
 <p>メッセージを入力し、送信ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-push-queue-2.png"><img alt="../../../_images/management-console-sqs-push-queue-2.png" src="../../../_images/management-console-sqs-push-queue-2.png" style="width: 643.0px; height: 632.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-push-queue-2.png" src="../../../_images/management-console-sqs-push-queue-2.png" />
 </div>
 <p>アプリケーションを実行しているとリスナーがメッセージ処理する。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2018</span>-03-03 <span class="m">13</span>:02:44.071  INFO <span class="m">73635</span> --- <span class="o">[</span>  restartedMain<span class="o">]</span> o.d.sample.spring.cloud.aws.config.App   : Started App in <span class="m">14</span>.102 seconds <span class="o">(</span>JVM running <span class="k">for</span> <span class="m">16</span>.098<span class="o">)</span>
@@ -400,11 +403,11 @@
 <p>SNSトピックから通知されたイベントを受け取りキューをメッセージングする設定を行う。</p>
 <p>■作成したSQSキューを選択し、「キュー操作」&gt;「SNSトピックへのキューサブスクライブ」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-subscribe-sns-1.png"><img alt="../../../_images/management-console-sqs-subscribe-sns-1.png" src="../../../_images/management-console-sqs-subscribe-sns-1.png" style="width: 1067.0px; height: 537.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-subscribe-sns-1.png" src="../../../_images/management-console-sqs-subscribe-sns-1.png" />
 </div>
 <p>■ 購読する対象のSNSトピックを選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-sqs-subscribe-sns-2.png"><img alt="../../../_images/management-console-sqs-subscribe-sns-2.png" src="../../../_images/management-console-sqs-subscribe-sns-2.png" style="width: 730.0px; height: 318.0px;" /></a>
+<img alt="../../../_images/management-console-sqs-subscribe-sns-2.png" src="../../../_images/management-console-sqs-subscribe-sns-2.png" />
 </div>
 </div>
 </div>
@@ -693,26 +696,26 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 </div>
 <p>■AWSコンソールから、AWS Lambdaを選択し、「関数の作成」をクリックする。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-upload-1.png"><img alt="../../../_images/management-console-lambda-upload-1.png" src="../../../_images/management-console-lambda-upload-1.png" style="width: 1112.0px; height: 601.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-upload-1.png" src="../../../_images/management-console-lambda-upload-1.png" />
 </div>
 <p>■関数の名前、実行する言語や環境、ロールを選択し、関数を作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-1.png"><img alt="../../../_images/management-console-lambda-s3-1.png" src="../../../_images/management-console-lambda-s3-1.png" style="width: 1172.0px; height: 801.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-1.png" src="../../../_images/management-console-lambda-s3-1.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>S3等にアクセスする場合は、権限を付与したロールを作成しておくこと。</p>
 <div class="last figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-upload-3.png"><img alt="../../../_images/management-console-lambda-upload-3.png" src="../../../_images/management-console-lambda-upload-3.png" style="width: 710.0px; height: 267.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-upload-3.png" src="../../../_images/management-console-lambda-upload-3.png" />
 </div>
 </div>
 <p>■イベントのトリガーとなる要素を「トリガーの追加」リストから選択し、追加する。ここでは、S3を追加する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-2.png"><img alt="../../../_images/management-console-lambda-s3-2.png" src="../../../_images/management-console-lambda-s3-2.png" style="width: 1168.0px; height: 745.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-2.png" src="../../../_images/management-console-lambda-s3-2.png" />
 </div>
 <p>■S3におけるイベントの発生条件を設定する。ここでは特定のバケットに新規追加、更新するとLambdaにイベントが通知されるよう決定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-3.png"><img alt="../../../_images/management-console-lambda-s3-3.png" src="../../../_images/management-console-lambda-s3-3.png" style="width: 1162.0px; height: 671.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-3.png" src="../../../_images/management-console-lambda-s3-3.png" />
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -721,13 +724,13 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 </div>
 <p>■続いて、作成したLambdaファンクションを選択し、実行環境やハンドラ、環境変数などの設定を行う。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-4.png"><img alt="../../../_images/management-console-lambda-s3-4.png" src="../../../_images/management-console-lambda-s3-4.png" style="width: 1383.0px; height: 571.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-4.png" src="../../../_images/management-console-lambda-s3-4.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-5.png"><img alt="../../../_images/management-console-lambda-s3-5.png" src="../../../_images/management-console-lambda-s3-5.png" style="width: 1165.0px; height: 780.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-5.png" src="../../../_images/management-console-lambda-s3-5.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-6.png"><img alt="../../../_images/management-console-lambda-s3-6.png" src="../../../_images/management-console-lambda-s3-6.png" style="width: 1164.0px; height: 688.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-6.png" src="../../../_images/management-console-lambda-s3-6.png" />
 </div>
 <p>以下では最低限必要な設定要領を記述する。</p>
 <ul class="simple">
@@ -759,12 +762,12 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
 <p class="first admonition-title">Note</p>
 <p>テスト実行により関数が正常実行されるか確認できる。ただし、実際のイベントのオブジェクトは空の状態で渡ってくるので注意。</p>
 <div class="last figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-7.png"><img alt="../../../_images/management-console-lambda-s3-7.png" src="../../../_images/management-console-lambda-s3-7.png" style="width: 818.0px; height: 571.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-7.png" src="../../../_images/management-console-lambda-s3-7.png" />
 </div>
 </div>
 <p>■画面上部の保存を押下した後、S3へファイルアップロードすると、イベントが通知され、Lambdaファンクションが起動する。実行はCloud Watchから確認できる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-lambda-s3-8.png"><img alt="../../../_images/management-console-lambda-s3-8.png" src="../../../_images/management-console-lambda-s3-8.png" style="width: 1877.0px; height: 767.0px;" /></a>
+<img alt="../../../_images/management-console-lambda-s3-8.png" src="../../../_images/management-console-lambda-s3-8.png" />
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>

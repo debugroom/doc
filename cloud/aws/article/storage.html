@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
@@ -113,12 +114,14 @@
 <li class="toctree-l2"><a class="reference internal" href="security.html">Security Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html">Application Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="devops.html">DevOps Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iot.html">AWS IoT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="management.html">Management Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="appendix.html">Appendix - 付録</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -253,21 +256,21 @@
 </ul>
 <p>■S3コンソールでバケットの作成を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-portal-1.png"><img alt="../../../_images/management-console-s3-portal-1.png" src="../../../_images/management-console-s3-portal-1.png" style="width: 1233.0px; height: 820.0px;" /></a>
+<img alt="../../../_images/management-console-s3-portal-1.png" src="../../../_images/management-console-s3-portal-1.png" />
 </div>
 <p>■バケットを作成するリージョンとバケット名を入力し、次へを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-1.png"><img alt="../../../_images/management-console-s3-create-bucket-1.png" src="../../../_images/management-console-s3-create-bucket-1.png" style="width: 694.0px; height: 794.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-bucket-1.png" src="../../../_images/management-console-s3-create-bucket-1.png" />
 </div>
 <p>■プロパティやアクセス権限はそのままの設定で次へを押下していき、バケットを作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-2.png"><img alt="../../../_images/management-console-s3-create-bucket-2.png" src="../../../_images/management-console-s3-create-bucket-2.png" style="width: 692.0px; height: 796.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-bucket-2.png" src="../../../_images/management-console-s3-create-bucket-2.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-3.png"><img alt="../../../_images/management-console-s3-create-bucket-3.png" src="../../../_images/management-console-s3-create-bucket-3.png" style="width: 684.0px; height: 795.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-bucket-3.png" src="../../../_images/management-console-s3-create-bucket-3.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-bucket-4.png"><img alt="../../../_images/management-console-s3-create-bucket-4.png" src="../../../_images/management-console-s3-create-bucket-4.png" style="width: 692.0px; height: 794.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-bucket-4.png" src="../../../_images/management-console-s3-create-bucket-4.png" />
 </div>
 <p>なお、バケットの作成は無料で行えるが、バケット内にオブジェクトを保存・転送した場合に費用が発生する。料金は <a class="reference external" href="https://aws.amazon.com/jp/s3/pricing/">こちら</a> を参照のこと。</p>
 </div>
@@ -275,24 +278,24 @@
 <span id="id3"></span><h3>フォルダの作成・オブジェクトのアップロード<a class="headerlink" href="#section5-1-2-s3-create-folder-and-object-label" title="Permalink to this headline">¶</a></h3>
 <p>■S3コンソールでバケットを選択し、フォルダの作成ボタンを押下し、フォルダ名を入力してフォルダを作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-folder-1.png"><img alt="../../../_images/management-console-s3-create-folder-1.png" src="../../../_images/management-console-s3-create-folder-1.png" style="width: 1135.0px; height: 729.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-folder-1.png" src="../../../_images/management-console-s3-create-folder-1.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-create-folder-2.png"><img alt="../../../_images/management-console-s3-create-folder-2.png" src="../../../_images/management-console-s3-create-folder-2.png" style="width: 1082.0px; height: 576.0px;" /></a>
+<img alt="../../../_images/management-console-s3-create-folder-2.png" src="../../../_images/management-console-s3-create-folder-2.png" />
 </div>
 <p>■S3コンソールでバケットを選択し、アップロードボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-1.png"><img alt="../../../_images/management-console-s3-upload-1.png" src="../../../_images/management-console-s3-upload-1.png" style="width: 696.0px; height: 697.0px;" /></a>
+<img alt="../../../_images/management-console-s3-upload-1.png" src="../../../_images/management-console-s3-upload-1.png" />
 </div>
 <p>■アップロード対象のファイルを選択したのち、ファイルの閲覧権限を設定してアップロードする。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-2.png"><img alt="../../../_images/management-console-s3-upload-2.png" src="../../../_images/management-console-s3-upload-2.png" style="width: 685.0px; height: 687.0px;" /></a>
+<img alt="../../../_images/management-console-s3-upload-2.png" src="../../../_images/management-console-s3-upload-2.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-3.png"><img alt="../../../_images/management-console-s3-upload-3.png" src="../../../_images/management-console-s3-upload-3.png" style="width: 687.0px; height: 685.0px;" /></a>
+<img alt="../../../_images/management-console-s3-upload-3.png" src="../../../_images/management-console-s3-upload-3.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-upload-4.png"><img alt="../../../_images/management-console-s3-upload-4.png" src="../../../_images/management-console-s3-upload-4.png" style="width: 694.0px; height: 694.0px;" /></a>
+<img alt="../../../_images/management-console-s3-upload-4.png" src="../../../_images/management-console-s3-upload-4.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -314,7 +317,7 @@ CORS(Cross-Origin Resource Sharing) は、XMLHttpRequest等のSame-Origin Policy
 </pre></div>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-s3-setting-cors-1.png"><img alt="../../../_images/management-console-s3-setting-cors-1.png" src="../../../_images/management-console-s3-setting-cors-1.png" style="width: 915.0px; height: 729.0px;" /></a>
+<img alt="../../../_images/management-console-s3-setting-cors-1.png" src="../../../_images/management-console-s3-setting-cors-1.png" />
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>

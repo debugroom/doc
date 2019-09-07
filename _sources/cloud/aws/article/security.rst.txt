@@ -57,17 +57,17 @@ IAMユーザ・グループの作成
 ■管理コンソールのIAMから、ユーザを選び「ユーザの作成」を選択する。
 
 .. figure:: img/management-console-iam-create-user-1.png
-   :scale: 100%
+
 
 ■ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。
 
 .. figure:: img/management-console-iam-create-user-2.png
-      :scale: 100%
+
 
 ■新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。
 
 .. figure:: img/management-console-iam-create-group-1.png
-      :scale: 100%
+
 
 
 .. _section7-1-3-iam-create-role-label:
@@ -81,13 +81,13 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
 ■管理コンソールのIAMからロールを選び、「ロールの作成」ボタンを押下する。
 
 .. figure:: img/management-console-iam-create-role-1.png
-      :scale: 100%
+
 
 
 ■アプリケーション用のユーザ(のみ)が、STSに対して、AssumreRoleリクエストが発行できるように、「別のAWSアカウント」を選択し、アプリケーション用のユーザを作成したアカウントIDを入力する。
 
 .. figure:: img/management-console-iam-create-role-2.png
-      :scale: 100%
+
 
 
 .. warning:: AWSサービス(EC2等)に対してロールを割り当ててしまうと、アプリケーションの実装を知っていれば、第３者でもアクセスできてしまうため、アプリケーションのユーザのみがAssumeRoleリクエストを発行できるように設定する。
@@ -97,7 +97,7 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
 ■S3への書き込みが行えるポリシーを作成する。新規ポリシーの作成を選択し、以下の通り、S3のバケットオブジェクトへPutObject権限を割り当てる。
 
 .. figure:: img/management-console-iam-create-policy-1.png
-   :scale: 100%
+
 
 
 * サービス：S3
@@ -107,14 +107,14 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
 
 
 .. figure:: img/management-console-iam-create-policy-2.png
-   :scale: 100%
+
 
 
 ■「ReviewPolicy」を押下し、ポリシー名を入力して、「CreatePolicy」でポリシーを作成する。
 
 
 .. figure:: img/management-console-iam-create-policy-3.png
-   :scale: 100%
+
 
 
 
@@ -122,13 +122,13 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
 
 
 .. figure:: img/management-console-iam-create-role-3.png
-   :scale: 100%
+
 
 
 ■ロールを作成したのち、信頼関係タブで、「信頼関係の編集」を押下する。
 
 .. figure:: img/management-console-iam-create-role-4.png
-   :scale: 100%
+
 
 
 ■PrincipalのAWS属性を以下の通り書き換える。
@@ -136,7 +136,7 @@ IAMロールは、アプリケーションでS3へのダイレクトアップロ
 "arn:aws:iam::<アカウント>:user:<アプリケーション用のIAMユーザ>"
 
 .. figure:: img/management-console-iam-create-role-5.png
-   :scale: 100%
+
 
 .. note:: アプリケーションからSTSを利用する場合、アカウントIDを含むロールARNを取得する必要があるが、アプリケーションのセキュリティ対策上の問題で、アプリケーション内で定義したロール名からARNを取得したい場合(アカウントIDなどをプロパティに定義したくない場合)、AssumeRequestするユーザがロール情報を取得できるよう、以下のようなポリシーをユーザにアタッチしておく必要がある。
 
@@ -192,37 +192,37 @@ SSL証明書には、
 1. 証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、¥*.debugroom.orgを入力。
 
 .. figure:: img/management-console-acm-request-certification-1.png
-      :scale: 100%
+
 
 2. DNSの検証ラジオボタンにチェックをいれたまま、「次へ」を押下する。この方法では、Route53を使って認証を行うパターンである。
 
 .. figure:: img/management-console-acm-request-certification-2.png
-      :scale: 100%
+
 
 3. 「確定とリクエスト」を押下する。
 
 .. figure:: img/management-console-acm-request-certification-3.png
-      :scale: 100%
+
 
 4. ドメインのDNS設定でCNAMEレコードの追加を行うことで認証する。ここではRoute53を使用してレコードの追加を行う。「Route53でのレコードの作成」を押下する。
 
 .. figure:: img/management-console-acm-request-certification-4.png
-      :scale: 100%
+
 
 5. 「作成」を押下し、レコードを追加する。
 
 .. figure:: img/management-console-acm-request-certification-5.png
-      :scale: 100%
+
 
 6. DNSレコードが書き込まれ、検証フェーズに更新される。
 
 .. figure:: img/management-console-acm-request-certification-6.png
-      :scale: 100%
+
 
 7. ACMコンソールでは、証明書の検証のステータスが表示される。検証が完了するまで少々時間がかかる。
 
 .. figure:: img/management-console-acm-request-certification-7.png
-      :scale: 100%
+
 
 .. _section7-3-cognito-label:
 
@@ -247,12 +247,12 @@ IDプールの作成
 ■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。
 
 .. figure:: img/management-console-cognito-create-idpool-1.png
-      :scale: 100%
+
 
 ■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。
 
 .. figure:: img/management-console-cognito-create-idpool-2.png
-      :scale: 100%
+
 
 ■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。
 

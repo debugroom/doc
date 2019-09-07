@@ -313,10 +313,10 @@ Management console
 Management consoleは、Amazon web serviceを管理するためのWebアプリケーションである。インスタンスの起動や、S3への接続といった、多くのAWSサービスの処理、操作をGUIを通じて行える。また、使用料金の情報も得る事が出来る。
 
 .. figure:: img/management-console-top.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-biling-dashboad.png
-   :scale: 100%
+
 
 .. _section1-4-overview-arn-label:
 

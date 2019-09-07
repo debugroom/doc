@@ -125,7 +125,7 @@ VPCの構築
 ■AWSコンソールから、「VPC」サービスを選択し、「VPCを作成」ボタンを押下する。
 
    .. figure:: img/management-console-vpc-create-vpc-1.png
-      :scale: 100%
+
 
 ■以下の通り、VPCの設定値を入力して、「create」ボタンを押下する。
 
@@ -142,7 +142,7 @@ VPCの構築
 ■AWSコンソールから、「VPC」サービスを選択し、「サブネット」メニューを選び、「サブネットの作成」ボタンを押下する。
 
    .. figure:: img/management-console-vpc-create-subnet-public-1.png
-      :scale: 100%
+
 
 ■以下の通り、パブリックサブネットの設定値を入力して、「作成」ボタンを押下する。
 
@@ -161,12 +161,12 @@ VPCの構築
 ■AWSコンソールから、「VPC」サービスを選択し、「インターネットゲートウェイ」メニューから、「インターネットゲートウェイの作成」ボタンを押下する。名前タグを入力して、「作成」ボタンを押下する。
 
    .. figure:: img/management-console-vpc-create-igw-1.png
-      :scale: 100%
+
 
 ■作成したインターネットゲートウェイを選択し、「アクション」ボタンから「VPCにアタッチ」を選択し、アタッチするVPCを選択する。
 
    .. figure:: img/management-console-vpc-attach-igw-1.png
-      :scale: 100%
+
 
 .. _section3-1-6-edit-routetable-label:
 
@@ -178,12 +178,12 @@ VPCの構築
 ■AWSコンソールから「VPC」サービスを選択し、「ルートテーブル」メニューを選択する。作成したVPCに関連付けられているルートテーブルを選択し、「Route」タブから「Edit Routes」ボタンを押下する。
 
    .. figure:: img/management-console-vpc-edit-routetable-1.png
-      :scale: 100%
+
 
 ■「Add Route」ボタンを押下し、アウトバウンドトラフィック「0.0.0.0/0」に作成したインターネットゲートウェイを設定する。
 
    .. figure:: img/management-console-vpc-edit-routetable-2.png
-      :scale: 100%
+
 
 .. _section3-1-7-elastic-ip-address-label:
 
@@ -200,15 +200,15 @@ Elastic IP Address
    Elastic IP Addressを割り当てるにはコンソール画面のElastic IPメニューから、「新しいIPアドレスの割り当て」を選択すると、新しく固定IPアドレスが獲得できる。
 
    .. figure:: img/management-console-elastic-ip-address-1.png
-      :scale: 100%
+
 
    .. figure:: img/management-console-elastic-ip-address-2.png
-      :scale: 100%
+
 
    獲得した固定IPアドレスを稼働中のEC2インスタンスに割り当てる場合は、「アクション」ボタンからアドレスの関連付けを選択し、割り当てるEC2インスタンスIDを指定する。
 
    .. figure:: img/management-console-elastic-ip-address-3.png
-      :scale: 100%
+
 
 .. _section3-1-8-create-vpc-with-public-private-subnet-label:
 
@@ -220,12 +220,12 @@ Elastic IP Address
 ■AWSコンソールから、「VPC」サービスを選択し、「VPCダッシュボード」メニューから、「VPCを作成」ボタンを押下する。
 
    .. figure:: img/management-console-vpc-create-vpc-public-private-subnet-1.png
-      :scale: 100%
+
 
 ■以下の通り、VPCのCIDRや、パブリック、プライベートサブネットのCIDR、NAT Gatewayに割り当てるElasticIPアドレスを設定する。
 
    .. figure:: img/management-console-vpc-create-vpc-public-private-subnet-2.png
-      :scale: 100%
+
 
 .. _section3-2-direct-connect-label:
 
@@ -333,17 +333,17 @@ ALBの設定
 1. EC2コンソールメニューから、ロードバランサを選択し、「ロードバランサの作成」をクリックする。
 
 .. figure:: img/management-console-application-load-balancing-setting-1.png
-   :scale: 100%
+
 
 2. 「アプリケーションロードバランサ」を選択する。
 
 .. figure:: img/management-console-application-load-balancing-setting-2.png
-   :scale: 100%
+
 
 3. ロードバランサの以下の設定項目を入力する。
 
 .. figure:: img/management-console-application-load-balancing-setting-3.png
-   :scale: 100%
+
 
 * 名前：ALBの名称
 * スキーム：ロードバランサーのタイプを選択する。外部からのアクセスかAPサーバ等の内部ネットワークからのアクセスか。
@@ -353,7 +353,7 @@ ALBの設定
 4. 証明書・セキュリティポリシーの設定。
 
 .. figure:: img/management-console-application-load-balancing-setting-4.png
-   :scale: 100%
+
 
 * 証明書タイプ：設定する証明書のタイプを指定する。 :ref:`section7-2-2-acm-request-certication-label` にて作成した証明書を使用
 * 証明書の名前：証明書をプルダウンから選択
@@ -362,14 +362,14 @@ ALBの設定
 5. セキュリティグループの設定
 
 .. figure:: img/management-console-application-load-balancing-setting-5.png
-   :scale: 100%
+
 
 6. ルーティングの設定
 
 ロードバランサーからディスパッチするサーバのインスタンスグループを指定する。
 
 .. figure:: img/management-console-application-load-balancing-setting-6.png
-   :scale: 100%
+
 
 * 名前：任意のターゲットグループ名(xxx-app-alb等)
 * プロトコル：HTTP/HTTPS(ロードバランサーでSSL Terminationを行う場合はHTTPでよい)
@@ -382,7 +382,7 @@ ALBの設定
 インスタンスグループに登録するターゲットを指定。
 
 .. figure:: img/management-console-application-load-balancing-setting-7.png
-   :scale: 100%
+
 
 確認ボタンを押下し、ALBを作成する。
 
@@ -394,12 +394,12 @@ ALBの設定
 EC2コンソールから、メニュー「ターゲットグループ」を選び、「属性」オプションを選択する。
 
 .. figure:: img/management-console-application-load-balancing-setting-8.png
-   :scale: 100%
+
 
 「ロードバランサーによって生成されたCookieの維持を有効化」にチェックを入れ、維持期間を設定する。
 
 .. figure:: img/management-console-application-load-balancing-setting-9.png
-   :scale: 100%
+
 
 .. _section3-4-route53-label:
 
@@ -447,32 +447,32 @@ Route53は以下のルーティングをサポートする。
 Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。
 
 .. figure:: img/management-console-route53-registration-1.png
-   :scale: 100%
+
 
 登録したいドメインが利用可能かチェックを行う。カートに追加すると、どのくらいの期間ドメインを利用するか選択する。
 
 .. figure:: img/management-console-route53-registration-2.png
-   :scale: 100%
+
 
 ドメインの管理者の連絡先情報を入力する。入力したメールアドレス宛に認証のためのメールが届くため、メール記載のリンクを押下して認証を行う。
 
 .. figure:: img/management-console-route53-registration-3.png
-   :scale: 100%
+
 
 登録依頼が完了すると、下記の画面が表示される。
 
 .. figure:: img/management-console-route53-registration-4.png
-   :scale: 100%
+
 
 Route53ダッシュボードに移動すると、申請したドメインの登録情報に関するステータスが表示される。
 
 .. figure:: img/management-console-route53-registration-5.png
-   :scale: 100%
+
 
 登録が完了(完了画面では最大3日程度と書かれているが、今回は1時間程度で完了した)すると、管理者宛のメールアドレスに登録完了のメールが送付され、ダッシュボードの表示が切り替わる。
 
 .. figure:: img/management-console-route53-registration-6.png
-   :scale: 100%
+
 
 .. _section3-4-3-route53-domain-setting-label:
 
@@ -482,17 +482,17 @@ Route53ダッシュボードに移動すると、申請したドメインの登�
 前節「 :ref:`section3-4-2-route53-registration-label` 」に続き、登録したドメインを「 :ref:`section3-1-7-elastic-ip-address-label` 」にて設定したElastic IP Addressに紐づける設定を行う。Route53ダッシュボード画面からDNS ManagementにあるHosted zonesを押下する。
 
 .. figure:: img/management-console-route53-registration-6.png
-   :scale: 100%
+
 
 対象のドメインにチェックを入れ、「Go to Record Sets」ボタンを押下する。
 
 .. figure:: img/management-console-route53-setting-domain-1.png
-   :scale: 100%
+
 
 以下の要領で、Create Record SetにドメインとIPアドレスを設定する。
 
 .. figure:: img/management-console-route53-setting-domain-2.png
-   :scale: 100%
+
 
 .. list-table:: Create Record Setの設定値
    :widths: 3, 7, 3

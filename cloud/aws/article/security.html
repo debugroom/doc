@@ -136,6 +136,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -252,15 +253,15 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 <p>アプリケーションからアクセスするためのユーザ、及びグループを作成し、AWS管理ポリシーを割り当てる。</p>
 <p>■管理コンソールのIAMから、ユーザを選び「ユーザの作成」を選択する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-user-1.png"><img alt="../../../_images/management-console-iam-create-user-1.png" src="../../../_images/management-console-iam-create-user-1.png" style="width: 1130.0px; height: 419.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-user-1.png" src="../../../_images/management-console-iam-create-user-1.png" />
 </div>
 <p>■ユーザ名を入力し、アクセスの種類(ここでは、プログラムによるアクセス)を設定する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-user-2.png"><img alt="../../../_images/management-console-iam-create-user-2.png" src="../../../_images/management-console-iam-create-user-2.png" style="width: 1147.0px; height: 756.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-user-2.png" src="../../../_images/management-console-iam-create-user-2.png" />
 </div>
 <p>■新規グループの作成を選択し、S3へアクセスするAWS管理ポリシーを割り当てる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-group-1.png"><img alt="../../../_images/management-console-iam-create-group-1.png" src="../../../_images/management-console-iam-create-group-1.png" style="width: 899.0px; height: 549.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-group-1.png" src="../../../_images/management-console-iam-create-group-1.png" />
 </div>
 </div>
 <div class="section" id="section7-1-3-iam-create-role-label">
@@ -269,11 +270,11 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 ここでは、S3へファイルの書き込みに対して、STS(Security Token Service)を利用することを想定した、IAMロールの設定を行う。</p>
 <p>■管理コンソールのIAMからロールを選び、「ロールの作成」ボタンを押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-1.png"><img alt="../../../_images/management-console-iam-create-role-1.png" src="../../../_images/management-console-iam-create-role-1.png" style="width: 1043.0px; height: 703.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-role-1.png" src="../../../_images/management-console-iam-create-role-1.png" />
 </div>
 <p>■アプリケーション用のユーザ(のみ)が、STSに対して、AssumreRoleリクエストが発行できるように、「別のAWSアカウント」を選択し、アプリケーション用のユーザを作成したアカウントIDを入力する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-2.png"><img alt="../../../_images/management-console-iam-create-role-2.png" src="../../../_images/management-console-iam-create-role-2.png" style="width: 980.0px; height: 786.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-role-2.png" src="../../../_images/management-console-iam-create-role-2.png" />
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -285,7 +286,7 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 </div>
 <p>■S3への書き込みが行えるポリシーを作成する。新規ポリシーの作成を選択し、以下の通り、S3のバケットオブジェクトへPutObject権限を割り当てる。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-1.png"><img alt="../../../_images/management-console-iam-create-policy-1.png" src="../../../_images/management-console-iam-create-policy-1.png" style="width: 1225.0px; height: 786.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-policy-1.png" src="../../../_images/management-console-iam-create-policy-1.png" />
 </div>
 <ul class="simple">
 <li>サービス：S3</li>
@@ -294,24 +295,24 @@ AWSが最初から設定しているポリシーをAWS管理ポリシーとい�
 <li>リクエスト条件：ここでは特に設定しない</li>
 </ul>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-2.png"><img alt="../../../_images/management-console-iam-create-policy-2.png" src="../../../_images/management-console-iam-create-policy-2.png" style="width: 1002.0px; height: 777.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-policy-2.png" src="../../../_images/management-console-iam-create-policy-2.png" />
 </div>
 <p>■「ReviewPolicy」を押下し、ポリシー名を入力して、「CreatePolicy」でポリシーを作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-policy-3.png"><img alt="../../../_images/management-console-iam-create-policy-3.png" src="../../../_images/management-console-iam-create-policy-3.png" style="width: 1212.0px; height: 784.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-policy-3.png" src="../../../_images/management-console-iam-create-policy-3.png" />
 </div>
 <p>■作成したポリシーをロールに対して割り当て、ロール名を入力し、ロールを作成する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-3.png"><img alt="../../../_images/management-console-iam-create-role-3.png" src="../../../_images/management-console-iam-create-role-3.png" style="width: 974.0px; height: 508.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-role-3.png" src="../../../_images/management-console-iam-create-role-3.png" />
 </div>
 <p>■ロールを作成したのち、信頼関係タブで、「信頼関係の編集」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-4.png"><img alt="../../../_images/management-console-iam-create-role-4.png" src="../../../_images/management-console-iam-create-role-4.png" style="width: 1199.0px; height: 629.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-role-4.png" src="../../../_images/management-console-iam-create-role-4.png" />
 </div>
 <p>■PrincipalのAWS属性を以下の通り書き換える。</p>
 <p>“arn:aws:iam::&lt;アカウント&gt;:user:&lt;アプリケーション用のIAMユーザ&gt;”</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-iam-create-role-5.png"><img alt="../../../_images/management-console-iam-create-role-5.png" src="../../../_images/management-console-iam-create-role-5.png" style="width: 994.0px; height: 800.0px;" /></a>
+<img alt="../../../_images/management-console-iam-create-role-5.png" src="../../../_images/management-console-iam-create-role-5.png" />
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -363,43 +364,43 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 <li>証明書を取得したいドメインを入力し、「次へ」を押下する。ここでは、¥*.debugroom.orgを入力。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-1.png"><img alt="../../../_images/management-console-acm-request-certification-1.png" src="../../../_images/management-console-acm-request-certification-1.png" style="width: 1331.0px; height: 673.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-1.png" src="../../../_images/management-console-acm-request-certification-1.png" />
 </div>
 <ol class="arabic simple" start="2">
 <li>DNSの検証ラジオボタンにチェックをいれたまま、「次へ」を押下する。この方法では、Route53を使って認証を行うパターンである。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-2.png"><img alt="../../../_images/management-console-acm-request-certification-2.png" src="../../../_images/management-console-acm-request-certification-2.png" style="width: 1326.0px; height: 656.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-2.png" src="../../../_images/management-console-acm-request-certification-2.png" />
 </div>
 <ol class="arabic simple" start="3">
 <li>「確定とリクエスト」を押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-3.png"><img alt="../../../_images/management-console-acm-request-certification-3.png" src="../../../_images/management-console-acm-request-certification-3.png" style="width: 1341.0px; height: 577.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-3.png" src="../../../_images/management-console-acm-request-certification-3.png" />
 </div>
 <ol class="arabic simple" start="4">
 <li>ドメインのDNS設定でCNAMEレコードの追加を行うことで認証する。ここではRoute53を使用してレコードの追加を行う。「Route53でのレコードの作成」を押下する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-4.png"><img alt="../../../_images/management-console-acm-request-certification-4.png" src="../../../_images/management-console-acm-request-certification-4.png" style="width: 1311.0px; height: 790.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-4.png" src="../../../_images/management-console-acm-request-certification-4.png" />
 </div>
 <ol class="arabic simple" start="5">
 <li>「作成」を押下し、レコードを追加する。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-5.png"><img alt="../../../_images/management-console-acm-request-certification-5.png" src="../../../_images/management-console-acm-request-certification-5.png" style="width: 1177.0px; height: 345.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-5.png" src="../../../_images/management-console-acm-request-certification-5.png" />
 </div>
 <ol class="arabic simple" start="6">
 <li>DNSレコードが書き込まれ、検証フェーズに更新される。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-6.png"><img alt="../../../_images/management-console-acm-request-certification-6.png" src="../../../_images/management-console-acm-request-certification-6.png" style="width: 1316.0px; height: 843.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-6.png" src="../../../_images/management-console-acm-request-certification-6.png" />
 </div>
 <ol class="arabic simple" start="7">
 <li>ACMコンソールでは、証明書の検証のステータスが表示される。検証が完了するまで少々時間がかかる。</li>
 </ol>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-acm-request-certification-7.png"><img alt="../../../_images/management-console-acm-request-certification-7.png" src="../../../_images/management-console-acm-request-certification-7.png" style="width: 1345.0px; height: 862.0px;" /></a>
+<img alt="../../../_images/management-console-acm-request-certification-7.png" src="../../../_images/management-console-acm-request-certification-7.png" />
 </div>
 </div>
 </div>
@@ -415,11 +416,11 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 <span id="id"></span><h3>IDプールの作成<a class="headerlink" href="#section7-3-1-cognito-create-idpool-label" title="Permalink to this headline">¶</a></h3>
 <p>■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-cognito-create-idpool-1.png"><img alt="../../../_images/management-console-cognito-create-idpool-1.png" src="../../../_images/management-console-cognito-create-idpool-1.png" style="width: 899.0px; height: 442.0px;" /></a>
+<img alt="../../../_images/management-console-cognito-create-idpool-1.png" src="../../../_images/management-console-cognito-create-idpool-1.png" />
 </div>
 <p>■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-cognito-create-idpool-2.png"><img alt="../../../_images/management-console-cognito-create-idpool-2.png" src="../../../_images/management-console-cognito-create-idpool-2.png" style="width: 1344.0px; height: 525.0px;" /></a>
+<img alt="../../../_images/management-console-cognito-create-idpool-2.png" src="../../../_images/management-console-cognito-create-idpool-2.png" />
 </div>
 <p>■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。</p>
 <div class="admonition-todo admonition" id="index-0">

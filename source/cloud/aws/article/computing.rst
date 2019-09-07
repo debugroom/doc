@@ -140,7 +140,7 @@ EC2インスタンスの設定
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-1.png
    :height: 600px
-   :scale: 100%
+
 
 
 ■リザーブドインスタンスの以下の通り、購入オプションを選択し、検索ボタンを押下する。
@@ -153,17 +153,17 @@ EC2インスタンスの設定
 * お支払い方法：全前払い
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-2.png
-   :scale: 100%
+
 
 ■購入数量を記入し、"カートに入れる"ボタンを押下する。
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-3.png
-   :scale: 100%
+
 
 ■ショッピングカートで購入するを押下すると、購入したインスタンスのステータスが一覧化して表示される。
 
 .. figure:: img/management-console-ec2-buy-reserved-instance-4.png
-   :scale: 100%
+
 
 
 .. note:: アベイラビリティゾーンを指定してリザーブドインスタンスを購入すると、リソース予約となり、随時インスタンスの起動が可能である。リソース予約がないとインスタンスが枯渇している場合立ち上げできない場合がある。
@@ -179,18 +179,18 @@ EC2インスタンスの設定
 
 
 .. figure:: img/management-console-ec2-create-instance-1.png
-   :scale: 100%
+
 
 
 ■マシンイメージを選択する。
 
 .. figure:: img/management-console-ec2-create-instance-2.png
-   :scale: 100%
+
 
 ■インスタンスタイプを選択する。リザーブドインスタンスで購入しているのであれば、無料枠のインスタンスタイプが表示される。
 
 .. figure:: img/management-console-ec2-create-instance-3.png
-   :scale: 100%
+
 
 .. note:: EC2のストレージは、物理ホストに接続されている高性能なインスタンスストレージと、ネットワークに接続されているEBSベースのストレージがある。インスタンスストレージでは無料で利用できるが、シャットダウンするとEBSではないインスタンスストレージのデータは失われる。
 
@@ -201,44 +201,44 @@ EC2インスタンスの設定
 ■インスタンスの起動オプションを設定する。ここではデフォルトで設定。
 
 .. figure:: img/management-console-ec2-create-instance-4.png
-   :scale: 100%
+
 
 ■インスタンスにアタッチするストレージのオプションを選択する。
 
 .. figure:: img/management-console-ec2-create-instance-5.png
-   :scale: 100%
+
 
 ■インスタンスのタグを設定する。
 
 .. figure:: img/management-console-ec2-create-instance-6.png
-   :scale: 100%
+
 
 ■セキュリティグループの設定を行う。ここでは新規にセキュリティグループを作成する。
 
 .. figure:: img/management-console-ec2-create-instance-7.png
-   :scale: 100%
+
 
 .. note:: 後述するSSH接続のために、セキュリティグループのインバウンドルールにSSH（送信元：0.0.0.0/0）が設定しておくこと。
 
 ■設定したインスタンスオプションの内容を確認し、"作成"ボタンを押下する。
 
 .. figure:: img/management-console-ec2-create-instance-8.png
-   :scale: 100%
+
 
 ■新規でキーペアを作成する場合、サーバへ接続するためのキーペアとなるpemファイルをダウンロードしておく。
 
 .. figure:: img/management-console-ec2-create-instance-9.png
-   :scale: 100%
+
 
 ■作成ボタンを押下すると、インスタンスが作成される。実行中のステータスになるまで少々待つ。
 
 .. figure:: img/management-console-ec2-create-instance-10.png
-   :scale: 100%
+
 
 ◇インスタンスが実行中になると、以下の通り、起動中のインスタンスの情報が一覧化できる。
 
 .. figure:: img/management-console-ec2-create-instance-11.png
-   :scale: 100%
+
 
 .. note:: インスタンスを指定する際にマルチアベイラブルゾーン構成にしたい場合は、異なるアベライブルゾーンで作成したサブネットを指定してインスタンス起動すること。
 
@@ -327,10 +327,10 @@ IAMサービスを選択し、ポリシーメニューから「ポリシーの�
 サービスはS3、実行するアクション、アクセス対象のバケットなどを指定し、ポリシー名を設定して作成する。
 
 .. figure:: img/management-console-iam-create-policy-4.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-iam-create-policy-5.png
-   :scale: 100%
+
 
 ■S3へアクセスするIAMロールの作成
 
@@ -340,15 +340,15 @@ IAMサービスを選択し、ロールメニューから「ロールの作成�
 ここでは、AssumeRole(権限を引き受ける = その権限与える許可をだす)の設定であるため、信頼されたエンティティとして、自身のアカウントを設定する。
 
 .. figure:: img/management-console-iam-create-role-6.png
-   :scale: 100%
+
 
 上記で作成したS3へのアクセスポリシーをアタッチし、ロール名を設定して、ロールを作成する。
 
 .. figure:: img/management-console-iam-create-role-7.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-iam-create-role-8.png
-   :scale: 100%
+
 
 ■S3へアクセス可能な権限を引き受けるAssumeRoleポリシーの作成
 
@@ -356,10 +356,10 @@ IAMサービスを選択し、ポリシーメニューから「ポリシーの�
 同様にAssumeRoleポリシーを作成する。権限委譲するIAMロールとして、上記で作成したS3へアクセスするIAMロールを設定する。
 
 .. figure:: img/management-console-iam-create-policy-6.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-iam-create-policy-7.png
-   :scale: 100%
+
 
 .. note:: AssumeRoleポリシーは、Amazon STSを使用して、AWSリソースに限定的にアクセス許可を与える署名付URLを発行するための権限である。
           ここでは、S3へのアクセス権限に関するAssumeRoleを作成するための権限を設定している。
@@ -373,15 +373,15 @@ IAMサービスを選択し、ロールメニューから「ロールの作成�
 .. note:: EC2へIAM Roleを設定する場合は、信頼されたエンティティをEC2に設定しておく必要がある。
 
 .. figure:: img/management-console-iam-create-role-for-ec2-1.png
-   :scale: 100%
+
 
 ポリシーをアタッチして、ロール名を設定し、ロールを作成する。
 
 .. figure:: img/management-console-iam-create-role-for-ec2-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-iam-create-role-for-ec2-3.png
-   :scale: 100%
+
 
 ■EC2インスタンスへIAMロールをアタッチする。
 
@@ -389,12 +389,12 @@ EC2サービスを選択し、インスタンスメニューからアタッチ�
 「インスタンスの設定」>「IAM ロールの割り当て/置換」を選択する。
 
 .. figure:: img/management-console-ec2-setting-iam-role-1.png
-   :scale: 100%
+
 
 上記で作成したIAMロールを設定する。
 
 .. figure:: img/management-console-ec2-setting-iam-role-2.png
-   :scale: 100%
+
 
 なお、アプリケーションの作成及びAWSリソースのアクセス方法はXXXを参照のこと。
 
@@ -438,24 +438,24 @@ EC2起動型-クラスタの作成
 
 .. figure:: img/management-console-ecs-create-cluster-1.png
    :height: 600px
-   :scale: 100%
+
 
 |
 
 .. figure:: img/management-console-ecs-create-cluster-2.png
-   :scale: 100%
+
 
 |
 
 ■クラスタテンプレートで「EC2 Linux + ネットワーキング」を選択し、「次のステップへ」を押下する。
 
 .. figure:: img/management-console-ecs-create-cluster-3.png
-   :scale: 100%
+
 
 ■クラスタの定義設定を行う。
 
 .. figure:: img/management-console-ecs-create-cluster-4.png
-   :scale: 100%
+
 
 [クラスタの設定]
 
@@ -471,7 +471,7 @@ EC2起動型-クラスタの作成
 .. note:: Dockerのイメージファイルは大きくなるため、EBSストレージは大きめに確保しておくこと。
 
 .. figure:: img/management-console-ecs-create-cluster-5.png
-   :scale: 100%
+
 
 [ネットワーキング]
 
@@ -514,7 +514,7 @@ EC2起動型-クラスタの作成
 ■クラスタの作成を押下し、クラスタを作成する。
 
 .. figure:: img/management-console-ecs-create-cluster-6.png
-   :scale: 100%
+
 
 .. _section3-2-3-ecs-create-task-label:
 
@@ -528,52 +528,52 @@ S3アクセスポリシーの作成は :ref:`section7-1-3-iam-create-role-label`
 ■IAMサービスから「ロール」メニューを選択し、「ロールを作成」ボタンを押下する。
 
 .. figure:: img/management-console-iam-create-role-for-ecs-1.png
-   :scale: 100%
+
 
 ■このロールを使用するサービスで「Elastic Container Service」からユースケース「Elastic Container Service Task」を選択し、「次のステップ：アクセス権限」を押下する。
 
 .. figure:: img/management-console-iam-create-role-for-ecs-2.png
-   :scale: 100%
+
 
 ■事前に作成指定おいたS3へアクセスするポリシーをアタッチする。ここでは、S3へのアクセスとS3アクセスのAssumeRoleを行うポリシーをアタッチする。
 
 .. figure:: img/management-console-iam-create-role-for-ecs-3.png
-   :scale: 100%
+
 
 .. note:: S3アクセスのAssumeRoleとは、AmazonSTSに一時的にS3へのアクセス可能署名URLを発行させる権限である。
 
 ■ロール名を入力し、「ロールの作成」ボタンを押下する。
 
 .. figure:: img/management-console-iam-create-role-for-ecs-4.png
-   :scale: 100%
+
 
 
 ■ECSサービスを選択し、「タスク定義」メニューから「新しいタスク定義の作成」ボタンを押下する。
 
 .. figure:: img/management-console-ecs-create-task-1.png
-   :scale: 100%
+
 
 ■起動タイプの互換性で「EC2」を選び、「次のステップへ」を押下する。
 
 .. figure:: img/management-console-ecs-create-task-2.png
-   :scale: 100%
+
 
 ■タスク定義名を入力し、タスクのロールには、直前で作成したロールをアタッチする。
 
 .. figure:: img/management-console-ecs-create-task-3.png
-   :scale: 100%
+
 
 ■タスクサイズに、メモリサイズとCPUを割り当てる。
 
 .. figure:: img/management-console-ecs-create-task-4.png
-   :scale: 100%
+
 
 .. warning:: Spring Boot Applicationで構成する場合は1GB以上のメモリを割り当てておくこと。512MB程度で起動すると、アプリケーションの規模が多くなったときに、起動に時間がかかり、ヘルスチェックでエラー検出し、コンテナの無限ループ起動を誘発してしまうため。
 
 ■「コンテナの追加」ボタンを押下し、アプリケーションをLaunchしたコンテナイメージを指定する。
 
 .. figure:: img/management-console-ecs-create-container-1.png
-   :scale: 100%
+
 
 * コンテナ名：sample-spring-cloud
 * イメージ：DockerHubにあるイメージURIを指定
@@ -587,16 +587,16 @@ S3アクセスポリシーの作成は :ref:`section7-1-3-iam-create-role-label`
 ■実行コンテナの詳細な設定を行う。
 
 .. figure:: img/management-console-ecs-create-container-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ecs-create-container-3.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ecs-create-container-4.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ecs-create-container-5.png
-   :scale: 100%
+
 
 .. note:: 上記ではヘルスチェックの設定を行っているが、ターゲットグループでヘルスチェック設定が行えるので、ここでは設定しなくても問題ない。
 
@@ -605,10 +605,10 @@ S3アクセスポリシーの作成は :ref:`section7-1-3-iam-create-role-label`
 ■コンテナ定義後、「作成」を押下する。
 
 .. figure:: img/management-console-ecs-create-task-5.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ecs-create-task-6.png
-   :scale: 100%
+
 
 .. _section3-2-4-ecs-create-alb-label:
 
@@ -620,12 +620,12 @@ EC2起動型-ロードバランサ作成
 ■EC2サービスから、「ロードバランサー」メニューを選択し、「ロードバランサーの作成」を押下する。
 
 .. figure:: img/management-console-ecs-create-alb-1.png
-   :scale: 100%
+
 
 ■ロードバランサーの種類の選択で、Application Load Balancerを選択する。
 
 .. figure:: img/management-console-ecs-create-alb-2.png
-   :scale: 100%
+
 
 ■ロードバランサーの設定を行う。
 
@@ -635,19 +635,19 @@ EC2起動型-ロードバランサ作成
 * アベイラビリティゾーン：2箇所のアベイラビリティゾーンを選択
 
 .. figure:: img/management-console-ecs-create-alb-3.png
-   :scale: 100%
+
 
 ■セキュリティ構成の設定では、HTTPなのでそのままスキップ。
 
 .. figure:: img/management-console-ecs-create-alb-4.png
-   :scale: 100%
+
 
 .. note:: 今回はサンプルのためHTTPを設定しているが、本番ではHTTPS及び証明書等の設定を行うこと。
 
 ■セキュリティグループの設定で、HTTPポートを開ける設定を行う。
 
 .. figure:: img/management-console-ecs-create-alb-5.png
-   :scale: 100%
+
 
 ■ルーティングの設定で、新しいターゲットグループの設定、及びヘルスチェックの設定を行う。
 
@@ -665,17 +665,17 @@ EC2起動型-ロードバランサ作成
 * index.html(アプリケーションのトップポータル・ログインに相当するパスを設定)
 
 .. figure:: img/management-console-ecs-create-alb-6.png
-   :scale: 100%
+
 
 ■ターゲットグループに :ref:`section3-2-2-ecs-create-cluster-label` で作成した、ECSクラスタを設定する。
 
 .. figure:: img/management-console-ecs-create-alb-7.png
-   :scale: 100%
+
 
 .. warning:: 動的ポートマッピングを行う場合、コンテナを実行するECSクラスタ(EC2)のセキュリティグループにロードバランサーからのアクセスでポート32768-61000を設定しておく必要がある。セキュリティグループのインバウンド設定では、ソースをロードバランサーのセキュリティグループが設定可能なので、必要に応じて設定しておくこと。
 
    .. figure:: img/management-console-ecs-security-group-1.png
-      :scale: 100%
+
 
 
 .. _section3-2-5-ecs-create-service-label:
@@ -688,7 +688,7 @@ EC2起動型-サービスの定義
 ■ECSサービスメニューから「クラスター」メニューを選択し、:ref:`section3-2-2-ecs-create-cluster-label` で作成した、ECSクラスタを選択する。「サービス」タブから「作成」ボタンを押下する。
 
 .. figure:: img/management-console-ecs-create-service-1.png
-   :scale: 100%
+
 
 ■サービスの設定で以下の通り、サービス起動設定を行う。
 
@@ -713,10 +713,10 @@ EC2起動型-サービスの定義
 .. todo:: サービス配置のオプションについて整理する。
 
 .. figure:: img/management-console-ecs-create-service-2.png
-   :scale: 100%
+
 
 .. figure:: img/management-console-ecs-create-service-3.png
-   :scale: 100%
+
 
 ■ネットワークの構成で、「VPCとセキュリティグループ」、「ヘルスチェックの猶予期間」、「ElasticLoadBalancing」、「負荷分散用のコンテナ」の設定を行う。
 
@@ -740,26 +740,26 @@ EC2起動型-サービスの定義
 * ターゲットグループ名： :ref:`section3-2-4-ecs-create-alb-label` で作成したターゲットグループ名を指定。
 
 .. figure:: img/management-console-ecs-create-service-4.png
-   :scale: 100%
+
 
 
 .. figure:: img/management-console-ecs-create-service-5.png
-   :scale: 100%
+
 
 ■必要に応じて、AutoScalingオプションの設定を行い、「次のステップへ」を押下する。
 
 .. figure:: img/management-console-ecs-create-service-6.png
-   :scale: 100%
+
 
 ■設定内容を確認し、「サービスの作成」を押下する。
 
 .. figure:: img/management-console-ecs-create-service-7.png
-   :scale: 100%
+
 
 ■ECSサービスがLaunchする。ECSクラスタ上にコンテナが実行される。
 
 .. figure:: img/management-console-ecs-create-service-8.png
-   :scale: 100%
+
 
 .. note:: ECSクラスタにSSHログインし、docker ps -aすることでコンテナの実行を確認できる。
 
@@ -768,9 +768,8 @@ EC2起動型-サービスの定義
 .. note:: ロードバランサーでは、パスベースでコンテナが登録されているターゲットグループを指定することできる。ロードバランサーのリスナータブからルール設定することで、パス名に応じて向き先のECSクラスタ・コンテナのターゲットグループを設定できる。
 
    .. figure:: img/management-console-ecs-load-balancer-1.png
-      :scale: 100%
+
 
   下の設定例は、新たに2つのコンテナサービスを追加し、パスに応じて向き先のターゲットグループを変更する設定である。優先度の高い順にパスマッチしたルールに応じて、転送先のターゲットグループが決定する。
 
    .. figure:: img/management-console-ecs-load-balancer-2.png
-      :scale: 100%

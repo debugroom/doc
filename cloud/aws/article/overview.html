@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#service">Service</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#management-console">Management console</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amazon-resource-name-arn">Amazon Resource Name(ARN)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section1-5-todo-aws-first-label">アカウントを作ってやるべきこと</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">Network Category</a></li>
@@ -114,6 +115,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../memo/work/index.html">work guideline</a></li>
 </ul>
@@ -189,8 +191,8 @@
 <p>Amazon Web Services（以下AWS）は、Amazon.comにより提供されているクラウドコンピューティングサービスである。
 2016年現在、全世界13の地域（リージョン）で展開されており、複数のAvailable Zoneから構成される(今後3リージョン追加予定)。
 各エリアのデータセンターとコード名は以下の通りである。</p>
-<table border="1" class="colwidths-given docutils" id="id1">
-<caption><span class="caption-text">AWSのリージョン</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">AWSのリージョン</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="30%" />
@@ -289,8 +291,8 @@
 <div class="section" id="service">
 <span id="section1-2-overview-service-label"></span><h2>Service<a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h2>
 <p>AWSでサービスを提供されているサービスは以下の通りである。</p>
-<table border="1" class="colwidths-given docutils" id="id2">
-<caption><span class="caption-text">AWSの提供するサービス</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id3">
+<caption><span class="caption-text">AWSの提供するサービス</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="30%" />
@@ -587,10 +589,10 @@
 <span id="section1-3-overview-management-console-label"></span><h2>Management console<a class="headerlink" href="#management-console" title="Permalink to this headline">¶</a></h2>
 <p>Management consoleは、Amazon web serviceを管理するためのWebアプリケーションである。インスタンスの起動や、S3への接続といった、多くのAWSサービスの処理、操作をGUIを通じて行える。また、使用料金の情報も得る事が出来る。</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-top.png"><img alt="../../../_images/management-console-top.png" src="../../../_images/management-console-top.png" style="width: 1440.0px; height: 955.0px;" /></a>
+<img alt="../../../_images/management-console-top.png" src="../../../_images/management-console-top.png" />
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../../../_images/management-console-biling-dashboad.png"><img alt="../../../_images/management-console-biling-dashboad.png" src="../../../_images/management-console-biling-dashboad.png" style="width: 1165.0px; height: 729.0px;" /></a>
+<img alt="../../../_images/management-console-biling-dashboad.png" src="../../../_images/management-console-biling-dashboad.png" />
 </div>
 </div>
 <div class="section" id="amazon-resource-name-arn">
@@ -598,8 +600,8 @@
 <p>Amazon Resource Name(ARN)は、AWSのリソースを一意に識別するために使用するキーである。フォーマットは、</p>
 <p>arn:partition:service:region:account-id:resource</p>
 <p>で表される。</p>
-<table border="1" class="colwidths-given docutils" id="id3">
-<caption><span class="caption-text">ARN</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text">ARN</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -627,6 +629,39 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="section1-5-todo-aws-first-label">
+<span id="id1"></span><h2>アカウントを作ってやるべきこと<a class="headerlink" href="#section1-5-todo-aws-first-label" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>ルートユーザにMFAを設定する</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">そもそもルートユーザは極力利用しない</p>
+</div>
+<ul class="simple">
+<li>管理者権限を割り当てた管理者ユーザを作成する(管理者用のIAMグループを作成する)</li>
+<li>管理者ユーザに請求情報のアクセス権を設定する。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">一般ユーザには最小限の権限を付与する。</p>
+</div>
+<ul class="simple">
+<li>CloudTrailを有効化し、すべてのAWS API呼び出しを記録する</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">2019年7月現在、アカウントを作成するとCloudTrailはデフォルトで有効化される設定になっている。</p>
+</div>
+<ul class="simple">
+<li>AWSConfigを有効化し、リソース構成変更を記録する</li>
+<li>CostExplorerを有効化する。</li>
+<li>予算を設定し、メールによる通知設定を行う。</li>
+<li>Amazon GuardDutyを有効化し、セキュリティ脅威の監視を行う</li>
+<li>動作確認のための最初のサーバを作成し、ログイン、削除する(作成したユーザが正しいか)。</li>
+<li>手元のPCからAWS CLIを使って操作する</li>
+</ul>
 </div>
 </div>
 
