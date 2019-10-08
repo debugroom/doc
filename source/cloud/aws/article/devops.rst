@@ -350,7 +350,7 @@ overview
 再度ターゲットグループに組み込む。その後もう片系のアプリケーションサーバを同様にターゲットグループから削除し、
 アップデートを行い、組み戻しを行う。
 
-.. _section8-5-2-exclude-target-group-label:
+.. _section8-1-5-2-exclude-target-group-label:
 
 インスタンスのDrain
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1096,10 +1096,69 @@ CodePipeLineの設定(ECSデプロイ)
 * イメージファイル名： 「 :ref:`section8-3-2-1-codepipeline-staging-release-prepared-label` 」で作成した、「imagedefinitions.json」を指定
 * 入力アーティファクト：直前のアクション「Build」の出力アーティファクトと同名にしておく
 
-.. _section8-4-cloud-formation-label:
+.. _section8-4-aws-cli-label:
+
+AWS CLI
+------------------------------------------------------
+
+.. _section8-4-1-aws-cli-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AWS CLIはAWSが提供するコマンドラインインターフェイスである。
+
+.. _section8-4-2-aws-cli-install-label:
+
+AWS CLIのインストール
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ここでは、手元にあるローカルマシンとしてMacOSにCLIをインストールする。`公式サイト AWS CLIのインストール <https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-install.html>`_ では、CLIのインストールはpipコマンドを用いてインストールを行なっているため、事前にpythonを実行できる環境を構築しておくこと。
+
+.. note::
+
+   MacOS Sierra以降はHomebrewからpythonをインストールする。以下のコマンドにより、標準インストールされているpython(/usr/bin/python)ではなく、/usr/local/bin/pythonが使用されるようになる。
+
+   .. sourcecode:: bash
+      :linenos:
+
+      brew update
+      brew install python
+
+pipを利用してCLIをインストールする。
+
+.. sourcecode:: bash
+   :linenos:
+
+   pip3 install awscli --upgrade --user
+
+インストール後に.bash_profileにパスを通しておく。
+
+.. sourcecode:: bash
+   :linenos:
+
+   export PATH="/Users/XXXXXXXX/Library/Python/3.6/bin/:$PATH"
+
+コマンドが正常実行できることを確認する。
+
+.. sourcecode:: bash
+   :linenos:
+
+   aws --version
+   aws-cli/1.16.241 Python/3.6.5 Darwin/18.7.0 botocore/1.12.231
+
+なお、認証情報を~/.aws/configおよび、~/.aws/credentialsに保存しておくこと。
+
+
+.. _section8-5-cloud-formation-label:
 
 CloudFormation
 ------------------------------------------------------
+
+.. _section8-5-1-aws-cloudformation-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 CloudFormationは、JSONとYAML形式のテンプレートを使用して、AWSリソースの起動、設定、接続を行うサービスである。
 CloudFormationは以下のフォーマットで記述される。
@@ -1116,8 +1175,958 @@ CloudFormationは以下のフォーマットで記述される。
    Resources: set of resources
    Outputs: set of outputs
 
+.. note:: intelliJ IDEAにCloudFormationのプラグインがあり、バリデーション機能などを有している。当プラグインでは、簡単な構文チェックなどは行えるが、必須・任意パラメータの有無などの検証はできないため、cfn-python-lintというAWSから提供されているプラグインも合わせて導入する。
 
-.. _section8-5-elastic-beanstalk-label:
+   pipコマンドにて、cfn-lintをインストールする。
+
+   .. sourcecode:: bash
+
+      > pip intall cfn-lint
+
+   IntelliJ IDEAに各プラグインを導入する。
+
+   .. figure:: img/intellij-install-cloudformation-plugin-1.png
+
+   .. figure:: img/intellij-install-cloudformation-plugin-2.png
+
+   .. figure:: img/intellij-install-cfn-lint-plugin-1.png
+
+   cfn-lintプラグインの設定で実行コマンドも設定しておく。
+
+   .. figure:: img/intellij-install-cfn-lint-plugin-2.png
+
+.. warning:: IntelliJ IDEAのバージョンとcfn-lintのバージョンには注意する。2019.9時点で最新版のIDEAとcfn-lintの最新版は互換性がない状態。IntelliJのバージョンを2019.1にする必要がある。
+
+
+|br|
+
+.. _section8-5-2-aws-cloudformation-create-stack-label:
+
+Stackの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CloudFormationでテンプレートを作成し、Stackを作成する。Stackの作成はAWS CLIを通じて実行する。事前に :ref:`section8-4-2-aws-cli-install-label` に従って、 AWS CLIをインストールしておくこと。
+またCLIを実行するユーザには、CloudFormationのアクセス権限を付与しておく必要がある。IAMサービスから、CLIで実行するユーザにCloudFormationのアクセス権限を付与しておくこと。
+
+.. figure:: img/management-console-iam-attach-policy-for-cloudformation-1.png
+
+|br|
+
+.. note:: ECSクラスタを作成するStackを実行する場合は、ECSのアクセス権限を付与しておく必要がある。IAMロールを作成する場合も同様。
+
+   .. figure:: img/management-console-iam-attach-policy-for-ecs-1.png
+
+   .. figure:: img/management-console-iam-attach-policy-for-iam-1.png
+
+|br|
+
+.. _section8-5-2-1-cloudformation-create-vpc-stack-label:
+
+VPCStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+VPCおよびパブリック、プライベートを２つずつ持ち、インターネットGWをアタッチしたStackを作成する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - VPC
+
+   Resources:
+     SampleCloudFormationVPC:
+       Type: AWS::EC2::VPC
+       Properties:
+         CidrBlock: 172.100.0.0/16
+         InstanceTenancy: default
+         EnableDnsSupport: true
+         EnableDnsHostnames: true
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationVPC
+
+     PublicSubnet1:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: 172.100.1.0/24
+         VpcId: !Ref SampleCloudFormationVPC
+         AvailabilityZone: !Select [ 0, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: PublicSubnet1
+
+     PublicSubnet2:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: 172.100.2.0/24
+         VpcId: !Ref SampleCloudFormationVPC
+         AvailabilityZone: !Select [ 1, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: PublicSubnet2
+
+     PrivateSubnet1:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: 172.100.3.0/24
+         VpcId: !Ref SampleCloudFormationVPC
+         AvailabilityZone: !Select [ 0, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: PrivateSubnet1
+
+     PrivateSubnet2:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: 172.100.4.0/24
+         VpcId: !Ref SampleCloudFormationVPC
+         AvailabilityZone: !Select [ 1, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: PrivateSubnet2
+
+     SampleCloudFormationIGW:
+       Type: AWS::EC2::InternetGateway
+       Properties:
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationIGW
+
+     SampleCloudFormationIGWAttach:
+       Type: AWS::EC2::VPCGatewayAttachment
+       Properties:
+         InternetGatewayId: !Ref SampleCloudFormationIGW
+         VpcId: !Ref SampleCloudFormationVPC
+
+     PublicRouteTable:
+       Type: AWS::EC2::RouteTable
+       Properties:
+         VpcId: !Ref SampleCloudFormationVPC
+         Tags:
+           - Key: Name
+             Value: Public Route
+
+     PublicRoute:
+       Type: AWS::EC2::Route
+       DependsOn: SampleCloudFormationIGW
+       Properties:
+         RouteTableId: !Ref PublicRouteTable
+         DestinationCidrBlock: 0.0.0.0/0
+         GatewayId: !Ref SampleCloudFormationIGW
+
+     PublicSubnet1Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId: !Ref PublicSubnet1
+         RouteTableId: !Ref PublicRouteTable
+
+     PublicSubnet2Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId: !Ref PublicSubnet2
+         RouteTableId: !Ref PublicRouteTable
+
+   Outputs:
+     VPCID:
+       Description: VPC ID
+       Value: !Ref SampleCloudFormationVPC
+       Export:
+         Name: !Sub ${AWS::StackName}-VPCID
+
+     PublicSubnet1:
+       Description: PublicSubnet1
+       Value: !Ref PublicSubnet1
+       Export:
+         Name: !Sub ${AWS::StackName}-PublicSubnet1
+
+     PublicSubnet2:
+       Description: PublicSubnet2
+       Value: !Ref PublicSubnet2
+       Export:
+         Name: !Sub ${AWS::StackName}-PublicSubnet2
+
+     PrivateSubnet1:
+       Description: PrivateSubnet1
+       Value: !Ref PrivateSubnet1
+       Export:
+         Name: !Sub ${AWS::StackName}-PrivateSubnet1
+
+     PrivateSubnet2:
+       Description: PrivateSubnet2
+       Value: !Ref PrivateSubnet2
+       Export:
+         Name: !Sub ${AWS::StackName}-PrivateSubnet2
+
+作成したテンプレートを使ってAWS CLI経由でStack作成コマンドを実行する。コマンドが長くなりがちなため、シェルスクリプトを作成し実行する。
+
+.. sourcecode:: bash
+
+   #!/usr/bin/env bash
+
+   stack_name="sample-cloudformation-vpc-1"
+   template_path="sample-vpc-cfn.yml"
+
+   if [ "$stack_name" == "" -a "$template_path" == "" ]; then
+     echo "$0 stack-name template-path"
+     exit 1
+   fi
+
+   aws cloudformation create-stack --stack-name ${stack_name} --template-body file://${template_path}
+
+コマンドを実行すると、マネジメントコンソール上にStackがステータス"CREATE_IN_PROGRESS"で表示される。問題なく作成が完了すると、"CREATE_COMPLETE" となる。
+
+.. figure:: img/management-console-cloudformation-create-stack-1.png
+
+|br|
+
+.. figure:: img/management-console-cloudformation-create-stack-2.png
+
+|br|
+
+VPCメニューからも作成したリソースを確認できる。
+
+|br|
+
+.. figure:: img/management-console-vpc-confirm-vpc-by-cloudformation-1.png
+
+|br|
+
+.. figure:: img/management-console-vpc-confirm-subnet-by-cloudformation-1.png
+
+|br|
+
+.. figure:: img/management-console-vpc-confirm-routetable-by-cloudformation-1.png
+
+|br|
+
+.. figure:: img/management-console-vpc-confirm-routetable-by-cloudformation-2.png
+
+|br|
+
+.. figure:: img/management-console-vpc-confirm-igw-by-cloudformation-1.png
+
+|br|
+
+.. _section8-5-2-2-cloudformation-create-ngw-label:
+
+NatGatewayStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+前節で作成した、VPCのプライベートサブネットにアタッチするNAT Gatewayを設定するStackを作成する。テンプレートは以下の通り。
+
+  .. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - NatGateway
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+
+   Resources:
+     SampleCloudFormationNatGWEIP:
+       Type: AWS::EC2::EIP
+       Properties:
+         Domain:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+
+     SampleCloudFormationNatGW:
+       Type: AWS::EC2::NatGateway
+       Properties:
+         AllocationId: !GetAtt SampleCloudFormationNatGWEIP.AllocationId
+         SubnetId:
+           Fn::ImportValue: !Sub ${StackName}-PublicSubnet1
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationNatGW
+
+     MainRouteTable:
+       Type: AWS::EC2::RouteTable
+       Properties:
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+       Tags:
+         - Key: Name
+           Value: Private Route
+
+     MainRoute:
+       Type: AWS::EC2::Route
+       Properties:
+         RouteTableId: !Ref MainRouteTable
+         DestinationCidrBlock: 0.0.0.0/0
+         NatGatewayId: !Ref SampleCloudFormationNatGW
+
+     PrivateSubnet1Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId:
+           Fn::ImportValue: !Sub ${StackName}-PrivateSubnet1
+         RouteTableId: !Ref MainRouteTable
+
+     PrivateSubnet2Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId:
+         Fn::ImportValue: !Sub ${StackName}-PrivateSubnet2
+         RouteTableId: !Ref MainRouteTable
+
+|br|
+
+.. note:: CloudFormationはデフォルトで作成されるルートテーブルの操作はできないため、プライベートサブネットへの関連付けは別途ルートテーブルを作成し、明示的にNATGatewayへの関連付けを行う。
+
+.. _section8-5-2-3-cloudformation-create-sg-label:
+
+SecurityGroupStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+次節以降、作成するALBやECSクラスター向けのセキュリティグループを作成するStackを構築する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - SecurityGroup
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+
+   Resources:
+     SampleCloudFormationSecurityGroupPublicALB:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupName: SampleCloudFormationSecurityGroupPublicALB
+         GroupDescription: http access
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Tags:
+           - Key : Name
+             Value: SampleCloudFormationSecurityGroupPublicALB
+
+     SampleCloudFormationSecurityGroupInggressPublicALB:
+       Type: AWS::EC2::SecurityGroupIngress
+       Properties:
+         GroupId: !Ref SampleCloudFormationSecurityGroupPublicALB
+         IpProtocol: tcp
+         FromPort: 80
+         ToPort: 80
+         CidrIp: 0.0.0.0/0
+
+     SampleCloudFormationSecurityGroupPrivateALB:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupName: SampleCloudFormationSecurityGroupPrivateALB
+         GroupDescription: http access
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Tags:
+           - Key : Name
+             Value: SampleCloudFormationSecurityGroupPrivateALB
+
+     SampleCloudFormationSecurityGroupIngressPrivateALB:
+       Type: AWS::EC2::SecurityGroupIngress
+       Properties:
+         GroupId: !Ref SampleCloudFormationSecurityGroupPrivateALB
+         IpProtocol: tcp
+         FromPort: 80
+         ToPort: 80
+         CidrIp: 172.100.0.0/16
+
+     SampleCloudFormationSecurityGroupFrontendEcsCluster:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupName: SampleCloudFormationSecurityGroupFrontendEcsCluster
+         GroupDescription: http access only alb
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Tags:
+           - Key : Name
+             Value: SampleCloudFormationSecurityGroupFrontendEcsCluster
+
+     SampleCloudFormationSecurityGroupIngressFrontendEcsCluster:
+       Type: AWS::EC2::SecurityGroupIngress
+       Properties:
+         GroupId: !Ref SampleCloudFormationSecurityGroupFrontendEcsCluster
+         IpProtocol: tcp
+         FromPort: 32768
+         ToPort: 61000
+         SourceSecurityGroupId: !Ref SampleCloudFormationSecurityGroupPublicALB
+
+     SampleCloudFormationSecurityGroupIngressForSSHFrontendEcsCluster:
+       Type: AWS::EC2::SecurityGroupIngress
+       Properties:
+         GroupId: !Ref SampleCloudFormationSecurityGroupFrontendEcsCluster
+         IpProtocol: ssh
+         FromPort: 22
+         ToPort: 22
+         CidrIp: 0.0.0.0/0
+
+     SampleCloudFormationSecurityGroupBackendEcsCluster:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupName: SampleCloudFormationSecurityGroupBackendEcsCluster
+         GroupDescription: http access only alb
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Tags:
+           - Key : Name
+             Value: SampleCloudFormationSecurityGroupBackendEcsCluster
+
+     SampleCloudFormationSecurityGroupIngressBackendEcsCluster:
+       Type: AWS::EC2::SecurityGroupIngress
+       Properties:
+         GroupId: !Ref SampleCloudFormationSecurityGroupBackendEcsCluster
+         IpProtocol: tcp
+         FromPort: 32768
+         ToPort: 61000
+         SourceSecurityGroupId: !Ref SampleCloudFormationSecurityGroupPrivateALB
+
+   Outputs:
+     SampleCloudFormationSecurityGroupPublicALB:
+       Description: Security Group for Public ALB
+       Value: !Ref SampleCloudFormationSecurityGroupPublicALB
+       Export:
+         Name: !Sub ${StackName}-SecurityGroupPublicALB
+
+     SampleCloudFormationSecurityGroupPrivateALB:
+       Description: Security Group for Private ALB
+       Value: !Ref SampleCloudFormationSecurityGroupPrivateALB
+       Export:
+         Name: !Sub ${StackName}-SecurityGroupPrivateALB
+
+     SampleCloudFormationSecurityGroupFrontendEcsCluster:
+       Description: Security Group for Frontend ECS Cluster
+       Value: !Ref SampleCloudFormationSecurityGroupFrontendEcsCluster
+       Export:
+         Name: !Sub ${StackName}-SecurityGroupFrontendEcsCluster
+
+     SampleCloudFormationSecurityGroupBackendEcsCluster:
+       Description: Security Group for Backend ECS Cluster
+       Value: !Ref SampleCloudFormationSecurityGroupBackendEcsCluster
+       Export:
+         Name: !Sub ${StackName}-SecurityGroupBackendEcsCluster
+
+
+.. _section8-5-2-4-cloudformation-create-alb-label:
+
+ApplicationLoadBalancerStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+パブリック・プライベートサブネットに各々配置するECSクラスタ向けのALBを作成するスタックを構築する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - ApplicationLoadBalancer
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+
+   Resources:
+     SampleCloudFormationFrontendALB:
+       Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+       Properties:
+         Name: FrontendALB
+         Subnets:
+           - Fn::ImportValue: !Sub ${StackName}-PublicSubnet1
+           - Fn::ImportValue: !Sub ${StackName}-PublicSubnet2
+         SecurityGroups:
+           - Fn::ImportValue: !Sub ${StackName}-SecurityGroupPublicALB
+
+     SampleCloudFormationPublicALBTargetGroup:
+       Type: AWS::ElasticLoadBalancingV2::TargetGroup
+       Properties:
+         Name: sample-cfn-public-tg-default
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Port: 80
+         Protocol: HTTP
+         HealthCheckPath: /index.html
+         HealthyThresholdCount: 2
+         TargetGroupAttributes:
+           - Key: deregistration_delay.timeout_seconds
+             Value: '20'
+
+     SampleCloudFormationPublicALBListener:
+       Type: AWS::ElasticLoadBalancingV2::Listener
+       Properties:
+         LoadBalancerArn: !Ref SampleCloudFormationFrontendALB
+         Port: 80
+         Protocol: HTTP
+         DefaultActions:
+           - Type: forward
+             TargetGroupArn: !Ref SampleCloudFormationPublicALBTargetGroup
+
+     SampleCloudFormationBackendALB:
+       Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+       Properties:
+         Name: BackendALB
+         Subnets:
+           - Fn::ImportValue: !Sub ${StackName}-PrivateSubnet1
+           - Fn::ImportValue: !Sub ${StackName}-PrivateSubnet2
+         SecurityGroups:
+           - Fn::ImportValue: !Sub ${StackName}-SecurityGroupPrivateALB
+
+     SampleCloudFormationPrivateALBTargetGroupDefault:
+       Type: AWS::ElasticLoadBalancingV2::TargetGroup
+       Properties:
+         Name: sample-cfn-private-tg-default
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Port: 80
+         Protocol: HTTP
+         HealthCheckPath: /index.html
+         HealthyThresholdCount: 2
+         TargetGroupAttributes:
+           - Key: deregistration_delay.timeout_seconds
+             Value: '20'
+
+     SampleCloudFormationPrivateALBTargetGroupServiceA:
+       Type: AWS::ElasticLoadBalancingV2::TargetGroup
+       Properties:
+         Name: sample-cfn-private-tg-serviceA
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Port: 80
+         Protocol: HTTP
+         HealthCheckPath: /index.html
+         HealthyThresholdCount: 2
+         TargetGroupAttributes:
+           - Key: deregistration_delay.timeout_seconds
+             Value: '20'
+
+     SampleCloudFormationPrivateALBTargetGroupServiceB:
+       Type: AWS::ElasticLoadBalancingV2::TargetGroup
+       Properties:
+         Name: sample-cfn-private-tg-serviceB
+         VpcId:
+           Fn::ImportValue: !Sub ${StackName}-VPCID
+         Port: 80
+         Protocol: HTTP
+         HealthCheckPath: /index.html
+         HealthyThresholdCount: 2
+         TargetGroupAttributes:
+           - Key: deregistration_delay.timeout_seconds
+             Value: '20'
+
+     SampleCloudFormationPrivateALBListener:
+       Type: AWS::ElasticLoadBalancingV2::Listener
+       Properties:
+         LoadBalancerArn: !Ref SampleCloudFormationBackendALB
+         Port: 80
+         Protocol: HTTP
+         DefaultActions:
+           - Type: forward
+             TargetGroupArn: !Ref SampleCloudFormationPrivateALBTargetGroupDefault
+
+     SampleCloudFormationPrivateALBListenerRuleServiceA:
+       Type: AWS::ElasticLoadBalancingV2::ListenerRule
+       Properties:
+         Actions:
+           - Type: forward
+             TargetGroupArn: !Ref SampleCloudFormationPrivateALBTargetGroupServiceA
+         Conditions:
+           - Field: path-pattern
+             PathPatternConfig:
+               Values:
+                 - /serviceA/*
+         ListenerArn: !Ref SampleCloudFormationPrivateALBListener
+         Priority: 1
+
+     SampleCloudFormationPrivateALBListenerRuleServiceB:
+       Type: AWS::ElasticLoadBalancingV2::ListenerRule
+       Properties:
+         Actions:
+           - Type: forward
+             TargetGroupArn: !Ref SampleCloudFormationPrivateALBTargetGroupServiceB
+         Conditions:
+           - Field: path-pattern
+             PathPatternConfig:
+               Values:
+                 - /serviceB/*
+         ListenerArn: !Ref SampleCloudFormationPrivateALBListener
+         Priority: 2
+
+     Outputs:
+       SampleCloudFormationPublicALBDNS:
+         Description: Public DNS Name
+         Value: !GetAtt SampleCloudFormationFrontendALB.DNSName
+         Export:
+           Name: !Sub ${StackName}-PublicALBDNS
+
+       SampleCloudFormationPrivateALBDNS:
+         Description: Private DNS Name
+         Value: !GetAtt SampleCloudFormationBackendALB.DNSName
+         Export:
+           Name: !Sub ${StackName}-PrivateALBDNS
+
+.. _section8-5-2-5-cloudformation-create-ecs-cluster-label:
+
+ECSClusterStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+パブリック・プライベートサブネットに各々配置するECSクラスタを作成するスタックを構築する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - ECS Cluster
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+     ECSAMI:
+       Description: AMI ID
+       Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+       Default: /aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id
+     InstanceType:
+       Description: EC2 instance type
+       Type: String
+       Default: r4.large
+     DesiredCapacity:
+       Type: Number
+       Default: '1'
+       Description: Number of EC2 instances to launch in your ECS cluster.
+     EC2InstanceMaxSizeOfECS:
+       Type: Number
+       Default: '3'
+       Description: Maximum number of EC2 instances that can be launched in your ECS cluster.
+     KeyPairName:
+       Type: AWS::EC2::KeyPair::KeyName
+       Default: test
+       Description: Key pair setting to ECS Cluster
+
+
+   Resources:
+     SampleCloudFormationECSRole:
+       Type: AWS::IAM::Role
+       Properties:
+         Path: /
+         AssumeRolePolicyDocument:
+           Statement:
+             - Action: sts:AssumeRole
+               Effect: Allow
+               Principal:
+                 Service: ec2.amazonaws.com
+         ManagedPolicyArns:
+           - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+
+     SampleCloudFormationECSInstanceProfile:
+       Type: AWS::IAM::InstanceProfile
+       Properties:
+         Path: /
+         Roles:
+           - !Ref SampleCloudFormationECSRole
+
+     SampleCloudFormationFrontendECSCluster:
+       Type: AWS::ECS::Cluster
+       Properties:
+         ClusterName: sample-frontend-cluster
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationFrontendECSCluster
+
+     SampleCloudFormationBackendECSCluster:
+       Type: AWS::ECS::Cluster
+       Properties:
+         ClusterName: sample-backend-cluster
+
+     SampleCloudFormationFrontendECSAutoScalingGroup:
+       Type: AWS::AutoScaling::AutoScalingGroup
+       Properties:
+         VPCZoneIdentifier:
+           - Fn::ImportValue: !Sub ${StackName}-PublicSubnet1
+           - Fn::ImportValue: !Sub ${StackName}-PublicSubnet2
+         LaunchConfigurationName: !Ref SampleCloudFormationFrontendECSLaunchConfiguration
+         MinSize: '0'
+         MaxSize: !Ref EC2InstanceMaxSizeOfECS
+         DesiredCapacity: !Ref DesiredCapacity
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationFrontendECSCluster
+             PropagateAtLaunch: true
+       CreationPolicy:
+         ResourceSignal:
+           Timeout: PT5M
+       UpdatePolicy:
+         AutoScalingReplacingUpdate:
+           WillReplace: true
+
+     SampleCloudFormationFrontendECSLaunchConfiguration:
+       Type: AWS::AutoScaling::LaunchConfiguration
+       Properties:
+         ImageId: !Ref ECSAMI
+         InstanceType: !Ref InstanceType
+         IamInstanceProfile: !Ref SampleCloudFormationECSInstanceProfile
+         KeyName: !Ref KeyPairName
+         SecurityGroups:
+           - Fn::ImportValue: !Sub ${StackName}-SecurityGroupFrontendEcsCluster
+         AssociatePublicIpAddress: true
+         UserData:
+           Fn::Base64: !Sub |
+             #!/bin/bash -xe
+             echo ECS_CLUSTER=${SampleCloudFormationFrontendECSCluster} >> /etc/ecs/ecs.config
+             yum install -y aws-cfn-bootstrap
+             /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource SampleCloudFormationFrontendECSAutoScalingGroup --region ${AWS::Region}
+
+     SampleCloudFormationBackendECSAutoScalingGroup:
+       Type: AWS::AutoScaling::AutoScalingGroup
+       Properties:
+         VPCZoneIdentifier:
+           - Fn::ImportValue: !Sub ${StackName}-PrivateSubnet1
+           - Fn::ImportValue: !Sub ${StackName}-PrivateSubnet2
+         LaunchConfigurationName: !Ref SampleCloudFormationBackendECSLaunchConfiguration
+         MinSize: '0'
+         MaxSize: !Ref EC2InstanceMaxSizeOfECS
+         DesiredCapacity: !Ref DesiredCapacity
+         Tags:
+           - Key: Name
+             Value: SampleCloudFormationBackendECSCluster
+             PropagateAtLaunch: true
+       CreationPolicy:
+         ResourceSignal:
+           Timeout: PT5M
+       UpdatePolicy:
+         AutoScalingReplacingUpdate:
+           WillReplace: true
+
+     SampleCloudFormationBackendECSLaunchConfiguration:
+       Type: AWS::AutoScaling::LaunchConfiguration
+       Properties:
+         ImageId: !Ref ECSAMI
+         InstanceType: !Ref InstanceType
+         IamInstanceProfile: !Ref SampleCloudFormationECSInstanceProfile
+         KeyName: !Ref KeyPairName
+         SecurityGroups:
+           - Fn::ImportValue: !Sub ${StackName}-SecurityGroupBackendEcsCluster
+         AssociatePublicIpAddress: false
+         UserData:
+           Fn::Base64: !Sub |
+             #!/bin/bash -xe
+             echo ECS_CLUSTER=${SampleCloudFormationBackendECSCluster} >> /etc/ecs/ecs.config
+             yum install -y aws-cfn-bootstrap
+             /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource SampleCloudFormationBackendECSAutoScalingGroup --region ${AWS::Region}
+
+   Outputs:
+     SampleCloudFormationFrontendECSCluster:
+       Description: Frontend ECS Cluster
+       Value: !Ref SampleCloudFormationFrontendECSCluster
+       Export:
+         Name: !Sub ${StackName}-FrontendEcsCluster
+
+     SampleCloudFormationBackendECSCluster:
+       Description: Backend ECS Cluster
+       Value: !Ref SampleCloudFormationBackendECSCluster
+       Export:
+         Name: !Sub ${StackName}-BackendEcsCluster
+
+.. note:: ECSクラスタは起動構成(LaunchConfiguration)・オートスケーリンググループにより実行する。
+
+.. note:: LaunchConfiguration.UserDataプロパティに指定しているのはクラスタとなるEC2インスタンスを起動する際の初期実行スクリプトである。ここでは、初期スクリプト内で、cfn-signalスクリプトを実行し、CloudFormationに起動完了シグナルを送信している。詳細は、 `公式ページ cfn-signal <https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-signal.html>`_ を参照のこと。
+
+.. note:: CreationPolicy.ResourceSignal.Timeoutプロパティ属性で設定した時間内にクラスタとなるインスタンスが起動できないと 「Failed to receive X resource signal(s) within the specified duration」が発生し、スタック実行がロールバックされる。
+   ECSクラスタ起動時にCloudFormationがシグナルを受信しなかったため生じる汎用的なメッセージであり、時間内に起動できない理由は別に存在するため、適宜、パブリックアドレスの割り当てオプション、セキュリティグループの設定やVPCのルーティングなど見直すこと。詳細は、 `公式ページ <https://aws.amazon.com/jp/premiumsupport/knowledge-center/cloudformation-failed-signal/?nc1=h_ls>`_ も参照のこと。
+
+.. _section8-5-2-6-cloudformation-create-ecs-task-label:
+
+ECSTaskStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+パブリック・プライベートサブネットに各々配置するECSタスクを作成するスタックを構築する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - ECS Task Definition
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+
+   Resources:
+     SampleCloudFormationECSTaskExecutionRole:
+       Type: AWS::IAM::Role
+       Properties:
+         Path: /
+         AssumeRolePolicyDocument:
+           Statement:
+             - Action: sts:AssumeRole
+               Effect: Allow
+               Principal:
+                 Service: ecs-tasks.amazonaws.com
+       ManagedPolicyArns:
+         - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+     SampleCloudFormationBackendECSTaskDefinition:
+       Type: AWS::ECS::TaskDefinition
+         Properties:
+           Family: sample-cloudformation-task-backend
+           RequiresCompatibilities:
+             - EC2
+           Memory: '1024'
+           Cpu: '512'
+           NetworkMode: bridge
+           ExecutionRoleArn: !Ref SampleCloudFormationECSTaskExecutionRole
+           ContainerDefinitions:
+             - Name: sample-ecs-backend
+               Image: debugroom/sample-aws-ecs-backend:1.0-SNAPSHOT
+               PortMappings:
+                 - ContainerPort: 8081
+                   HostPort: 0
+               Memory: 1024
+
+     SampleCloudFormationFrontendECSTaskDefinition:
+       Type: AWS::ECS::TaskDefinition
+       Properties:
+         Family: sample-cloudformation-task-frontend
+         RequiresCompatibilities:
+           - EC2
+         Memory: '1024'
+         Cpu: '512'
+         NetworkMode: bridge
+         ExecutionRoleArn: !Ref SampleCloudFormationECSTaskExecutionRole
+         ContainerDefinitions:
+            - Name: sample-ecs-frontend
+              Image: debugroom/sample-aws-ecs-frontend:1.0-SNAPSHOT
+              PortMappings:
+                - ContainerPort: 8080
+                  HostPort: 0
+              Environment:
+                - Name: SERVICE_DNS
+                  Value:
+                  Fn::ImportValue: !Sub ${StackName}-PrivateALBDNS
+              Memory: 1024
+
+   Outputs:
+     SampleCloudFormationFrontendECSTaskDefinition:
+       Description: Frontend ECS Task Definition
+       Value: !Ref SampleCloudFormationFrontendECSTaskDefinition
+       Export:
+         Name: !Sub ${StackName}-FrontendEcsTaskDefinition
+
+     SampleCloudFormationBackendECSTaskDefinition:
+       Description: Backend ECS Task Definition
+       Value: !Ref SampleCloudFormationBackendECSTaskDefinition
+       Export:
+         Name: !Sub ${StackName}-BackendEcsTaskDefinition
+
+.. _section8-5-2-7-cloudformation-create-ecs-service-label:
+
+ECSServiceStackの作成
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+パブリック・プライベートサブネットに各々配置するECSのサービスを作成するスタックを構築する。テンプレートは以下の通り。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - ECS Service Launch
+
+   Parameters:
+     StackName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc-1
+     DesiredCount:
+       Description: Number of container service to launch in ECS cluster
+       Type: Number
+       Default: '1'
+
+   Resources:
+     SampleCloudFormationFrontendECSService:
+       Type: AWS::ECS::Service
+       Properties:
+       Cluster:
+         Fn::ImportValue: !Sub ${StackName}-FrontendEcsCluster
+       DesiredCount: !Ref DesiredCount
+       TaskDefinition:
+         Fn::ImportValue: !Sub ${StackName}-FrontendEcsTaskDefinition
+       LaunchType: EC2
+       LoadBalancers:
+         - ContainerName: sample-ecs-frontend
+           ContainerPort: 8080
+           TargetGroupArn:
+             Fn::ImportValue: !Sub ${StackName}-PublicALBTargetGroup
+
+     SampleCloudFormationBackendECSService:
+       Type: AWS::ECS::Service
+       Properties:
+       Cluster:
+         Fn::ImportValue: !Sub ${StackName}-BackendEcsCluster
+       DesiredCount: !Ref DesiredCount
+       TaskDefinition:
+         Fn::ImportValue: !Sub ${StackName}-BackendEcsTaskDefinition
+       LaunchType: EC2
+       LoadBalancers:
+         - ContainerName: sample-ecs-backend
+           ContainerPort: 8081
+           TargetGroupArn:
+             Fn::ImportValue: !Sub ${StackName}-PrivateALBTargetGroupDefault
+
+   Outputs:
+     SampleCloudFormationFrontendECSService:
+       Description: Frontend ECS Service
+       Value: !Ref SampleCloudFormationFrontendECSService
+       Export:
+         Name: !Sub ${StackName}-FrontendEcsService
+     SampleCloudFormationBackendECSService:
+       Description: Backend ECS Service
+       Value: !Ref SampleCloudFormationBackendECSService
+       Export:
+         Name: !Sub ${StackName}-BackendEcsService
+
+
+.. _section8-5-2-aws-cloudformation-delete-stack-label:
+
+Stackの削除
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Stackを削除することで、構築していたAWSリソースごと削除が可能である。
+
+.. sourcecode:: bash
+
+   #!/usr/bin/env bash
+
+   stack_name="sample-cloudformation-vpc-1"
+
+   aws cloudformation delete-stack --stack-name ${stack_name}
+
+
+.. _section8-6-elastic-beanstalk-label:
 
 Elastic Beanstalk
 ------------------------------------------------------
@@ -1126,7 +2135,7 @@ Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケ
 
 .. todo:: Elastic Beanstalkについて詳述。
 
-.. _section8-6-elastic-beanstalk-label:
+.. _section8-7-opsworks-label:
 
 OpsWorks
 ------------------------------------------------------
@@ -1135,7 +2144,7 @@ AWS OpsWorksはChefを利用して、アプリケーションの設定と管理�
 
 .. todo:: OpsWorksについて詳細を記述
 
-.. _section8-7-cloud-formation-label:
+.. _section8-8-cloud-development-kit-label:
 
 AWS CDK(AWS Cloud Development Kit)
 ------------------------------------------------------

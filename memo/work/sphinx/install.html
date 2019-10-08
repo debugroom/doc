@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SonarQubeの環境構築" href="../sonarqube/build.html" />
     <link rel="prev" title="work guideline" href="../index.html" /> 
 
   
@@ -87,12 +88,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../java/javaee/jBatch/index.html">JavaEE jBatch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-boot/index.html">Spring Boot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-jpa/index.html">Spring Data JPA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-data-dynamodb/index.html">Spring Data DynamoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-aws/index.html">Spring Cloud AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../java/spring/spring-cloud-function/index.html">Spring Cloud Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../database/cassandra/index.html">Cassandra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/aws/index.html">Amazon web service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/docker/index.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cloud/kubernetes/index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cloud/swagger/index.html">Swagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../convention/app-infra/index.html">AP基盤処理方式・実装規約</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">work guideline</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Sphinxの導入とGitHubページの作成</a><ul>
@@ -101,6 +104,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#github-page">GitHub Pageの作成</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../sonarqube/build.html">SonarQubeの環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sonarqube/build.html#sonarlint">SonarLintの使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sonarqube/build.html#sonarscanner">SonarScannerの使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reveal/install.html">reveal-ckの導入とGitHubスライドページの作成</a></li>
 </ul>
 </li>
 </ul>
@@ -181,6 +188,15 @@
 3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>sudo easy_install pip
 sudo pip install sphinx --upgrade --ignore-installed six
 sudo pip install sphinx_rtd_theme
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>MacOS Sierra以降はHomebrewからpythonをインストールする。以下のコマンドにより、標準インストールされているpython(/usr/bin/python)ではなく、/usr/local/bin/pythonが使用されるようになる。</p>
+<div class="last highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>brew update
+brew install python
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -359,6 +375,8 @@ make html
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../sonarqube/build.html" class="btn btn-neutral float-right" title="SonarQubeの環境構築" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral" title="work guideline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

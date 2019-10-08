@@ -17,6 +17,17 @@ Sphinxのインストール(MacOS X)
       sudo pip install sphinx --upgrade --ignore-installed six
       sudo pip install sphinx_rtd_theme
 
+.. note::
+
+   MacOS Sierra以降はHomebrewからpythonをインストールする。以下のコマンドにより、標準インストールされているpython(/usr/bin/python)ではなく、/usr/local/bin/pythonが使用されるようになる。
+
+   .. sourcecode:: bash
+      :linenos:
+
+      brew update
+      brew install python
+
+
 1.portを使用して、Sphinxのインストールを行う。
 
 .. sourcecode:: bash
