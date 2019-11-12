@@ -119,6 +119,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#section3-4-3-route53-healthcheck-label">ヘルスチェックの設定</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#transit-gateway">Transit Gateway</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
@@ -235,7 +236,8 @@ VPCはリージョン単位で作成でき、VPC内にはリソースへのア�
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">EC2、RDS、ELBはVPC内のサービスであるが、S3や DynamoDB、SQS等のサービスはリージョンで提供されるサービスである。そのため、リージョンサービスに接続が必要なEC2は、通常VPC外への接続口を確保する必要があるが、S3とDynamoDBは接続のためのVPCエンドポイントが提供されている。</p>
+<p class="last">EC2、RDS、ELBはVPC内のサービスであるが、S3や DynamoDB、SQS等のサービスはリージョンで提供されるサービスである。そのため、リージョンサービスに接続が必要なEC2は、通常VPC外への接続口を確保する必要があるが、S3とDynamoDBは接続のためのVPCエンドポイントが提供されている。
+VPCエンドポイントには2種類あり、ゲートウェイ型エンドポイント、インターフェース型エンドポイントの２種類ある。<a class="reference external" href="https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/vpc-endpoints.html">サポートされるサービス</a> ごとにエンドポイントを選択する。</p>
 </div>
 <p>VPCリソース間の通信はルートテーブルというルールセットでアクセス制御する。VPCを作成すると通常同時にメインルートテーブルが作成されるが、追加でカスタムルートテーブルを作成し、サブネット間のアクセス・通信制御を行う。</p>
 <div class="admonition note">
@@ -275,8 +277,12 @@ BGPアドバタイズにより、ルーティングの優先順位、ポリシ�
 <p>VPCピア接続はそれぞれ独立した仮想プライベートネットワークである2つのVPCを接続し、
 プライベートアドレスで相互に通信する。こちらもインターネットゲートウェイ、仮想プライベートゲートウェイと同様、
 冗長化構成をとる。自分が所有しているVPCだけではなく、同じリージョンの別アカウントのVPCとも接続ができる。
-ただし、接続できるのはVPCの範囲内に限られ、接続先のVPCとVPN接続されているネットワークには接続できない。
-VPC接続の主な用途としては、複数システムでのデータ共有や監視システムの統合があげられる。</p>
+ただし、接続できるのはVPCの範囲内に限られ、接続先のVPCとVPN接続されているネットワークには接続できない。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VPC Peeringでは、2017年に海外のリージョンに接続可能なInterーRegion Peeringが利用可能である。Inter-Region Peeringでは、Amazon Globl Network経由でリージョン間接続を行う(インターネットを使った通信ではない)。</p>
+</div>
+<p>VPC接続の主な用途としては、複数システムでのデータ共有や監視システムの統合があげられる。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>VPCピア接続には以下のルールと制限がある。</p>
@@ -289,8 +295,8 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>プライベートサブネット内にあるインスタンスがインターネットなど外部通信する必要がある場合は、パブリックサブネットにNAT用のEC2インスタンスを配置するか、VPC NAT ゲートウェイを使うオプションがある。</p>
-<table border="1" class="colwidths-given last docutils" id="id10">
-<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given last docutils" id="id11">
+<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="40%" />
@@ -346,7 +352,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 </ul>
 </div>
 <div class="section" id="section3-1-4-create-subnet-label">
-<span id="id1"></span><h3>サブネットの作成<a class="headerlink" href="#section3-1-4-create-subnet-label" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>サブネットの作成<a class="headerlink" href="#section3-1-4-create-subnet-label" title="Permalink to this headline">¶</a></h3>
 <p>■AWSコンソールから、「VPC」サービスを選択し、「サブネット」メニューを選び、「サブネットの作成」ボタンを押下する。</p>
 <blockquote>
 <div><div class="figure">
@@ -362,7 +368,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 </ul>
 </div>
 <div class="section" id="section3-1-5-create-ibgw-label">
-<span id="id2"></span><h3>インターネットゲートウェイの作成・アタッチ<a class="headerlink" href="#section3-1-5-create-ibgw-label" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>インターネットゲートウェイの作成・アタッチ<a class="headerlink" href="#section3-1-5-create-ibgw-label" title="Permalink to this headline">¶</a></h3>
 <p>パブリックサブネットにアタッチするための、インターネットゲートウェイを作成する。</p>
 <p>■AWSコンソールから、「VPC」サービスを選択し、「インターネットゲートウェイ」メニューから、「インターネットゲートウェイの作成」ボタンを押下する。名前タグを入力して、「作成」ボタンを押下する。</p>
 <blockquote>
@@ -378,7 +384,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 </div></blockquote>
 </div>
 <div class="section" id="section3-1-6-edit-routetable-label">
-<span id="id3"></span><h3>ルートテーブルの編集<a class="headerlink" href="#section3-1-6-edit-routetable-label" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>ルートテーブルの編集<a class="headerlink" href="#section3-1-6-edit-routetable-label" title="Permalink to this headline">¶</a></h3>
 <p>アタッチしたインターネットゲートウェイの設定をルートテーブルに追加する。</p>
 <p>■AWSコンソールから「VPC」サービスを選択し、「ルートテーブル」メニューを選択する。作成したVPCに関連付けられているルートテーブルを選択し、「Route」タブから「Edit Routes」ボタンを押下する。</p>
 <blockquote>
@@ -417,7 +423,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 </div>
 </div>
 <div class="section" id="section3-1-8-create-vpc-with-public-private-subnet-label">
-<span id="id4"></span><h3>パブリックサブネットとプライベートサブネットをもつVPCの構築<a class="headerlink" href="#section3-1-8-create-vpc-with-public-private-subnet-label" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3>パブリックサブネットとプライベートサブネットをもつVPCの構築<a class="headerlink" href="#section3-1-8-create-vpc-with-public-private-subnet-label" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">この方法でVPCを作成する場合は、事前にNATゲートウェイに設定するElasticIPアドレスを取得しておくこと。</p>
@@ -440,7 +446,7 @@ VPC接続の主な用途としては、複数システムでのデータ共有�
 <span id="section3-2-direct-connect-label"></span><h2>Direct Connect<a class="headerlink" href="#direct-connect" title="Permalink to this headline">¶</a></h2>
 <p>Direct ConnectはVPCとオンプレミス環境をプライベートに接続するためのサービスであるが、より高速で安定的な通信が特徴になっている。
 同様のサービスとしてはVPC内の仮想プライベートゲートウェイが利用できるが、通常のインターネット回線を用いるため、
-帯域幅の制限があり、そうした問題をクリアするためのサービスと捉えてよい。Data Connetは「Direct Connectロケーション」と呼ばれる
+帯域幅の制限があり、そうした問題をクリアするためのサービスと捉えてよい。Direct Connectは「Direct Connectロケーション」と呼ばれる
 AWSの各リージョンに対する接続ポイントを提供する。オンプレミス環境と接続ポイントを経由したVPCの間は、
 IEEEによって標準化されたネットワーク規格である「802.1Q VLANタンキング」を用いて、論理的な接続経路を構築する。
 接続ポイントとオンプレミス環境は通信キャリアが提供している閉域網サービスが必要なため、通信キャリアとの契約が必要である。
@@ -448,11 +454,16 @@ IEEEによって標準化されたネットワーク規格である「802.1Q VLA
 その物理接続を通る論理接続を払い出して提供する「共有プラン」の2パターンが存在する。</p>
 <p>占有プランは高価だが、論理接続を自由に作成できるので、多数のVPCをオンプレミス環境に接続したい場合は有用である。
 共有プランは安価だが論理接続ごとに費用が発生する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">2017年10月にDirect Connect Gatewayがリリースされ、1つのprivate VICで複数のVPC接続が可能になる。Direct Connect Gatewayを経由して、Amazon Global Networkを利用して他リージョンのVPCにアクセスすることも可能である。
+例えば東京にあるオンプレのデータセンタからオレゴンリージョンのVPCにアクセスする場合は、オンプレ⇔東京リージョンのDirectConnect⇔DirectConnectGateway⇔Amazon Global network⇔オレゴンリージョンのVPCとなる。(海外のリージョンのDirectConnectまで専用線まで繋げる必要はない)</p>
+</div>
 </div>
 <div class="section" id="elastic-load-balancing-elb">
 <span id="section3-3-elastic-load-balancing-label"></span><h2>Elastic Load Balancing(ELB)<a class="headerlink" href="#elastic-load-balancing-elb" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section3-3-1-elb-overview-label">
-<span id="id5"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>Overview<a class="headerlink" href="#section3-3-1-elb-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Elastic Load BalancingはAWS内で利用できる仮想ロードバランサーで以下の様な特徴を持つ。</p>
 <ul class="simple">
 <li>ELB自体のスケーリング</li>
@@ -603,11 +614,11 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <div class="section" id="route53">
 <span id="section3-4-route53-label"></span><h2>Route53<a class="headerlink" href="#route53" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section3-4-1-route53-overview-label">
-<span id="id7"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。
 Route53は以下のルーティングをサポートする。</p>
-<table border="1" class="colwidths-given docutils" id="id11">
-<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id12">
+<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="70%" />
@@ -639,7 +650,7 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 </div>
 <div class="section" id="section3-4-2-route53-registration-label">
-<span id="id8"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
+<span id="id9"></span><h3>ドメインの登録<a class="headerlink" href="#section3-4-2-route53-registration-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53を利用して、ドメインを登録する。トップページのRoute53によるドメイン登録を選択する。</p>
 <div class="figure">
 <img alt="../../../_images/management-console-route53-registration-1.png" src="../../../_images/management-console-route53-registration-1.png" />
@@ -679,8 +690,8 @@ Route53は以下のルーティングをサポートする。</p>
 <div class="figure">
 <img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" />
 </div>
-<table border="1" class="colwidths-given docutils" id="id12">
-<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id13">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="23%" />
 <col width="54%" />
@@ -735,12 +746,18 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 </div>
 <div class="section" id="section3-4-3-route53-healthcheck-label">
-<span id="id9"></span><h3>ヘルスチェックの設定<a class="headerlink" href="#section3-4-3-route53-healthcheck-label" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3>ヘルスチェックの設定<a class="headerlink" href="#section3-4-3-route53-healthcheck-label" title="Permalink to this headline">¶</a></h3>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">マルチリージョンフェイルオーバーの設定を記述。</p>
 </div>
 </div>
+</div>
+<div class="section" id="transit-gateway">
+<span id="section3-5-transit-gateway-label"></span><h2>Transit Gateway<a class="headerlink" href="#transit-gateway" title="Permalink to this headline">¶</a></h2>
+<p>Transit Gatewayは従来VPC間でPeering接続していた代わりにTransitGatewayがハブとなり、VPC間の接続を行うリージョンサービスである。
+親アカウントにTransitGatewayを作成しておくと、親アカウントに紐づく複数の子アカウントに作成したVPCのピア接続が可能になる。
+DirectConnectGatewayとも連携し、他リージョンにある子アカウントと接続することもできる。</p>
 </div>
 </div>
 
