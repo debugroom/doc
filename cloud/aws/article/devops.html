@@ -128,7 +128,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#cloudformation">CloudFormation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section8-5-1-aws-cloudformation-overview-label">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#stack">Stackの作成</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section8-5-2-aws-cloudformation-delete-stack-label">Stackの削除</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section8-5-3-aws-cloudformation-delete-stack-label">Stackの削除</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#taskcatcloudformation">taskcatを用いたCloudFormationテンプレートのテスト</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#elastic-beanstalk">Elastic Beanstalk</a></li>
@@ -728,8 +729,8 @@ artifacts:
 </pre></div>
 </div>
 <p>なお、上記で実行したスクリプトの各オプションの説明は以下の通り。</p>
-<table border="1" class="colwidths-given docutils" id="id26">
-<caption><span class="caption-text">codebuild_build.shのオプション</span><a class="headerlink" href="#id26" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id31">
+<caption><span class="caption-text">codebuild_build.shのオプション</span><a class="headerlink" href="#id31" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -1514,8 +1515,7 @@ aws cloudformation create-stack --stack-name <span class="si">${</span><span cla
 <div class="section" id="natgatewaystack">
 <span id="section8-5-2-2-cloudformation-create-ngw-label"></span><h4>NatGatewayStackの作成<a class="headerlink" href="#natgatewaystack" title="Permalink to this headline">¶</a></h4>
 <p>前節で作成した、VPCのプライベートサブネットにアタッチするNAT Gatewayを設定するStackを作成する。テンプレートは以下の通り。</p>
-<blockquote>
-<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>AWSTemplateFormatVersion: &#39;2010-09-09&#39;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>AWSTemplateFormatVersion: &#39;2010-09-09&#39;
 
 Description: Sample CloudFormation template with YAML - NatGateway
 
@@ -1576,7 +1576,6 @@ Resources:
       RouteTableId: !Ref MainRouteTable
 </pre></div>
 </div>
-</div></blockquote>
 <p><br /></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -3098,8 +3097,8 @@ Resources:
 </div>
 </div>
 </div>
-<div class="section" id="section8-5-2-aws-cloudformation-delete-stack-label">
-<span id="id25"></span><h3>Stackの削除<a class="headerlink" href="#section8-5-2-aws-cloudformation-delete-stack-label" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="section8-5-3-aws-cloudformation-delete-stack-label">
+<span id="id25"></span><h3>Stackの削除<a class="headerlink" href="#section8-5-3-aws-cloudformation-delete-stack-label" title="Permalink to this headline">¶</a></h3>
 <p>Stackを削除することで、構築していたAWSリソースごと削除が可能である。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
@@ -3109,11 +3108,133 @@ aws cloudformation delete-stack --stack-name <span class="si">${</span><span cla
 </pre></div>
 </div>
 </div>
+<div class="section" id="taskcatcloudformation">
+<span id="section8-5-4-aws-cloudformation-taskcat-label"></span><h3>taskcatを用いたCloudFormationテンプレートのテスト<a class="headerlink" href="#taskcatcloudformation" title="Permalink to this headline">¶</a></h3>
+<p>AWS Quickstartはtaskcatという、CLoudformationのテストを自動化するためのツールをオープンソースで公開している。
+taskcatは複数のAWSリージョンで任意に実行が可能で、各リージョンごとにテストが正常に終了したかどうかのレポートの出力が可能である。
+テンプレートに渡すパラメータも細かく制御可能であり、テスト実行後は自動的にスタックが削除される。</p>
+<div class="section" id="taskcat">
+<span id="section8-5-4-1-cloudformation-taskcat-install-label"></span><h4>taskcatのインストール<a class="headerlink" href="#taskcat" title="Permalink to this headline">¶</a></h4>
+<p>taskcatはpythonおよびpipを使ったインストールのみをサポートしている。事前にHomebrewなどでpython3およびpip3の環境構築などを行っておくこと。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">dockerを用いたインストール手順も準備中の模様。</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">taskcatはWindowsはサポートしていない。<a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/about">Windows Subsystem for Linux (WSL)</a> などを使ってWindow10でLinuxを使用した環境などを準備すること。</p>
+</div>
+<p>pip3を使ってtaskcatをインストールする。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip3 install taskcat --user</span>
+
+Collecting taskcat
+Downloading https://files.pythonhosted.org/packages/fe/a7/cc58c276c77b0e15529fcf5d67d2f3004deed8003667b6dec50e76d6138f/taskcat-0.9.8-py3-none-any.whl <span class="o">(</span>73kB<span class="o">)</span>
+  <span class="m">100</span>% <span class="p">|</span>████████████████████████████████<span class="p">|</span> 81kB <span class="m">2</span>.4MB/s
+
+// omit
+
+Successfully installed backports.shutil-get-terminal-size-1.0.0 dataclasses-0.7 dataclasses-jsonschema-2.12.0 docker-3.7.3 dulwich-0.19.14 mock-2.0.0 mypy-extensions-0.4.3 pbr-5.4.4 reprint-0.5.2 requests-2.22.0 tabulate-0.8.6 taskcat-0.9.8 typing-extensions-3.7.4.1
+
+<span class="c1"># taskcat --version</span>
+ _            _             _
+<span class="p">|</span> <span class="p">|</span>_ __ _ ___<span class="p">|</span> <span class="p">|</span> _____ __ _<span class="p">|</span> <span class="p">|</span>_
+<span class="p">|</span> __/ _<span class="sb">`</span> / __<span class="p">|</span> <span class="p">|</span>/ / __/ _<span class="sb">`</span> <span class="p">|</span> __<span class="p">|</span>
+<span class="p">|</span> <span class="o">||</span> <span class="o">(</span>_<span class="p">|</span> <span class="se">\_</span>_ <span class="se">\ </span>  &lt; <span class="o">(</span>_<span class="p">|</span> <span class="o">(</span>_<span class="p">|</span> <span class="p">|</span> <span class="p">|</span>_
+ <span class="se">\_</span>_<span class="se">\_</span>_,_<span class="p">|</span>___/_<span class="p">|</span><span class="se">\_\_</span>__<span class="se">\_</span>_,_<span class="p">|</span><span class="se">\_</span>_<span class="p">|</span>
+
+version <span class="m">0</span>.9.8
+<span class="m">0</span>.9.8
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>–userオプションをつけない場合、パッケージのインストールに失敗する場合がある。下記のメッセージが出力された場合は、–userオプションを付与しておくこと。</p>
+<p class="last">Consider using the <cite>–user</cite> option or check the permissions.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">taskcatは2020年1月時点で最新バージョンが0.9.8であるが、0.8系以前のバージョンとCLIのインターフェースが異なる。v0.8.xではtaskcat -c xxxx/taskcat.ymlというコマンドが、0.9ではtaskcat test runなど。その他設定ファイルの書き方なども変更されているので、正しいパラメータは <a class="reference external" href="https://github.com/aws-quickstart/taskcat#config-files">公式のページ</a> を確認すること。</p>
+</div>
+</div>
+<div class="section" id="section8-5-4-2-cloudformation-taskcat-execution-label">
+<span id="id27"></span><h4>taskcatを使ったテストの実行<a class="headerlink" href="#section8-5-4-2-cloudformation-taskcat-execution-label" title="Permalink to this headline">¶</a></h4>
+<p>作成したCloudformationテンプレートがあるプロジェクト配下に.taskcat.ymlというファイルを作成する。
+ここでは例として、 <a class="reference internal" href="#section8-5-2-1-cloudformation-create-vpc-stack-label"><span class="std std-ref">VPCStackの作成</span></a> で作成した、VPC作成テンプレートを北カリフォルニア(us-west-1)リージョンでテストする前提で作成する。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>project:
+  name: sample-aws-cloudformation
+  regions:
+    - us-west-1
+tests:
+  vpc-test:
+    template: ./sample-vpc-cfn.yaml
+</pre></div>
+</div>
+<p>設定ファイルを作成したら、taskcat test runコマンドを実行する。ここでは、同じプロジェクト配下にtest.shスクリプトを作成し、コマンド実行する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+taskcat <span class="nb">test</span> run
+</pre></div>
+</div>
+<p>実行後は以下のように結果が出力される。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> _            _             _
+| |_ __ _ ___| | _____ __ _| |_
+| __/ _` / __| |/ / __/ _` | __|
+| || (_| \__ \   &lt; (_| (_| | |_
+ \__\__,_|___/_|\_\___\__,_|\__|
+
+
+
+version 0.9.8
+[INFO   ] : Lint passed for test vpc-test on template /Users/xxxxxxx/sample-aws-cloudformation/sample-vpc-cfn.yaml
+[S3: -&gt; ] s3://tcat-sample-aws-cloudformation-2qe824bz/sample-aws-cloudformation/sample-codebuild-cfn.yml
+
+[INFO   ] : ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+[INFO   ] : ┣ region: us-west-1
+[INFO   ] : ┗ status: CREATE_COMPLETE
+[INFO   ] : Collecting CloudFormation Logs
+[INFO   ] : Collecting logs for tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+[INFO   ] :   |StackName: tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+[INFO   ] :   |Region: us-west-1
+[INFO   ] :   |Logging to: /Users/xxxxx/sample-aws-cloudformation/taskcat_outputs/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af-us-west-1-cfnlogs.txt
+[INFO   ] :   |Tested on: Tuesday, 07. January 2020 04:15AM
+[INFO   ] : ------------------------------------------------------------------------------------------
+[INFO   ] : ResourceStatusReason:
+[INFO   ] : Stack launch was successful
+[INFO   ] : ==========================================================================================
+[INFO   ] : Reporting on arn:aws:cloudformation:us-west-1:576249913131:stack/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af/b904d9c0-30b8-11ea-b55a-02e70048949f
+[INFO   ] : Deleting stack: arn:aws:cloudformation:us-west-1:576249913131:stack/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af/b904d9c0-30b8-11ea-b55a-02e70048949f
+[INFO   ] : ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+[INFO   ] : ┣ region: us-west-1
+[INFO   ] : ┗ status: DELETE_COMPLETE
+ Not in terminal, reprint now using normal build-in print function.
+
+  ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+  ┣ region: us-west-1
+  ┗ status: DELETE_IN_PROGRESS
+  // omit
+
+ Process finished with exit code 0
+</pre></div>
+</div>
+<p>実行が完了すると、プロジェクトは以下にtaskcat_outputsディレクトリが作成され、結果を出力したレポートが出力される。</p>
+<div class="figure">
+<img alt="../../../_images/taskcat-report.png" src="../../../_images/taskcat-report.png" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">taskcatではパラメータを指定できるが、トークンパラメータも用意されている。詳細は <a class="reference external" href="https://aws-quickstart.github.io/input-files.html">こちらのガイド</a> を参考のこと。</p>
+</div>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">taskcatをCI/CDパイプラインに組み込んで、Cloudformationテンプレート資材の自動テストを行う方法を記載する。参考URLは <a class="reference external" href="https://stelligent.com/2019/11/27/run-aws-cloudformation-tests-from-codepipeline-using-taskcat/">こちらのサイト</a> や <a class="reference external" href="https://aws.amazon.com/jp/blogs/infrastructure-and-automation/a-deep-dive-into-testing-with-taskcat/">AWSのブログ</a></p>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="elastic-beanstalk">
 <span id="section8-6-elastic-beanstalk-label"></span><h2>Elastic Beanstalk<a class="headerlink" href="#elastic-beanstalk" title="Permalink to this headline">¶</a></h2>
 <p>Elastic Beanstalkは、Webアプリケーションを自動デプロイ、スケーリングするサービスである。</p>
-<div class="admonition-todo admonition" id="index-2">
+<div class="admonition-todo admonition" id="index-3">
 <p class="first admonition-title">Todo</p>
 <p class="last">Elastic Beanstalkについて詳述。</p>
 </div>
@@ -3121,7 +3242,7 @@ aws cloudformation delete-stack --stack-name <span class="si">${</span><span cla
 <div class="section" id="opsworks">
 <span id="section8-7-opsworks-label"></span><h2>OpsWorks<a class="headerlink" href="#opsworks" title="Permalink to this headline">¶</a></h2>
 <p>AWS OpsWorksはChefを利用して、アプリケーションの設定と管理を行う構成管理サービス</p>
-<div class="admonition-todo admonition" id="index-3">
+<div class="admonition-todo admonition" id="index-4">
 <p class="first admonition-title">Todo</p>
 <p class="last">OpsWorksについて詳細を記述</p>
 </div>

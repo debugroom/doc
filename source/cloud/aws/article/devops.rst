@@ -1414,7 +1414,7 @@ NatGatewayStackの作成
 
 前節で作成した、VPCのプライベートサブネットにアタッチするNAT Gatewayを設定するStackを作成する。テンプレートは以下の通り。
 
-  .. sourcecode:: none
+.. sourcecode:: none
 
    AWSTemplateFormatVersion: '2010-09-09'
 
@@ -3019,7 +3019,7 @@ CodePipelineの作成
            RestrictPublicBuckets: True
 
 
-.. _section8-5-2-aws-cloudformation-delete-stack-label:
+.. _section8-5-3-aws-cloudformation-delete-stack-label:
 
 Stackの削除
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3034,6 +3034,132 @@ Stackを削除することで、構築していたAWSリソースごと削除が
 
    aws cloudformation delete-stack --stack-name ${stack_name}
 
+.. _section8-5-4-aws-cloudformation-taskcat-label:
+
+taskcatを用いたCloudFormationテンプレートのテスト
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AWS Quickstartはtaskcatという、CLoudformationのテストを自動化するためのツールをオープンソースで公開している。
+taskcatは複数のAWSリージョンで任意に実行が可能で、各リージョンごとにテストが正常に終了したかどうかのレポートの出力が可能である。
+テンプレートに渡すパラメータも細かく制御可能であり、テスト実行後は自動的にスタックが削除される。
+
+.. _section8-5-4-1-cloudformation-taskcat-install-label:
+
+taskcatのインストール
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+taskcatはpythonおよびpipを使ったインストールのみをサポートしている。事前にHomebrewなどでpython3およびpip3の環境構築などを行っておくこと。
+
+.. note:: dockerを用いたインストール手順も準備中の模様。
+
+.. warning:: taskcatはWindowsはサポートしていない。`Windows Subsystem for Linux (WSL) <https://docs.microsoft.com/en-us/windows/wsl/about>`_ などを使ってWindow10でLinuxを使用した環境などを準備すること。
+
+pip3を使ってtaskcatをインストールする。
+
+.. sourcecode:: bash
+
+   # pip3 install taskcat --user
+
+   Collecting taskcat
+   Downloading https://files.pythonhosted.org/packages/fe/a7/cc58c276c77b0e15529fcf5d67d2f3004deed8003667b6dec50e76d6138f/taskcat-0.9.8-py3-none-any.whl (73kB)
+     100% |████████████████████████████████| 81kB 2.4MB/s
+
+   // omit
+
+   Successfully installed backports.shutil-get-terminal-size-1.0.0 dataclasses-0.7 dataclasses-jsonschema-2.12.0 docker-3.7.3 dulwich-0.19.14 mock-2.0.0 mypy-extensions-0.4.3 pbr-5.4.4 reprint-0.5.2 requests-2.22.0 tabulate-0.8.6 taskcat-0.9.8 typing-extensions-3.7.4.1
+
+   # taskcat --version
+    _            _             _
+   | |_ __ _ ___| | _____ __ _| |_
+   | __/ _` / __| |/ / __/ _` | __|
+   | || (_| \__ \   < (_| (_| | |_
+    \__\__,_|___/_|\_\___\__,_|\__|
+
+   version 0.9.8
+   0.9.8
+
+.. note:: --userオプションをつけない場合、パッケージのインストールに失敗する場合がある。下記のメッセージが出力された場合は、--userオプションを付与しておくこと。
+
+   Consider using the `--user` option or check the permissions.
+
+.. note:: taskcatは2020年1月時点で最新バージョンが0.9.8であるが、0.8系以前のバージョンとCLIのインターフェースが異なる。v0.8.xではtaskcat -c xxxx/taskcat.ymlというコマンドが、0.9ではtaskcat test runなど。その他設定ファイルの書き方なども変更されているので、正しいパラメータは `公式のページ <https://github.com/aws-quickstart/taskcat#config-files>`_ を確認すること。
+
+.. _section8-5-4-2-cloudformation-taskcat-execution-label:
+
+taskcatを使ったテストの実行
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+作成したCloudformationテンプレートがあるプロジェクト配下に.taskcat.ymlというファイルを作成する。
+ここでは例として、 :ref:`section8-5-2-1-cloudformation-create-vpc-stack-label` で作成した、VPC作成テンプレートを北カリフォルニア(us-west-1)リージョンでテストする前提で作成する。
+
+.. sourcecode:: none
+
+   project:
+     name: sample-aws-cloudformation
+     regions:
+       - us-west-1
+   tests:
+     vpc-test:
+       template: ./sample-vpc-cfn.yaml
+
+設定ファイルを作成したら、taskcat test runコマンドを実行する。ここでは、同じプロジェクト配下にtest.shスクリプトを作成し、コマンド実行する。
+
+.. sourcecode:: bash
+
+   #!/usr/bin/env bash
+
+   taskcat test run
+
+実行後は以下のように結果が出力される。
+
+.. sourcecode:: none
+
+    _            _             _
+   | |_ __ _ ___| | _____ __ _| |_
+   | __/ _` / __| |/ / __/ _` | __|
+   | || (_| \__ \   < (_| (_| | |_
+    \__\__,_|___/_|\_\___\__,_|\__|
+
+
+
+   version 0.9.8
+   [INFO   ] : Lint passed for test vpc-test on template /Users/xxxxxxx/sample-aws-cloudformation/sample-vpc-cfn.yaml
+   [S3: -> ] s3://tcat-sample-aws-cloudformation-2qe824bz/sample-aws-cloudformation/sample-codebuild-cfn.yml
+
+   [INFO   ] : ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+   [INFO   ] : ┣ region: us-west-1
+   [INFO   ] : ┗ status: CREATE_COMPLETE
+   [INFO   ] : Collecting CloudFormation Logs
+   [INFO   ] : Collecting logs for tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+   [INFO   ] : 	 |StackName: tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+   [INFO   ] : 	 |Region: us-west-1
+   [INFO   ] : 	 |Logging to: /Users/xxxxx/sample-aws-cloudformation/taskcat_outputs/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af-us-west-1-cfnlogs.txt
+   [INFO   ] : 	 |Tested on: Tuesday, 07. January 2020 04:15AM
+   [INFO   ] : ------------------------------------------------------------------------------------------
+   [INFO   ] : ResourceStatusReason:
+   [INFO   ] : Stack launch was successful
+   [INFO   ] : ==========================================================================================
+   [INFO   ] : Reporting on arn:aws:cloudformation:us-west-1:576249913131:stack/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af/b904d9c0-30b8-11ea-b55a-02e70048949f
+   [INFO   ] : Deleting stack: arn:aws:cloudformation:us-west-1:576249913131:stack/tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af/b904d9c0-30b8-11ea-b55a-02e70048949f
+   [INFO   ] : ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+   [INFO   ] : ┣ region: us-west-1
+   [INFO   ] : ┗ status: DELETE_COMPLETE
+    Not in terminal, reprint now using normal build-in print function.
+
+     ┏ stack Ⓜ tCaT-sample-aws-cloudformation-vpc-test-8e49ba5f18e440f8ac91455e5ea935af
+     ┣ region: us-west-1
+     ┗ status: DELETE_IN_PROGRESS
+     // omit
+
+    Process finished with exit code 0
+
+実行が完了すると、プロジェクトは以下にtaskcat_outputsディレクトリが作成され、結果を出力したレポートが出力される。
+
+.. figure:: img/taskcat-report.png
+
+.. note:: taskcatではパラメータを指定できるが、トークンパラメータも用意されている。詳細は `こちらのガイド <https://aws-quickstart.github.io/input-files.html>`_ を参考のこと。
+
+.. todo:: taskcatをCI/CDパイプラインに組み込んで、Cloudformationテンプレート資材の自動テストを行う方法を記載する。参考URLは `こちらのサイト <https://stelligent.com/2019/11/27/run-aws-cloudformation-tests-from-codepipeline-using-taskcat/>`_ や `AWSのブログ <https://aws.amazon.com/jp/blogs/infrastructure-and-automation/a-deep-dive-into-testing-with-taskcat/>`_
 
 .. _section8-6-elastic-beanstalk-label:
 
