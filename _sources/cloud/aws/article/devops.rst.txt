@@ -3187,3 +3187,372 @@ AWS CDK(AWS Cloud Development Kit)
 AWS CDKはインフラをPython、TypeScriptなどの言語で記述する言語である。
 
 .. note:: 2019.9時点でGA中のサービス。
+
+.. todo:: CDKについて詳述。
+
+.. _section8-9-workspaces-label:
+
+Workspaces
+------------------------------------------------------
+
+.. _section8-5-9-1-workspaces-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Amazon Workspacesはクラウド上に構築する仮想デスクトップサービスである。仮想デスクトップOSとしてAmazonLinuxやWindowsを選択でき、ハードウェアスペックやソフトウェア構成を複数選択できる。
+料金は月額単位の固定料金と時間単位のオンデマンドオプションを選択できる。
+
+Workspacesでは認証のためのディレクトリおよび、ヴァーチャルマシンに相当するイメージ、イメージとハードウェアを組み合わせたバンドルを選択して構築する。
+
+.. _section8-5-9-2-workspaces-setting-label:
+
+事前環境設定
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+workspacesを構築するために事前にVPCおよびパブリックサブネット、ルートテーブル、インターネットゲートウェイを構築する。ここでは、CloudFormationを使い、環境の構築を行う。
+
+.. sourcecode:: none
+
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Description: Sample CloudFormation template with YAML - VPC
+
+   Parameters:
+     VPCName:
+       Description: Target VPC Stack Name
+       Type: String
+       MinLength: 1
+       MaxLength: 255
+       AllowedPattern: ^[a-zA-Z][-a-zA-Z0-9]*$
+       Default: sample-cloudformation-vpc
+     VPCCiderBlock:
+       Description: CiderBlock paramater for VPC
+       Type: String
+       MinLength: 9
+       MaxLength: 18
+       AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+       Default: 172.200.0.0/16
+     PublicSubnet1CiderBlock:
+       Description: CiderBlock paramater for VPC
+       Type: String
+       MinLength: 9
+       MaxLength: 18
+       AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+       Default: 172.200.1.0/24
+     PublicSubnet2CiderBlock:
+       Description: CiderBlock paramater for VPC
+       Type: String
+       MinLength: 9
+       MaxLength: 18
+       AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+       Default: 172.200.2.0/24
+     PrivateSubnet1CiderBlock:
+       Description: CiderBlock paramater for VPC
+       Type: String
+       MinLength: 9
+       MaxLength: 18
+       AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+       Default: 172.200.3.0/24
+     PrivateSubnet2CiderBlock:
+       Description: CiderBlock paramater for VPC
+       Type: String
+       MinLength: 9
+       MaxLength: 18
+       AllowedPattern: (\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})
+       Default: 172.200.4.0/24
+
+
+   Resources:
+     VPC:
+       Type: AWS::EC2::VPC
+       Properties:
+         CidrBlock: !Sub ${VPCCiderBlock}
+         InstanceTenancy: default
+         EnableDnsSupport: true
+         EnableDnsHostnames: true
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}
+
+     PublicSubnet1:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: !Sub ${PublicSubnet1CiderBlock}
+         VpcId: !Ref VPC
+         AvailabilityZone: !Select [ 0, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-PublicSubnet1
+
+     PublicSubnet2:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: !Sub ${PublicSubnet2CiderBlock}
+         VpcId: !Ref VPC
+         AvailabilityZone: !Select [ 1, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-PublicSubnet2
+
+     PrivateSubnet1:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: !Sub ${PrivateSubnet1CiderBlock}
+         VpcId: !Ref VPC
+         AvailabilityZone: !Select [ 0, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-PrivateSubnet1
+
+     PrivateSubnet2:
+       Type: AWS::EC2::Subnet
+       Properties:
+         CidrBlock: !Sub ${PrivateSubnet2CiderBlock}
+         VpcId: !Ref VPC
+         AvailabilityZone: !Select [ 1, !GetAZs '' ]
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-PrivateSubnet2
+
+     IGW:
+       Type: AWS::EC2::InternetGateway
+       Properties:
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-IGW
+
+     IGWAttach:
+       Type: AWS::EC2::VPCGatewayAttachment
+       Properties:
+         InternetGatewayId: !Ref IGW
+         VpcId: !Ref VPC
+
+     CustomRouteTable:
+       Type: AWS::EC2::RouteTable
+       Properties:
+         VpcId: !Ref VPC
+         Tags:
+           - Key: Name
+             Value: !Sub ${VPCName}-PublicRoute
+
+     CustomRoute:
+       Type: AWS::EC2::Route
+       Properties:
+         RouteTableId: !Ref CustomRouteTable
+         DestinationCidrBlock: 0.0.0.0/0
+         GatewayId: !Ref IGW
+
+     PublicSubnet1Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId: !Ref PublicSubnet1
+         RouteTableId: !Ref CustomRouteTable
+
+     PublicSubnet2Association:
+       Type: AWS::EC2::SubnetRouteTableAssociation
+       Properties:
+         SubnetId: !Ref PublicSubnet2
+         RouteTableId: !Ref CustomRouteTable
+
+   Outputs:
+     VPC:
+       Description: VPC ID
+       Value: !Ref VPC
+       Export:
+         Name: !Sub ${VPCName}-VPCID
+
+     PublicSubnet1:
+       Description: PublicSubnet1
+       Value: !Ref PublicSubnet1
+       Export:
+         Name: !Sub ${VPCName}-PublicSubnet1
+
+     PublicSubnet1Arn:
+       Description: PublicSubnet1Arn
+       Value: !Sub
+         - arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/${PublicSubnet1}
+         - PublicSubnet1: !Ref PublicSubnet1
+       Export:
+         Name: !Sub ${VPCName}-PublicSubnet1Arn
+
+     PublicSubnet2:
+       Description: PublicSubnet2
+       Value: !Ref PublicSubnet2
+       Export:
+         Name: !Sub ${VPCName}-PublicSubnet2
+
+     PublicSubnet2Arn:
+       Description: PublicSubnet2Arn
+       Value: !Sub
+         - arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/${PublicSubnet2}
+         - PublicSubnet2: !Ref PublicSubnet2
+       Export:
+         Name: !Sub ${VPCName}-PublicSubnet2Arn
+
+     PrivateSubnet1:
+       Description: PrivateSubnet1
+       Value: !Ref PrivateSubnet1
+       Export:
+         Name: !Sub ${VPCName}-PrivateSubnet1
+
+     PrivateSubnet1Arn:
+       Description: PrivateSubnet1Arn
+       Value: !Sub
+         - arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/${PrivateSubnet1}
+         - PrivateSubnet1: !Ref PrivateSubnet1
+       Export:
+         Name: !Sub ${VPCName}-PrivateSubnet1Arn
+
+     PrivateSubnet2:
+       Description: PrivateSubnet2
+       Value: !Ref PrivateSubnet2
+       Export:
+         Name: !Sub ${VPCName}-PrivateSubnet2
+
+     PrivateSubnet2Arn:
+       Description: PrivateSubnet2Arn
+         Value: !Sub
+           - arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/${PrivateSubnet2}
+           - PrivateSubnet2: !Ref PrivateSubnet2
+     Export:
+       Name: !Sub ${VPCName}-PrivateSubnet2Arn
+
+|br|
+
+スタック名とテンプレートパスを指定してCLIスクリプトを実行する。
+
+|br|
+
+.. sourcecode:: bash
+
+   #!/usr/bin/env bash
+
+   stack_name="sample-vpc"
+   template_path="sample-vpc-cfn.yml"
+
+   aws cloudformation deploy --stack-name ${stack_name} --template-file ${template_path} --parameter-overrides ${parameters} --capabilities CAPABILITY_IAM
+
+|br|
+
+.. _section8-5-9-3-workspaces-construction-label:
+
+Workspaces環境の構築
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|br|
+
+AWSコンソール上からWorkspacesを利用する環境を構築する。仮想マシンとしてAmazonLinuxを選択する。サービスメニュー「workspaces」で、「詳細設定」の「起動」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-1.png
+
+|br|
+
+ディレクトリタイプでは「SimpleAD」を選択する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-2.png
+
+|br|
+
+組織名およびDNS名、管理者パスワードを入力する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-3.png
+
+|br|
+
+workspacesを構築するVPCおよびパブリックサブネットを入力する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-4.png
+
+|br|
+
+設定内容を確認し、「ディレクトリの作成」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-5.png
+
+|br|
+
+ディレクトリのステータスがRequestedで作成中の状態になる。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-6.png
+
+|br|
+
+ディレクトリのステータスがActiveに変わるのを待つ。
+
+|br|
+
+
+.. figure:: img/management-console-workspaces-create-7.png
+
+|br|
+
+アクションボタンから「登録」を選択し、パブリックサブネットを２つ選択して、「セルフサービスアクセス許可の有効化」および、「Amazon WorkDocsの有効化」を「はい」でチェックしておく。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-8.png
+
+|br|
+
+Workspacesメニューから、「Workspacesの起動」ボタンを押下する。
+
+|br|
+
+
+.. figure:: img/management-console-workspaces-create-9.png
+
+|br|
+
+上記で作成したディレクトリを選択する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-10.png
+
+|br|
+
+ユーザを作成して追加する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-11.png
+
+|br|
+
+ディレクトリからユーザを選択し、「次のステップ」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-12.png
+
+|br|
+
+起動するOS・スペックバンドルを選択する。
+
+|br|
+
+
+.. figure:: img/management-console-workspaces-create-13.png
+
+|br|
+
+実行モードを「AutoStop」にして「次のステップ」ボタンを押下し、WorkSpacesを起動する。メールが届くのでその後案内に従い、WorkSpacesクライアントをローカル端末に導入する。
+
+|br|
+
+.. figure:: img/management-console-workspaces-create-14.png
+
+|br|
