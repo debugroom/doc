@@ -3556,3 +3556,14 @@ Workspacesメニューから、「Workspacesの起動」ボタンを押下する
 .. figure:: img/management-console-workspaces-create-14.png
 
 |br|
+
+.. note:: OSとして起動されるAmazonLinuxにDockerインストール後、Docker buildコマンドを実行する等で通信エラーが発生する。Docker起動ファイル /usr/lib/systemd/system/docker.serviceの起動コマンドにDNSの設定(--dns=8.8.8.8を追加)を行う。
+
+   .. sourcecode:: none
+
+      sudo vi /usr/lib/systemd/system/docker.service
+
+      ExecStart=/usr/bin/dockerd -H fd:// --dns=8.8.8.8 $DOCKER_NETWORK_OPTIONS
+
+      sudo systemctl daemon-reload
+      sudo systemctl restart docker

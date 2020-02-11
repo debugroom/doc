@@ -3581,6 +3581,18 @@ aws cloudformation deploy --stack-name <span class="si">${</span><span class="nv
 <img alt="../../../_images/management-console-workspaces-create-14.png" src="../../../_images/management-console-workspaces-create-14.png" />
 </div>
 <p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>OSとして起動されるAmazonLinuxにDockerインストール後、Docker buildコマンドを実行する等で通信エラーが発生する。Docker起動ファイル /usr/lib/systemd/system/docker.serviceの起動コマンドにDNSの設定(–dns=8.8.8.8を追加)を行う。</p>
+<div class="last highlight-none notranslate"><div class="highlight"><pre><span></span>sudo vi /usr/lib/systemd/system/docker.service
+
+ExecStart=/usr/bin/dockerd -H fd:// --dns=8.8.8.8 $DOCKER_NETWORK_OPTIONS
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
