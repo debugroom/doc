@@ -555,6 +555,211 @@ Createボタンを押下すると、設定が反映される。しばらく時�
 Transit Gateway
 ------------------------------------------------------
 
+|br|
+
 Transit Gatewayは従来VPC間でPeering接続していた代わりにTransitGatewayがハブとなり、VPC間の接続を行うリージョンサービスである。
 親アカウントにTransitGatewayを作成しておくと、親アカウントに紐づく複数の子アカウントに作成したVPCのピア接続が可能になる。
 DirectConnectGatewayとも連携し、他リージョンにある子アカウントと接続することもできる。
+
+|br|
+
+.. _section3-6-api-gateway-label:
+
+API Gateway
+------------------------------------------------------
+
+.. _section3-6-1-api-gateway-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+API GatewayはAPIの作成、公開やリクエストのモニタリング等の管理を行うサービスである。作成可能なAPI種類として以下の３種類がある。
+
+* GET、POST、PUT、PATCH、DELETEなどの標準HTTPメソッドを用いたリソースベースのステートレスな通信を実現するREST API
+* より低コストで低レイテンシーなHTTP API
+* クライアントとの双方向通信を実現するWebSocket API
+
+REST APIとHTTP APIの違いについては `HTTP API または REST API の選択 <https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/http-api-vs-rest.html>`_ にも記載されているが、
+HTTP APIはネイティブなOpenID Connect / OAuth 2.0 のオーソライザのサポートとバックエンドにプライベートなALBをVPCリンクを介して接続できるなどの特徴が目立つ。
+反面、2020年6月現在では、AWS LamndaやIAMはオーソライザとしてサポートされていないので、ユースケースに応じて、利用するAPIを使い分けると良い。
+
+|br|
+
+.. _section3-6-2-create-rest-api-label:
+
+REST APIの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|br|
+
+マネジメントコンソール上からAPI Gatewayを選択し、API名を入力した上で「新しいAPIの作成」ボタンをクリックする。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-1.png
+
+|br|
+
+RESTのリソースとして返却するモデルの名称とリソースパスを定義する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-2.png
+
+|br|
+
+RESTのリソースに対するアクションを定義する。統合タイプとしてLambdaを選択し、実行するLambdaファンクションを入力する。Lambdaの作成方法については :ref:`section7-4-3-lambda-deploy-label` を参考にすること。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-3.png
+
+|br|
+
+RESTのリソースに対するアクションを定義する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-4.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-5.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-6.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-7.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-resource-1.png
+
+|br|
+
+.. todo:: REST API の作成手順を最新化。
+
+|br|
+
+.. _section3-6-3-create-vpc-link-label:
+
+VPC Linkの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|br|
+
+HTTP APIから特定のVPC内にあるPrivate ALBにアクセスするためのVPC Linkを作成する。このVPC LinkはENI(Elastic Network Interface)であり、ネットワークインターフェースは通常インスタンスなどにアタッチされ、
+異なるネットワークへ繋げるための、仮想的なLinuxでいう論理NICに相当する。AWSコンソール上でAPI GatewayサービスからVPCリンクメニューを選択し、作成ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-vpclink-1.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-vpclink-2.png
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-vpclink-3.png
+
+|br|
+
+.. note:: REST APIのVPC LinkはVPCエンドポイントで有料となるので注意。
+
+|br|
+
+.. _section3-6-r-create-http-api-label:
+
+インターナルALBに接続するHTTP APIの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|br|
+
+続いて、HTTP APIの作成を行うが、事前に :ref:`section3-2-2-ecs-create-cluster-label` を参考に、
+HTTP APIで呼び出させれるECSクラスタ、タスク、サービスおよびBackend用のインターナルALBを作成しておくこと。
+
+AWSコンソール上でAPI GatewayサービスからAPIメニューを選択し、「構築」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-httpapi-1.png
+
+|br|
+
+API名を入力し、「次へ」ボタンを押下する。
+
+.. note:: 統合にはプライベートリソースを選択するが作成時には選択できないため、特に設定せずいったん構築する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-httpapi-2.png
+
+|br|
+
+「次へ」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-httpapi-3.png
+
+|br|
+
+「次へ」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-httpapi-4.png
+
+|br|
+
+続いてHTTP APIの接続先を統合する設定を行う。作成したHTTP APIを選択し、「統合」メニューで、「統合を管理」タブを選択し、「Create」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-integration-1.png
+
+|br|
+
+プライベートリソースを選択し、統合のターゲットとして、インターナルなALBを選択する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-integration-2.png
+
+|br|
+
+VPCリンクでは :ref:`section3-6-3-create-vpc-link-label` で作成したリンクを選択する。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-integration-3.png
+
+|br|
+
+APIの受け口となるパスを作成する。ECSコンテナでリクエストを受け付けるパスと同様のルートを設定する。
+
+.. note:: パス変数は{}で指定すること。詳細は `HTTPルートの使用 <https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/http-api-develop-routes.html>`_ を参照のこと。
+
+|br|
+
+.. figure:: img/management-console-apigateway-create-route-1.png
+
+|br|
+
+作成したルートに上述で作成した統合をアタッチする。
+
+|br|
+
+.. figure:: img/management-console-apigateway-attach-route-1.png
+
+|br|
+
+作成したHTTP APIを呼び出して、バックエンドのECSコンテナアプリケーションが実行され、レスポンスが返却されるか確認する。
+
+.. sourcecode:: bash
+
+   curl https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0

@@ -10,8 +10,15 @@ DataStore Category
 Relational Database Service(RDS)
 ------------------------------------------------------
 
+.. _section6-1-1-rds-overview-label:
+
+Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
 Relational Database Service(RDS)はセットアップや拡張、運用が容易なフルマネージドリレーショナルデータベースサービスである。
-管理コンソールやAPIによって簡単にデータベースサービスを構築でき、時間単位の従量課金性である。
+管理コンソールやAPIによって簡単にデータベースサービスを構築でき、時間単位の従量課金性である。EC2と同様、リザーブドインスタンスのオプションもあり、購入期間は定額で利用可能である。
+
 RDSは以下の4つのデータベースエンジンを選択できる。
 
 * MySQL
@@ -34,6 +41,37 @@ MySQLとPostgreSQLではDBインスタンスの暗号化が、SQLServerとOracle
 .. note:: リードレプリカを作成した際には、マスター・スレーブ各々IPが割り振られるが、単一のCNAMEで、RDSエンドポイントが与えられるのでクライアントからはエンドポイントを参照すればよい。また、書き込み時はレプリカの書き込みも含め行われるのでリード側の一貫性は保証される。
 
 .. note:: RDSのマスタースレーブはクロスリージョンでもサポートされる。
+
+.. _section6-1-2-buy-reserved-rds-instance-label:
+
+リザーブドDBインスタンスの購入
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|br|
+
+■マネージドコンソールにて、「Amazon RDS」サービスから、リザーブドDBインスタンスの購入ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-rds-buy-reserved-instance-1.png
+
+|br|
+
+■製品のエンジンや、インスタンスタイプ、スペック、可用性、個数、期間等を指定し、「次へ」ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-rds-buy-reserved-instance-2.png
+
+|br|
+
+■内容を確認し、購入ボタンを押下する。
+
+|br|
+
+.. figure:: img/management-console-rds-buy-reserved-instance-3.png
+
+|br|
 
 .. _section6-2-aurora-label:
 

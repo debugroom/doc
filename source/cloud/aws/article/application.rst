@@ -570,14 +570,6 @@ Lambdaファンクションをデプロイするには、以下の３つの方�
    API Gatewaryなどはデフォルト30[s]のリクエストタイムアウトがあるので、Spring Cloud Functionの実行は
    即時性を求められる処理について、適用するかどうか十分検討して実装すること。
 
-.. _section7-4-3-api-gateway-label:
-
-API gatewayorg.debugroom.sample.spring.cloud.function.Handler::handleRequest
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-API GatewayはAPIを作成、公開、メンテナンス、モニタリングするマネージドサービスである。サービスのRESTfulエンドポイントを作成し、Amazon Lambdaのファンクションと紐づける。
-
 
 .. _section7-5-swf-label:
 

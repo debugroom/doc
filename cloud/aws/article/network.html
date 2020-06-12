@@ -120,6 +120,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#transit-gateway">Transit Gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-gateway">API Gateway</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section3-6-1-api-gateway-overview-label">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rest-api">REST APIの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vpc-link">VPC Linkの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#albhttp-api">インターナルALBに接続するHTTP APIの作成</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="computing.html">Computing Category</a></li>
@@ -295,8 +302,8 @@ BGPアドバタイズにより、ルーティングの優先順位、ポリシ�
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>プライベートサブネット内にあるインスタンスがインターネットなど外部通信する必要がある場合は、パブリックサブネットにNAT用のEC2インスタンスを配置するか、VPC NAT ゲートウェイを使うオプションがある。</p>
-<table border="1" class="colwidths-given last docutils" id="id11">
-<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given last docutils" id="id12">
+<caption><span class="caption-text">VPC NAT ゲートウェイとNATインスタンスの違い</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="20%" />
 <col width="40%" />
@@ -617,8 +624,8 @@ ELBは、新しいALBと従来のCLB、後述するNLBを合わせたロード�
 <span id="id8"></span><h3>Overview<a class="headerlink" href="#section3-4-1-route53-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>Route53はAWSが提供するDNSサービスで、世界37カ国に配置された高い可用性と100%のSLA保証が大きな特徴である。
 Route53は以下のルーティングをサポートする。</p>
-<table border="1" class="colwidths-given docutils" id="id12">
-<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id13">
+<caption><span class="caption-text">Route53のルーティングサポート</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="30%" />
 <col width="70%" />
@@ -690,8 +697,8 @@ Route53は以下のルーティングをサポートする。</p>
 <div class="figure">
 <img alt="../../../_images/management-console-route53-setting-domain-2.png" src="../../../_images/management-console-route53-setting-domain-2.png" />
 </div>
-<table border="1" class="colwidths-given docutils" id="id13">
-<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id14">
+<caption><span class="caption-text">Create Record Setの設定値</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="23%" />
 <col width="54%" />
@@ -755,9 +762,172 @@ Route53は以下のルーティングをサポートする。</p>
 </div>
 <div class="section" id="transit-gateway">
 <span id="section3-5-transit-gateway-label"></span><h2>Transit Gateway<a class="headerlink" href="#transit-gateway" title="Permalink to this headline">¶</a></h2>
+<p><br /></p>
 <p>Transit Gatewayは従来VPC間でPeering接続していた代わりにTransitGatewayがハブとなり、VPC間の接続を行うリージョンサービスである。
 親アカウントにTransitGatewayを作成しておくと、親アカウントに紐づく複数の子アカウントに作成したVPCのピア接続が可能になる。
 DirectConnectGatewayとも連携し、他リージョンにある子アカウントと接続することもできる。</p>
+<p><br /></p>
+</div>
+<div class="section" id="api-gateway">
+<span id="section3-6-api-gateway-label"></span><h2>API Gateway<a class="headerlink" href="#api-gateway" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="section3-6-1-api-gateway-overview-label">
+<span id="id11"></span><h3>Overview<a class="headerlink" href="#section3-6-1-api-gateway-overview-label" title="Permalink to this headline">¶</a></h3>
+<p>API GatewayはAPIの作成、公開やリクエストのモニタリング等の管理を行うサービスである。作成可能なAPI種類として以下の３種類がある。</p>
+<ul class="simple">
+<li>GET、POST、PUT、PATCH、DELETEなどの標準HTTPメソッドを用いたリソースベースのステートレスな通信を実現するREST API</li>
+<li>より低コストで低レイテンシーなHTTP API</li>
+<li>クライアントとの双方向通信を実現するWebSocket API</li>
+</ul>
+<p>REST APIとHTTP APIの違いについては <a class="reference external" href="https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/http-api-vs-rest.html">HTTP API または REST API の選択</a> にも記載されているが、
+HTTP APIはネイティブなOpenID Connect / OAuth 2.0 のオーソライザのサポートとバックエンドにプライベートなALBをVPCリンクを介して接続できるなどの特徴が目立つ。
+反面、2020年6月現在では、AWS LamndaやIAMはオーソライザとしてサポートされていないので、ユースケースに応じて、利用するAPIを使い分けると良い。</p>
+<p><br /></p>
+</div>
+<div class="section" id="rest-api">
+<span id="section3-6-2-create-rest-api-label"></span><h3>REST APIの作成<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>マネジメントコンソール上からAPI Gatewayを選択し、API名を入力した上で「新しいAPIの作成」ボタンをクリックする。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-1.png" src="../../../_images/management-console-apigateway-create-1.png" />
+</div>
+<p><br /></p>
+<p>RESTのリソースとして返却するモデルの名称とリソースパスを定義する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-2.png" src="../../../_images/management-console-apigateway-create-2.png" />
+</div>
+<p><br /></p>
+<p>RESTのリソースに対するアクションを定義する。統合タイプとしてLambdaを選択し、実行するLambdaファンクションを入力する。Lambdaの作成方法については <a class="reference internal" href="application.html#section7-4-3-lambda-deploy-label"><span class="std std-ref">コードの作成・デプロイ</span></a> を参考にすること。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-3.png" src="../../../_images/management-console-apigateway-create-3.png" />
+</div>
+<p><br /></p>
+<p>RESTのリソースに対するアクションを定義する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-4.png" src="../../../_images/management-console-apigateway-create-4.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-5.png" src="../../../_images/management-console-apigateway-create-5.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-6.png" src="../../../_images/management-console-apigateway-create-6.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-7.png" src="../../../_images/management-console-apigateway-create-7.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-resource-1.png" src="../../../_images/management-console-apigateway-create-resource-1.png" />
+</div>
+<p><br /></p>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">REST API の作成手順を最新化。</p>
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="vpc-link">
+<span id="section3-6-3-create-vpc-link-label"></span><h3>VPC Linkの作成<a class="headerlink" href="#vpc-link" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>HTTP APIから特定のVPC内にあるPrivate ALBにアクセスするためのVPC Linkを作成する。このVPC LinkはENI(Elastic Network Interface)であり、ネットワークインターフェースは通常インスタンスなどにアタッチされ、
+異なるネットワークへ繋げるための、仮想的なLinuxでいう論理NICに相当する。AWSコンソール上でAPI GatewayサービスからVPCリンクメニューを選択し、作成ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-vpclink-1.png" src="../../../_images/management-console-apigateway-create-vpclink-1.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-vpclink-2.png" src="../../../_images/management-console-apigateway-create-vpclink-2.png" />
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-vpclink-3.png" src="../../../_images/management-console-apigateway-create-vpclink-3.png" />
+</div>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">REST APIのVPC LinkはVPCエンドポイントで有料となるので注意。</p>
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="albhttp-api">
+<span id="section3-6-r-create-http-api-label"></span><h3>インターナルALBに接続するHTTP APIの作成<a class="headerlink" href="#albhttp-api" title="Permalink to this headline">¶</a></h3>
+<p><br /></p>
+<p>続いて、HTTP APIの作成を行うが、事前に <a class="reference internal" href="computing.html#section3-2-2-ecs-create-cluster-label"><span class="std std-ref">EC2起動型-クラスタの作成</span></a> を参考に、
+HTTP APIで呼び出させれるECSクラスタ、タスク、サービスおよびBackend用のインターナルALBを作成しておくこと。</p>
+<p>AWSコンソール上でAPI GatewayサービスからAPIメニューを選択し、「構築」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-httpapi-1.png" src="../../../_images/management-console-apigateway-create-httpapi-1.png" />
+</div>
+<p><br /></p>
+<p>API名を入力し、「次へ」ボタンを押下する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">統合にはプライベートリソースを選択するが作成時には選択できないため、特に設定せずいったん構築する。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-httpapi-2.png" src="../../../_images/management-console-apigateway-create-httpapi-2.png" />
+</div>
+<p><br /></p>
+<p>「次へ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-httpapi-3.png" src="../../../_images/management-console-apigateway-create-httpapi-3.png" />
+</div>
+<p><br /></p>
+<p>「次へ」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-httpapi-4.png" src="../../../_images/management-console-apigateway-create-httpapi-4.png" />
+</div>
+<p><br /></p>
+<p>続いてHTTP APIの接続先を統合する設定を行う。作成したHTTP APIを選択し、「統合」メニューで、「統合を管理」タブを選択し、「Create」ボタンを押下する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-integration-1.png" src="../../../_images/management-console-apigateway-create-integration-1.png" />
+</div>
+<p><br /></p>
+<p>プライベートリソースを選択し、統合のターゲットとして、インターナルなALBを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-integration-2.png" src="../../../_images/management-console-apigateway-create-integration-2.png" />
+</div>
+<p><br /></p>
+<p>VPCリンクでは <a class="reference internal" href="#section3-6-3-create-vpc-link-label"><span class="std std-ref">VPC Linkの作成</span></a> で作成したリンクを選択する。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-integration-3.png" src="../../../_images/management-console-apigateway-create-integration-3.png" />
+</div>
+<p><br /></p>
+<p>APIの受け口となるパスを作成する。ECSコンテナでリクエストを受け付けるパスと同様のルートを設定する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">パス変数は{}で指定すること。詳細は <a class="reference external" href="https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/http-api-develop-routes.html">HTTPルートの使用</a> を参照のこと。</p>
+</div>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-create-route-1.png" src="../../../_images/management-console-apigateway-create-route-1.png" />
+</div>
+<p><br /></p>
+<p>作成したルートに上述で作成した統合をアタッチする。</p>
+<p><br /></p>
+<div class="figure">
+<img alt="../../../_images/management-console-apigateway-attach-route-1.png" src="../../../_images/management-console-apigateway-attach-route-1.png" />
+</div>
+<p><br /></p>
+<p>作成したHTTP APIを呼び出して、バックエンドのECSコンテナアプリケーションが実行され、レスポンスが返却されるか確認する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

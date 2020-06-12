@@ -9,3 +9,5 @@ Contents:
    sphinx/install.rst
    sonarqube/build.rst
    reveal/install.rst
+   asciidoc/install.rst
+   mattermost/build.rst
