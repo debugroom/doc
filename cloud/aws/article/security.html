@@ -112,7 +112,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#amazon-cognito">Amazon Cognito</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#section7-3-1-cognito-overview-label">Overview</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#section7-3-1-cognito-create-idpool-label">IDプールの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section7-3-2-cognito-create-userpool-label">ユーザプールプールの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section7-3-3-cognito-create-user-label">ユーザの作成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section7-3-4-cognito-create-idpool-label">IDプールの作成</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#amazon-sts">Amazon STS</a><ul>
@@ -222,8 +224,8 @@
 <li>IAMグループ</li>
 <li>IAMロール</li>
 </ul>
-<table border="1" class="colwidths-given docutils" id="id6">
-<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id8">
+<caption><span class="caption-text">IAMアカウント</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="29%" />
 <col width="71%" />
@@ -408,31 +410,139 @@ Secure Sockets Layer/Transport Layer Security (SSL/TLS)
 <span id="section7-3-cognito-label"></span><h2>Amazon Cognito<a class="headerlink" href="#amazon-cognito" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section7-3-1-cognito-overview-label">
 <span id="id4"></span><h3>Overview<a class="headerlink" href="#section7-3-1-cognito-overview-label" title="Permalink to this headline">¶</a></h3>
-<p>Amazon CognitoはモバイルID管理とデバイス間のデータ同期を提供するサービスである。
-バックエンドコードを記述したりすることなく、アプリケーションの設定や状態をモバイル⇔クラウド上で同期できる。</p>
-<p>アプリケーションでCognitoを作成する場合は、IDプールを作成する必要がある。IDプールとはアカウント固有のユーザIDデータが保存される場所である。</p>
+<p>Amazon Cognitoはユーザ情報の管理や認証・認可の設定、またAWSサービスへのアクセスを許可する認証情報を提供するサービスである。
+大きくユーザプールとIDプールがあり、ユーザプールではアプリユーザのサインアップやサインインオプションを提供するユーザディレクトリサービスであり、
+IDプールではユーザプールで管理しているユーザや、匿名のゲストユーザに対して一時的な認証情報を発行する。</p>
 </div>
-<div class="section" id="section7-3-1-cognito-create-idpool-label">
-<span id="id"></span><h3>IDプールの作成<a class="headerlink" href="#section7-3-1-cognito-create-idpool-label" title="Permalink to this headline">¶</a></h3>
-<p>■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。</p>
+<div class="section" id="section7-3-2-cognito-create-userpool-label">
+<span id="id5"></span><h3>ユーザプールプールの作成<a class="headerlink" href="#section7-3-2-cognito-create-userpool-label" title="Permalink to this headline">¶</a></h3>
+<p>■API Gatewayから認証されることを目的としたユーザプールを作成する。コンソールからAmazon Congnitoサービスを選択し、
+ユーザプールの管理ボタンを押下して、ユーザプールを作成する。</p>
 <div class="figure">
-<img alt="../../../_images/management-console-cognito-create-idpool-1.png" src="../../../_images/management-console-cognito-create-idpool-1.png" />
+<img alt="../../../_images/management-console-cognito-create-userpool-1.png" src="../../../_images/management-console-cognito-create-userpool-1.png" />
 </div>
-<p>■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。</p>
+<p><br /></p>
+<p>■ユーザプール名を入力し、「ステップに従って設定する」を選択する。</p>
 <div class="figure">
-<img alt="../../../_images/management-console-cognito-create-idpool-2.png" src="../../../_images/management-console-cognito-create-idpool-2.png" />
+<img alt="../../../_images/management-console-cognito-create-userpool-2.png" src="../../../_images/management-console-cognito-create-userpool-2.png" />
 </div>
-<p>■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Cognitoの使用方法を整理し記述</p>
+<p><br /></p>
+<p>■Emailアドレスを使ったサインインを実行するため、「Emailおよび電話番号」を選択する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-3.png" src="../../../_images/management-console-cognito-create-userpool-3.png" />
 </div>
+<p><br /></p>
+<p>■サインアップのために必要な属性を選択する(特に設定しなくても大丈夫だが、サンプルとしてfamily_nameとgiven_name、pictureを選択する)。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-4.png" src="../../../_images/management-console-cognito-create-userpool-4.png" />
+</div>
+<p><br /></p>
+<p>■パスワードの強度を設定し、ユーザに自己サインアップの許可を与える設定をした上で、「次のステップへ」ボタンを押下する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-5.png" src="../../../_images/management-console-cognito-create-userpool-5.png" />
+</div>
+<p><br /></p>
+<p>■MFAはいったんオフ設定とし、アカウントの回復はEmailおよび電話を選択する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-6.png" src="../../../_images/management-console-cognito-create-userpool-6.png" />
+</div>
+<p><br /></p>
+<p>■確認する属性としてEメールを選択し、SMSのロール名を入力して「次のステップ」ボタンを押下する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-7.png" src="../../../_images/management-console-cognito-create-userpool-7.png" />
+</div>
+<p><br /></p>
+<p>■サインアップの確認ように使用されるSESのリージョンを選択する。基本デフォルトのままで良い。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-8.png" src="../../../_images/management-console-cognito-create-userpool-8.png" />
+</div>
+<p><br /></p>
+<p>■検証メッセージおよび招待メッセージの雛形文を入力する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-9.png" src="../../../_images/management-console-cognito-create-userpool-9.png" />
+</div>
+<p><br /></p>
+<p>■タグは特に設定せず、「次のステップ」ボタンを押下する</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-10.png" src="../../../_images/management-console-cognito-create-userpool-10.png" />
+</div>
+<p><br /></p>
+<p>■ユーザのデバイスを記憶しない設定で「次のステップ」ボタンを押下する</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-11.png" src="../../../_images/management-console-cognito-create-userpool-11.png" />
+</div>
+<p><br /></p>
+<p>■続いてこのユーザプールにアクセスするアプリケーションクライアントの設定を行う。HTTPアクセスによる認証を想定する場合、</p>
+<ul class="simple">
+<li>「認証用の管理APIユーザの名パスワード認証を有効にする(ALLOW_ADMIN_USER_PASSWORD_AUTH)」</li>
+<li>更新トークンベースの認証を有効にする(ALLOW_REFRESH_TOKEN_AUTH)</li>
+</ul>
+<p>を選択する。また、ユーザ存在エラーを防ぐを有効化し、アプリクライアントを作成して、「次のステップ」ボタンを押下する。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">アプリクライアントIDは後続のIDプールの作成で使用するのでメモしておくこと。</p>
+</div>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-12.png" src="../../../_images/management-console-cognito-create-userpool-12.png" />
+</div>
+<p><br /></p>
+<p>■トリガーは特にデフォルト設定(なしのまま)でユーザプールを作成する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-13.png" src="../../../_images/management-console-cognito-create-userpool-13.png" />
+</div>
+<p><br /></p>
+<p>■トリガーは特にデフォルト設定(なしのまま)でユーザプールを作成する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-userpool-14.png" src="../../../_images/management-console-cognito-create-userpool-14.png" />
+</div>
+<p><br /></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ユーザプールIDは後続のIDプールの作成で使用するのでメモしておくこと。</p>
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="section7-3-3-cognito-create-user-label">
+<span id="id6"></span><h3>ユーザの作成<a class="headerlink" href="#section7-3-3-cognito-create-user-label" title="Permalink to this headline">¶</a></h3>
+<p>■作成したユーザプールでユーザの作成を行う、「ユーザとグループ」メニューから「ユーザの作成」ボタンを押下する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-user-1.png" src="../../../_images/management-console-cognito-create-user-1.png" />
+</div>
+<p><br /></p>
+<p>■ユーザ名と初期パスワード、サインアップ確認のEメールアドレスを入力し、「ユーザの作成」ボタンを押下する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-user-2.png" src="../../../_images/management-console-cognito-create-user-2.png" />
+</div>
+<p><br /></p>
+<p>■作成されたユーザを確認する。ステータスは「FORCE_CHANGE_PASSWORD」となっており、初回アクセス時にはパスワードの変更が必要となる。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-user-3.png" src="../../../_images/management-console-cognito-create-user-3.png" />
+</div>
+<p><br /></p>
+</div>
+<div class="section" id="section7-3-4-cognito-create-idpool-label">
+<span id="id"></span><h3>IDプールの作成<a class="headerlink" href="#section7-3-4-cognito-create-idpool-label" title="Permalink to this headline">¶</a></h3>
+<p>■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下し、IDプールを作成する。プール名を入力する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-idpool-3.png" src="../../../_images/management-console-cognito-create-idpool-3.png" />
+</div>
+<p><br /></p>
+<p>■認証プロバイダーでCognitoタブを選択し、上記の手順で作成したユーザプールIDとアプリクライアントIDを入力して、「プールの作成」ボタンを押下する。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-idpool-4.png" src="../../../_images/management-console-cognito-create-idpool-4.png" />
+</div>
+<p><br /></p>
+<p>■新しく作成するIDプールに使うIAMロールを作成する。ロール名を適宜入力して作成すること。</p>
+<div class="figure">
+<img alt="../../../_images/management-console-cognito-create-idpool-5.png" src="../../../_images/management-console-cognito-create-idpool-5.png" />
+</div>
+<p><br /></p>
 </div>
 </div>
 <div class="section" id="amazon-sts">
 <span id="section7-4-sts-label"></span><h2>Amazon STS<a class="headerlink" href="#amazon-sts" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="section7-4-1-sts-overview-label">
-<span id="id5"></span><h3>Overview<a class="headerlink" href="#section7-4-1-sts-overview-label" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>Overview<a class="headerlink" href="#section7-4-1-sts-overview-label" title="Permalink to this headline">¶</a></h3>
 <p>STSはIAMユーザもしくはフェデレーテッドユーザがリクエスト可能な一時的セキュリティ認証情報を提供するWebサービスである。
 STSでは、Security Assertion Markup Language (SAML) 2.0 をサポートする。この機能では、フェデレーティッドシングルサインオン (SSO) が有効になり、
 ユーザーは Windows Active Directory Federation ServicesなどのSAML 互換アイデンティティプロバイダーからのアサーションを使用して、
@@ -483,7 +593,7 @@ KMSでは、カスタマーマスターキー(CMK)と呼ばれるタイプ
 <div class="section" id="security-inspector">
 <span id="section7-3-2-security-inspector-label"></span><h3>Security Inspector<a class="headerlink" href="#security-inspector" title="Permalink to this headline">¶</a></h3>
 <p>Security InspetorはAWSにデプロイされたアプリケーションのセキュリティ評価サービスである。</p>
-<div class="admonition-todo admonition" id="index-1">
+<div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">Security Inspectorについて記述。</p>
 </div>

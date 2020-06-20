@@ -672,7 +672,7 @@ HTTP APIから特定のVPC内にあるPrivate ALBにアクセスするためのV
 
 |br|
 
-.. _section3-6-r-create-http-api-label:
+.. _section3-6-4-create-http-api-label:
 
 インターナルALBに接続するHTTP APIの作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -763,3 +763,115 @@ APIの受け口となるパスを作成する。ECSコンテナでリクエス�
 .. sourcecode:: bash
 
    curl https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0
+
+
+.. _section3-6-4-create-authorizer-label:
+
+HTTP APIの認証設定
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+■続いて、上記で作成したAPIにAmazon Cognitoで作成したユーザに対してのみAPIが実行可能なように、IDトークンを使用した認証設定を行う。
+事前に、 :ref:`section7-3-2-cognito-create-userpool-label` を参考にして、ユーザプールおよびユーザ、IDプールを作成しておくこと。
+
+コンソールの「認可」メニューから、「オーソライザー」を管理タブを選択し、「作成」ボタンを押下する。
+　
+.. figure:: img/management-console-apigateway-create-authorizer-1.png
+
+|br|
+
+■以下の通り入力してアタッチする。
+
+* オーソライザ名：任意の名前を入力
+* IDソース：「$request.header.Authorization」を設定(この設定によりHTTPリクエストのヘッダにAuthorization属性でIDトークンを指定することにより認証が行われる)
+* 発行者URL：https://cognito-idp.<region>.amazonaws.com/<userPoolID>
+* 対象者：Coginitoで作成したアプリクライアントIDを指定
+
+.. figure:: img/management-console-apigateway-create-authorizer-2.png
+
+|br|
+
+■アタッチすると、これまで実行できていたAPIが認証エラーになる
+
+.. sourcecode:: bash
+
+   curl https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0
+   {"message":"Unauthorized"}
+
+|br|
+
+■HTTPリクエストヘッダに付与するIDトークンの照会を行う。Amazon CLIで以下のコマンドを実行し、Cognitoで作成したユーザのIDトークンを取得する。なお、
+
+* ユーザプールID
+* アプリクライアントID
+* ユーザ名
+* パスワード
+
+を適宜差し替えてコマンド実行すること。
+
+.. note:: CLIを実行するユーザに事前にIAMでCognitoのアクセス権限(PowerUser)を付与しておくこと。
+
+.. sourcecode:: bash
+
+   aws cognito-idp admin-initiate-auth --user-pool-id ap-northeast-1_<UserPoolID> --client-id <AppClientID> --auth-flow ADMIN_USER_PASSWORD_AUTH --auth-parameters "USERNAME=<UserName>,PASSWORD=<Password>"
+
+|br|
+
+■初回アクセスの場合、以下のようなレスポンスが返却されて、パスワードの変更が必要になる。
+
+.. sourcecode:: none
+
+   {
+       "ChallengeName": "NEW_PASSWORD_REQUIRED",
+       "ChallengeParameters": {
+           "USER_ID_FOR_SRP": "711e8fe5-bbc1-40a1-abbf-3c06931a0d04",
+           "requiredAttributes": "[\"userAttributes.family_name\",\"userAttributes.given_name\",\"userAttributes.picture\"]",
+           "userAttributes": "{\"email_verified\":\"true\",\"given_name\":\"\",\"family_name\":\"\",\"email\":\"<username>\",\"picture\":\"\"}"
+       },
+       "Session": "ZfKb47kDu1cS8wQKaizrsqGhwJ8OmtMnQoCz-cotKgOz9Ny_nfngacRIJPVGdDSMchIk6ttDO3IfFYeyafve1XYlYufP4lypu8DeGQhjCjlv-9f7Qw_dB8KColr7V7rdHp5aM4qefRIG1hwq4iBwYxzY90o_MQ6_Kbr5sWCBHVnbUPD5u4yBhkTniabO3zXkKX-IShmKqiZJahOrDPVkhOHhqLQIEYXjuCDOECNe8YYbzjAKObl3qCicrD62bkMGzm12bBzzmOmrVVOqb050S8pphYjtMJkLxDby4UOw9r0XdHiOcrldCYBZiNZJ1O0vk5f4L6nwi1FpQPD-pDBn_N5Ac6GA0Fk5to8myC0AS8fkYZp99TKKgu6PQWyQmyvrApHwZHJvGs-xkoUNNnlcjmXAYHvddDC7mVRp_q6ggVRlHl_7b6IZA_tINy8o1sfBPgpe5w_u2RamkNeQxIA6AFiC-fkfuZNbZZHmxLT1lv4EdTS_C8pLVAOSUp1r7PAM-Bv16kxANaPKADUsbB5EHm7QLpXcS4ORYcDLyaG1soJLxGHFMwQaIXQZgabs_7U61OsXHlup_6-A4Y1kHVFY0EH5f9Yi0HzYX6isSei63sMxtdPI9QK1__XiA_nxuo8dLdDmBLtMmGEgjv6pZCHwa2B0bixuZyuVkSRkRGALHPsBsqAUI0MoJsnAByR7L4s1xxIr8b-k2zBZ6p4-TVn8bQuZ2kfqMYIfqiIcBkrEXpa3rFNHYtyvnWYkIE2kb8ymtqmlnrnlVhKqT86y8PXkPDtIdjF3NL3gAIrQT81Z8d0E5uI-Vagf9fHvUKmmX9rPZvPGjl2UuKNekuh8dPPxGX6DH3EW27yHSE--_Tc7Cv4PBEpPH7lJjgVtZOeQ4APMh7BYZJSM_o2rhUinkZcl4IpEjuCNa3wnlyouCrfjbYNMXQZA_yFKNwXIIovIXNqJ4Q-PgX9tl0OZqIrmCJtkIXbm5el4VHZYmCE1L4jt6Vjm1Mh1ekc-8td8v8c73Dr53jI3E0znk_DbydFWQgT8b-iShdtdBI3x5yBPkw"
+   }
+
+以下のコマンドを実行し、ユーザ情報のアップデートを行うこと。ただし、
+
+* ユーザプールID
+* アプリクライアントID
+* ユーザ名
+* 新しいパスワード
+* ユーザのサインアップ時に必須設定したパラメータ(ここの例では、given_name、family_name、picture)
+* 上記のSession
+
+を適宜変更して、コマンド実行すること。
+
+.. warning:: ここでユーザ名は上記のレスポンスのUSER_ID_FOR_SRPの値を設定すること。
+
+.. warning:: 必須設定のパラメータは「userAttributes.xxxxx」の形式で設定すること。
+
+.. sourcecode:: bash
+
+   aws cognito-idp admin-respond-to-auth-challenge --user-pool-id <UserPoolID> --client-id <AppClientID> --challenge-name NEW_PASSWORD_REQUIRED --challenge-responses "USERNAME=<UserName>,NEW_PASSWORD=<NewPassword>,userAttributes.given_name=<custom_name>,userAttributes.family_name=<custom_name>,userAttributes.picture=<custom_param>" --session "<Session>"
+
+|br|
+
+■正常に変更が完了すると、IDトークンやリフレッシュトークン、アクセストークンが得られる。
+
+.. sourcecode:: none
+
+   {
+       "AuthenticationResult": {
+           "ExpiresIn": 3600,
+           "IdToken": "eyJraWQiOiI3RlRaSkVtd0c2aVltSnFQZHVoOXM1U1BMRklXVXA5akJ2K3BnVEdBSURzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX0ZFeEdwTFlPZCIsImNvZ25pdG86dXNlcm5hbWUiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJnaXZlbl9uYW1lIjoia29oZWkiLCJwaWN0dXJlIjoidGVzdC5wbmciLCJhdWQiOiIzdmJzcDVjdDU2YjA2MmdkNjdkdmlkNTJhdiIsImV2ZW50X2lkIjoiMmU2YjljZTItZmYwMy00NDk5LThiMjItYTVlZDYxYmZiZjhmIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTI2Mzg4NzQsImV4cCI6MTU5MjY0MjQ3NCwiaWF0IjoxNTkyNjM4ODc0LCJmYW1pbHlfbmFtZSI6Imthd2FiYXRhIiwiZW1haWwiOiJrb2hlaS5rYXdhYmF0YUBtYWMuY29tIn0.cqLJnA6EhayzG-4r-ps-g8VOB4q-9fDLTRxvRmqfldSw3plZVplLcrdvns2ufIZ0fuG0FwoDqd5hXi0qFr87ETL7-UHsMe8kbuvIQxO1xnZ-OGzd07gvwlHg-p5hlctucftAleEm5IrHLvwr3gSN8Uttl-BvoQ_lauF-alu_P5R4wtAHJCeEU9TKJUBQa0i0F83v8Gm0a-S5ZHaibVxa5qv1J75SrHnaefdXmU6dUp39Lq74jhEuoF8-NoUxYPK9CYWnkIzf9yPRxORvBP9V0Pz5Gxl0b9yqpgh6fegxggvZIJiujoF8zyUwZaqHGGOseNcCJNlrCc_bo4L-eqwOVg",
+           "RefreshToken": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.JV6kOU4TznCfBKl0rPr4yO0PEw7KK7xjuWzZV4SQT-C8RvQmk2VRGmGhgHAbTcWnGJkQ_itFeKHiE1g5lgD3CUHvbFchQD7YJaZFVYou8D0EJ00x0FT7heT1xffW3kxujIqg11HGl6vIYgEvHw_IY9ZpiVTv5B1P93mtDo5lIZiIWmndqMl71eokTE6STmUdrXz7kYly0AgOP04uIZmKHv_1bckWlM1THmViQcvsUOCyUdSpK3oKKrrVda5oUEFErIf-X0To2LobGZ0SsD6u9__-mJqtZznX8Rd5zsd4XsfV73gypZsscZhi342MNqwxi74a9p7GGL3LmZjkEStUwA.MlmjHNrteAOsiZ2d.r8oKnpf2AT-IPINgeFfOUZCaEQelLzJbZfgsGlnAq0xHDTl62VlurPAr9BfEaIOyfb8uw92yMDdq98kPjQ313e2G9LDzQddc2fMB83jZww6sDQljYCtmLJEkZ0z6LnDunAdB7ZShBZTLJ77EDqVEjzCqUd6kRiPM_T7G_GxGYE4bh2W6A4ut0OW4AL6-zbAPR2hoqSjbvqjs5P44utvVbM0Fp8tzR3F9Yl-jaHp_0nCOaNun0crIjDX7d0y1aihl2-Rm7Uts2t4NyH5dzZnWreg_BwXUVNmXBB8dxTJ8C-USsvlV0WAw15VYHzV4lyZJkG6oe_igin0E5t40tvvVxOsDWMu7o0WVFC7FYrrDT3uXZ7sNm5EJSWODEIi5os212-4saxeRPRuc12MBG3W6z5hynPzNdflDmDWNUByyWKd4CsS4Yg9AjPROQSl0xU20HHM3PMF8O6go_k9CIAhwL8odRqR__hUBga8L4_2pKIUkq8ph2N6pMjgaJlYRihNn8ZFgGAMLyYjDn0MA_gsBQVxVdDjBMavPy2-OJNU4widQ_89Hqt0lAD1z_jK7_VF_LDQYvx2OBYk4S5-5jim8__2eVBlJeHeoY2g0ZaPbTnNpcrQSWRPZDWEYxXpSz1lWKydosKZQwmZmaZoZC-B7i8J9zWTbjUW4n8pBWb65Kj4bqzpEV2GCIKQfNcPD6LJqqhiC-p0-tvM6bEe-rNQfmr0r6lj7lsR2OiQzgRzR5UejvnYmKrqW9bQEFAVde2LEwLCHyB5x5knF-WtnO32u49z2VTSYGQL_Fe-kWXGYDjfMWqlFBwGVisM44hwqdAmSlx7N4pXpdnEDmN2WfU22tScu2Iqf9O7T_6vIKRXcr5MKkY4rFdBEaWllozBU4VPHAuznPVCaOsHOQHk5hsO_-pgaihuor-U-XHsZBO8KnsdwBe6En-Cp_569ICBKNw9U26sT2MEZ1Grxkw9Saf-tyIFL5xmmxe5InY3-5WSWBiDdr89Iuu-RvBfLeiWry_JjvvMO9NfgEaFItIim0s3kta22_nFFVJNDAwi_r9ybDwe09r5OLFTyhE7hfRgmxYldDRVe9m9t9LX84oe0jF7CdjAnTlf23mnPDO3g3wIw1ssPSq9xTRNcnSkytEeYIOiv_vHqiA-joRjNc1BNQXxyNjyJgcouypDYiBAMKgyQSOIUL4mCiloLoFbSzQjXUc_2dQ-8mNXm0Ze4K_o8AWOidCKlpzAGmz9bS9IArhOFl28b1CWYtDlkZaP9LlvqBaypVp_bt1SbTmaapVLejIF4-oIC8KKVYiBzX5h6OJo_ytu_VhGaSHGsh6JjlO988XvP4OoGOGfIF2sDNIvG1Q.8J_ZLL6WmtsBPCdaS_kxDA",
+           "TokenType": "Bearer",
+           "AccessToken": "eyJraWQiOiJEd3RnVjdlb0dRT3hiblNpRFpsVkFXeVNOXC92VCtVTW1wKzFIZVpJejVoTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJldmVudF9pZCI6IjJlNmI5Y2UyLWZmMDMtNDQ5OS04YjIyLWE1ZWQ2MWJmYmY4ZiIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1OTI2Mzg4NzQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5hcC1ub3J0aGVhc3QtMS5hbWF6b25hd3MuY29tXC9hcC1ub3J0aGVhc3QtMV9GRXhHcExZT2QiLCJleHAiOjE1OTI2NDI0NzQsImlhdCI6MTU5MjYzODg3NCwianRpIjoiODA1MTMxYjMtYWU5Yi00OGE5LThjMTQtZTA1OGIxYTMwNjU5IiwiY2xpZW50X2lkIjoiM3Zic3A1Y3Q1NmIwNjJnZDY3ZHZpZDUyYXYiLCJ1c2VybmFtZSI6IjcxMWU4ZmU1LWJiYzEtNDBhMS1hYmJmLTNjMDY5MzFhMGQwNCJ9.LyGTDXlpvOQKIOaSqls0Twz1yPxSOCEcibXsccD1TzD5iaeuWTWzL1PMzCIyZ25v0hXF5ROYwbuUYZqIfQAMU5g_CBch-puBT-98tc7S-IMk1AK8cZn0W8V8xOtb_4lm5L5NeFiEg-Zg9QVf4PAjl_w8BUg8axyuyq6QCNdi9CvbF7VC1rl2RxvNjVLOPmVS5FFmdMvrfxAMX7o9Q4l6OQFlZOEtqjEvxFEW_gR7GL66SYVjr0cCJHRsc48Ixkj9XtjTZCA-bozpJygQcom89Bve8XvMAX0jJhIIjMusVSN2esQ3KsEhbVuGcqHmcV985WC0f4j075iz1nfctOJSdg"
+       },
+       "ChallengeParameters": {}
+   }
+
+|br|
+
+■IDトークンをHTTPヘッダでAuthorization属性に指定し、リクエストすると正常に結果が得られる。
+
+.. sourcecode:: bash
+
+   curl -H 'Authorization:eyJraWQiOiI3RlRaSkVtd0c2aVltSnFQZHVoOXM1U1BMRklXVXA5akJ2K3BnVEdBSURzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX0ZFeEdwTFlPZCIsImNvZ25pdG86dXNlcm5hbWUiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJnaXZlbl9uYW1lIjoia29oZWkiLCJwaWN0dXJlIjoidGVzdC5wbmciLCJhdWQiOiIzdmJzcDVjdDU2YjA2MmdkNjdkdmlkNTJhdiIsImV2ZW50X2lkIjoiMmU2YjljZTItZmYwMy00NDk5LThiMjItYTVlZDYxYmZiZjhmIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTI2Mzg4NzQsImV4cCI6MTU5MjY0MjQ3NCwiaWF0IjoxNTkyNjM4ODc0LCJmYW1pbHlfbmFtZSI6Imthd2FiYXRhIiwiZW1haWwiOiJrb2hlaS5rYXdhYmF0YUBtYWMuY29tIn0.cqLJnA6EhayzG-4r-ps-g8VOB4q-9fDLTRxvRmqfldSw3plZVplLcrdvns2ufIZ0fuG0FwoDqd5hXi0qFr87ETL7-UHsMe8kbuvIQxO1xnZ-OGzd07gvwlHg-p5hlctucftAleEm5IrHLvwr3gSN8Uttl-BvoQ_lauF-alu_P5R4wtAHJCeEU9TKJUBQa0i0F83v8Gm0a-S5ZHaibVxa5qv1J75SrHnaefdXmU6dUp39Lq74jhEuoF8-NoUxYPK9CYWnkIzf9yPRxORvBP9V0Pz5Gxl0b9yqpgh6fegxggvZIJiujoF8zyUwZaqHGGOseNcCJNlrCc_bo4L-eqwOVg'
+   https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0

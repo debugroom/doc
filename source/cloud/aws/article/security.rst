@@ -234,29 +234,158 @@ Amazon Cognito
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Amazon CognitoはモバイルID管理とデバイス間のデータ同期を提供するサービスである。
-バックエンドコードを記述したりすることなく、アプリケーションの設定や状態をモバイル⇔クラウド上で同期できる。
+Amazon Cognitoはユーザ情報の管理や認証・認可の設定、またAWSサービスへのアクセスを許可する認証情報を提供するサービスである。
+大きくユーザプールとIDプールがあり、ユーザプールではアプリユーザのサインアップやサインインオプションを提供するユーザディレクトリサービスであり、
+IDプールではユーザプールで管理しているユーザや、匿名のゲストユーザに対して一時的な認証情報を発行する。
 
-アプリケーションでCognitoを作成する場合は、IDプールを作成する必要がある。IDプールとはアカウント固有のユーザIDデータが保存される場所である。
+.. _section7-3-2-cognito-create-userpool-label:
 
-.. _section7-3-1-cognito-create-idpool-label:
+ユーザプールプールの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■API Gatewayから認証されることを目的としたユーザプールを作成する。コンソールからAmazon Congnitoサービスを選択し、
+ユーザプールの管理ボタンを押下して、ユーザプールを作成する。
+
+.. figure:: img/management-console-cognito-create-userpool-1.png
+
+|br|
+
+■ユーザプール名を入力し、「ステップに従って設定する」を選択する。
+
+.. figure:: img/management-console-cognito-create-userpool-2.png
+
+|br|
+
+■Emailアドレスを使ったサインインを実行するため、「Emailおよび電話番号」を選択する。
+
+.. figure:: img/management-console-cognito-create-userpool-3.png
+
+|br|
+
+■サインアップのために必要な属性を選択する(特に設定しなくても大丈夫だが、サンプルとしてfamily_nameとgiven_name、pictureを選択する)。
+
+.. figure:: img/management-console-cognito-create-userpool-4.png
+
+|br|
+
+■パスワードの強度を設定し、ユーザに自己サインアップの許可を与える設定をした上で、「次のステップへ」ボタンを押下する。
+
+.. figure:: img/management-console-cognito-create-userpool-5.png
+
+
+|br|
+
+■MFAはいったんオフ設定とし、アカウントの回復はEmailおよび電話を選択する。
+
+.. figure:: img/management-console-cognito-create-userpool-6.png
+
+|br|
+
+■確認する属性としてEメールを選択し、SMSのロール名を入力して「次のステップ」ボタンを押下する。
+
+.. figure:: img/management-console-cognito-create-userpool-7.png
+
+|br|
+
+■サインアップの確認ように使用されるSESのリージョンを選択する。基本デフォルトのままで良い。
+
+.. figure:: img/management-console-cognito-create-userpool-8.png
+
+|br|
+
+■検証メッセージおよび招待メッセージの雛形文を入力する。
+
+.. figure:: img/management-console-cognito-create-userpool-9.png
+
+|br|
+
+
+■タグは特に設定せず、「次のステップ」ボタンを押下する
+
+.. figure:: img/management-console-cognito-create-userpool-10.png
+
+|br|
+
+■ユーザのデバイスを記憶しない設定で「次のステップ」ボタンを押下する
+
+.. figure:: img/management-console-cognito-create-userpool-11.png
+
+|br|
+
+■続いてこのユーザプールにアクセスするアプリケーションクライアントの設定を行う。HTTPアクセスによる認証を想定する場合、
+
+* 「認証用の管理APIユーザの名パスワード認証を有効にする(ALLOW_ADMIN_USER_PASSWORD_AUTH)」
+* 更新トークンベースの認証を有効にする(ALLOW_REFRESH_TOKEN_AUTH)
+
+を選択する。また、ユーザ存在エラーを防ぐを有効化し、アプリクライアントを作成して、「次のステップ」ボタンを押下する。
+
+.. note:: アプリクライアントIDは後続のIDプールの作成で使用するのでメモしておくこと。
+
+.. figure:: img/management-console-cognito-create-userpool-12.png
+
+|br|
+
+■トリガーは特にデフォルト設定(なしのまま)でユーザプールを作成する。
+
+.. figure:: img/management-console-cognito-create-userpool-13.png
+
+|br|
+
+■トリガーは特にデフォルト設定(なしのまま)でユーザプールを作成する。
+
+.. figure:: img/management-console-cognito-create-userpool-14.png
+
+|br|
+
+.. note:: ユーザプールIDは後続のIDプールの作成で使用するのでメモしておくこと。
+
+|br|
+
+.. _section7-3-3-cognito-create-user-label:
+
+ユーザの作成
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+■作成したユーザプールでユーザの作成を行う、「ユーザとグループ」メニューから「ユーザの作成」ボタンを押下する。
+
+.. figure:: img/management-console-cognito-create-user-1.png
+
+|br|
+
+■ユーザ名と初期パスワード、サインアップ確認のEメールアドレスを入力し、「ユーザの作成」ボタンを押下する。
+
+.. figure:: img/management-console-cognito-create-user-2.png
+
+|br|
+
+■作成されたユーザを確認する。ステータスは「FORCE_CHANGE_PASSWORD」となっており、初回アクセス時にはパスワードの変更が必要となる。
+
+.. figure:: img/management-console-cognito-create-user-3.png
+
+|br|
+
+.. _section7-3-4-cognito-create-idpool-label:
 
 IDプールの作成
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下する。
+■AWSコンソールからAmazon Cognitoを選択し、「フェデレーテッドアイデンティティの管理」を押下し、IDプールを作成する。プール名を入力する。
 
-.. figure:: img/management-console-cognito-create-idpool-1.png
+.. figure:: img/management-console-cognito-create-idpool-3.png
 
+|br|
 
-■「IDプール名」を入力し、「認証されていないIDに対してアクセスを有効にする」にチェックを入れて、「プールの作成」を押下する。
+■認証プロバイダーでCognitoタブを選択し、上記の手順で作成したユーザプールIDとアプリクライアントIDを入力して、「プールの作成」ボタンを押下する。
 
-.. figure:: img/management-console-cognito-create-idpool-2.png
+.. figure:: img/management-console-cognito-create-idpool-4.png
 
+|br|
 
-■Amazon Cognitoで認証されたユーザと認証されていないユーザのIAMロールが作成されるので、「詳細を表示」ペインを押下して、作成される制限付きアクセス制限ポリシーを表示して、「許可」をクリックする。
+■新しく作成するIDプールに使うIAMロールを作成する。ロール名を適宜入力して作成すること。
 
-.. todo:: Cognitoの使用方法を整理し記述
+.. figure:: img/management-console-cognito-create-idpool-5.png
+
+|br|
 
 .. _section7-4-sts-label:
 
