@@ -1024,6 +1024,56 @@ HTTP APIで呼び出させれるECSクラスタ、タスク、サービスおよ
 https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>IDトークン・アクセストークンともにJWT形式でBase64エンコードされた形式になる。デコードすると、それぞれ、IDトークンはヘッダー・ペイロード・署名をピリオドで繋いだ形で構成されるが、上記のトークンは</p>
+<blockquote>
+<div><p>IDトークンヘッダー</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;kid&quot;:&quot;7FTZJEmwG6iYmJqPduh9s5SPLFIWUp9jBv+pgTGAIDs=&quot;,&quot;alg&quot;:&quot;RS256&quot;}
+</pre></div>
+</div>
+<p>IDトークンペイロード</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;sub&quot;:&quot;711e8fe5-bbc1-40a1-abbf-3c06931a0d04&quot;,
+ &quot;email_verified&quot;:true,
+ &quot;iss&quot;:&quot;https:\/\/cognito-idp.ap-northeast-1.amazonaws.com\/&lt;UserPoolID&gt;&quot;,
+ &quot;cognito:username&quot;:&quot;711e8fe5-bbc1-40a1-abbf-3c06931a0d04&quot;,
+ &quot;given_name&quot;:&quot;kohei&quot;,
+ &quot;picture&quot;:&quot;test.png&quot;,
+ &quot;aud&quot;:&quot;3vbsp5ct56b062gd67dvid52av&quot;,
+ &quot;event_id&quot;:&quot;2e6b9ce2-ff03-4499-8b22-a5ed61bfbf8f&quot;,
+ &quot;token_use&quot;:&quot;id&quot;,
+ &quot;auth_time&quot;:1592638874,
+ &quot;exp&quot;:1592642474,
+ &quot;iat&quot;:1592638874,
+ &quot;family_name&quot;:&quot;kawabata&quot;,
+ &quot;email&quot;:&quot;xxxx@dot.com&quot;
+}
+</pre></div>
+</div>
+<p>アクセストークンヘッダー</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;kid&quot;:&quot;DwtgV7eoGQOxbnSiDZlVAWySN\/vT+UMmp+1HeZIz5hM=&quot;,&quot;alg&quot;:&quot;RS256&quot;}
+</pre></div>
+</div>
+</div></blockquote>
+<p>アクセストークンペイロード</p>
+<blockquote class="last">
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;sub&quot;:&quot;711e8fe5-bbc1-40a1-abbf-3c06931a0d04&quot;,
+ &quot;event_id&quot;:&quot;23fadc05-e32a-439f-9669-1719c72c807b&quot;,
+ &quot;token_use&quot;:&quot;access&quot;,
+ &quot;scope&quot;:&quot;aws.cognito.signin.user.admin&quot;,
+ &quot;auth_time&quot;:1592693367,
+ &quot;iss&quot;:&quot;https:\/\/cognito-idp.ap-northeast-1.amazonaws.com\/&lt;UserPoolID&gt;&quot;,
+ &quot;exp&quot;:1592696967,
+ &quot;iat&quot;:1592693367,
+ &quot;jti&quot;:&quot;5424e92d-982c-4a0c-91d2-f3fa7e8ceb0f&quot;,
+ &quot;client_id&quot;:&quot;XXXXXXX&quot;,
+ &quot;username&quot;:&quot;711e8fe5-bbc1-40a1-abbf-3c06931a0d04&quot;
+}
+</pre></div>
+</div>
+<p>としたクレームとなる。※署名は省略。</p>
+</div></blockquote>
+</div>
 </div>
 </div>
 </div>

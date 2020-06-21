@@ -875,3 +875,56 @@ HTTP APIの認証設定
 
    curl -H 'Authorization:eyJraWQiOiI3RlRaSkVtd0c2aVltSnFQZHVoOXM1U1BMRklXVXA5akJ2K3BnVEdBSURzPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX0ZFeEdwTFlPZCIsImNvZ25pdG86dXNlcm5hbWUiOiI3MTFlOGZlNS1iYmMxLTQwYTEtYWJiZi0zYzA2OTMxYTBkMDQiLCJnaXZlbl9uYW1lIjoia29oZWkiLCJwaWN0dXJlIjoidGVzdC5wbmciLCJhdWQiOiIzdmJzcDVjdDU2YjA2MmdkNjdkdmlkNTJhdiIsImV2ZW50X2lkIjoiMmU2YjljZTItZmYwMy00NDk5LThiMjItYTVlZDYxYmZiZjhmIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTI2Mzg4NzQsImV4cCI6MTU5MjY0MjQ3NCwiaWF0IjoxNTkyNjM4ODc0LCJmYW1pbHlfbmFtZSI6Imthd2FiYXRhIiwiZW1haWwiOiJrb2hlaS5rYXdhYmF0YUBtYWMuY29tIn0.cqLJnA6EhayzG-4r-ps-g8VOB4q-9fDLTRxvRmqfldSw3plZVplLcrdvns2ufIZ0fuG0FwoDqd5hXi0qFr87ETL7-UHsMe8kbuvIQxO1xnZ-OGzd07gvwlHg-p5hlctucftAleEm5IrHLvwr3gSN8Uttl-BvoQ_lauF-alu_P5R4wtAHJCeEU9TKJUBQa0i0F83v8Gm0a-S5ZHaibVxa5qv1J75SrHnaefdXmU6dUp39Lq74jhEuoF8-NoUxYPK9CYWnkIzf9yPRxORvBP9V0Pz5Gxl0b9yqpgh6fegxggvZIJiujoF8zyUwZaqHGGOseNcCJNlrCc_bo4L-eqwOVg'
    https://4jc6u6rpuk.execute-api.ap-northeast-1.amazonaws.com/backend/user/api/v1/users/0
+
+.. note:: IDトークン・アクセストークンともにJWT形式でBase64エンコードされた形式になる。デコードすると、それぞれ、IDトークンはヘッダー・ペイロード・署名をピリオドで繋いだ形で構成されるが、上記のトークンは
+
+   IDトークンヘッダー
+
+   .. sourcecode:: none
+
+      {"kid":"7FTZJEmwG6iYmJqPduh9s5SPLFIWUp9jBv+pgTGAIDs=","alg":"RS256"}
+
+   IDトークンペイロード
+
+   .. sourcecode:: none
+
+      {"sub":"711e8fe5-bbc1-40a1-abbf-3c06931a0d04",
+       "email_verified":true,
+       "iss":"https:\/\/cognito-idp.ap-northeast-1.amazonaws.com\/<UserPoolID>",
+       "cognito:username":"711e8fe5-bbc1-40a1-abbf-3c06931a0d04",
+       "given_name":"kohei",
+       "picture":"test.png",
+       "aud":"3vbsp5ct56b062gd67dvid52av",
+       "event_id":"2e6b9ce2-ff03-4499-8b22-a5ed61bfbf8f",
+       "token_use":"id",
+       "auth_time":1592638874,
+       "exp":1592642474,
+       "iat":1592638874,
+       "family_name":"kawabata",
+       "email":"xxxx@dot.com"
+      }
+
+   アクセストークンヘッダー
+
+   .. sourcecode:: none
+
+      {"kid":"DwtgV7eoGQOxbnSiDZlVAWySN\/vT+UMmp+1HeZIz5hM=","alg":"RS256"}
+
+  アクセストークンペイロード
+
+   .. sourcecode:: none
+
+      {"sub":"711e8fe5-bbc1-40a1-abbf-3c06931a0d04",
+       "event_id":"23fadc05-e32a-439f-9669-1719c72c807b",
+       "token_use":"access",
+       "scope":"aws.cognito.signin.user.admin",
+       "auth_time":1592693367,
+       "iss":"https:\/\/cognito-idp.ap-northeast-1.amazonaws.com\/<UserPoolID>",
+       "exp":1592696967,
+       "iat":1592693367,
+       "jti":"5424e92d-982c-4a0c-91d2-f3fa7e8ceb0f",
+       "client_id":"XXXXXXX",
+       "username":"711e8fe5-bbc1-40a1-abbf-3c06931a0d04"
+      }
+
+   としたクレームとなる。※署名は省略。
